@@ -12,13 +12,13 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { 
     font-family: "Vazirmatn", sans-serif; 
-    background: #f5f0e1; 
-    color: #0a1d3a; 
+    background: #f5f0e1; /* روز: کرمی */
+    color: #ff4c4c; /* روز: متن اصلی قرمز */
     transition: all 0.3s ease;
 }
 
 header {
-    background: #0a1d3a; 
+    background: #0a1d3a; /* روز: آبی تیره */
     padding: 15px 25px;
     display:flex; justify-content: space-between; align-items:center;
     border-bottom:1px solid #ff4c4c; 
@@ -42,7 +42,7 @@ header {
 /* Main & grid */
 main { padding: 35px 15px 60px; }
 h2 {
-    color:#ff4c4c; 
+    color:#ff4c4c; /* روز: متن اصلی قرمز */
     font-size:28px; 
     text-align:center;
     margin-bottom:35px; 
@@ -77,10 +77,10 @@ h2 {
     border-radius:14px;
     overflow:hidden;
     backface-visibility:hidden;
-    border:1px solid #ff4c4c; 
+    border:1px solid #0a1d3a; /* روز: کادر آبی تیره */
 }
 .card-front {
-    background:#0a1d3a; 
+    background:#0a1d3a; /* روز: آبی تیره */
     display:flex; flex-direction:column;
 }
 .img-bar { flex:1; width:100%; overflow:hidden; }
@@ -89,36 +89,36 @@ h2 {
     height:36px; line-height:36px;
     padding:0 10px; text-align:center;
     overflow:hidden; white-space: nowrap; text-overflow: ellipsis;
-    background: rgba(255,255,255,0.4); 
+    background: rgba(255,255,255,0.2); 
     backdrop-filter: blur(6px);
-    border-top:1px solid #ff4c4c; 
+    border-top:1px solid #0a1d3a; /* رنگ کادر */
     font-size:14px;
 }
-.date-bar { color:#ff4c4c; } 
-.title-bar { color:#0a1d3a; } 
+.date-bar { color:#0a1d3a; } /* روز: آبی تیره */
+.title-bar { color:#0a1d3a; } /* روز: آبی تیره */
 .reserve-bar { 
-    color:#0a1d3a; 
-    background:#ff4c4c; 
+    color:#ff4c4c; /* روز: متن اصلی قرمز */
+    background:#0a1d3a; 
     font-weight: bold;
     cursor: pointer;
 }
 .card-back {
-    transform:rotateY(180deg); background:#0a1d3a; color:#f5f0e1;
+    transform:rotateY(180deg); background:#0a1d3a; color:#ffffff; /* متن اطلاعات فیلم سفید */
     padding:15px; text-align:right; font-size:14px; display:flex; flex-direction:column; justify-content:flex-start;
 }
-.card-back h3, .card-back p strong { color:#ff4c4c; } 
-.card-back p span { color:#f5f0e1; }
+.card-back h3, .card-back p strong { color:#ff4c4c; } /* روز: متن اصلی قرمز */ 
+.card-back p span { color:#ffffff; } /* متن اطلاعات فیلم سفید */
 .card-back p { margin-bottom:6px; }
 
 /* Footer */
 footer {
-    background:#0a1d3a; 
+    background:#0a1d3a; /* روز: آبی تیره */
     padding:35px 20px;
     text-align:center;
     border-top:1px solid #ff4c4c; 
     margin-top:60px;
 }
-.footer-title { font-size:18px; color:#ff4c4c; margin-bottom:18px; }
+.footer-title { font-size:18px; color:#ff4c4c; } /* روز: متن اصلی قرمز */
 .social-row {
     display: flex;
     justify-content: center; 
@@ -136,19 +136,18 @@ footer {
 
 /* Dark theme */
 .dark-theme {
-    background: #0e0e0f; 
-    color: #131314; 
+    background: #2c2c2c; /* شب: خاکستری تیره */
+    color: #ffd700; /* شب: متن اصلی طلایی */
 }
-.dark-theme header { background: #131314; border-bottom:1px solid #ffd700; }
-.dark-theme .card-front { background:#131314; border:1px solid #ffd700; }
-.dark-theme .date-bar { color:#ffd700; }
-.dark-theme .title-bar { color:#131314; }
-.dark-theme .reserve-bar { background:#ffd700; color:#131314; }
-.dark-theme .card-back { background:#131314; color:#131314; }
-.dark-theme .card-back h3, .dark-theme .card-back p strong { color:#ffd700; }
-.dark-theme footer { background:#131314; border-top:1px solid #ffd700; }
-.dark-theme .social-icon { background:#131314; color:#ffd700; }
-.dark-theme .social-icon:hover { background:#ffd700; color:#131314; }
+.dark-theme header { background: #000000; border-bottom:1px solid #ffd700; }
+.dark-theme .card-front { background:#000000; border:1px solid #000000; }
+.dark-theme .date-bar, .dark-theme .title-bar { color:#000000; } /* شب: سیاه */
+.dark-theme .reserve-bar { background:#000000; color:#ffd700; }
+.dark-theme .card-back { background:#000000; color:#ffffff; } /* اطلاعات فیلم سفید */
+.dark-theme .card-back h3, .dark-theme .card-back p strong { color:#ffd700; } /* شب: متن اصلی طلایی */
+.dark-theme footer { background:#000000; border-top:1px solid #ffd700; }
+.dark-theme .social-icon { background:#2c2c2c; color:#ffd700; }
+.dark-theme .social-icon:hover { background:#ffd700; color:#2c2c2c; }
 
 /* About popup */
 .about-popup {
