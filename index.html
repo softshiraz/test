@@ -12,28 +12,38 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { 
     font-family: "Vazirmatn", sans-serif; 
-    background: #f5f0e1; /* کرم روشن */
-    color: #0a1d3a; /* آبی تیره */
+    background: #f5f0e1; 
+    color: #0a1d3a; 
+    transition: all 0.3s ease;
 }
 
 header {
-    background: #0a1d3a; /* آبی تیره */
+    background: #0a1d3a; 
     padding: 15px 25px;
     display:flex; justify-content: flex-end; align-items:center;
-    border-bottom:1px solid #ff4c4c; /* قرمز روشن */
+    border-bottom:1px solid #ff4c4c; 
     position: sticky; top:0; z-index: 999;
 }
 .logo-fa {
     font-weight: 700;
     font-size: 26px;
-    background: linear-gradient(45deg,#ff4c4c,#ff0000); /* قرمز روشن */
+    background: linear-gradient(45deg,#ff4c4c,#ff0000); 
     -webkit-background-clip: text;
     color: transparent;
 }
+#theme-toggle {
+    margin-left: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
 
+/* Main & grid */
 main { padding: 35px 15px 60px; }
 h2 {
-    color:#ff4c4c; /* قرمز روشن */
+    color:#ff4c4c; 
     font-size:28px; 
     text-align:center;
     margin-bottom:35px; 
@@ -42,7 +52,6 @@ h2 {
     padding-bottom:6px;
 }
 .section { text-align:center; }
-
 .movies-grid {
     display:grid;
     grid-template-columns: repeat(4, 1fr);
@@ -52,6 +61,7 @@ h2 {
     margin:0 auto;
 }
 
+/* Cards */
 .movie-card { perspective: 1000px; }
 .card-inner {
     position: relative;
@@ -62,44 +72,37 @@ h2 {
     height: 420px; 
 }
 .card-inner.flipped { transform: rotateY(180deg); }
-
 .card-front, .card-back {
     position:absolute;
     top:0; left:0; width:100%; height:100%;
     border-radius:14px;
     overflow:hidden;
     backface-visibility:hidden;
-    border:1px solid #ff4c4c; /* قرمز روشن */
+    border:1px solid #ff4c4c; 
 }
-
-/* جلو کارت */
 .card-front {
     background:#0a1d3a; 
     display:flex; flex-direction:column;
 }
 .img-bar { flex:1; width:100%; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; }
-
 .date-bar, .title-bar, .reserve-bar {
     height:36px; line-height:36px;
     padding:0 10px; text-align:center;
     overflow:hidden; white-space: nowrap; text-overflow: ellipsis;
     background: rgba(255,255,255,0.4); 
     backdrop-filter: blur(6px);
-    border-top:1px solid #ff4c4c; /* قرمز روشن */
+    border-top:1px solid #ff4c4c; 
     font-size:14px;
 }
-
-.date-bar { color:#ff4c4c; } /* قرمز روشن */
-.title-bar { color:#0a1d3a; } /* آبی تیره */
+.date-bar { color:#ff4c4c; } 
+.title-bar { color:#0a1d3a; } 
 .reserve-bar { 
-    color:#0a1d3a; /* متن سیاه آبی تیره */
-    background:#ff4c4c; /* قرمز روشن */
+    color:#0a1d3a; 
+    background:#ff4c4c; 
     font-weight: bold;
     cursor: pointer;
 }
-
-/* پشت کارت */
 .card-back {
     transform:rotateY(180deg); background:#0a1d3a; color:#f5f0e1;
     padding:15px; text-align:right; font-size:14px; display:flex; flex-direction:column; justify-content:flex-start;
@@ -108,16 +111,15 @@ h2 {
 .card-back p span { color:#f5f0e1; }
 .card-back p { margin-bottom:6px; }
 
-/* فوتر */
+/* Footer */
 footer {
-    background:#0a1d3a; /* آبی تیره */
+    background:#0a1d3a; 
     padding:35px 20px;
     text-align:center;
-    border-top:1px solid #ff4c4c; /* قرمز روشن */
+    border-top:1px solid #ff4c4c; 
     margin-top:60px;
 }
 .footer-title { font-size:18px; color:#ff4c4c; margin-bottom:18px; }
-
 .social-row {
     display: flex;
     justify-content: center; 
@@ -126,31 +128,57 @@ footer {
 }
 .social-icon {
     width:48px; height:48px; border-radius:50%;
-    background:#f5f0e1; /* پس‌زمینه کرمی */
+    background:#f5f0e1; 
     display:flex; align-items:center; justify-content:center;
-    color:#0a1d3a; /* آبی تیره */
+    color:#0a1d3a; 
     font-size:22px; text-decoration:none;
 }
 .social-icon:hover { background:#ff4c4c; color:#f5f0e1; }
 
-@media (max-width: 1200px) { 
-    .card-inner { width:300px; height:450px; }
-    .movies-grid { grid-template-columns: repeat(3, 1fr); }
+/* Dark theme */
+.dark-theme {
+    background: #0e0e0f; 
+    color: #131314; 
 }
-@media (max-width: 768px) { 
-    .card-inner { width:280px; height:420px; }
-    .movies-grid { grid-template-columns: repeat(2, 1fr); }
+.dark-theme header { background: #131314; border-bottom:1px solid #ffd700; }
+.dark-theme .card-front { background:#131314; border:1px solid #ffd700; }
+.dark-theme .date-bar { color:#ffd700; }
+.dark-theme .title-bar { color:#131314; }
+.dark-theme .reserve-bar { background:#ffd700; color:#131314; }
+.dark-theme .card-back { background:#131314; color:#131314; }
+.dark-theme .card-back h3, .dark-theme .card-back p strong { color:#ffd700; }
+.dark-theme footer { background:#131314; border-top:1px solid #ffd700; }
+.dark-theme .social-icon { background:#131314; color:#ffd700; }
+.dark-theme .social-icon:hover { background:#ffd700; color:#131314; }
+
+/* About popup */
+.about-popup {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    color: #0a1d3a;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    display: none;
 }
-@media (max-width: 480px) {
-    .card-inner { width:250px; height:375px; }
-    .movies-grid { grid-template-columns: 1fr; }
-}
+.about-popup .popup-header { font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+.about-popup .popup-content { font-size: 16px; line-height: 1.5; }
+.about-popup .close-btn { position: absolute; top: 10px; right: 10px; background:none; border:none; font-size:20px; color:#ff4c4c; cursor:pointer; }
+
+@media (max-width: 1200px) { .card-inner { width:300px; height:450px; } .movies-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .card-inner { width:280px; height:420px; } .movies-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .card-inner { width:250px; height:375px; } .movies-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
 <header>
     <div class="logo-fa">سافت شیراز</div>
+    <button id="theme-toggle"><i class="fas fa-adjust"></i></button>
 </header>
 
 <main>
@@ -165,8 +193,17 @@ footer {
     <div class="social-row">
         <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
         <a class="social-icon" href="https://instagram.com/softshiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="social-icon" id="about-btn" href="javascript:void(0);"><i class="fas fa-info"></i></a>
     </div>
 </footer>
+
+<div class="about-popup" id="about-popup">
+    <button class="close-btn" id="close-about">×</button>
+    <div class="popup-header">درباره ما</div>
+    <div class="popup-content">
+        <p>سایت سافت شیراز به اکران فیلم‌ها و برنامه‌های مختلف می‌پردازد. هدف ما ارائه بهترین محتوا و تجربه برای شماست.</p>
+    </div>
+</div>
 
 <script>
 const container = document.getElementById('cards-container');
@@ -182,15 +219,12 @@ fetch('order.txt')
         .then(r=>r.ok?r.text():Promise.reject())
         .then(cardHTML=>{
             if(!cardHTML) return;
-
             const card=document.createElement('div');
             card.className='movie-card';
             card.style.animation=`fadeUp 0.5s ease forwards`;
             card.style.animationDelay=`${index*0.08}s`;
-
             card.innerHTML = cardHTML;
             container.appendChild(card);
-
             const reserveButton = card.querySelector('.reserve-bar');
             if (reserveButton) {
                 reserveButton.addEventListener('click', function() {
@@ -211,6 +245,21 @@ document.addEventListener('click',function(e){
         cardInner.classList.toggle('flipped');
         openCard = cardInner.classList.contains('flipped') ? cardInner : null;
     }
+});
+
+// تغییر تم
+document.getElementById('theme-toggle').addEventListener('click', function() {
+    document.body.classList.toggle('dark-theme');
+});
+
+// نمایش کادر درباره ما
+document.getElementById('about-btn').addEventListener('click', function() {
+    document.getElementById('about-popup').style.display = 'block';
+});
+
+// بستن کادر درباره ما
+document.getElementById('close-about').addEventListener('click', function() {
+    document.getElementById('about-popup').style.display = 'none';
 });
 </script>
 
