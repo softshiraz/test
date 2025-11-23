@@ -3,79 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dot-Spin Loading با شخصیت‌ها</title>
+<title>Loading...</title>
+<link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans&display=swap" rel="stylesheet">
 <style>
-body { 
-	background: #111; 
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    font-family: 'Quattrocento Sans', sans-serif;
 }
 
-.loader {
-  position: relative;
-  width: 150px;
-  height: 150px;
+.loading {
+    position: fixed;
+    top:0; left:0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
-.loader .circle {
-  position: absolute;
-  width: 38px;
-  height: 38px;
-  top: 50%;
-  left: 50%;
-  margin: -19px;
-  opacity: 0;
-  animation-iteration-count: infinite;
-  animation-name: orbit;
-  animation-duration: 5.5s;
+.loading-text {
+    font-size: 48px;
+    color: #ffd700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.loader .circle img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
+.loading-text span {
+    display: inline-block;
+    margin: 0 3px;
+    opacity: 0;
+    animation: blink 1.5s linear infinite;
 }
 
-/* تاخیر برای هر دایره */
-.loader .circle:nth-child(1){ animation-delay: 0s; }
-.loader .circle:nth-child(2){ animation-delay: 0.6875s; }
-.loader .circle:nth-child(3){ animation-delay: 1.375s; }
-.loader .circle:nth-child(4){ animation-delay: 2.0625s; }
-.loader .circle:nth-child(5){ animation-delay: 2.75s; }
-.loader .circle:nth-child(6){ animation-delay: 3.4375s; }
-.loader .circle:nth-child(7){ animation-delay: 4.125s; }
-.loader .circle:nth-child(8){ animation-delay: 4.8125s; }
+.loading-text span:nth-child(1) { animation-delay: 0s; }
+.loading-text span:nth-child(2) { animation-delay: 0.1s; }
+.loading-text span:nth-child(3) { animation-delay: 0.2s; }
+.loading-text span:nth-child(4) { animation-delay: 0.3s; }
+.loading-text span:nth-child(5) { animation-delay: 0.4s; }
+.loading-text span:nth-child(6) { animation-delay: 0.5s; }
+.loading-text span:nth-child(7) { animation-delay: 0.6s; }
+.loading-text span:nth-child(8) { animation-delay: 1.2s; } /* . */
+.loading-text span:nth-child(9) { animation-delay: 1.4s; } /* . */
+.loading-text span:nth-child(10){ animation-delay: 1.6s; } /* . */
 
-@keyframes orbit { 
-  0%   { transform:rotate(0deg) translateX(65px) rotate(0deg); opacity: 1; } 
-  7%   { transform:rotate(45deg) translateX(65px) rotate(-45deg); }
-  30%  { transform:rotate(90deg) translateX(65px) rotate(-90deg); }
-  39%  { transform:rotate(180deg) translateX(65px) rotate(-180deg); }
-  70%  { transform:rotate(270deg) translateX(65px) rotate(-270deg); opacity: 1; }
-  75%  { transform:rotate(315deg) translateX(65px) rotate(-315deg); }
-  76%  { opacity: 0; }
-  100% { opacity: 0; }
+@keyframes blink {
+    0%, 20% { opacity: 0; }
+    50%, 100% { opacity: 1; }
+}
+
+/* پایان اتوماتیک بعد از 5 ثانیه */
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; display: none; }
+}
+
+.loading {
+    animation: fadeOut 5s forwards;
 }
 </style>
 </head>
 <body>
 
-<div class="loader">
-  <!-- 8 دایره با تصاویر شخصیت‌ها -->
-  <div class="circle"><img src="https://i.imgur.com/Z1tIG6v.jpg" alt="Eren Yeager"></div>
-  <div class="circle"><img src="https://i.imgur.com/Z1tIG6v.jpg" alt="Eren Yeager"></div>
-
-  <div class="circle"><img src="https://i.imgur.com/FH1wZ5Y.jpg" alt="Jack Sparrow"></div>
-  <div class="circle"><img src="https://i.imgur.com/FH1wZ5Y.jpg" alt="Jack Sparrow"></div>
-
-  <div class="circle"><img src="https://i.imgur.com/gwZK3V3.jpg" alt="Sakura Haruno"></div>
-  <div class="circle"><img src="https://i.imgur.com/gwZK3V3.jpg" alt="Sakura Haruno"></div>
-
-  <div class="circle"><img src="https://i.imgur.com/tzE1oqJ.jpg" alt="Sasuke Uchiha"></div>
-  <div class="circle"><img src="https://i.imgur.com/tzE1oqJ.jpg" alt="Sasuke Uchiha"></div>
+<div class="loading">
+    <div class="loading-text">
+        <span>L</span>
+        <span>O</span>
+        <span>A</span>
+        <span>D</span>
+        <span>I</span>
+        <span>N</span>
+        <span>G</span>
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+    </div>
 </div>
 
 </body>
