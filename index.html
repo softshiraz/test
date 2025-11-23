@@ -3,159 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سافت شیراز - اکران‌های آینده</title>
+<title>Soft Shiraz - اکران‌های آینده</title>
 
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
+
+/* ----------------- تم‌ها ------------------ */
+
+/* تم 1: مشکی و طلایی */
 :root {
-    --bg-primary: #0e0e0f;
-    --bg-secondary: #000;
-    --bg-card: #131314;
-    --bg-back: #111;
+    --bg: #0e0e0f;
+    --text: #ffffff;
     --accent: #ffd700;
-    --text-primary: #fff;
-    --text-secondary: #ffd700;
-    --border: #303030;
-    --border-light: rgba(255,255,255,0.1);
-    --overlay: rgba(0,0,0,0.3);
+    --card-bg: #131314;
+    --border: #2a2a2a;
+    --popup-bg: #111;
 }
 
-[data-theme="creamy"] {
-    --bg-primary: #f5f5dc;
-    --bg-secondary: #191970;
-    --bg-card: #deb887;
-    --bg-back: #8b0000;
-    --accent: #dc143c;
-    --text-primary: #191970;
-    --text-secondary: #8b0000;
-    --border: #cd853f;
-    --border-light: rgba(25,25,112,0.1);
-    --overlay: rgba(139,0,0,0.3);
+/* تم 2: کرمی + قرمز + آبی تیره */
+.theme-2 {
+    --bg: #f7e9d4;
+    --text: #1c1c1c;
+    --accent: #b11313;
+    --card-bg: #143558;
+    --border: #0f243b;
+    --popup-bg: #153a61;
 }
 
+/* ----------------- استایل‌ها ------------------ */
 * { margin:0; padding:0; box-sizing:border-box; }
 body { 
     font-family: "Vazirmatn", sans-serif; 
-    background: var(--bg-primary); 
-    color: var(--text-primary); 
+    background: var(--bg); 
+    color: var(--text); 
     transition: background 0.3s, color 0.3s;
 }
 
 header {
-    background: var(--bg-secondary); padding: 15px 25px;
+    background:#000; padding: 15px 25px;
     display:flex; justify-content: flex-end; align-items:center;
-    border-bottom:1px solid var(--border); 
-    position: sticky; top:0; z-index: 999;
+    border-bottom:1px solid #303030;
+    position: sticky; top:0; z-index:999;
 }
 .logo-fa {
-    font-weight: 700;
-    font-size: 26px;
-    background: linear-gradient(45deg, var(--accent), var(--text-secondary));
-    -webkit-background-clip: text;
-    color: transparent;
+    font-weight:700; font-size:26px;
+    background: linear-gradient(45deg,var(--accent),#ff9f00);
+    -webkit-background-clip:text;
+    color:transparent;
 }
 
-main { padding: 35px 15px 60px; }
+main { padding:35px 15px 60px; }
 h2 {
-    color:var(--accent); font-size:28px; text-align:center;
-    margin-bottom:35px; border-bottom:3px solid var(--accent);
-    display:inline-block; padding-bottom:6px;
+    color:var(--accent); font-size:28px;
+    text-align:center;
+    margin-bottom:35px;
+    border-bottom:3px solid var(--accent);
+    display:inline-block;
+    padding-bottom:6px;
 }
-.section { text-align:center; }
+.section{text-align:center;}
 
 .movies-grid {
     display:grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:20px;
-    justify-items:center;
     max-width:1200px;
     margin:0 auto;
+    justify-items:center;
 }
 
-.movie-card { perspective: 1000px; }
+.movie-card { perspective:1000px; }
 .card-inner {
-    position: relative;
-    transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
-    transform-style: preserve-3d;
-    cursor: pointer;
-    width: 280px;
-    height: 420px; 
+    width:280px; height:420px;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:0.3s;
+    cursor:pointer;
 }
-.card-inner.flipped { transform: rotateY(180deg); }
+.card-inner.flipped { transform:rotateY(180deg); }
 
 .card-front, .card-back {
-    position:absolute;
-    top:0; left:0; width:100%; height:100%;
-    border-radius:14px;
-    overflow:hidden;
+    position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    border-radius:14px; overflow:hidden;
     backface-visibility:hidden;
     border:1px solid var(--border);
+    background:var(--card-bg);
+    transition:background 0.3s;
 }
 
-.card-front { background:var(--bg-card); display:flex; flex-direction:column; }
 .img-bar { flex:1; width:100%; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; }
 
 .date-bar, .title-bar, .reserve-bar {
     height:36px; line-height:36px;
-    padding:0 10px; text-align:center;
-    overflow:hidden; white-space: nowrap; text-overflow: ellipsis;
-    background: var(--overlay); backdrop-filter: blur(6px);
-    border-top:1px solid var(--border-light); font-size:14px;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,0.1);
+    background:rgba(0,0,0,0.25);
+    font-size:14px;
 }
-
 .date-bar { color:var(--accent); }
-.title-bar { color:var(--text-primary); }
-.reserve-bar { color:var(--bg-secondary); background:var(--accent); font-weight:bold; cursor:pointer; }
+.title-bar{ color:var(--text); }
+.reserve-bar {
+    background:var(--accent);
+    color:#000; font-weight:bold; cursor:pointer;
+}
 
 .card-back {
-    transform:rotateY(180deg); background:var(--bg-back);
-    padding:15px; color:var(--text-primary); text-align:right;
-    font-size:14px; display:flex; flex-direction:column;
+    padding:15px;
+    transform:rotateY(180deg);
+    color:var(--text);
+    background:var(--card-bg);
 }
-.card-back h3, .card-back p strong { color:var(--accent); }
+.card-back h3 { color:var(--accent); }
 
-footer {
-    background:var(--bg-secondary); padding:35px 20px; text-align:center;
-    border-top:1px solid var(--border); 
-    margin-top:60px;
-}
-.footer-title { font-size:18px; color:var(--accent); margin-bottom:18px; }
-
-.social-row {
-    display:flex; justify-content:center; gap:18px;
-}
-.social-icon {
-    width:48px; height:48px; border-radius:50%;
-    background:var(--bg-back); display:flex; align-items:center; justify-content:center;
-    color:var(--accent); font-size:22px; 
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-}
-.social-icon:hover { background:var(--accent); color:var(--bg-secondary); }
-
+/* درباره ما */
 #about-popup {
-    display:none; position:fixed; top:40%; left:50%;
-    transform:translate(-50%,-50%);
-    width:300px; background:var(--bg-back); border:2px solid var(--accent);
-    border-radius:12px; padding:20px; 
-    font-size:14px; text-align:right; z-index:1000;
-    opacity:0; transition:opacity .3s;
+    display:none;
+    position:fixed;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%) scale(0.7);
+    background:var(--popup-bg);
+    color:var(--text);
+    width:320px; padding:22px;
+    border-radius:14px;
+    border:2px solid var(--accent);
+    box-shadow:0 0 20px var(--accent);
+    z-index:2000;
+    opacity:0;
+    transition:0.25s ease;
 }
-#about-popup.show { display:block; opacity:1; }
+#about-popup.show {
+    display:block;
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+}
+
+/* فوتر */
+footer {
+    background:#000; padding:20px;
+    text-align:center;
+    border-top:1px solid #303030;
+}
+.footer-title {
+    font-size:18px; color:var(--accent);
+    margin-bottom:18px;
+}
+.social-row {
+    display:flex; justify-content:center;
+    align-items:center; gap:16px;
+}
+
+.social-icon {
+    width:48px; height:48px;
+    border-radius:50%;
+    background:#1a1a1a;
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; text-decoration:none;
+    color:var(--accent);
+    transition:0.3s;
+}
+.social-icon:hover { background:var(--accent); color:#000; }
 
 /* ریسپانسیو */
-@media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
-</style>
+@media(max-width:1200px){ .movies-grid{grid-template-columns:repeat(3,1fr);} }
+@media(max-width:768px){ .movies-grid{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:480px){ .movies-grid{grid-template-columns:1fr;} }
 
+</style>
 </head>
+
 <body>
 
-<header><div class="logo-fa">Soft Shiraz</div></header>
+<header>
+    <div class="logo-fa">Soft Shiraz</div>
+</header>
 
 <main>
     <section class="section">
@@ -166,106 +190,98 @@ footer {
 
 <footer>
     <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
-    <div class="social-row">
-        <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
-        <a class="social-icon" href="https://instagram.com/softshiraz" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a class="social-icon" id="theme-toggle"><i class="fas fa-moon"></i></a>
-        <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
-    </div>
 
-    <div id="about-popup">
-        <strong>درباره ما:</strong>
-        <p>سافت شیراز: جایی که سینما نفس می‌کشه! مرجع اکران‌های هیجان‌انگیز، اخبار داغ هفتم هنر و دوز روزانه‌ی پاپ‌کورن ذهنی. بیا با ما غرق در دنیای فیلم‌ها شو! 🎥✨</p>
+    <div class="social-row">
+        <!-- تلگرام -->
+        <a class="social-icon" href="https://t.me/softshiraz" target="_blank">
+            <i class="fab fa-telegram"></i>
+        </a>
+
+        <!-- اینستاگرام -->
+        <a class="social-icon" href="https://instagram.com/softshiraz" target="_blank">
+            <i class="fab fa-instagram"></i>
+        </a>
+
+        <!-- تغییر تم -->
+        <div class="social-icon" id="theme-toggle">
+            <i class="fas fa-palette"></i>
+        </div>
+
+        <!-- درباره ما -->
+        <div class="social-icon" id="about-btn">
+            <i class="fas fa-info"></i>
+        </div>
     </div>
 </footer>
 
+<!-- پاپ‌آپ درباره ما -->
+<div id="about-popup">
+    <h3 style="margin-bottom:8px;">درباره Soft Shiraz</h3>
+    <p>
+        ما اینجاییم تا دنیای فیلم و سینما رو با بهترین سبک معرفی،
+        جذاب‌ترین اکران‌ها و خفن‌ترین اطلاعات آینده نزدیک، براتون راحت کنیم!  
+        <br><br>
+        هر چی فیلم خوبه، از اینجا شروع میشه 😉🎬🔥  
+    </p>
+</div>
+
 <script>
+
+/* ----------- لود کارت‌ها به ترتیب ----------- */
 const container = document.getElementById("cards-container");
-let openCard = null;
 
-// رفرش اجباری سایت برای لود جدیدترین تغییرات
-window.addEventListener('load', () => {
-    window.location.reload(true);
-});
-
-/* --------------------
-   لود اجباری و ترتیبی
-   -------------------- */
-async function loadCardsStrictly() {
-    for (let num = 1; num <= 12; num++) {
-
+async function loadCardsStrict() {
+    for (let n = 1; n <= 12; n++) {
         try {
-            const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
-            if (!response.ok) continue;
-
-            const html = await response.text();
+            const r = await fetch(`cards/${n}.html`, { cache:"no-store" });
+            if (!r.ok) continue;
+            const html = await r.text();
 
             const card = document.createElement("div");
             card.className = "movie-card";
             card.innerHTML = html;
             container.appendChild(card);
 
-            const reserveButton = card.querySelector(".reserve-bar");
-            if (reserveButton) {
-                reserveButton.addEventListener("click", () => {
-                    window.location.href = "https://t.me/softshiraz";
-                });
-            }
+            const reserve = card.querySelector(".reserve-bar");
+            if (reserve) reserve.onclick = () => window.location.href = "https://t.me/softshiraz";
 
-        } catch (e) {
-            console.log("خطا در لود کارت", num);
-        }
+        } catch {}
     }
 }
+loadCardsStrict();
 
-loadCardsStrictly();
+/* ----------- flip card ----------- */
+let openCard = null;
+document.addEventListener("click", e => {
+    const inner = e.target.closest(".card-inner");
+    if (!inner) return;
 
-/* --- تغییر تم --- */
-const themeToggle = document.getElementById("theme-toggle");
-const currentTheme = localStorage.getItem("theme") || "default";
-if (currentTheme === "creamy") {
-    document.documentElement.setAttribute("data-theme", "creamy");
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-}
-themeToggle.addEventListener("click", (e) => {
-    e.preventDefault();
-    const body = document.documentElement;
-    const isCreamy = body.getAttribute("data-theme") === "creamy";
-    if (isCreamy) {
-        body.removeAttribute("data-theme");
-        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-        localStorage.setItem("theme", "default");
-    } else {
-        body.setAttribute("data-theme", "creamy");
-        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        localStorage.setItem("theme", "creamy");
-    }
+    if (openCard && inner !== openCard)
+        openCard.classList.remove("flipped");
+
+    inner.classList.toggle("flipped");
+    openCard = inner.classList.contains("flipped") ? inner : null;
 });
 
-/* --- flip card --- */
-document.addEventListener("click", function (e) {
-    const cardInner = e.target.closest(".card-inner");
-    if (cardInner) {
-        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
-        cardInner.classList.toggle("flipped");
-        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
-    }
-});
-
-/* --- درباره ما --- */
+/* ----------- درباره ما ----------- */
 const aboutBtn = document.getElementById("about-btn");
 const aboutPopup = document.getElementById("about-popup");
 
-aboutBtn.addEventListener("click", (e) => {
-    e.preventDefault();
+aboutBtn.onclick = (e)=>{
+    e.stopPropagation();
     aboutPopup.classList.toggle("show");
+};
+document.addEventListener("click",e=>{
+    if(!aboutPopup.contains(e.target) && e.target!==aboutBtn)
+        aboutPopup.classList.remove("show");
 });
 
-document.addEventListener("click", (e) => {
-    if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
-        aboutPopup.classList.remove("show");
-    }
-});
+/* ----------- تغییر تم ----------- */
+const themeToggle = document.getElementById("theme-toggle");
+themeToggle.onclick = () => {
+    document.body.classList.toggle("theme-2");
+};
+
 </script>
 
 </body>
