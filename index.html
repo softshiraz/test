@@ -3,65 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dot-Spin Loading</title>
+<title>Dot-Spin Loading با شخصیت‌ها</title>
 <style>
-body {
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background: #111;
-    font-family: sans-serif;
+body { 
+	background: #111; 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 }
 
 .loader {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    animation: rotate 5s linear infinite;
+  position: relative;
+  width: 150px;
+  height: 150px;
 }
 
-.loader div {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid #fff;
-    box-shadow: 0 0 15px rgba(255,255,255,0.5);
-    background-size: cover;
-    background-position: center;
+.loader .circle {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  top: 50%;
+  left: 50%;
+  margin: -19px;
+  opacity: 0;
+  animation-iteration-count: infinite;
+  animation-name: orbit;
+  animation-duration: 5.5s;
 }
 
-/* قرارگیری 8 دایره متقارن */
-.loader div:nth-child(1){ top:0; left:50%; transform: translateX(-50%); background-image: url('https://i.imgur.com/3eV1K1T.jpg'); }
-.loader div:nth-child(2){ top:0; left:50%; transform: translateX(-50%) rotate(45deg) translate(0,-90px) rotate(-45deg); background-image: url('https://i.imgur.com/3eV1K1T.jpg'); }
-.loader div:nth-child(3){ top:50%; right:0; transform: translateY(-50%) rotate(90deg) translate(0,-90px) rotate(-90deg); background-image: url('https://i.imgur.com/0YK1V4X.jpg'); }
-.loader div:nth-child(4){ bottom:0; right:50%; transform: translateX(50%) rotate(135deg) translate(0,-90px) rotate(-135deg); background-image: url('https://i.imgur.com/0YK1V4X.jpg'); }
-.loader div:nth-child(5){ bottom:0; left:50%; transform: translateX(-50%) rotate(180deg) translate(0,-90px) rotate(-180deg); background-image: url('https://i.imgur.com/4A7s5QG.jpg'); }
-.loader div:nth-child(6){ bottom:0; left:50%; transform: translateX(-50%) rotate(225deg) translate(0,-90px) rotate(-225deg); background-image: url('https://i.imgur.com/4A7s5QG.jpg'); }
-.loader div:nth-child(7){ top:50%; left:0; transform: translateY(-50%) rotate(270deg) translate(0,-90px) rotate(-270deg); background-image: url('https://i.imgur.com/XVYZm9N.jpg'); }
-.loader div:nth-child(8){ top:0; left:50%; transform: translateX(-50%) rotate(315deg) translate(0,-90px) rotate(-315deg); background-image: url('https://i.imgur.com/XVYZm9N.jpg'); }
+.loader .circle img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
-/* چرخش کل لودینگ */
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* تاخیر برای هر دایره */
+.loader .circle:nth-child(1){ animation-delay: 0s; }
+.loader .circle:nth-child(2){ animation-delay: 0.6875s; }
+.loader .circle:nth-child(3){ animation-delay: 1.375s; }
+.loader .circle:nth-child(4){ animation-delay: 2.0625s; }
+.loader .circle:nth-child(5){ animation-delay: 2.75s; }
+.loader .circle:nth-child(6){ animation-delay: 3.4375s; }
+.loader .circle:nth-child(7){ animation-delay: 4.125s; }
+.loader .circle:nth-child(8){ animation-delay: 4.8125s; }
+
+@keyframes orbit { 
+  0%   { transform:rotate(0deg) translateX(65px) rotate(0deg); opacity: 1; } 
+  7%   { transform:rotate(45deg) translateX(65px) rotate(-45deg); }
+  30%  { transform:rotate(90deg) translateX(65px) rotate(-90deg); }
+  39%  { transform:rotate(180deg) translateX(65px) rotate(-180deg); }
+  70%  { transform:rotate(270deg) translateX(65px) rotate(-270deg); opacity: 1; }
+  75%  { transform:rotate(315deg) translateX(65px) rotate(-315deg); }
+  76%  { opacity: 0; }
+  100% { opacity: 0; }
 }
 </style>
 </head>
 <body>
 
 <div class="loader">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
+  <!-- 8 دایره با تصاویر شخصیت‌ها -->
+  <div class="circle"><img src="https://i.imgur.com/Z1tIG6v.jpg" alt="Eren Yeager"></div>
+  <div class="circle"><img src="https://i.imgur.com/Z1tIG6v.jpg" alt="Eren Yeager"></div>
+
+  <div class="circle"><img src="https://i.imgur.com/FH1wZ5Y.jpg" alt="Jack Sparrow"></div>
+  <div class="circle"><img src="https://i.imgur.com/FH1wZ5Y.jpg" alt="Jack Sparrow"></div>
+
+  <div class="circle"><img src="https://i.imgur.com/gwZK3V3.jpg" alt="Sakura Haruno"></div>
+  <div class="circle"><img src="https://i.imgur.com/gwZK3V3.jpg" alt="Sakura Haruno"></div>
+
+  <div class="circle"><img src="https://i.imgur.com/tzE1oqJ.jpg" alt="Sasuke Uchiha"></div>
+  <div class="circle"><img src="https://i.imgur.com/tzE1oqJ.jpg" alt="Sasuke Uchiha"></div>
 </div>
 
 </body>
