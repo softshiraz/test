@@ -12,13 +12,12 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { 
     font-family: "Vazirmatn", sans-serif; 
-    background: #0a0a0b; 
-    color: #fff; 
+    background: linear-gradient(45deg, #0e0e0f, #1a1a1a, #0e0e0f);
+    background-size: 400% 400%;
+    animation: gradientEffect 15s ease infinite;
+    color: #fff;
     overflow-x: hidden;
     position: relative;
-    background: linear-gradient(45deg, #0a0a0b, #1a0a1a, #0a0a0b);
-    background-size: 400% 400%;
-    animation: gradientEffect 20s ease infinite;
 }
 
 @keyframes gradientEffect {
@@ -27,180 +26,108 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* ستاره‌های پس‌زمینه + شهاب‌سنگ */
+/* ستاره‌های متحرک در بک‌گراند */
 #stars-canvas {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -1;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
+    z-index: 1;
 }
 
-header {
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 18px 30px;
-    display: flex; justify-content: flex-end; align-items: center;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-    position: sticky; top: 0; z-index: 999;
-}
-.logo-fa {
-    font-weight: 800;
-    font-size: 28px;
-    background: linear-gradient(45deg, #ffd700, #ffb300, #ff8c00);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    position: relative;
-}
-.logo-fa:hover {
-    animation: glitch 0.6s ease-in-out;
-}
-@keyframes glitch {
-    0%, 100% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); text-shadow: 3px 3px 0 #ff8c00; }
-    40% { transform: translate(2px, -2px); text-shadow: -3px -3px 0 #ffd700; }
-    60% { transform: translate(-2px, -2px); }
-    80% { transform: translate(2px, 2px); }
-}
-
-main { padding: 40px 15px 80px; position: relative; z-index: 2; }
-h2 {
-    color:#ffd700; font-size:32px; text-align:center;
-    margin-bottom:40px; border-bottom:3px solid #ffd700;
-    display:inline-block; padding-bottom:8px;
-    text-shadow: 0 0 20px rgba(255,215,0,0.6);
-}
-
-.movies-grid {
-    display:grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap:28px;
-    justify-items:center;
-    max-width:1300px;
-    margin:0 auto;
-    padding: 0 15px;
-}
-
-.movie-card { 
-    perspective: 1200px; 
-    position: relative;
-}
-.card-inner {
-    position: relative;
-    width: 290px;
-    height: 430px;
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    transform-style: preserve-3d;
-    cursor: pointer;
-}
-.card-inner.flipped { transform: rotateY(180deg); }
-
-.card-front, .card-back {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    border-radius: 16px;
-    overflow: hidden;
-    backface-visibility: hidden;
-    background: rgba(15, 15, 18, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-}
-
-.card-front { display:flex; flex-direction:column; }
-.img-bar { flex:1; overflow:hidden; position: relative; }
-.img-bar img { width:100%; height:100%; object-fit:cover; transition: transform 0.6s ease; }
-.card-inner:hover .img-bar img { transform: scale(1.08); }
-
+/* Neon Glow برای عنوان فیلم‌ها */
 .title-bar {
-    height: 48px; line-height: 48px;
-    padding: 0 15px; text-align: center;
-    background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
-    font-size: 17px; font-weight: 700;
-    /* نئون گلو طلایی */
-    color: #ffd700;
+    color: #ffd700 !important;
     text-shadow: 
+        0 0 5px #ffd700,
         0 0 10px #ffd700,
-        0 0 20px #ffd700,
-        0 0 30px #ff8c00,
-        0 0 40px #ff8c00;
+        0 0 20px #ffb300,
+        0 0 40px #ffb300,
+        0 0 80px #ffb300;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
-.date-bar, .reserve-bar {
-    height: 38px; line-height: 38px;
-    padding: 0 12px; text-align: center;
-    font-size: 14px;
-}
-.date-bar { color:#ffd700; background: rgba(0,0,0,0.4); }
-.reserve-bar { 
-    background: linear-gradient(45deg, #ffd700, #ff8c00);
-    color: #000; font-weight: bold; cursor: pointer;
+/* افکت Glitch روی لوگو */
+.logo-fa {
+    font-weight: 700;
+    font-size: 26px;
+    background: linear-gradient(45deg,#ffd700,#ffb300);
+    -webkit-background-clip: text;
+    color: transparent;
+    position: relative;
     transition: all 0.3s;
 }
-.reserve-bar:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,215,0,0.6); }
-
-.card-back {
-    transform: rotateY(180deg);
-    padding: 20px;
-    text-align: right;
-    font-size: 14px;
-    line-height: 1.7;
+.logo-fa:hover {
+    animation: glitch 0.4s ease-in-out;
 }
-.card-back h3, .card-back strong { color:#ffd700; }
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); text-shadow: 3px 0 #ff0000, -3px 0 #00ffff; }
+    40% { transform: translate(2px, -2px); text-shadow: -3px 0 #ff0000, 3px 0 #00ffff; }
+    60% { transform: translate(-2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* Cinema Mode */
+.cinema-mode-active {
+    overflow: hidden;
+}
+.cinema-mode-active main::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(12px);
+    z-index: 998;
+    pointer-events: none;
+}
+.cinema-mode-active .movie-card:not(.spotlight) {
+    opacity: 0.15;
+    filter: blur(6px);
+    transition: all 0.6s ease;
+}
+.spotlight {
+    transform: scale(1.08) !important;
+    z-index: 999 !important;
+    box-shadow: 0 0 60px rgba(255, 215, 0, 0.7) !important;
+    border: 2px solid #ffd700 !important;
+}
 
 /* ذرات طلایی موقع فلیپ */
-.particle-burst {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 6px; height: 6px;
+.particles {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
     background: #ffd700;
     border-radius: 50%;
     pointer-events: none;
-    z-index: 10;
-    box-shadow: 0 0 15px #ffd700;
+    z-index: 9999;
+    opacity: 0;
 }
 
-/* حالت سینما (دابل کلیک) */
-.cinema-mode {
+header, footer, .card-front, .card-back, .social-icon, #about-popup {
+    background: rgba(19, 19, 20, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* لودینگ ۵ ثانیه‌ای با افکت عجیب */
+#loading-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95);
-    z-index: 1000;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #000;
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.8s ease;
-}
-.cinema-mode.active {
+    z-index: 10000;
     opacity: 1;
-    pointer-events: all;
-}
-.cinema-spotlight {
-    width: 320px;
-    height: 480px;
-    background: radial-gradient(circle at center, transparent 30%, #000 70%);
-    position: absolute;
-    pointer-events: none;
-    animation: spotlight 8s infinite alternate;
-}
-@keyframes spotlight {
-    0% { transform: scale(0.9) rotate(-2deg); }
-    100% { transform: scale(1.1) rotate(2deg); }
-}
-
-/* لودینگ عجیب ۵ ثانیه‌ای */
-#loading-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000;
-    display: flex; justify-content: center; align-items: center;
-    z-index: 10000; opacity: 1;
-    transition: opacity 1s ease;
+    transition: opacity 0.8s ease;
 }
 #loading-overlay.hidden { opacity: 0; pointer-events: none; }
 .loader {
@@ -208,7 +135,7 @@ h2 {
     border: 6px solid transparent;
     border-top: 6px solid #ffd700;
     border-radius: 50%;
-    animation: spin 1.2s linear infinite, glow 2s ease-in-out infinite;
+    animation: spin 1.2s linear infinite, pulse 2s ease infinite;
     position: relative;
 }
 .loader::before {
@@ -218,18 +145,50 @@ h2 {
     background: #ffd700;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    animation: pulseParticle 2.5s infinite;
+    animation: particle 2s ease infinite;
 }
-@keyframes glow { 50% { box-shadow: 0 0 40px #ffd700; } }
-@keyframes pulseParticle {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+.loader::after {
+    content: ''; position: absolute;
+    top: 50%; left: 50%;
+    width: 18px; height: 18px;
+    background: #ffb300;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: particle 3s ease infinite reverse;
 }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 50% { transform: scale(1.3); } }
+@keyframes particle { to { transform: translate(-50%, -50%) scale(4); opacity: 0; } }
+
+/* بقیه استایل‌ها بدون تغییر */
+header { padding: 15px 25px; display:flex; justify-content: flex-end; align-items:center; border-bottom:1px solid rgba(48,48,48,0.5); position: sticky; top:0; z-index: 999; }
+main { padding: 35px 15px 60px; position: relative; z-index: 2; }
+h2 { color:#ffd700; font-size:28px; text-align:center; margin-bottom:35px; border-bottom:3px solid #ffd700; display:inline-block; padding-bottom:6px; }
+.movies-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:20px; justify-items:center; max-width:1200px; margin:0 auto; position: relative; z-index: 2; }
+.movie-card { perspective: 1000px; }
+.card-inner { position: relative; transition: transform 0.3s cubic-bezier(0.3,0,0.2,1); transform-style: preserve-3d; cursor: pointer; width: 280px; height: 420px; }
+.card-inner.flipped { transform: rotateY(180deg); }
+.card-front, .card-back { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:14px; overflow:hidden; backface-visibility:hidden; border:1px solid rgba(34,34,34,0.5); }
+.card-front { display:flex; flex-direction:column; }
+.img-bar { flex:1; overflow:hidden; }
+.img-bar img { width:100%; height:100%; object-fit:cover; }
+.date-bar, .title-bar, .reserve-bar { height:36px; line-height:36px; padding:0 10px; text-align:center; background: rgba(0,0,0,0.3); backdrop-filter: blur(6px); border-top:1px solid rgba(255,255,255,0.1); font-size:14px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.date-bar { color:#ffd700; }
+.reserve-bar { color:#000; background:#ffd700; font-weight:bold; cursor:pointer; }
+.card-back { transform:rotateY(180deg); padding:15px; text-align:right; font-size:14px; display:flex; flex-direction:column; }
+.card-back h3, .card-back p strong { color:#ffd700; }
+footer { padding:35px 20px; text-align:center; border-top:1px solid rgba(48,48,48,0.5); margin-top:60px; position: relative; z-index: 2; }
+.footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
+.social-row { display:flex; justify-content:center; gap:18px; }
+.social-icon { width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#ffd700; font-size:22px; }
+.social-icon:hover { background:#ffd700; color:#000; }
+#about-popup { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:300px; border:2px solid rgba(255,215,0,0.5); border-radius:12px; padding:20px; font-size:14px; text-align:right; z-index:1000; opacity:0; transition:opacity .3s; }
+#about-popup.show { display:block; opacity:1; }
 
 /* ریسپانسیو */
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
 @media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} .card-inner{width:100%;max-width:300px;} }
+@media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
@@ -240,13 +199,7 @@ h2 {
     <div class="loader"></div>
 </div>
 
-<div class="cinema-mode" id="cinemaMode">
-    <div class="cinema-spotlight"></div>
-</div>
-
-<header>
-    <div class="logo-fa">Soft Shiraz</div>
-</header>
+<header><div class="logo-fa">Soft Shiraz</div></header>
 
 <main>
     <section class="section">
@@ -262,17 +215,30 @@ h2 {
         <a class="social-icon" href="https://instagram.com/softshiraz" target="_blank"><i class="fab fa-instagram"></i></a>
         <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
     </div>
+    <div id="about-popup">
+        <strong>درباره ما:</strong>
+        <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
+    </div>
 </footer>
 
 <script>
-// ستاره‌ها + شهاب‌سنگ
+const container = document.getElementById("cards-container");
+let openCard = null;
+let spotlightCard = null;
+
+// لودینگ ۵ ثانیه
+setTimeout(() => {
+    document.getElementById('loading-overlay').classList.add('hidden');
+}, 5000);
+
+// ستاره‌های متحرک + شهاب‌سنگ
 const canvas = document.getElementById('stars-canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const stars = [];
-for(let i = 0; i < 150; i++) {
+for(let i = 0; i < 120; i++) {
     stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -284,94 +250,141 @@ for(let i = 0; i < 150; i++) {
 function drawStars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#ffd700';
-    stars.forEach(s => {
-        ctx.globalAlpha = Math.random() > 0.5 ? 1 : 0.6;
-        ctx.fillRect(s.x, s.y, s.size, s.size);
-        s.y += s.speed;
-        if(s.y > canvas.height) s.y = 0;
+    stars.forEach(star => {
+        ctx.globalAlpha = Math.random() > 0.5 ? 0.8 : 0.4;
+        ctx.fillRect(star.x, star.y, star.size, star.size);
+        star.y += star.speed;
+        if(star.y > canvas.height) star.y = 0;
     });
     
     // شهاب‌سنگ گاه‌به‌گاه
-    if(Math.random() < 0.005) {
-        const meteor = document.createElement('div');
-        meteor.style.position = 'fixed';
-        meteor.style.top = Math.random() * 200 + 'px';
-        meteor.style.left = '-50px';
-        meteor.style.width = '4px';
-        meteor.style.height = '80px';
-        meteor.style.background = 'linear-gradient(90deg, transparent, #ffd700)';
-        meteor.style.transform = 'rotate(-45deg)';
-        meteor.style.boxShadow = '0 0 20px #ffd700';
-        meteor.style.zIndex = '1';
-        meteor.style.animation = 'meteor 2s linear forwards';
-        document.body.appendChild(meteor);
-        setTimeout(() => meteor.remove(), 2000);
+    if(Math.random() < 0.003) {
+        createMeteor();
     }
 }
-setInterval(drawStars, 50);
 
-const style = document.createElement('style');
-style.innerHTML = `@keyframes meteor { to { transform: translate(200vw, 200vh) rotate(-45deg); opacity: 0; } }`;
-document.head.appendChild(style);
+let meteors = [];
+function createMeteor() {
+    meteors.push({
+        x: Math.random() * canvas.width,
+        y: 0,
+        speed: 4 + Math.random() * 6,
+        length: 60 + Math.random() * 80,
+        opacity: 1
+    });
+}
 
-// لودینگ ۵ ثانیه
-setTimeout(() => {
-    document.getElementById('loading-overlay').classList.add('hidden');
-}, 5000);
+function drawMeteors() {
+    meteors = meteors.filter(m => m.opacity > 0);
+    meteors.forEach(m => {
+        ctx.strokeStyle = `rgba(255, 215, 0, ${m.opacity})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(m.x, m.y);
+        ctx.lineTo(m.x - m.length, m.y - m.length / 2);
+        ctx.stroke();
+        m.y += m.speed;
+        m.x += m.speed / 2;
+        m.opacity -= 0.02;
+    });
+}
+
+function animate() {
+    drawStars();
+    drawMeteors();
+    requestAnimationFrame(animate);
+}
+animate();
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 
 // ذرات طلایی موقع فلیپ
 function createParticles(x, y) {
-    for(let i = 0; i < 20; i++) {
+    for(let i = 0; i < 25; i++) {
         const p = document.createElement('div');
-        p.className = 'particle-burst';
+        p.className = 'particles';
         p.style.left = x + 'px';
         p.style.top = y + 'px';
-        const angle = Math.random() * Math.PI * 2;
-        const velocity = 3 + Math.random() * 5;
-        p.style.setProperty('--vx', Math.cos(angle) * velocity + 'px');
-        p.style.setProperty('--vy', Math.sin(angle) * velocity + 'px');
         document.body.appendChild(p);
-        setTimeout(() => p.remove(), 1000);
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 3 + Math.random() * 6;
+        const size = 3 + Math.random() * 6;
+
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+
+        let posX = x;
+        let posY = y;
+
+        const animateParticle = () => {
+            posX += Math.cos(angle) * velocity;
+            posY += Math.sin(angle) * velocity;
+            p.style.left = posX + 'px';
+            p.style.top = posY + 'px';
+            p.style.opacity = (p.style.opacity || 1) - 0.03;
+
+            if(p.style.opacity > 0) {
+                requestAnimationFrame(animateParticle);
+            } else {
+                p.remove();
+            }
+        };
+        animateParticle();
     }
 }
-const particleStyle = document.createElement('style');
-particleStyle.innerHTML = `
-.particle-burst {
-    animation: burst 1s ease-out forwards;
-}
-@keyframes burst {
-    to { transform: translate(var(--vx), var(--vy)); opacity: 0; }
-}`;
-document.head.appendChild(particleStyle);
 
-// حالت سینما
-let currentCinemaCard = null;
-document.addEventListener('dblclick', function(e) {
+// Cinema Mode با دابل‌کلیک
+document.addEventListener('dblclick', (e) => {
     const card = e.target.closest('.movie-card');
-    if (!card) return;
-    
-    const cinemaMode = document.getElementById('cinemaMode');
-    cinemaMode.classList.add('active');
-    
-    const clone = card.querySelector('.card-inner').cloneNode(true);
-    clone.style.transform = 'scale(1.3)';
-    clone.style.position = 'relative';
-    clone.style.margin = '0 auto';
-    cinemaMode.innerHTML = '<div class="cinema-spotlight"></div>';
-    cinemaMode.appendChild(clone);
-    
-    document.body.style.overflow = 'hidden';
-    
-    cinemaMode.onclick = () => {
-        cinemaMode.classList.remove('active');
-        document.body.style.overflow = '';
-    };
+    if (!card) {
+        document.body.classList.remove('cinema-mode-active');
+        if(spotlightCard) spotlightCard.classList.remove('spotlight');
+        spotlightCard = null;
+        return;
+    }
+
+    if(spotlightCard && spotlightCard !== card) {
+        spotlightCard.classList.remove('spotlight');
+    }
+
+    document.body.classList.add('cinema-mode-active');
+    card.classList.add('spotlight');
+    spotlightCard = card;
+});
+
+// فلیپ + ذرات
+document.addEventListener("click", function (e) {
+    const cardInner = e.target.closest(".card-inner");
+    if (cardInner) {
+        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
+        cardInner.classList.toggle("flipped");
+        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
+
+        if(cardInner.classList.contains("flipped")) {
+            const rect = cardInner.getBoundingClientRect();
+            createParticles(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        }
+    }
+});
+
+// درباره ما
+const aboutBtn = document.getElementById("about-btn");
+const aboutPopup = document.getElementById("about-popup");
+aboutBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    aboutPopup.classList.toggle("show");
+});
+document.addEventListener("click", (e) => {
+    if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
+        aboutPopup.classList.remove("show");
+    }
 });
 
 // لود کارت‌ها
-const container = document.getElementById("cards-container");
-let openCard = null;
-
 async function loadCardsStrictly() {
     for (let num = 1; num <= 12; num++) {
         try {
@@ -383,35 +396,19 @@ async function loadCardsStrictly() {
             card.innerHTML = html;
             container.appendChild(card);
 
-            const inner = card.querySelector('.card-inner');
-            inner.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (openCard && openCard !== inner) openCard.classList.remove("flipped");
-                inner.classList.toggle("flipped");
-                openCard = inner.classList.contains("flipped") ? inner : null;
-                
-                if (inner.classList.contains("flipped")) {
-                    const rect = inner.getBoundingClientRect();
-                    createParticles(rect.left + rect.width/2, rect.top + rect.height/2);
-                }
-            });
-
-            card.querySelectorAll(".reserve-bar").forEach(btn => {
-                btn.addEventListener("click", () => window.open("https://t.me/softshiraz", "_blank"));
-            });
-        } catch (e) { console.log("خطا در لود کارت", num); }
+            const reserveButton = card.querySelector(".reserve-bar");
+            if (reserveButton) {
+                reserveButton.addEventListener("click", () => {
+                    window.location.href = "https://t.me/softshiraz";
+                });
+            }
+        } catch (e) {
+            console.log("خطا در لود کارت", num);
+        }
     }
 }
 loadCardsStrictly();
 
-// درباره ما
-document.getElementById("about-btn").addEventListener("click", e => {
-    e.stopPropagation();
-    document.getElementById("about-popup").classList.toggle("show");
-});
-document.addEventListener("click", () => {
-    document.getElementById("about-popup").classList.remove("show");
-});
 </script>
 </body>
 </html>
