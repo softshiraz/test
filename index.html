@@ -1,223 +1,161 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سافت شیراز - اکران‌های آینده</title>
 
-<!-- فونت -->
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-
-/* رفرش خودکار */
-<script>
-if (!sessionStorage.getItem("refreshed")) {
-    sessionStorage.setItem("refreshed", "yes");
-    location.reload();
-}
-</script>
-
-/* ----------------------------------
-   تم‌ها
----------------------------------- */
 :root {
-    --bg: #0e0e0f;
-    --header: #000;
-    --text: #fff;
-    --card-bg: #131314;
-    --gold: #ffd700;
-    --border: #222;
-    --popup-bg: #111;
+    --bg-primary: #0e0e0f;
+    --bg-secondary: #000;
+    --bg-card: #131314;
+    --bg-back: #111;
+    --accent: #ffd700;
+    --text-primary: #fff;
+    --text-secondary: #ffd700;
+    --border: #303030;
+    --border-light: rgba(255,255,255,0.1);
+    --overlay: rgba(0,0,0,0.3);
 }
 
-/* تم کرمی – قرمز – آبی تیره */
-body.theme2 {
-    --bg: #f3e9d6;
-    --header: #c92a2a;
-    --text: #0f2233;
-    --card-bg: #ffffff;
-    --gold: #0f2233;
-    --border: #0f2233;
-    --popup-bg: #fff;
+[data-theme="creamy"] {
+    --bg-primary: #f5f5dc;
+    --bg-secondary: #191970;
+    --bg-card: #deb887;
+    --bg-back: #8b0000;
+    --accent: #dc143c;
+    --text-primary: #191970;
+    --text-secondary: #8b0000;
+    --border: #cd853f;
+    --border-light: rgba(25,25,112,0.1);
+    --overlay: rgba(139,0,0,0.3);
 }
 
-/* ----------------------------------
-   ساختار اصلی
----------------------------------- */
 * { margin:0; padding:0; box-sizing:border-box; }
-body {
-    font-family:"Vazirmatn",sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    transition:0.35s;
+body { 
+    font-family: "Vazirmatn", sans-serif; 
+    background: var(--bg-primary); 
+    color: var(--text-primary); 
+    transition: background 0.3s, color 0.3s;
 }
 
 header {
-    background:var(--header);
-    padding:15px 25px;
-    display:flex; justify-content:flex-end; align-items:center;
-    border-bottom:1px solid #303030;
-    position:sticky; top:0; z-index:1000;
+    background: var(--bg-secondary); padding: 15px 25px;
+    display:flex; justify-content: flex-end; align-items:center;
+    border-bottom:1px solid var(--border); 
+    position: sticky; top:0; z-index: 999;
 }
-
 .logo-fa {
-    font-weight:700; font-size:26px;
-    background: linear-gradient(45deg,var(--gold),#ffb300);
-    -webkit-background-clip:text; color:transparent;
+    font-weight: 700;
+    font-size: 26px;
+    background: linear-gradient(45deg, var(--accent), var(--text-secondary));
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
-main { padding:35px 15px 60px; }
+main { padding: 35px 15px 60px; }
+h2 {
+    color:var(--accent); font-size:28px; text-align:center;
+    margin-bottom:35px; border-bottom:3px solid var(--accent);
+    display:inline-block; padding-bottom:6px;
+}
 .section { text-align:center; }
 
-h2 {
-    color:var(--gold);
-    font-size:28px;
-    margin-bottom:35px;
-    border-bottom:3px solid var(--gold);
-    display:inline-block;
-    padding-bottom:6px;
-}
-
-/* ----------------------------------
-   گرید کارت‌ها
----------------------------------- */
 .movies-grid {
     display:grid;
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap:20px;
     justify-items:center;
     max-width:1200px;
     margin:0 auto;
 }
 
-.movie-card { perspective:1000px; }
+.movie-card { perspective: 1000px; }
 .card-inner {
-    position:relative;
-    width:280px; height:420px;
-    transform-style:preserve-3d;
-    transition:transform .3s cubic-bezier(.3,0,.2,1);
-    cursor:pointer;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+    width: 280px;
+    height: 420px; 
 }
-.card-inner.flipped { transform:rotateY(180deg); }
+.card-inner.flipped { transform: rotateY(180deg); }
 
 .card-front, .card-back {
-    position:absolute; inset:0;
+    position:absolute;
+    top:0; left:0; width:100%; height:100%;
     border-radius:14px;
     overflow:hidden;
     backface-visibility:hidden;
     border:1px solid var(--border);
 }
 
-.card-front { background:var(--card-bg); display:flex; flex-direction:column; }
-.img-bar { flex:1; overflow:hidden; }
+.card-front { background:var(--bg-card); display:flex; flex-direction:column; }
+.img-bar { flex:1; width:100%; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; }
 
 .date-bar, .title-bar, .reserve-bar {
     height:36px; line-height:36px;
-    background:rgba(0,0,0,0.3);
-    padding:0 10px;
-    white-space:nowrap;
-    text-overflow:ellipsis;
-    overflow:hidden;
-    backdrop-filter:blur(6px);
-    font-size:14px;
+    padding:0 10px; text-align:center;
+    overflow:hidden; white-space: nowrap; text-overflow: ellipsis;
+    background: var(--overlay); backdrop-filter: blur(6px);
+    border-top:1px solid var(--border-light); font-size:14px;
 }
-.date-bar { color:var(--gold); }
-.title-bar { color:var(--text); }
-.reserve-bar {
-    background:var(--gold); color:#000;
-    font-weight:bold; cursor:pointer;
-}
+
+.date-bar { color:var(--accent); }
+.title-bar { color:var(--text-primary); }
+.reserve-bar { color:var(--bg-secondary); background:var(--accent); font-weight:bold; cursor:pointer; }
 
 .card-back {
-    transform:rotateY(180deg);
-    background:var(--popup-bg);
-    padding:15px;
-    color:var(--text);
-    font-size:14px;
-    text-align:right;
+    transform:rotateY(180deg); background:var(--bg-back);
+    padding:15px; color:var(--text-primary); text-align:right;
+    font-size:14px; display:flex; flex-direction:column;
 }
-.card-back h3,
-.card-back p strong { color:var(--gold); }
+.card-back h3, .card-back p strong { color:var(--accent); }
 
-/* ----------------------------------
-   فوتر
----------------------------------- */
 footer {
-    background:var(--header);
-    padding:25px 20px;
-    text-align:center;
-    border-top:1px solid #303030;
-    display:flex; flex-direction:column; gap:18px;
+    background:var(--bg-secondary); padding:35px 20px; text-align:center;
+    border-top:1px solid var(--border); 
+    margin-top:60px;
 }
-
-.footer-title { font-size:18px; color:var(--gold); }
+.footer-title { font-size:18px; color:var(--accent); margin-bottom:18px; }
 
 .social-row {
-    display:flex; justify-content:center; gap:18px; align-items:center;
+    display:flex; justify-content:center; gap:18px;
 }
-
 .social-icon {
-    width:48px; height:48px;
-    border-radius:50%;
-    background:#1a1a1a;
-    display:flex; align-items:center; justify-content:center;
-    color:var(--gold);
-    font-size:22px;
-    transition:.25s;
+    width:48px; height:48px; border-radius:50%;
+    background:var(--bg-back); display:flex; align-items:center; justify-content:center;
+    color:var(--accent); font-size:22px; 
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
 }
-.social-icon:hover {
-    background:var(--gold); color:#000;
-}
+.social-icon:hover { background:var(--accent); color:var(--bg-secondary); }
 
-/* دکمه تم */
-.theme-switch {
-    width:48px; height:48px;
-    border-radius:50%;
-    background:#1a1a1a;
-    color:var(--gold);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    font-size:22px;
-    transition:.25s;
-}
-.theme-switch:hover { background:var(--gold); color:#000; }
-
-/* ----------------------------------
-   پاپ‌آپ درباره ما
----------------------------------- */
 #about-popup {
-    display:none;
-    position:fixed;
-    top:50%; left:50%;
+    display:none; position:fixed; top:40%; left:50%;
     transform:translate(-50%,-50%);
-    width:300px;
-    background:var(--popup-bg);
-    border:2px solid var(--gold);
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 0 25px rgba(0,0,0,.6);
-    z-index:10000;
-    opacity:0; transition:.3s;
+    width:300px; background:var(--bg-back); border:2px solid var(--accent);
+    border-radius:12px; padding:20px; 
+    font-size:14px; text-align:right; z-index:1000;
+    opacity:0; transition:opacity .3s;
 }
 #about-popup.show { display:block; opacity:1; }
 
-#about-popup strong { color:var(--gold); font-size:16px; }
-
 /* ریسپانسیو */
-@media (max-width:1200px){ .movies-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:768px){ .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px){ .movies-grid{grid-template-columns:1fr;} }
-
+@media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
+@media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
 </style>
+
 </head>
 <body>
 
-<header>
-    <div class="logo-fa">Soft Shiraz</div>
-</header>
+<header><div class="logo-fa">Soft Shiraz</div></header>
 
 <main>
     <section class="section">
@@ -228,99 +166,106 @@ footer {
 
 <footer>
     <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
-
     <div class="social-row">
-        <a class="social-icon" href="https://t.me/softshiraz" target="_blank">
-            <i class="fab fa-telegram"></i>
-        </a>
-
-        <!-- دکمه درباره ما -->
-        <div class="social-icon" id="about-btn">
-            <i class="fas fa-info"></i>
-        </div>
-
-        <!-- سوییچر تم -->
-        <div class="theme-switch" id="theme-btn">
-            <i class="fas fa-adjust"></i>
-        </div>
+        <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a class="social-icon" href="https://instagram.com/softshiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="social-icon" id="theme-toggle"><i class="fas fa-moon"></i></a>
+        <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
     </div>
 
-    <!-- درباره ما -->
     <div id="about-popup">
-        <strong>درباره سافت شیراز</strong>
-        <p style="margin-top:10px; font-size:14px; line-height:1.8;">
-            ما عاشق سینما هستیم؛ این‌جا جاییه که آینده‌ی پرده نقره‌ای رو قبل از رسیدن به سالن‌ها کشف می‌کنی.
-            جایی برای هیجان، انتظار و عشق به فیلم 🎬✨
-        </p>
+        <strong>درباره ما:</strong>
+        <p>سافت شیراز: جایی که سینما نفس می‌کشه! مرجع اکران‌های هیجان‌انگیز، اخبار داغ هفتم هنر و دوز روزانه‌ی پاپ‌کورن ذهنی. بیا با ما غرق در دنیای فیلم‌ها شو! 🎥✨</p>
     </div>
 </footer>
 
 <script>
-
-/* ----------------------------------
-   لود کارت‌ها (۱ تا ۱۲)
----------------------------------- */
 const container = document.getElementById("cards-container");
 let openCard = null;
 
-async function loadCards() {
+// رفرش اجباری سایت برای لود جدیدترین تغییرات
+window.addEventListener('load', () => {
+    window.location.reload(true);
+});
+
+/* --------------------
+   لود اجباری و ترتیبی
+   -------------------- */
+async function loadCardsStrictly() {
     for (let num = 1; num <= 12; num++) {
+
         try {
-            const res = await fetch(`cards/${num}.html`, { cache: "no-store" });
-            if (!res.ok) continue;
+            const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
+            if (!response.ok) continue;
 
-            const html = await res.text();
-            const div = document.createElement("div");
-            div.className = "movie-card";
-            div.innerHTML = html;
-            container.appendChild(div);
+            const html = await response.text();
 
-            const reserveButton = div.querySelector(".reserve-bar");
+            const card = document.createElement("div");
+            card.className = "movie-card";
+            card.innerHTML = html;
+            container.appendChild(card);
+
+            const reserveButton = card.querySelector(".reserve-bar");
             if (reserveButton) {
                 reserveButton.addEventListener("click", () => {
                     window.location.href = "https://t.me/softshiraz";
                 });
             }
-        } catch{}
+
+        } catch (e) {
+            console.log("خطا در لود کارت", num);
+        }
     }
 }
-loadCards();
 
-/* ----------------------------------
-   flip card
----------------------------------- */
-document.addEventListener("click", e => {
-    const ci = e.target.closest(".card-inner");
-    if (ci) {
-        if (openCard && openCard !== ci) openCard.classList.remove("flipped");
-        ci.classList.toggle("flipped");
-        openCard = ci.classList.contains("flipped") ? ci : null;
+loadCardsStrictly();
+
+/* --- تغییر تم --- */
+const themeToggle = document.getElementById("theme-toggle");
+const currentTheme = localStorage.getItem("theme") || "default";
+if (currentTheme === "creamy") {
+    document.documentElement.setAttribute("data-theme", "creamy");
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+}
+themeToggle.addEventListener("click", (e) => {
+    e.preventDefault();
+    const body = document.documentElement;
+    const isCreamy = body.getAttribute("data-theme") === "creamy";
+    if (isCreamy) {
+        body.removeAttribute("data-theme");
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        localStorage.setItem("theme", "default");
+    } else {
+        body.setAttribute("data-theme", "creamy");
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        localStorage.setItem("theme", "creamy");
     }
 });
 
-/* ----------------------------------
-   درباره ما
----------------------------------- */
+/* --- flip card --- */
+document.addEventListener("click", function (e) {
+    const cardInner = e.target.closest(".card-inner");
+    if (cardInner) {
+        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
+        cardInner.classList.toggle("flipped");
+        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
+    }
+});
+
+/* --- درباره ما --- */
 const aboutBtn = document.getElementById("about-btn");
 const aboutPopup = document.getElementById("about-popup");
 
-aboutBtn.addEventListener("click", e => {
-    e.stopPropagation();
+aboutBtn.addEventListener("click", (e) => {
+    e.preventDefault();
     aboutPopup.classList.toggle("show");
 });
 
-document.addEventListener("click", e => {
-    if (!aboutPopup.contains(e.target) && e.target !== aboutBtn)
+document.addEventListener("click", (e) => {
+    if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
         aboutPopup.classList.remove("show");
+    }
 });
-
-/* ----------------------------------
-   تغییر تم
----------------------------------- */
-document.getElementById("theme-btn").onclick = () => {
-    document.body.classList.toggle("theme2");
-};
-
 </script>
 
 </body>
