@@ -1,69 +1,350 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loader Animation</title>
-  <style>
-    body { 
-      background: #111;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سافت شیراز - اکران‌های آینده</title>
 
-    .loader {
-      position: relative;
-      width: 40px;
-      height: 40px;
-    }
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    .loader .circle {
-      position: absolute;
-      width: 38px;
-      height: 38px;
-      opacity: 0;
-      transform: rotate(225deg);
-      animation-iteration-count: infinite;
-      animation-name: orbit;
-      animation-duration: 5.5s;
-    }
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+    font-family: "Vazirmatn", sans-serif; 
+    background: #0e0e0f; 
+    color: #fff; 
+    overflow-x:hidden;
+}
 
-    .loader .circle:after {
-      content: '';
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: yellow; /* رنگ زرد */
-    }
+/* --- ستاره‌ها و افکت نئون --- */
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 0;
+    overflow: hidden;
+}
 
-    .loader .circle:nth-child(2) { animation-delay: 240ms; }
-    .loader .circle:nth-child(3) { animation-delay: 480ms; }
-    .loader .circle:nth-child(4) { animation-delay: 720ms; }
-    .loader .circle:nth-child(5) { animation-delay: 960ms; }
+.star, .shooting-star {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffd700 0%, #ffb300 80%);
+}
 
-    @keyframes orbit { 
-      0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
-      7%   { transform:rotate(345deg); animation-timing-function: linear; }
-      30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-      39%  { transform:rotate(690deg); animation-timing-function: linear; }
-      70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-      75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
-      76%  { transform:rotate(945deg); opacity: 0; }
-      100% { transform:rotate(945deg); opacity: 0; } 
-    }
-  </style>
+.shooting-star {
+    width: 3px;
+    height: 80px;
+    background: linear-gradient(45deg, #ffd700, transparent);
+    opacity: 0.8;
+    transform: rotate(45deg);
+}
+
+/* --- افکت گرادیانت پس زمینه --- */
+body::before {
+    content:"";
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background: linear-gradient(45deg,#0e0e0f,#1a1a1a,#0e0e0f);
+    background-size:400% 400%;
+    animation: gradientEffect 15s ease infinite;
+    z-index:-1;
+}
+@keyframes gradientEffect {
+    0% { background-position:0% 50%; }
+    50% { background-position:100% 50%; }
+    100% { background-position:0% 50%; }
+}
+
+/* --- هدر و لوگو --- */
+header {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15px 25px;
+    display:flex; justify-content: flex-end; align-items:center;
+    border-bottom:1px solid rgba(48,48,48,0.5);
+    position: sticky; top:0; z-index: 10;
+}
+.logo-fa {
+    font-weight: 700;
+    font-size: 26px;
+    background: linear-gradient(45deg,#ffd700,#ffb300);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* --- محتوا --- */
+main { padding: 35px 15px 60px; }
+h2 {
+    color:#ffd700; font-size:28px; text-align:center;
+    margin-bottom:35px; border-bottom:3px solid #ffd700;
+    display:inline-block; padding-bottom:6px;
+}
+.section { text-align:center; }
+
+.movies-grid {
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:20px;
+    justify-items:center;
+    max-width:1200px;
+    margin:0 auto;
+}
+
+.movie-card { perspective: 1000px; }
+.card-inner {
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.3,0,0.2,1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+    width: 280px;
+    height: 420px; 
+}
+.card-inner.flipped { transform: rotateY(180deg); }
+
+.card-front, .card-back {
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    border-radius:14px;
+    overflow:hidden;
+    backface-visibility:hidden;
+    border:1px solid rgba(34,34,34,0.5);
+    background: rgba(19,19,20,0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.card-front { display:flex; flex-direction:column; }
+.img-bar { flex:1; width:100%; overflow:hidden; }
+.img-bar img { width:100%; height:100%; object-fit:cover; }
+
+.date-bar, .title-bar, .reserve-bar {
+    height:36px; line-height:36px;
+    padding:0 10px; text-align:center;
+    overflow:hidden; white-space: nowrap; text-overflow: ellipsis;
+    background: rgba(0,0,0,0.3); backdrop-filter: blur(6px);
+    border-top:1px solid rgba(255,255,255,0.1); font-size:14px;
+}
+
+.date-bar { color:#ffd700; }
+.title-bar { color:#fff; }
+.reserve-bar { color:#000; background:#ffd700; font-weight:bold; cursor:pointer; }
+
+.card-back {
+    transform:rotateY(180deg);
+    padding:15px; color:#fff; text-align:right;
+    font-size:14px; display:flex; flex-direction:column;
+}
+.card-back h3, .card-back p strong { color:#ffd700; }
+
+/* --- فوتر --- */
+footer {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding:35px 20px; text-align:center;
+    border-top:1px solid rgba(48,48,48,0.5); 
+    margin-top:60px;
+}
+.footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
+
+.social-row {
+    display:flex; justify-content:center; gap:18px;
+}
+.social-icon {
+    width:48px; height:48px; border-radius:50%;
+    background: rgba(26,26,26,0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display:flex; align-items:center; justify-content:center;
+    color:#ffd700; font-size:22px; 
+}
+.social-icon:hover { background:#ffd700; color:#000; }
+
+#about-popup {
+    display:none; position:fixed; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:300px; background: rgba(17,17,17,0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border:2px solid rgba(255,215,0,0.5);
+    border-radius:12px; padding:20px; 
+    font-size:14px; text-align:right; z-index:1000;
+    opacity:0; transition:opacity .3s;
+}
+#about-popup.show { display:block; opacity:1; }
+
+/* --- لودینگ جدید --- */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.95);
+    display:flex; justify-content:center; align-items:center;
+    z-index:10000;
+    opacity:1;
+    transition: opacity 0.5s ease;
+}
+#loading-overlay.hidden {
+    opacity:0;
+    pointer-events:none;
+}
+.loader {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+.loader .circle {
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    opacity:0;
+    transform: rotate(225deg);
+    animation-iteration-count: infinite;
+    animation-name: orbit;
+    animation-duration: 5.5s;
+}
+.loader .circle:after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: yellow;
+}
+.loader .circle:nth-child(2) { animation-delay: 240ms; }
+.loader .circle:nth-child(3) { animation-delay: 480ms; }
+.loader .circle:nth-child(4) { animation-delay: 720ms; }
+.loader .circle:nth-child(5) { animation-delay: 960ms; }
+
+@keyframes orbit { 
+    0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
+    7%   { transform:rotate(345deg); animation-timing-function: linear; }
+    30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
+    39%  { transform:rotate(690deg); animation-timing-function: linear; }
+    70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+    75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
+    76%  { transform:rotate(945deg); opacity: 0; }
+    100% { transform:rotate(945deg); opacity: 0; } 
+}
+
+/* --- ریسپانسیو --- */
+@media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
+@media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
+</style>
+
 </head>
 <body>
-  <div class="loader">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-  </div>
+
+<!-- ستاره‌ها و شهاب‌ها -->
+<div class="stars" id="stars-container"></div>
+
+<!-- لودینگ -->
+<div id="loading-overlay">
+    <div class="loader">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+</div>
+
+<header><div class="logo-fa">Soft Shiraz</div></header>
+
+<main>
+    <section class="section">
+        <h2>اکران‌های آینده</h2>
+        <div class="movies-grid" id="cards-container"></div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
+    <div class="social-row">
+        <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a class="social-icon" href="https://instagram.com/softshiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
+    </div>
+
+    <div id="about-popup">
+        <strong>درباره ما:</strong>
+        <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
+    </div>
+</footer>
+
+<script>
+const container = document.getElementById("cards-container");
+let openCard = null;
+
+// لودینگ: نمایش برای ۵ ثانیه اول و سپس محو شدن
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('loading-overlay').classList.add('hidden');
+    }, 5000);
+});
+
+/* لود کارت‌ها */
+async function loadCardsStrictly() {
+    for (let num=1; num<=12; num++) {
+        try {
+            const response = await fetch(`cards/${num}.html`, { cache: "no-store" });
+            if(!response.ok) continue;
+            const html = await response.text();
+            const card = document.createElement("div");
+            card.className = "movie-card";
+            card.innerHTML = html;
+            container.appendChild(card);
+            const reserveButton = card.querySelector(".reserve-bar");
+            if(reserveButton) reserveButton.addEventListener("click", ()=>{window.location.href="https://t.me/softshiraz";});
+        } catch(e) { console.log("خطا در لود کارت", num); }
+    }
+}
+loadCardsStrictly();
+
+/* flip card */
+document.addEventListener("click", function(e){
+    const cardInner = e.target.closest(".card-inner");
+    if(cardInner){
+        if(openCard && openCard!==cardInner) openCard.classList.remove("flipped");
+        cardInner.classList.toggle("flipped");
+        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
+    }
+});
+
+/* درباره ما */
+const aboutBtn = document.getElementById("about-btn");
+const aboutPopup = document.getElementById("about-popup");
+aboutBtn.addEventListener("click",(e)=>{ e.stopPropagation(); aboutPopup.classList.toggle("show"); });
+document.addEventListener("click",(e)=>{ if(!aboutPopup.contains(e.target) && e.target!==aboutBtn) aboutPopup.classList.remove("show"); });
+
+/* --- ایجاد ستاره‌ها و شهاب‌ها --- */
+const starsContainer = document.getElementById("stars-container");
+function createStar() {
+    const star = document.createElement("div");
+    star.className = "star";
+    const size = Math.random()*2+1;
+    star.style.width = size+"px";
+    star.style.height = size+"px";
+    star.style.top = Math.random()*100+"%";
+    star.style.left = Math.random()*100+"%";
+    starsContainer.appendChild(star);
+}
+function createShootingStar() {
+    const star = document.createElement("div");
+    star.className = "shooting-star";
+    star.style.top = Math.random()*50+"%";
+    star.style.left = "-10%";
+    starsContainer.appendChild(star);
+    star.animate([{transform: 'translateX(0)'},{transform:'translateX(120vw)'}],{duration:3000+Math.random()*2000, iterations:1});
+    setTimeout(()=>star.remove(),4000);
+}
+for(let i=0;i<100;i++) createStar();
+setInterval(createShootingStar, 4000);
+
+</script>
 </body>
 </html>
