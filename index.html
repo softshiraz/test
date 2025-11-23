@@ -3,309 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سافت شیراز - اکران‌های آینده</title>
+<title>Soft Shiraz - اکران‌های آینده</title>
 
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-/* ===========================================================
-   🎨 رنگ‌های قابل تغییر (فقط از اینجا رنگ‌ها را عوض کن)
-   =========================================================== */
+/* ----------------- تم‌ها ------------------ */
 :root {
-    /* تم مشکی و طلایی (پیش‌فرض) */
     --bg: #0e0e0f;
     --text: #ffffff;
-    --card-bg: #131314;
-    --border: #222;
     --accent: #ffd700;
-    --accent-text: #000;
-    --footer-bg: #000;
-    --header-bg: #000;
+    --card-bg: #131314;
+    --border: #2a2a2a;
+    --popup-bg: #111;
+}
+.theme-2 {
+    --bg: #f7e9d4;
+    --text: #1c1c1c;
+    --accent: #b11313;
+    --card-bg: #143558;
+    --border: #0f243b;
+    --popup-bg: #153a61;
 }
 
-/* تم دوم (کرمی / قرمز / آبی تیره) */
-.theme2 {
-    --bg: #f5e8d2;
-    --text: #1a1a1a;
-    --card-bg: #dcd0b8;
-    --border: #8b0000;
-    --accent: #8b0000;
-    --accent-text: #fff;
-    --footer-bg: #001f3f;
-    --header-bg: #001f3f;
-}
-
-/* ===========================================================
-   استایل اصلی
-   =========================================================== */
+/* ----------------- استایل‌ها ------------------ */
 * { margin:0; padding:0; box-sizing:border-box; }
-body {
-    font-family:"Vazirmatn",sans-serif;
-    background:var(--bg);
-    color:var(--text);
-}
+body { font-family: "Vazirmatn", sans-serif; background: var(--bg); color: var(--text); transition: 0.3s; }
 
-/* HEADER */
-header {
-    background:var(--header-bg);
-    padding:15px 25px;
-    display:flex;
-    justify-content: flex-end;
-    align-items:center;
-    border-bottom:1px solid #303030;
-    position: sticky; top:0; z-index: 999;
-}
-.logo-fa {
-    font-weight:700;
-    font-size:26px;
-    background:linear-gradient(45deg,var(--accent),#ffb300);
-    -webkit-background-clip:text;
-    color:transparent;
-}
+header { background:#000; padding:15px 25px; display:flex; justify-content:flex-end; align-items:center; border-bottom:1px solid #303030; position:sticky; top:0; z-index:999; }
+.logo-fa { font-weight:700; font-size:26px; background: linear-gradient(45deg,var(--accent),#ff9f00); -webkit-background-clip:text; color:transparent; }
 
-/* MAIN */
 main { padding:35px 15px 60px; }
-h2 {
-    color:var(--accent);
-    font-size:28px;
-    text-align:center;
-    margin-bottom:35px;
-    border-bottom:3px solid var(--accent);
-    display:inline-block; padding-bottom:6px;
-}
-.section { text-align:center; }
+h2 { color:var(--accent); font-size:28px; text-align:center; margin-bottom:35px; border-bottom:3px solid var(--accent); display:inline-block; padding-bottom:6px; }
+.section{text-align:center;}
 
-/* GRID */
-.movies-grid {
-    display:grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap:20px;
-    justify-items:center;
-    max-width:1200px;
-    margin:0 auto;
-}
+.movies-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; max-width:1200px; margin:0 auto; justify-items:center; }
 
-/* CARD */
 .movie-card { perspective:1000px; }
 .card-inner {
-    position: relative;
-    transition: transform 0.3s;
-    transform-style: preserve-3d;
-    cursor:pointer;
-    width:280px; height:420px;
+    width:280px; height:420px; position:relative;
+    transform-style:preserve-3d; transition:0.3s; cursor:pointer;
 }
-.card-inner.flipped { transform: rotateY(180deg); }
+.card-inner.flipped { transform:rotateY(180deg); }
 
 .card-front, .card-back {
-    position:absolute;
-    top:0; left:0;
-    width:100%; height:100%;
-    border-radius:14px;
-    overflow:hidden;
-    backface-visibility:hidden;
-    border:1px solid var(--border);
-}
-
-.card-front {
-    background:var(--card-bg);
-    display:flex;
-    flex-direction:column;
+    position:absolute; top:0; left:0; width:100%; height:100%; border-radius:14px; overflow:hidden; backface-visibility:hidden; border:1px solid var(--border); background:var(--card-bg); display:flex; flex-direction:column;
 }
 
 .img-bar { flex:1; width:100%; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; }
 
-/* BOTTOM BARS */
 .date-bar, .title-bar, .reserve-bar {
-    height:36px;
-    line-height:36px;
-    text-align:center;
-    padding:0 10px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    height:36px; line-height:36px; text-align:center;
+    border-top:1px solid rgba(255,255,255,0.1);
     font-size:14px;
+    background: rgba(0,0,0,0.25);
+    overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
 }
+.date-bar { color:var(--accent); }
+.title-bar{ color:var(--text); }
+.reserve-bar { background:var(--accent); color:#000; font-weight:bold; cursor:pointer; }
 
-.date-bar {
-    background:rgba(0,0,0,0.3);
-    color:var(--accent);
-}
-.title-bar {
-    background:rgba(0,0,0,0.3);
-    color:var(--text);
-}
-.reserve-bar {
-    background:var(--accent);
-    color:var(--accent-text);
-    font-weight:bold;
-    cursor:pointer;
-}
+/* کارت پشت */
+.card-back { transform:rotateY(180deg); padding:15px; color:var(--text); background:var(--card-bg); }
 
-/* BACK SIDE */
-.card-back {
-    transform:rotateY(180deg);
-    background:#111;
-    padding:15px;
-    color:#fff;
-    font-size:14px;
-}
-.card-back h3 { color:var(--accent); }
-.card-back p strong { color:var(--accent); }
-
-/* FOOTER */
-footer {
-    background:var(--footer-bg);
-    padding:20px;
-    border-top:1px solid #303030;
-    text-align:center;
-}
-.footer-title { color:var(--accent); margin-bottom:18px; }
-
-/* SOCIAL ICONS */
-.social-row {
-    display:flex;
-    justify-content:center;
-    gap:18px;
-    align-items:center;
-}
-.social-icon {
-    width:48px; height:48px;
-    border-radius:50%;
-    background:#1a1a1a;
-    display:flex; justify-content:center; align-items:center;
-    color:var(--accent);
-    font-size:22px;
-    text-decoration:none;
-}
-.social-icon:hover {
-    background:var(--accent);
-    color:var(--accent-text);
-}
-
-/* ABOUT POPUP */
+/* درباره ما */
 #about-popup {
-    display:none;
-    position:fixed;
-    top:50%; left:50%;
-    transform:translate(-50%, -50%);
-    background:var(--card-bg);
-    border:2px solid var(--accent);
-    padding:20px;
-    width:300px;
-    border-radius:12px;
-    z-index:1000;
-    opacity:0;
-    transition:opacity 0.3s ease;
+    display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.7);
+    background:var(--popup-bg); color:var(--text); width:320px; padding:22px; border-radius:14px;
+    border:2px solid var(--accent); box-shadow:0 0 20px var(--accent); z-index:2000; opacity:0; transition:0.25s ease;
 }
-#about-popup.show {
-    display:block;
-    opacity:1;
-}
+#about-popup.show { display:block; opacity:1; transform:translate(-50%,-50%) scale(1); }
 
-/* RESPONSIVE */
-@media (max-width:1200px){ .movies-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:768px){ .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px){ .movies-grid{grid-template-columns:1fr;} }
+/* فوتر */
+footer { background:#000; padding:20px; text-align:center; border-top:1px solid #303030; }
+.footer-title { font-size:18px; color:var(--accent); margin-bottom:18px; }
+.social-row { display:flex; justify-content:center; align-items:center; gap:16px; }
+.social-icon { width:48px; height:48px; border-radius:50%; background:#1a1a1a; display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--accent); transition:0.3s; }
+.social-icon:hover { background:var(--accent); color:#000; }
+
+/* ریسپانسیو */
+@media(max-width:1200px){ .movies-grid{grid-template-columns:repeat(3,1fr);} }
+@media(max-width:768px){ .movies-grid{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:480px){ .movies-grid{grid-template-columns:1fr;} }
 </style>
 </head>
 
 <body>
 
-<header style="padding-left:15px;">
-    <div class="logo-fa">Soft Shiraz</div>
-</header>
+<header><div class="logo-fa">Soft Shiraz</div></header>
 
-<main style="padding-top:15px; padding-bottom:30px;">
-<section class="section">
-    <h2>اکران‌های آینده</h2>
-    <div class="movies-grid" id="cards-container"></div>
-</section>
+<main>
+    <section class="section">
+        <h2>اکران‌های آینده</h2>
+        <div class="movies-grid" id="cards-container"></div>
+    </section>
 </main>
 
 <footer>
     <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
     <div class="social-row">
         <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
-
-        <!-- دکمه تغییر تم -->
-        <a class="social-icon" id="theme-toggle"><i class="fas fa-adjust"></i></a>
-
-        <!-- درباره ما -->
-        <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
-    </div>
-
-    <div id="about-popup">
-        <h3 style="margin-bottom:10px; color:var(--accent);">درباره ما</h3>
-        <p>
-            اینجا جاییه که همیشه از فیلم‌های جدید، برنامه‌های هیجان‌انگیز و اکران‌های آینده باخبر می‌شی!  
-            سافت شیراز برای سرگرمی و حال خوب شما ساخته شده ❤️🎬  
-        </p>
+        <a class="social-icon" href="https://instagram.com/softshiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+        <div class="social-icon" id="theme-toggle"><i class="fas fa-palette"></i></div>
+        <div class="social-icon" id="about-btn"><i class="fas fa-info"></i></div>
     </div>
 </footer>
 
+<div id="about-popup">
+    <h3 style="margin-bottom:8px;">درباره Soft Shiraz</h3>
+    <p>
+        اینجا مرکز بهترین و تازه‌ترین اکران‌های سینمایی و اخبار فیلم است!
+        ما به شما تجربه‌ای سرگرم‌کننده، جذاب و متفاوت ارائه می‌کنیم.  
+        هر فیلم خوب از اینجا شروع می‌شود 😉🎬
+    </p>
+</div>
+
 <script>
-/* ======================
-   کارت‌ها 1 تا 12 به ترتیب
-   ====================== */
-const container = document.getElementById('cards-container');
-let openCard = null;
+const container = document.getElementById("cards-container");
 
-for (let i = 1; i <= 12; i++) {
-    fetch(`cards/${i}.html`, { cache: "no-store" })
-        .then(r => r.text())
-        .then(cardHTML => {
-            const card = document.createElement('div');
-            card.className = 'movie-card';
-            card.innerHTML = cardHTML;
+/* لود کارت‌ها ترتیبی */
+async function loadCards() {
+    for(let n=1;n<=12;n++){
+        try{
+            const r = await fetch(`cards/${n}.html`, {cache:"no-store"});
+            if(!r.ok) continue;
+            const html = await r.text();
+            const card = document.createElement("div");
+            card.className = "movie-card";
+            card.innerHTML = html;
             container.appendChild(card);
-
-            const reserveButton = card.querySelector('.reserve-bar');
-            if (reserveButton) {
-                reserveButton.addEventListener('click', () => {
-                    window.location.href = "https://t.me/softshiraz";
-                });
-            }
-        });
+            const reserve = card.querySelector(".reserve-bar");
+            if(reserve) reserve.onclick=()=>window.location.href="https://t.me/softshiraz";
+        }catch{}
+    }
 }
+loadCards();
 
-/* ======================
-   چرخش کارت
-   ====================== */
-document.addEventListener('click', function(e) {
-    const cardInner = e.target.closest('.card-inner');
-    if (cardInner) {
-        if (openCard && openCard !== cardInner) openCard.classList.remove('flipped');
-        cardInner.classList.toggle('flipped');
-        openCard = cardInner.classList.contains('flipped') ? cardInner : null;
-    }
+/* flip card */
+let openCard=null;
+document.addEventListener("click",e=>{
+    const inner=e.target.closest(".card-inner");
+    if(!inner) return;
+    if(openCard && openCard!==inner) openCard.classList.remove("flipped");
+    inner.classList.toggle("flipped");
+    openCard=inner.classList.contains("flipped")?inner:null;
 });
 
-/* ======================
-   درباره ما
-   ====================== */
-const aboutBtn = document.getElementById('about-btn');
-const aboutPopup = document.getElementById('about-popup');
+/* درباره ما */
+const aboutBtn=document.getElementById("about-btn");
+const aboutPopup=document.getElementById("about-popup");
+aboutBtn.onclick=(e)=>{e.stopPropagation();aboutPopup.classList.toggle("show");};
+document.addEventListener("click",e=>{if(!aboutPopup.contains(e.target)&&e.target!==aboutBtn) aboutPopup.classList.remove("show");});
 
-aboutBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    aboutPopup.classList.toggle('show');
-});
+/* تغییر تم */
+const themeToggle=document.getElementById("theme-toggle");
+themeToggle.onclick=()=>document.body.classList.toggle("theme-2");
 
-document.addEventListener('click', (e) => {
-    if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
-        aboutPopup.classList.remove('show');
-    }
-});
-
-/* ======================
-   تغییر تم
-   ====================== */
-const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle("theme2");
-});
 </script>
 
 </body>
