@@ -16,7 +16,6 @@ body {
     color:#fff;
     overflow-x:hidden;
 
-    /* گرادیانت متحرک */
     background: linear-gradient(45deg,#0e0e0f,#1a1a1a,#0e0e0f);
     background-size:400% 400%;
     animation: gradientEffect 15s ease infinite;
@@ -28,9 +27,7 @@ body {
     100% { background-position:0% 50%; }
 }
 
-/* --------------------------------------------------------
-          🔥 ذرات طلایی متحرک – حرکت از بالا به پایین
--------------------------------------------------------- */
+/* ذرات */
 #gold-particles {
     position: fixed;
     top:0; left:0;
@@ -39,7 +36,6 @@ body {
     pointer-events:none;
     z-index:0;
 }
-
 .particle {
     position:absolute;
     width:4px; height:4px;
@@ -48,13 +44,10 @@ body {
     box-shadow:0 0 6px rgba(255,215,0,0.9);
     animation: floatDown linear infinite;
 }
-
 @keyframes floatDown {
     from { transform: translateY(-120vh); opacity:1; }
     to { transform: translateY(120vh); opacity:0; }
 }
-
-/* -------------------------------------------------------- */
 
 header {
     background: rgba(0,0,0,0.5);
@@ -94,11 +87,20 @@ h2 {
     margin:0 auto;
 }
 
-.movie-card { perspective:1000px; }
+/* ✨ انیمیشن Fade + SlideUp برای کارت‌ها */
+.movie-card {
+    opacity:0;
+    transform:translateY(25px);
+    animation: fadeSlideUp .7s ease forwards;
+}
+@keyframes fadeSlideUp {
+    0% { opacity:0; transform:translateY(25px); }
+    100% { opacity:1; transform:translateY(0); }
+}
 
-/* --------------------------------------------------------
-          ✨ نئون طلایی محو پشت کارت‌ها
--------------------------------------------------------- */
+.card-inner { perspective:1000px; }
+
+/* نئون طلایی کارت */
 .movie-card::before {
     content:'';
     position:absolute;
@@ -142,35 +144,27 @@ h2 {
     background: rgba(0,0,0,0.3);
     border-top:1px solid rgba(255,255,255,0.1);
     font-size:14px;
-
-    text-shadow: 0 0 8px rgba(255,215,0,0.25);
 }
-
 .date-bar { color:#ffd700; }
-.title-bar { color:#fff; text-shadow:none; }
 .reserve-bar { 
-    color:#000; 
-    background:#ffd700; 
-    font-weight:bold; 
-    cursor:pointer; 
-    text-shadow:none;
+    color:#000; background:#ffd700; 
+    font-weight:bold; cursor:pointer;
 }
 
 .card-back {
     transform:rotateY(180deg);
-    padding:15px; color:#fff; text-align:right;
-    font-size:14px; display:flex; flex-direction:column;
-    text-shadow:0 0 8px rgba(255,215,0,0.25);
+    padding:15px; 
+    text-align:right;
+    font-size:14px; 
+    display:flex; flex-direction:column;
 }
-.card-back h3, .card-back p strong { color:#ffd700; }
 
 footer {
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
-    padding:35px 20px; text-align:center;
+    padding:20px;
+    text-align:center;
     border-top:1px solid rgba(48,48,48,0.5); 
-    margin-top:60px;
-    text-shadow: 0 0 10px rgba(255,215,0,0.25);
 }
 .footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
 
@@ -184,9 +178,6 @@ footer {
 }
 .social-icon:hover { background:#ffd700; color:#000; }
 
-/* --------------------------------------------------------
-           مرکز کامل پاپ‌آپ درباره ما  ✔
--------------------------------------------------------- */
 #about-popup {
     display:none; 
     position:fixed; 
@@ -198,18 +189,14 @@ footer {
     border:2px solid rgba(255,215,0,0.5);
     border-radius:12px; 
     padding:20px; 
-    font-size:14px; 
     text-align:right; 
     z-index:1000;
     opacity:0; 
     transition:opacity .3s;
-    text-shadow: 0 0 8px rgba(255,215,0,0.2);
 }
 #about-popup.show { display:block; opacity:1; }
 
-/* --------------------------------------------------------
-                لودر Orbit Loader
--------------------------------------------------------- */
+/* لودر */
 #loading-overlay {
     position: fixed;
     top: 0;
@@ -234,7 +221,6 @@ footer {
   width: 40px;
   height: 40px;
 }
-
 .loader .circle {
   position: absolute;
   width: 38px;
@@ -243,7 +229,6 @@ footer {
   transform: rotate(225deg);
   animation: orbit 5.5s infinite;
 }
-
 .loader .circle:after {
   content: '';
   position: absolute;
@@ -252,19 +237,17 @@ footer {
   border-radius: 50%;
   background: yellow;
 }
-
 .loader .circle:nth-child(2) { animation-delay: 240ms; }
 .loader .circle:nth-child(3) { animation-delay: 480ms; }
 .loader .circle:nth-child(4) { animation-delay: 720ms; }
 .loader .circle:nth-child(5) { animation-delay: 960ms; }
 
 @keyframes orbit { 
-  0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
-  7%   { transform:rotate(345deg); animation-timing-function: linear; }
-  30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-  39%  { transform:rotate(690deg); animation-timing-function: linear; }
-  70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-  75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
+  0%   { transform:rotate(225deg); opacity: 1; } 
+  7%   { transform:rotate(345deg); }
+  30%  { transform:rotate(455deg); }
+  39%  { transform:rotate(690deg); }
+  70%  { transform:rotate(815deg); opacity: 1; }
   76%  { transform:rotate(945deg); opacity: 0; }
   100% { transform:rotate(945deg); opacity: 0; } 
 }
@@ -278,37 +261,24 @@ footer {
 </head>
 <body>
 
-<!-- ذرات طلایی -->
 <div id="gold-particles"></div>
 
-<!-- لودر -->
 <div id="loading-overlay">
   <div class="loader">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
+    <div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div>
   </div>
 </div>
 
 <header><div class="logo-fa">Soft Shiraz</div></header>
 
-<main style="
-    padding-bottom: 15px;
-    padding-top: 15px;
-">
+<main style="padding-bottom:15px;padding-top:15px;">
     <section class="section">
         <h2>اکران‌های آینده</h2>
         <div class="movies-grid" id="cards-container"></div>
     </section>
 </main>
 
-<footer style="
-    margin-top: unset;
-    padding-top: 20px;
-    padding-bottom: 20px;
-">
+<footer>
     <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
     <div class="social-row">
         <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
@@ -323,11 +293,8 @@ footer {
 </footer>
 
 <script>
-/* ---------------------------------------------------
-            ایجاد ۸۰ ذره طلایی تصادفی
---------------------------------------------------- */
+/* ذرات */
 const particleContainer = document.getElementById("gold-particles");
-
 for (let i = 0; i < 80; i++) {
     const p = document.createElement("div");
     p.className = "particle";
@@ -337,7 +304,7 @@ for (let i = 0; i < 80; i++) {
     p.style.height = size + "px";
 
     p.style.left = Math.random() * 100 + "%";
-    p.style.top = Math.random() * -100 + "vh"; /* از بالا شروع شود */
+    p.style.top = Math.random() * -100 + "vh";
 
     p.style.animationDuration = Math.random() * 4 + 4 + "s";
     p.style.animationDelay = Math.random() * 3 + "s";
@@ -358,15 +325,17 @@ let openCard = null;
 
 async function loadCardsStrictly() {
     for (let num = 1; num <= 12; num++) {
-
         try {
             const response = await fetch(`cards/${num}.html`, { cache: "no-store" });
             if (!response.ok) continue;
 
             const html = await response.text();
-
             const card = document.createElement("div");
             card.className = "movie-card";
+
+            /* تأخیر برای ظاهر شدن کارت‌ها به‌صورت زیبا */
+            card.style.animationDelay = (num * 0.12) + "s";
+
             card.innerHTML = html;
             container.appendChild(card);
 
