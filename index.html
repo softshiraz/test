@@ -5,258 +5,156 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>🎬 سافت شیراز 🎬</title>
-
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body { 
-
     font-family: "Vazirmatn", sans-serif; 
-
     background:#0e0e0f;
-
     color:#fff;
-
     overflow-x:hidden;
-
     /* گرادیانت متحرک */
-
     background: linear-gradient(45deg,#0e0e0f,#1a1a1a,#0e0e0f);
-
     background-size:400% 400%;
-
     animation: gradientEffect 15s ease infinite;
-
 }
 
 @keyframes gradientEffect {
-
     0% { background-position:0% 50%; }
-
     50% { background-position:100% 50%; }
-
     100% { background-position:0% 50%; }
-
 }
 
 /* --------------------------------------------------------
-
           🔥 ذرات طلایی متحرک – حرکت از بالا به پایین
-
 -------------------------------------------------------- */
 
 #gold-particles {
-
     position: fixed;
-
     top:0; left:0;
-
     width:100%; height:100%;
-
     overflow:hidden;
-
     pointer-events:none;
-
     z-index:0;
-
 }
 
 .particle {
-
     position:absolute;
-
     width:4px; height:4px;
-
     background:rgba(255,215,0,0.8);
-
     border-radius:50%;
-
     box-shadow:0 0 6px rgba(255,215,0,0.9);
-
     animation: floatDown linear infinite;
-
 }
 
 @keyframes floatDown {
-
     from { transform: translateY(-120vh); opacity:1; }
-
     to { transform: translateY(120vh); opacity:0; }
-
 }
 
 /* -------------------------------------------------------- */
 
 header {
-
     background: rgba(0,0,0,0.5);
-
     backdrop-filter: blur(10px);
-
     padding:15px 25px;
-
     display:flex; justify-content:flex-end; align-items:center;
-
     border-bottom:1px solid rgba(48,48,48,0.5); 
-
     position:sticky; top:0; z-index:10;
-
     text-shadow:0 0 10px rgba(255,215,0,0.25);
-
 }
 
 .logo-fa {
-
     font-weight:700;
-
     font-size:26px;
-
     background:linear-gradient(45deg,#ffd700,#ffb300);
-
     -webkit-background-clip:text;
-
     color:transparent;
-
-    position:relative;
-    z-index:12;
 }
-
-/* Shine effect on logo (پیشنهاد ۱۰) */
-.logo-fa::before{
-    content: '';
-    position: absolute;
-    top: -10%;
-    left: -50%;
-    width: 40%;
-    height: 140%;
-    background: linear-gradient(120deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0.0) 100%);
-    transform: skewX(-18deg);
-    filter: blur(12px);
-    opacity: 0;
-    transition: opacity .6s ease;
-    pointer-events: none;
-}
-
-@keyframes logoShine {
-    0% { left: -60%; opacity: 0; }
-    10% { opacity: 0.6; }
-    60% { left: 120%; opacity: 0.6; }
-    100% { left: 120%; opacity: 0; }
-}
-
-/* هر 7.5 ثانیه یکبار موج نور روی لوگو اجرا می‌شود */
-.logo-fa.shine-anim::before {
-    animation: logoShine 1.6s ease-in-out;
-}
-
-/* همچنین روی هاور لوگو یک موج سریع‌تر باشه */
-.logo-fa:hover::before { animation: logoShine 1.2s ease-in-out; opacity:1; }
 
 main { padding:35px 15px 60px; }
 
 h2 {
-
     color:#ffd700; font-size:28px; text-align:center;
-
     margin-bottom:35px; border-bottom:3px solid #ffd700;
-
     display:inline-block; padding-bottom:6px;
-
     text-shadow:0 0 8px rgba(255,215,0,0.3);
-
 }
 
 .section { text-align:center; }
 
 .movies-grid {
-
     display:grid;
-
     grid-template-columns:repeat(4,1fr);
-
     gap:20px;
-
     justify-items:center;
-
     max-width:1200px;
-
     margin:0 auto;
-
 }
 
 .movie-card { perspective:1000px; position:relative; }
 
 /* --------------------------------------------------------
-
           ✨ نئون طلایی محو پشت کارت‌ها
-
 -------------------------------------------------------- */
 
 .movie-card::before {
-
     content:'';
-
     position:absolute;
-
     width:300px; height:440px;
-
     border-radius:20px;
-
     background: radial-gradient(circle, rgba(255,215,0,0.15), transparent 60%);
-
     filter:blur(25px);
-
     top:-10px; left:-10px;
-
     z-index:-1;
-
 }
 
 .card-inner {
-
     position: relative;
-
     transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
-
     transform-style: preserve-3d;
-
     cursor: pointer;
-
     width: 280px;
-
     height: 420px; 
+}
 
+/* اضافه‌شده: افکت Glow طلایی فقط دور کارت (پشت کارت) */
+.card-inner::before{
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    border-radius: 18px;
+    pointer-events: none;
+    filter: blur(18px);
+    background: radial-gradient(circle at 50% 30%, rgba(255,215,0,0.20), rgba(255,215,0,0.08) 30%, transparent 55%);
+    z-index: 0; /* زیر محتوای کارت ولی بالاتر از پس‌زمینه کلی */
+}
+
+/* اطمینان از اینکه محتوای کارت بالای Glow قرار گیرد */
+.card-front, .card-back {
+    position: absolute;
+    top:0; left:0; width:100%; height:100%;
+    border-radius:14px;
+    overflow:hidden;
+    backface-visibility:hidden;
+    border:1px solid rgba(34,34,34,0.5);
+    background: rgba(19,19,20,0.6);
+    backdrop-filter: blur(8px);
+    z-index: 1;
 }
 
 .card-inner.flipped { transform: rotateY(180deg); }
 
 .card-front, .card-back {
-
-    position:absolute;
-
-    top:0; left:0; width:100%; height:100%;
-
-    border-radius:14px;
-
-    overflow:hidden;
-
-    backface-visibility:hidden;
-
-    border:1px solid rgba(34,34,34,0.5);
-
-    background: rgba(19,19,20,0.6);
-
-    backdrop-filter: blur(8px);
-
+    /* z-index تنظیم شده تا بالای glow باشند */
 }
 
 .card-front { display:flex; flex-direction:column; }
@@ -266,19 +164,12 @@ h2 {
 .img-bar img { width:100%; height:100%; object-fit:cover; }
 
 .date-bar, .title-bar, .reserve-bar {
-
     height:36px; line-height:36px;
-
     padding:0 10px; text-align:center;
-
     background: rgba(0,0,0,0.3);
-
     border-top:1px solid rgba(255,255,255,0.1);
-
     font-size:14px;
-
     text-shadow: 0 0 8px rgba(255,215,0,0.25);
-
 }
 
 .date-bar { color:#ffd700; }
@@ -286,63 +177,29 @@ h2 {
 .title-bar { color:#fff; text-shadow:none; }
 
 .reserve-bar { 
-
     color:#000; 
-
     background:#ffd700; 
-
     font-weight:bold; 
-
     cursor:pointer; 
-
     text-shadow:none;
-
 }
-
-/* Hover glow effect — پیشنهاد ۶ */
-.card-inner:hover {
-    transform: translateY(-6px) scale(1.02);
-    transition: transform .25s cubic-bezier(.2,.8,.2,1);
-    box-shadow: 0 20px 40px rgba(255,200,0,0.09), 0 6px 18px rgba(0,0,0,0.6);
-}
-
-/* طلایی ملایم روی لبه‌ها وقتی روی کارت‌ها هاور می‌شود */
-.card-inner:hover .card-front,
-.card-inner:hover .card-back {
-    box-shadow: 0 8px 30px rgba(255,215,0,0.06) inset;
-    border-color: rgba(255,200,0,0.25);
-}
-
-/* کارت پشت */
 
 .card-back {
-
     transform:rotateY(180deg);
-
     padding:15px; color:#fff; text-align:right;
-
     font-size:14px; display:flex; flex-direction:column;
-
     text-shadow:0 0 8px rgba(255,215,0,0.25);
-
 }
 
 .card-back h3, .card-back p strong { color:#ffd700; }
 
 footer {
-
     background: rgba(0,0,0,0.5);
-
     backdrop-filter: blur(10px);
-
     padding:35px 20px; text-align:center;
-
     border-top:1px solid rgba(48,48,48,0.5); 
-
     margin-top:60px;
-
     text-shadow: 0 0 10px rgba(255,215,0,0.25);
-
 }
 
 .footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
@@ -350,286 +207,119 @@ footer {
 .social-row { display:flex; justify-content:center; gap:18px; }
 
 .social-icon {
-
     width:48px; height:48px; border-radius:50%;
-
     background: rgba(26,26,26,0.7);
-
     backdrop-filter: blur(5px);
-
     display:flex; align-items:center; justify-content:center;
-
     color:#ffd700; font-size:22px;
-
-    transition: all .18s ease;
-
 }
 
-.social-icon:hover { background:#ffd700; color:#000; transform: translateY(-4px); }
+/* حذف خط زیر آیکون‌های شبکه‌های اجتماعی (لینک‌ها) */
+.social-icon, .social-icon:link, .social-icon:visited, .social-icon:active {
+    text-decoration: none;
+    -webkit-text-decoration: none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* وقتی هاور می‌کنه همچنان رنگ عوض بشه */
+.social-icon:hover { background:#ffd700; color:#000; }
 
 /* --------------------------------------------------------
-
            مرکز کامل پاپ‌آپ درباره ما  ✔
-
 -------------------------------------------------------- */
 
 #about-popup {
-
     display:none; 
-
     position:fixed; 
-
     top:50%; left:50%;
-
     transform:translate(-50%,-50%);
-
     width:300px;
-
     background: rgba(17,17,17,0.8);
-
     backdrop-filter: blur(12px);
-
     border:2px solid rgba(255,215,0,0.5);
-
     border-radius:12px; 
-
     padding:20px; 
-
     font-size:14px; 
-
     text-align:right; 
-
     z-index:1000;
-
     opacity:0; 
-
     transition:opacity .3s;
-
     text-shadow: 0 0 8px rgba(255,215,0,0.2);
-
 }
 
 #about-popup.show { display:block; opacity:1; }
 
 /* --------------------------------------------------------
-
                 لودر Orbit Loader
-
 -------------------------------------------------------- */
 
 #loading-overlay {
-
     position: fixed;
-
     top: 0;
-
     left: 0;
-
     width: 100%;
-
     height: 100%;
-
     background:#111;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     z-index: 10000;
-
     opacity: 1;
-
     transition: opacity 0.5s ease;
-
 }
 
 #loading-overlay.hidden {
-
     opacity: 0;
-
     pointer-events: none;
-
 }
 
 .loader {
-
   position: relative;
-
   width: 40px;
-
   height: 40px;
-
 }
 
 .loader .circle {
-
   position: absolute;
-
   width: 38px;
-
   height: 38px;
-
   opacity: 0;
-
   transform: rotate(225deg);
-
   animation: orbit 5.5s infinite;
-
 }
 
 .loader .circle:after {
-
   content: '';
-
   position: absolute;
-
   width: 5px;
-
   height: 5px;
-
   border-radius: 50%;
-
   background: yellow;
-
 }
 
 .loader .circle:nth-child(2) { animation-delay: 240ms; }
-
 .loader .circle:nth-child(3) { animation-delay: 480ms; }
-
 .loader .circle:nth-child(4) { animation-delay: 720ms; }
-
 .loader .circle:nth-child(5) { animation-delay: 960ms; }
 
 @keyframes orbit { 
-
   0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
-
   7%   { transform:rotate(345deg); animation-timing-function: linear; }
-
   30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-
   39%  { transform:rotate(690deg); animation-timing-function: linear; }
-
   70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-
   75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
-
   76%  { transform:rotate(945deg); opacity: 0; }
-
   100% { transform:rotate(945deg); opacity: 0; } 
-
 }
-
-/* --------------------------------------------------------
-    Custom scrollbar — پیشنهاد ۷ (طلایی)
-   پشتیبانی WebKit و Firefox
--------------------------------------------------------- */
-
-/* WebKit browsers */
-::-webkit-scrollbar { width: 10px; height:10px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(255,215,0,0.95), rgba(255,185,0,0.9));
-    border-radius: 999px;
-    box-shadow: 0 0 12px rgba(255,200,0,0.12) inset;
-    border: 2px solid transparent;
-}
-
-/* Firefox */
-* { scrollbar-width: thin; scrollbar-color: rgba(255,215,0,0.95) transparent; }
 
 /* ریسپانسیو */
 
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
-
 @media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-
 @media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
-
-/* --------------------------------------------------------
-    Trailer popup styling — پیشنهاد ۵ (پاپ‌آپ ویدئو)
--------------------------------------------------------- */
-
-#trailer-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(3,3,4,0.74);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    padding: 20px;
-}
-
-#trailer-overlay.show {
-    display: flex;
-}
-
-#trailer-modal {
-    width: min(960px, 96%);
-    max-width: 1100px;
-    background: rgba(12,12,12,0.96);
-    border-radius: 10px;
-    overflow: hidden;
-    border: 2px solid rgba(255,215,0,0.25);
-    box-shadow: 0 40px 120px rgba(0,0,0,0.7);
-    transform: translateY(0);
-}
-
-#trailer-header {
-    padding: 10px 14px;
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(90deg, rgba(255,215,0,0.04), transparent);
-    font-weight: 700;
-    color: #ffd700;
-}
-
-#trailer-body { position: relative; padding: 0; background: #000; }
-
-#trailer-body iframe {
-    width:100%;
-    height: 56vw;
-    max-height: 62vh;
-    border:0;
-    display:block;
-}
-
-/* close button */
-.trailer-close {
-    background: transparent;
-    border: none;
-    color: #ffd700;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 6px 8px;
-}
-
-/* on small screens adjust iframe height */
-@media (max-width:600px) {
-    #trailer-body iframe { height: 52vh; }
-}
-
-/* small label for trailer button inserted into cards */
-.trailer-btn {
-    display:inline-block;
-    margin:8px auto 10px;
-    padding:6px 10px;
-    border-radius:8px;
-    background: rgba(255,215,0,0.95);
-    color:#000;
-    font-weight:700;
-    cursor:pointer;
-    font-size:13px;
-    text-align:center;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.4);
-}
-
-/* if card already has space, the script will append this button; style keeps it consistent */
 
 </style>
 
@@ -638,347 +328,122 @@ footer {
 <body>
 
 <!-- ذرات طلایی -->
-
 <div id="gold-particles"></div>
 
 <!-- لودر -->
-
 <div id="loading-overlay">
-
   <div class="loader">
-
     <div class="circle"></div>
-
     <div class="circle"></div>
-
     <div class="circle"></div>
-
     <div class="circle"></div>
-
     <div class="circle"></div>
-
   </div>
-
 </div>
 
 <header><div class="logo-fa">Soft Shiraz</div></header>
 
 <main style="
-
     padding-bottom: 15px;
-
     padding-top: 15px;
-
 ">
-
     <section class="section">
-
         <h2>اکران‌های آینده</h2>
-
         <div class="movies-grid" id="cards-container"></div>
-
     </section>
-
 </main>
 
 <footer style="
-
     margin-top: unset;
-
     padding-top: 20px;
-
     padding-bottom: 20px;
-
 ">
-
     <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
-
     <div class="social-row">
-
-        <!-- آیکون‌های پیشنهادی: تلگرام، اینستاگرام، درباره ما -->
-        <a class="social-icon" href="https://t.me/softshiraz" target="_blank" aria-label="تلگرام"><i class="fab fa-telegram"></i></a>
-
-        <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank" aria-label="اینستاگرام"><i class="fab fa-instagram"></i></a>
-
-        <a class="social-icon" id="about-btn" role="button" aria-label="درباره ما"><i class="fas fa-info-circle"></i></a>
-
+        <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
     </div>
 
     <div id="about-popup">
-
         <strong>درباره ما:</strong>
-
         <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
-
     </div>
-
 </footer>
 
-<!-- Trailer popup (پیشنهاد ۵): یک پاپ‌آپ مرکزی برای نمایش تریلر -->
-<div id="trailer-overlay" aria-hidden="true">
-    <div id="trailer-modal" role="dialog" aria-modal="true" aria-label="پخش تریلر">
-        <div id="trailer-header">
-            <div id="trailer-title">پخش تریلر</div>
-            <div>
-                <button class="trailer-close" id="trailer-close-btn" aria-label="بستن تریلر"><i class="fas fa-times"></i></button>
-            </div>
-        </div>
-        <div id="trailer-body">
-            <iframe id="trailer-iframe" src="" title="تریلر" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-    </div>
-</div>
-
 <script>
-
 /* ---------------------------------------------------
-
             ایجاد ۸۰ ذره طلایی تصادفی
-
 --------------------------------------------------- */
-
 const particleContainer = document.getElementById("gold-particles");
-
 for (let i = 0; i < 80; i++) {
-
     const p = document.createElement("div");
-
     p.className = "particle";
-
     const size = Math.random() * 3 + 2;
-
     p.style.width = size + "px";
-
     p.style.height = size + "px";
-
     p.style.left = Math.random() * 100 + "%";
-
     p.style.top = Math.random() * -100 + "vh"; /* از بالا شروع شود */
-
     p.style.animationDuration = Math.random() * 4 + 4 + "s";
-
     p.style.animationDelay = Math.random() * 3 + "s";
-
     particleContainer.appendChild(p);
-
 }
 
 /* لودینگ */
-
 window.addEventListener('load', () => {
-
     setTimeout(() => {
-
         document.getElementById('loading-overlay').classList.add('hidden');
-
     }, 5000);
-
 });
 
 /* کارت‌ها */
-
 const container = document.getElementById("cards-container");
-
 let openCard = null;
-
 async function loadCardsStrictly() {
-
     for (let num = 1; num <= 12; num++) {
-
         try {
-
             const response = await fetch(`cards/${num}.html`, { cache: "no-store" });
-
             if (!response.ok) continue;
-
             const html = await response.text();
-
             const card = document.createElement("div");
-
             card.className = "movie-card";
-
             card.innerHTML = html;
-
             container.appendChild(card);
-
             const reserveButton = card.querySelector(".reserve-bar");
-
             if (reserveButton) {
-
                 reserveButton.addEventListener("click", () => {
-
                     window.location.href = "https://t.me/softshirazadmin";
-
                 });
-
             }
-
-            // افزودن دکمه مشاهده تریلر در کارت‌ها (در صورت نبودن)
-            addTrailerButtonToCard(card, num);
-
         } catch (e) {
-
             console.log("خطا در لود کارت", num);
-
         }
-
     }
-
 }
-
 loadCardsStrictly();
 
 /* flip */
-
 document.addEventListener("click", function (e) {
-
     const cardInner = e.target.closest(".card-inner");
-
     if (cardInner) {
-
         if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
-
         cardInner.classList.toggle("flipped");
-
         openCard = cardInner.classList.contains("flipped") ? cardInner : null;
-
     }
-
 });
 
 /* درباره ما */
-
 const aboutBtn = document.getElementById("about-btn");
-
 const aboutPopup = document.getElementById("about-popup");
-
 aboutBtn.addEventListener("click", (e) => {
-
     e.stopPropagation();
-
     aboutPopup.classList.toggle("show");
-
 });
-
 document.addEventListener("click", (e) => {
-
     if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
-
         aboutPopup.classList.remove("show");
-
-    }
-
-});
-
-/* ---------------------------------------------------
-   Trailer popup logic (پیشنهاد ۵)
-   - اسکریپت تلاش می‌کند برای هر کارت یک دکمه 'مشاهده تریلر' اضافه کند.
-   - اگر کارت در HTML خودش دارای data-trailer-src شود (مثلاً در فایل cards/1.html)
-     به صورت <div data-trailer-src="https://www.youtube.com/embed/VIDEOID"></div>
-     اسکریپت آن را می‌خواند و پخش می‌کند.
-   - در غیر اینصورت می‌توان لینک پیش‌فرضی تعیین کرد یا دکمه مخفی بماند.
----------------------------------------------------*/
-
-const trailerOverlay = document.getElementById('trailer-overlay');
-const trailerIframe = document.getElementById('trailer-iframe');
-const trailerCloseBtn = document.getElementById('trailer-close-btn');
-
-function openTrailer(src, title) {
-    if (!src) return;
-    trailerIframe.src = src + (src.includes('?') ? '&' : '?') + 'autoplay=1&rel=0';
-    trailerOverlay.classList.add('show');
-    trailerOverlay.setAttribute('aria-hidden', 'false');
-    if (title) document.getElementById('trailer-title').textContent = title;
-}
-
-function closeTrailer() {
-    trailerIframe.src = '';
-    trailerOverlay.classList.remove('show');
-    trailerOverlay.setAttribute('aria-hidden', 'true');
-    if (document.activeElement) document.activeElement.blur();
-}
-
-trailerCloseBtn.addEventListener('click', closeTrailer);
-
-trailerOverlay.addEventListener('click', function(e){
-    if (e.target === trailerOverlay) closeTrailer();
-});
-
-document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && trailerOverlay.classList.contains('show')) {
-        closeTrailer();
     }
 });
-
-/* Add trailer button into each loaded card if possible */
-function addTrailerButtonToCard(cardElement, index) {
-    try {
-        // search for a container area to append the button (preferably inside .card-front)
-        const front = cardElement.querySelector('.card-front') || cardElement;
-        // check if card has a data-trailer-src attribute somewhere
-        const trailerSourceHolder = cardElement.querySelector('[data-trailer-src]');
-        let trailerSrc = null;
-        let trailerTitle = null;
-        if (trailerSourceHolder) {
-            trailerSrc = trailerSourceHolder.getAttribute('data-trailer-src');
-            trailerTitle = trailerSourceHolder.getAttribute('data-trailer-title') || 'تریلر';
-        } else {
-            // اگر فایل کارت تبلیغ تریلر نداشته باشد، یک منطق پشتیبان ساده:
-            // برای نمونه لینک پیش‌فرض یوتیوب (خالی) را قرار نمی‌دهیم — دکمه تنها در صورتی فعال خواهد بود که src موجود باشد.
-            // اما برای تجربه بهتر، می‌توانیم یک نمونه‌ی فرضی اضافه کنیم — در اینجا از template استفاده نمی‌کنیم تا تغییر ناخواسته ندهیم.
-            trailerSrc = null;
-        }
-
-        // اگر دکمه قبلاً وجود دارد، اضافه نکن
-        if (front.querySelector('.trailer-btn')) return;
-
-        // ایجاد دکمه
-        const btn = document.createElement('button');
-        btn.className = 'trailer-btn';
-        btn.type = 'button';
-        btn.textContent = 'مشاهده تریلر';
-        front.appendChild(btn);
-
-        // فعال‌سازی باز کردن تریلر فقط در صورت وجود آدرس معتبر
-        btn.addEventListener('click', function(e){
-            e.stopPropagation();
-            if (trailerSrc) {
-                openTrailer(trailerSrc, trailerTitle);
-            } else {
-                // اگر تریلری وجود ندارد، می‌توانیم هدایت کنیم به لینک مدیر یا نشان دهیم پیام کوتاه
-                // این پیام موقت بوده و تداخلی با ساختار کارت‌ها ایجاد نمی‌کند:
-                const orig = confirm('تریلری برای این فیلم ثبت نشده. می‌خواهید به ادمین در تلگرام پیام دهید؟');
-                if (orig) window.location.href = 'https://t.me/softshirazadmin';
-            }
-        });
-
-    } catch (err) {
-        console.log('خطا در افزودن دکمه تریلر به کارت', index, err);
-    }
-}
-
-/* ---------------------------------------------------
-   Periodically trigger a subtle logo shine (پیشنهاد ۱۰)
----------------------------------------------------*/
-const logo = document.querySelector('.logo-fa');
-if (logo) {
-    // initial small delay then periodic
-    setTimeout(() => { logo.classList.add('shine-anim'); 
-        setTimeout(()=> logo.classList.remove('shine-anim'), 1800);
-    }, 1200);
-
-    setInterval(()=> {
-        logo.classList.add('shine-anim');
-        setTimeout(()=> logo.classList.remove('shine-anim'), 1800);
-    }, 7500);
-}
-
-/* ---------------------------------------------------
-   نکته: اسکریپت بالا هیچکدام از کدهای اصلی کارت‌ها یا رفتار رزرو را تغییر نمی‌دهد.
-   تنها در صورتی که فایل کارت شامل data-trailer-src باشد، تریلر باز خواهد شد.
-   (مثال: در cards/1.html تگ <div data-trailer-src="https://www.youtube.com/embed/VIDEOID" data-trailer-title="نام فیلم"></div>)
----------------------------------------------------*/
-
 </script>
 
 </body>
