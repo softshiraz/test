@@ -7,7 +7,7 @@
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
 body { 
     font-family: "Vazirmatn", sans-serif; 
@@ -217,6 +217,12 @@ footer {
 
 /* وقتی هاور می‌کنه همچنان رنگ عوض بشه */
 .social-icon:hover { background:#ffd700; color:#000; }
+
+/* جلوگیری از نشان دادن هایلایت لمسی و outline در المنت‌های کلیک‌پذیر (اضافی برای اطمینان) */
+.card-inner, .movie-card, .reserve-bar, a, button {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
 
 /* --------------------------------------------------------
            مرکز کامل پاپ‌آپ درباره ما  ✔
