@@ -7,21 +7,21 @@
         <div class="reserve-bar">
             <a href="https://t.me/softshirazadmin" target="_blank" class="reserve-btn">رزرو بلیط</a>
         </div>
+        <!-- بخش تریلر -->
+        <div class="trailer-bar">
+            <p class="trailer-text" onclick="showTrailer()">برای نمایش تریلر کلیک کنید</p>
+            <div id="trailer-container" style="display:none; margin-top:10px;">
+                <iframe width="100%" height="200" src="https://www.youtube.com/embed/YoHD9XEInc0" 
+                title="Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen></iframe>
+            </div>
+        </div>
     </div>
     
     <!-- پشت کارت -->
     <div class="card-back">
         <p><strong>فیلم :</strong> دزدان دریایی کارائیب: نفرین مروارید سیاه</p>
         <p><strong>ژانر :</strong> اکشن، ماجراجویی، فانتزی</p>
-        
-        <!-- تریلر فیلم -->
-        <p>
-            <a href="#" id="trailer-link">برای نمایش تریلر کلیک کنید</a>
-        </p>
-        <div id="trailer-container" style="display:none; margin-top:10px;">
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/3fKQ9xCTu3U" title="YouTube trailer" frameborder="0" allowfullscreen></iframe>
-        </div>
-        
         <p><strong>امتیاز :</strong> 8.0</p>        
         <p><strong>رده سنی :</strong> +13 سال</p> 
         <p><strong>مدت زمان :</strong> 2 ساعت و 23 دقیقه</p>
@@ -30,17 +30,21 @@
 </div>
 
 <script>
-    const trailerLink = document.getElementById('trailer-link');
-    const trailerContainer = document.getElementById('trailer-container');
-
-    trailerLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (trailerContainer.style.display === 'none') {
-            trailerContainer.style.display = 'block';
-            trailerLink.textContent = 'بستن تریلر';
-        } else {
-            trailerContainer.style.display = 'none';
-            trailerLink.textContent = 'برای نمایش تریلر کلیک کنید';
-        }
-    });
+function showTrailer() {
+    const trailer = document.getElementById('trailer-container');
+    trailer.style.display = trailer.style.display === 'none' ? 'block' : 'none';
+}
 </script>
+
+<style>
+.trailer-text {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 10px;
+    font-weight: bold;
+}
+.trailer-bar iframe {
+    border-radius: 10px;
+}
+</style>
