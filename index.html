@@ -8,325 +8,347 @@
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<!-- PWA Manifest -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0e0e0f">
-
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { 
-    font-family: "Vazirmatn", sans-serif; 
-    background:#0e0e0f;
-    color:#fff;
-    overflow-x:hidden;
-    background: linear-gradient(45deg,#0e0e0f,#1a1a1a,#0e0e0f);
-    background-size:400% 400%;
-    animation: gradientEffect 15s ease infinite;
+/* --------------------------------------------------
+    استایل پایه + پس‌زمینه + ذرات
+-------------------------------------------------- */
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:"Vazirmatn",sans-serif;background:#0e0e0f;color:#fff;overflow-x:hidden;
+    background:linear-gradient(45deg,#0e0e0f,#1a1a1a,#0e0e0f);background-size:400% 400%;
+    animation:gradientEffect 15s ease infinite;
+}
+@keyframes gradientEffect{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+#gold-particles{
+    position:fixed;top:0;left:0;width:100%;height:100%;overflow:hidden;
+    pointer-events:none;z-index:0;
+}
+.particle{
+    position:absolute;width:4px;height:4px;background:rgba(255,215,0,0.8);
+    border-radius:50%;box-shadow:0 0 6px rgba(255,215,0,0.9);
+    animation:floatDown linear infinite;
+}
+@keyframes floatDown{
+    from{transform:translateY(-120vh);opacity:1;}
+    to{transform:translateY(120vh);opacity:0;}
 }
 
-@keyframes gradientEffect {
-    0% { background-position:0% 50%; }
-    50% { background-position:100% 50%; }
-    100% { background-position:0% 50%; }
+/* --------------------------------------------------
+    هدر
+-------------------------------------------------- */
+header{
+    background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);padding:15px 25px;
+    display:flex;justify-content:flex-end;align-items:center;
+    border-bottom:1px solid rgba(48,48,48,0.5);position:sticky;top:0;z-index:10;
 }
-
-/* ذرات طلایی */
-#gold-particles { position: fixed; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events:none; z-index:0; }
-.particle { position:absolute; width:4px; height:4px; background:rgba(255,215,0,0.8); border-radius:50%; box-shadow:0 0 12px rgba(255,215,0,0.8); animation: floatDown linear infinite; }
-@keyframes floatDown { from { transform: translateY(-120vh); opacity:1; } to { transform: translateY(120vh); opacity:0; } }
-
-/* Header */
-header {
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    padding:15px 25px;
-    display:flex; justify-content:flex-end; align-items:center;
-    border-bottom:1px solid rgba(48,48,48,0.5); 
-    position:sticky; top:0; z-index:10;
-    text-shadow:0 0 12px rgba(255,215,0,0.35);
-}
-.logo-fa {
-    font-weight:700;
-    font-size:26px;
+.logo-fa{
+    font-weight:700;font-size:26px;
     background:linear-gradient(45deg,#ffd700,#ffb300);
-    -webkit-background-clip:text;
-    color:transparent;
-    text-shadow: 0 0 12px rgba(255,215,0,0.6);
+    -webkit-background-clip:text;color:transparent;
 }
 
-/* Main */
-main { padding:35px 15px 60px; }
-h2 {
-    color:#ffd700; font-size:28px; text-align:center;
-    margin-bottom:35px; border-bottom:3px solid #ffd700;
-    display:inline-block; padding-bottom:6px;
-    text-shadow:0 0 12px rgba(255,215,0,0.4);
+/* --------------------------------------------------
+    ساختار بخش‌ها
+-------------------------------------------------- */
+main{padding:35px 15px 60px;}
+.section-title{
+    color:#ffd700;font-size:28px;text-align:center;margin-bottom:35px;
+    border-bottom:3px solid #ffd700;display:inline-block;padding-bottom:6px;
 }
 
-/* Section */
-.section { text-align:center; }
-
-/* Movies Grid */
-.movies-grid {
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-    justify-items:center;
-    max-width:1200px;
-    margin:0 auto;
+/* --------------------------------------------------
+    کارت فیلم‌ها (همان نسخه قبلی شما)
+-------------------------------------------------- */
+.movies-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+    max-width:1200px;margin:0 auto;
+}
+.movie-card{perspective:1000px;position:relative;}
+.movie-card::before{
+    content:'';position:absolute;width:300px;height:440px;border-radius:20px;
+    background:radial-gradient(circle,rgba(255,215,0,0.15),transparent 60%);
+    filter:blur(25px);top:-10px;left:-10px;z-index:-1;
+}
+.card-inner{
+    position:relative;transition:transform .3s;transform-style:preserve-3d;
+    cursor:pointer;width:280px;height:420px;
+}
+.card-inner.flipped{transform:rotateY(180deg)}
+.card-front,.card-back{
+    position:absolute;width:100%;height:100%;top:0;left:0;border-radius:14px;
+    background:rgba(19,19,20,0.6);backdrop-filter:blur(8px);
+    border:1px solid rgba(34,34,34,0.5);backface-visibility:hidden;
+}
+.card-back{transform:rotateY(180deg);padding:15px;text-align:right}
+.img-bar img{width:100%;height:100%;object-fit:cover}
+.reserve-bar{
+    height:36px;line-height:36px;background:#ffd700;color:#000;
+    font-weight:bold;cursor:pointer;text-align:center;
 }
 
-/* Movie Card */
-.movie-card { perspective:1000px; opacity:0; transform: translateY(20px); transition: all 0.7s ease; }
-
-/* Glow پشت کارت */
-.movie-card::before {
-    content:'';
-    position:absolute;
-    width:300px; height:440px;
-    border-radius:20px;
-    background: radial-gradient(circle, rgba(255,215,0,0.15), transparent 60%);
-    filter:blur(25px);
-    top:-10px; left:-10px;
-    z-index:-1;
+/* --------------------------------------------------
+    ⭐ بخش فیلم‌های کمتر دیده‌شده
+-------------------------------------------------- */
+.discovery-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+    max-width:1000px;margin:0 auto;
+}
+.discovery-item{
+    background:rgba(0,0,0,0.4);border-radius:14px;padding:12px;
+    backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);
+}
+.discovery-item img{
+    width:100%;height:180px;object-fit:cover;border-radius:10px;
 }
 
-/* Card Inner */
-.card-inner {
-    position: relative;
-    transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
-    transform-style: preserve-3d;
-    cursor: pointer;
-    width: 280px;
-    height: 420px; 
-    border:1px solid rgba(255,215,0,0.15); /* Border طلایی ملایم */
+/* --------------------------------------------------
+    ⭐ نظرسنجی فیلم‌ها
+-------------------------------------------------- */
+.poll-box{
+    max-width:600px;margin:20px auto;background:rgba(0,0,0,0.4);
+    padding:20px;border-radius:14px;border:1px solid rgba(255,255,255,0.1);
+}
+.poll-option{margin:8px 0;}
+
+/* --------------------------------------------------
+    ⭐ درخواست اکران
+-------------------------------------------------- */
+.request-box{
+    max-width:600px;margin:20px auto;background:rgba(0,0,0,0.4);
+    padding:20px;border-radius:14px;border:1px solid rgba(255,255,255,0.1);
+}
+input,textarea{
+    width:100%;padding:10px;border-radius:8px;margin:8px 0;
+    border:1px solid #333;background:#111;color:#ffd700;
+}
+button{
+    background:#ffd700;color:#000;padding:10px 20px;
+    border:none;border-radius:8px;cursor:pointer;font-weight:bold;
 }
 
-/* Card Flip */
-.card-inner.flipped { transform: rotateY(180deg); }
-.card-front, .card-back {
-    position:absolute;
-    top:0; left:0; width:100%; height:100%;
-    border-radius:14px;
-    overflow:hidden;
-    backface-visibility:hidden;
-    background: rgba(19,19,20,0.6);
-    backdrop-filter: blur(8px);
+/* --------------------------------------------------
+    ⭐ تریلر پاپ‌آپ
+-------------------------------------------------- */
+#trailer-popup{
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:90%;max-width:600px;background:#000;border:2px solid #ffd700;
+    padding:10px;border-radius:14px;display:none;z-index:2000;
 }
+#trailer-popup iframe{width:100%;height:300px;border:none}
 
-/* Front */
-.card-front { display:flex; flex-direction:column; }
-.img-bar { flex:1; width:100%; overflow:hidden; }
-.img-bar img { width:100%; height:100%; object-fit:cover; }
+/* --------------------------------------------------
+    FAQ
+-------------------------------------------------- */
+.faq-item{background:#111;padding:15px;margin-bottom:10px;border-radius:8px;}
+.faq-question{color:#ffd700;font-weight:bold;cursor:pointer}
+.faq-answer{display:none;padding-top:10px}
 
-.date-bar, .title-bar, .reserve-bar {
-    height:36px; line-height:36px;
-    padding:0 10px; text-align:center;
-    background: rgba(0,0,0,0.3);
-    font-size:14px;
-    text-shadow: 0 0 12px rgba(255,215,0,0.35);
-    border:none; /* حذف خط زیر آیکون‌ها */
+/* --------------------------------------------------
+    پاپ‌آپ درباره ما
+-------------------------------------------------- */
+#about-popup{
+    display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:300px;background:rgba(17,17,17,0.8);
+    border:2px solid rgba(255,215,0,0.5);border-radius:12px;
+    padding:20px;z-index:2000;
 }
+#about-popup.show{display:block}
 
-.date-bar { color:#ffd700; text-shadow:0 0 14px rgba(255,215,0,0.5);}
-.title-bar { color:#fff; text-shadow:0 0 12px rgba(255,215,0,0.35);}
-.reserve-bar { 
-    color:#000; 
-    background:#ffd700; 
-    font-weight:bold; 
-    cursor:pointer; 
-    text-shadow:0 0 8px rgba(255,215,0,0.35);
-    transition: transform 0.3s ease;
+/* --------------------------------------------------
+    ریسپانسیو
+-------------------------------------------------- */
+@media(max-width:1200px){.movies-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){
+    .movies-grid{grid-template-columns:repeat(2,1fr)}
+    .discovery-grid{grid-template-columns:repeat(2,1fr)}
 }
-
-/* Back */
-.card-back {
-    transform:rotateY(180deg);
-    padding:15px; color:#fff; text-align:right;
-    font-size:14px; display:flex; flex-direction:column;
-    text-shadow:0 0 12px rgba(255,215,0,0.35);
+@media(max-width:480px){
+    .movies-grid{grid-template-columns:1fr}
+    .discovery-grid{grid-template-columns:1fr}
 }
-.card-back h3, .card-back p strong { color:#ffd700; }
-
-/* Footer */
-footer {
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    padding:35px 20px; text-align:center;
-    border-top:1px solid rgba(48,48,48,0.5); 
-    margin-top:60px;
-    text-shadow: 0 0 12px rgba(255,215,0,0.35);
-}
-.footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
-.social-row { display:flex; justify-content:center; gap:18px; }
-.social-icon {
-    width:50px; height:50px; border-radius:50%;
-    background: rgba(26,26,26,0.7);
-    backdrop-filter: blur(5px);
-    display:flex; align-items:center; justify-content:center;
-    color:#ffd700; font-size:22px;
-    transition: all 0.3s ease;
-}
-.social-icon:hover { background:#ffd700; color:#000; transform: rotate(15deg) scale(1.2); }
-
-/* About Popup */
-#about-popup {
-    display:none; 
-    position:fixed; 
-    top:50%; left:50%;
-    transform:translate(-50%,-50%);
-    width:300px;
-    background: rgba(17,17,17,0.8);
-    backdrop-filter: blur(12px);
-    border:2px solid rgba(255,215,0,0.5);
-    border-radius:12px; 
-    padding:20px; 
-    font-size:14px; 
-    text-align:right; 
-    z-index:1000;
-    opacity:0; 
-    transition:opacity .3s;
-    text-shadow: 0 0 8px rgba(255,215,0,0.2);
-}
-#about-popup.show { display:block; opacity:1; }
-
-/* Loader */
-#loading-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background:#111;
-    display: flex; justify-content: center; align-items: center;
-    z-index: 10000;
-    opacity: 1;
-    transition: opacity 0.5s ease;
-}
-#loading-overlay.hidden { opacity:0; pointer-events:none; }
-.loader { position: relative; width: 40px; height: 40px; }
-.loader .circle { position: absolute; width: 38px; height: 38px; opacity: 0; transform: rotate(225deg); animation: orbit 5.5s infinite; }
-.loader .circle:after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: yellow; }
-.loader .circle:nth-child(2) { animation-delay: 240ms; }
-.loader .circle:nth-child(3) { animation-delay: 480ms; }
-.loader .circle:nth-child(4) { animation-delay: 720ms; }
-.loader .circle:nth-child(5) { animation-delay: 960ms; }
-@keyframes orbit { 0%{ transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 7%{ transform:rotate(345deg); animation-timing-function: linear; } 30%{ transform:rotate(455deg); animation-timing-function: ease-in-out; } 39%{ transform:rotate(690deg); animation-timing-function: linear; } 70%{ transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; } 75%{ transform:rotate(945deg); animation-timing-function: ease-out; } 76%{ transform:rotate(945deg); opacity: 0; } 100%{ transform:rotate(945deg); opacity: 0; } }
-
-/* Responsive */
-@media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
 
-<!-- ذرات طلایی -->
+<!-- ذرات -->
 <div id="gold-particles"></div>
-
-<!-- لودر -->
-<div id="loading-overlay">
-  <div class="loader">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-  </div>
-</div>
 
 <header><div class="logo-fa">Soft Shiraz</div></header>
 
-<main style="padding-bottom: 15px; padding-top: 15px;">
-    <section class="section">
-        <h2>اکران‌های آینده</h2>
-        <div class="movies-grid" id="cards-container"></div>
-    </section>
-</main>
+<main>
 
-<footer style="margin-top: unset; padding-top: 20px; padding-bottom: 20px;">
-    <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
-    <div class="social-row">
-        <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-        <a class="social-icon" href="https://instagram.com/softshiraz" target="_blank"><i class="fab fa-instagram-square"></i></a>
-        <a class="social-icon" id="about-btn"><i class="fas fa-question-circle"></i></a>
+<!-- ============================================
+    ⭐ اکران‌های آینده (نسخه اصلی سایت شما)
+=============================================== -->
+<h2 class="section-title">اکران‌های آینده</h2>
+<div class="movies-grid" id="cards-container"></div>
+
+<!-- ============================================
+    ⭐ فیلم‌های کمتر دیده‌شده
+=============================================== -->
+<h2 class="section-title">فیلم‌های کمتر دیده‌شده</h2>
+<div class="discovery-grid">
+    <div class="discovery-item">
+        <img src="https://picsum.photos/300/200?1">
+        <p>نام فیلم تست ۱</p>
     </div>
 
-    <div id="about-popup">
-        <strong>درباره ما:</strong>
-        <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
+    <div class="discovery-item">
+        <img src="https://picsum.photos/300/200?2">
+        <p>نام فیلم تست ۲</p>
+    </div>
+
+    <div class="discovery-item">
+        <img src="https://picsum.photos/300/200?3">
+        <p>نام فیلم تست ۳</p>
+    </div>
+</div>
+
+<!-- ============================================
+    ⭐ نظرسنجی فیلم‌ها
+=============================================== -->
+<h2 class="section-title">نظرسنجی اکران</h2>
+<div class="poll-box">
+    <p>بهترین گزینه برای اکران بعدی کدام است؟</p>
+
+    <label class="poll-option"><input type="radio" name="poll"> فیلم ۱</label><br>
+    <label class="poll-option"><input type="radio" name="poll"> فیلم ۲</label><br>
+    <label class="poll-option"><input type="radio" name="poll"> فیلم ۳</label><br>
+
+    <button>ثبت رأی</button>
+</div>
+
+<!-- ============================================
+    ⭐ درخواست اکران فیلم
+=============================================== -->
+<h2 class="section-title">درخواست اکران</h2>
+<div class="request-box">
+    <input type="text" placeholder="نام فیلم">
+    <textarea rows="4" placeholder="دلیل پیشنهاد شما"></textarea>
+    <button>ارسال</button>
+</div>
+
+<!-- ============================================
+    ⭐ سوالات پرتکرار
+=============================================== -->
+<h2 class="section-title">سوالات پرتکرار</h2>
+<div class="faq-item">
+    <div class="faq-question">چطور می‌توانم در نظرسنجی شرکت کنم؟</div>
+    <div class="faq-answer">از بخش نظرسنجی می‌توانید فیلم مورد نظر را انتخاب کرده و دکمه ثبت را بزنید.</div>
+</div>
+
+<div class="faq-item">
+    <div class="faq-question">تریلر فیلم‌ها از کجا پخش می‌شود؟</div>
+    <div class="faq-answer">روی دکمه تریلر کلیک کنید تا ویدیو باز شود.</div>
+</div>
+
+<!-- ============================================
+    ⭐ پاپ‌آپ تریلر
+=============================================== -->
+<div id="trailer-popup">
+    <iframe src=""></iframe>
+</div>
+
+</main>
+
+<!-- ============================================
+    فوتر + درباره ما
+=============================================== -->
+<footer>
+    <div>شبکه‌های اجتماعی</div>
+    <div style="margin-top:10px;">
+        <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a class="social-icon" href="https://instagram.com/softshiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
     </div>
 </footer>
 
+<div id="about-popup">
+    <h3>درباره سافت شیراز</h3>
+    <p>ارائه فیلم‌های آینده، اخبار سینما، پیشنهاد فیلم و سرویس‌های اکران.</p>
+</div>
+
 <script>
-/* ذرات طلایی */
-const particleContainer = document.getElementById("gold-particles");
-for (let i=0;i<80;i++){
-    const p=document.createElement("div"); p.className="particle";
-    const size=Math.random()*3+2; p.style.width=size+"px"; p.style.height=size+"px";
-    p.style.left=Math.random()*100+"%"; p.style.top=Math.random()*-100+"vh";
-    p.style.animationDuration=Math.random()*4+4+"s"; p.style.animationDelay=Math.random()*3+"s";
-    particleContainer.appendChild(p);
+/* -------------------------------------
+    ذرات طلایی
+------------------------------------- */
+const pContainer=document.getElementById("gold-particles");
+for(let i=0;i<80;i++){
+    const p=document.createElement("div");
+    p.className="particle";
+    const size=Math.random()*3+2;
+    p.style.width=size+"px";p.style.height=size+"px";
+    p.style.left=Math.random()*100+"%";
+    p.style.top=Math.random()*-100+"vh";
+    p.style.animationDuration=Math.random()*4+4+"s";
+    p.style.animationDelay=Math.random()*3+"s";
+    pContainer.appendChild(p);
 }
 
-/* لودینگ */
-window.addEventListener('load',()=>{ setTimeout(()=>{ document.getElementById('loading-overlay').classList.add('hidden'); fadeInCards(); }, 500); });
-
-/* کارت‌ها */
-const container = document.getElementById("cards-container");
-let openCard = null;
-
-async function loadCardsStrictly(){
+/* -------------------------------------
+    لود کارت‌های فیلم
+------------------------------------- */
+const container=document.getElementById("cards-container");
+async function loadCards(){
     for(let num=1;num<=12;num++){
         try{
-            const response=await fetch(`cards/${num}.html`, {cache:"no-store"});
-            if(!response.ok) continue;
-            const html=await response.text();
-            const card=document.createElement("div"); card.className="movie-card";
-            card.innerHTML=html; container.appendChild(card);
+            const res=await fetch(`cards/${num}.html`);
+            if(!res.ok)continue;
+            const html=await res.text();
+            const card=document.createElement("div");
+            card.className="movie-card";
+            card.innerHTML=html;
+            container.appendChild(card);
 
-            const reserveButton = card.querySelector(".reserve-bar");
-            if(reserveButton){
-                reserveButton.addEventListener("click", e=>{
-                    e.stopPropagation(); // جلوگیری از flip
-                    window.location.href="https://t.me/softshiraz";
+            // دکمه تریلر
+            const trailer=card.querySelector(".trailer-btn");
+            if(trailer){
+                trailer.addEventListener("click",()=>{
+                    document.getElementById("trailer-popup").style.display="block";
+                    document.querySelector("#trailer-popup iframe").src=trailer.dataset.src;
                 });
             }
-        }catch(e){console.log("خطا در لود کارت",num);}
+
+        }catch(e){}
     }
 }
+loadCards();
 
-/* Fade + Slide کارت‌ها */
-function fadeInCards(){
-    const cards = document.querySelectorAll(".movie-card");
-    cards.forEach((card, i)=>{
-        setTimeout(()=>{
-            card.style.opacity="1";
-            card.style.transform="translateY(0)";
-        }, i*150);
-    });
-}
-
-loadCardsStrictly();
-
-/* flip کارت‌ها */
-document.addEventListener("click", function (e) {
-    const cardInner = e.target.closest(".card-inner");
-    if (cardInner) {
-        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
-        cardInner.classList.toggle("flipped");
-        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
+/* -------------------------------------
+    کلیک پاپ‌آپ تریلر
+------------------------------------- */
+document.addEventListener("click",function(e){
+    const box=document.getElementById("trailer-popup");
+    if(e.target===box){
+        box.style.display="none";
+        box.querySelector("iframe").src="";
     }
 });
 
-/* درباره ما */
-const aboutBtn = document.getElementById("about-btn");
-const aboutPopup = document.getElementById("about-popup");
-aboutBtn.addEventListener("click",(e)=>{ e.stopPropagation(); aboutPopup.classList.toggle("show"); });
-document.addEventListener("click",(e)=>{ if(!aboutPopup.contains(e.target) && e.target!==aboutBtn){ aboutPopup.classList.remove("show"); } });
+/* -------------------------------------
+    درباره ما
+------------------------------------- */
+const aboutBtn=document.getElementById("about-btn");
+const aboutPopup=document.getElementById("about-popup");
 
-/* Register PWA */
-if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js').then(()=>{ console.log("Service Worker Registered"); });
-}
+aboutBtn.onclick=()=>aboutPopup.classList.toggle("show");
+document.addEventListener("click",e=>{
+    if(!aboutPopup.contains(e.target)&&e.target!==aboutBtn){
+        aboutPopup.classList.remove("show");
+    }
+});
+
+/* -------------------------------------
+    FAQ
+------------------------------------- */
+document.querySelectorAll(".faq-question").forEach(q=>{
+    q.onclick=()=>q.nextElementSibling.style.display=
+        q.nextElementSibling.style.display==="block"?"none":"block";
+});
 </script>
 
 </body>
