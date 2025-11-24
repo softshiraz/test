@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-
 <html lang="fa" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎬 سافت شیراز 🎬</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -140,7 +136,7 @@ h2 {
 
 /* اطمینان از اینکه محتوای کارت بالای Glow قرار گیرد */
 .card-front, .card-back {
-    position: absolute;
+    position:absolute;
     top:0; left:0; width:100%; height:100%;
     border-radius:14px;
     overflow:hidden;
@@ -152,10 +148,6 @@ h2 {
 }
 
 .card-inner.flipped { transform: rotateY(180deg); }
-
-.card-front, .card-back {
-    /* z-index تنظیم شده تا بالای glow باشند */
-}
 
 .card-front { display:flex; flex-direction:column; }
 
@@ -321,12 +313,47 @@ footer {
 @media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
 
+
+/* --------------------------------------------------------
+   اضافه‌شده: rules برای Tilt و Scroll Reveal
+   (این قسمت صرفا اضافه است و چیزهای قبلی را حذف نکرده)
+-------------------------------------------------------- */
+
+/* متغیرهای tilt و ترکیب با flip */
+.card-inner {
+    /* متغیرها برای tilt */
+    --tiltX: 0deg;
+    --tiltY: 0deg;
+    /* ترکیب rotateX / rotateY با tilt */
+    transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
+    will-change: transform;
+}
+
+/* وقتی flipped است، rotateY 180deg به محاسبه اضافه می‌شود */
+.card-inner.flipped {
+    transform: rotateX(var(--tiltX)) rotateY(calc(var(--tiltY) + 180deg));
+}
+
+/* مقداری نرمی بیشتر هنگام هاور/حرکت ماوس */
+.card-inner {
+    transition: transform 220ms cubic-bezier(0.2,0.8,0.2,1);
+}
+
+/* Reveal (انیمیشن ظاهر شدن هنگام اسکرول) */
+.reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 600ms cubic-bezier(0.2,0.8,0.2,1), transform 600ms cubic-bezier(0.2,0.8,0.2,1);
+    will-change: opacity, transform;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 </style>
-
 </head>
-
 <body>
-
 <!-- ذرات طلایی -->
 <div id="gold-particles"></div>
 
@@ -399,6 +426,64 @@ window.addEventListener('load', () => {
 /* کارت‌ها */
 const container = document.getElementById("cards-container");
 let openCard = null;
+
+/* ---------------------------
+   اضافه‌شده: IntersectionObserver
+   برای reveal هنگام اسکرول
+   --------------------------- */
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target); // فقط یکبار انیمیشن نمایش داده شود
+        }
+    });
+}, { threshold: 0.18 });
+
+/* ---------------------------
+   تابع کمکی برای اضافه کردن Tilt
+   --------------------------- */
+function attachTilt(innerEl) {
+    if (!innerEl) return;
+
+    // محدودسازی زاویه
+    const maxTilt = 8; // درجه حداکثر
+    // حرکت ماوس
+    function handleMove(e) {
+        // پشتیبانی از touch
+        const isTouch = e.type.startsWith('touch');
+        const clientX = isTouch ? (e.touches[0] && e.touches[0].clientX) || 0 : e.clientX;
+        const clientY = isTouch ? (e.touches[0] && e.touches[0].clientY) || 0 : e.clientY;
+
+        const rect = innerEl.getBoundingClientRect();
+        const relX = clientX - rect.left;
+        const relY = clientY - rect.top;
+        const px = (relX / rect.width) - 0.5; // -0.5 ... 0.5
+        const py = (relY / rect.height) - 0.5;
+
+        const tiltY = (px * maxTilt).toFixed(2); // جهت افقی -> rotateY
+        const tiltX = (-py * maxTilt).toFixed(2); // جهت عمودی -> rotateX (معکوس برای حس طبیعی)
+
+        innerEl.style.setProperty('--tiltX', tiltX + 'deg');
+        innerEl.style.setProperty('--tiltY', tiltY + 'deg');
+    }
+
+    function resetTilt() {
+        innerEl.style.setProperty('--tiltX', '0deg');
+        innerEl.style.setProperty('--tiltY', '0deg');
+    }
+
+    innerEl.addEventListener('mousemove', handleMove);
+    innerEl.addEventListener('mouseleave', resetTilt);
+    innerEl.addEventListener('touchmove', function(e){ handleMove(e); }, {passive:true});
+    innerEl.addEventListener('touchend', resetTilt);
+}
+
+/* ---------------------------
+   بارگذاری کارت‌ها (بدون تغییر ساختار اصلی)
+   یک کلاس 'reveal' به کارت اضافه می‌کنیم
+   و به هر card-inner، قابلیت tilt متصل می‌شود
+   --------------------------- */
 async function loadCardsStrictly() {
     for (let num = 1; num <= 12; num++) {
         try {
@@ -408,18 +493,35 @@ async function loadCardsStrictly() {
             const card = document.createElement("div");
             card.className = "movie-card";
             card.innerHTML = html;
+
+            // اضافه‌شده: کلاس reveal برای انیمیشن اسکرول
+            card.classList.add('reveal');
+
             container.appendChild(card);
+
+            // مشاهده برای reveal
+            revealObserver.observe(card);
+
+            // اتصال دکمه رزرو (مثل قبل)
             const reserveButton = card.querySelector(".reserve-bar");
             if (reserveButton) {
                 reserveButton.addEventListener("click", () => {
                     window.location.href = "https://t.me/softshirazadmin";
                 });
             }
+
+            // اضافه‌شده: اتصال tilt به card-inner داخل کارت (در صورت وجود)
+            const inner = card.querySelector(".card-inner");
+            if (inner) {
+                attachTilt(inner);
+                // اگر می‌خواهید، اینجا می‌توانیم شدت tilt را بر اساس اندازه کارت تغییر دهیم
+            }
         } catch (e) {
             console.log("خطا در لود کارت", num);
         }
     }
 }
+
 loadCardsStrictly();
 
 /* flip */
@@ -445,7 +547,5 @@ document.addEventListener("click", (e) => {
     }
 });
 </script>
-
 </body>
-
 </html>
