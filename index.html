@@ -7,29 +7,37 @@
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
+/* پایه */
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-
+html,body { height:100%; }
 body { 
     font-family: "Vazirmatn", sans-serif; 
     background:#0e0e0f;
     color:#fff;
     overflow-x:hidden;
-    /* گرادیانت متحرک */
     background: linear-gradient(45deg,#0e0e0f,#1a1a1a,#0e0e0f);
     background-size:400% 400%;
     animation: gradientEffect 15s ease infinite;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
 }
 
+/* کاهش تاثیر انیمیشن */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* انیمیشن گرادیانت */
 @keyframes gradientEffect {
     0% { background-position:0% 50%; }
     50% { background-position:100% 50%; }
     100% { background-position:0% 50%; }
 }
 
-/* --------------------------------------------------------
-          🔥 ذرات طلایی متحرک – حرکت از بالا به پایین
--------------------------------------------------------- */
-
+/* ذرات طلایی — بهینه‌شده */
+/* استفاده از will-change و کاهش افکت‌های سنگین مثل box-shadow و blur برای تعداد بیشتر */
 #gold-particles {
     position: fixed;
     top:0; left:0;
@@ -42,44 +50,48 @@ body {
 .particle {
     position:absolute;
     width:4px; height:4px;
-    background:rgba(255,215,0,0.8);
+    background:rgba(255,215,0,0.85);
     border-radius:50%;
-    box-shadow:0 0 6px rgba(255,215,0,0.9);
+    /* حذف box-shadow سنگین برای عملکرد بهتر */
+    /* کم کردن blur روی هر ذره */
+    will-change: transform, opacity;
+    opacity:0.95;
+    transform: translate3d(0,0,0); /* force GPU */
     animation: floatDown linear infinite;
 }
 
 @keyframes floatDown {
-    from { transform: translateY(-120vh); opacity:1; }
-    to { transform: translateY(120vh); opacity:0; }
+    from { transform: translateY(-120vh) translateZ(0); opacity:1; }
+    to { transform: translateY(120vh) translateZ(0); opacity:0; }
 }
 
-/* -------------------------------------------------------- */
-
+/* هدر و لوگو */
 header {
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    padding:15px 25px;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(6px);
+    padding:12px 20px;
     display:flex; justify-content:flex-end; align-items:center;
-    border-bottom:1px solid rgba(48,48,48,0.5); 
+    border-bottom:1px solid rgba(48,48,48,0.45); 
     position:sticky; top:0; z-index:10;
-    text-shadow:0 0 10px rgba(255,215,0,0.25);
+    text-shadow:0 0 6px rgba(255,215,0,0.18);
 }
 
 .logo-fa {
     font-weight:700;
-    font-size:26px;
+    font-size:22px;
     background:linear-gradient(45deg,#ffd700,#ffb300);
     -webkit-background-clip:text;
     color:transparent;
 }
 
-main { padding:35px 15px 60px; }
+/* محتوا */
+main { padding:28px 12px 50px; }
 
 h2 {
-    color:#ffd700; font-size:28px; text-align:center;
-    margin-bottom:35px; border-bottom:3px solid #ffd700;
+    color:#ffd700; font-size:26px; text-align:center;
+    margin-bottom:30px; border-bottom:3px solid #ffd700;
     display:inline-block; padding-bottom:6px;
-    text-shadow:0 0 8px rgba(255,215,0,0.3);
+    text-shadow:0 0 6px rgba(255,215,0,0.22);
 }
 
 .section { text-align:center; }
@@ -87,51 +99,51 @@ h2 {
 .movies-grid {
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:20px;
+    gap:18px;
     justify-items:center;
     max-width:1200px;
     margin:0 auto;
 }
 
+/* کارت‌ها */
 .movie-card { perspective:1000px; position:relative; }
-
-/* --------------------------------------------------------
-          ✨ نئون طلایی محو پشت کارت‌ها
--------------------------------------------------------- */
 
 .movie-card::before {
     content:'';
     position:absolute;
     width:300px; height:440px;
     border-radius:20px;
-    background: radial-gradient(circle, rgba(255,215,0,0.15), transparent 60%);
-    filter:blur(25px);
-    top:-10px; left:-10px;
+    background: radial-gradient(circle, rgba(255,215,0,0.12), transparent 60%);
+    filter:blur(18px);
+    top:-8px; left:-8px;
     z-index:-1;
+    pointer-events:none;
 }
 
 .card-inner {
     position: relative;
-    transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
+    transition: transform 250ms cubic-bezier(0.2,0.8,0.2,1);
     transform-style: preserve-3d;
     cursor: pointer;
     width: 280px;
     height: 420px; 
+    will-change: transform;
+    transform: rotateX(0deg) rotateY(0deg); /* --tilt vars will override */
 }
 
-/* اضافه‌شده: افکت Glow طلایی فقط دور کارت (پشت کارت) */
+/* Glow پشت کارت (سبک‌تر برای سرعت) */
 .card-inner::before{
     content: "";
     position: absolute;
-    top: -12px;
-    left: -12px;
-    right: -12px;
-    bottom: -12px;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
     border-radius: 18px;
     pointer-events: none;
-    filter: blur(18px);
-    background: radial-gradient(circle at 50% 30%, rgba(255,215,0,0.20), rgba(255,215,0,0.08) 30%, transparent 55%);
-    z-index: 0; /* زیر محتوای کارت ولی بالاتر از پس‌زمینه کلی */
+    filter: blur(14px);
+    background: radial-gradient(circle at 50% 30%, rgba(255,215,0,0.18), rgba(255,215,0,0.06) 30%, transparent 55%);
+    z-index: 0;
 }
 
 /* اطمینان از اینکه محتوای کارت بالای Glow قرار گیرد */
@@ -141,10 +153,11 @@ h2 {
     border-radius:14px;
     overflow:hidden;
     backface-visibility:hidden;
-    border:1px solid rgba(34,34,34,0.5);
+    border:1px solid rgba(34,34,34,0.45);
     background: rgba(19,19,20,0.6);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(6px);
     z-index: 1;
+    -webkit-backface-visibility:hidden;
 }
 
 .card-inner.flipped { transform: rotateY(180deg); }
@@ -153,15 +166,16 @@ h2 {
 
 .img-bar { flex:1; width:100%; overflow:hidden; }
 
-.img-bar img { width:100%; height:100%; object-fit:cover; }
+.img-bar img { width:100%; height:100%; object-fit:cover; display:block; }
 
+/* کم کردن سایز و پیچیدگی نوارها برای رندر سریع‌تر */
 .date-bar, .title-bar, .reserve-bar {
     height:36px; line-height:36px;
     padding:0 10px; text-align:center;
-    background: rgba(0,0,0,0.3);
-    border-top:1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.28);
+    border-top:1px solid rgba(255,255,255,0.06);
     font-size:14px;
-    text-shadow: 0 0 8px rgba(255,215,0,0.25);
+    text-shadow: 0 0 6px rgba(255,215,0,0.18);
 }
 
 .date-bar { color:#ffd700; }
@@ -176,180 +190,143 @@ h2 {
     text-shadow:none;
 }
 
+/* پشت کارت */
 .card-back {
     transform:rotateY(180deg);
-    padding:15px; color:#fff; text-align:right;
+    padding:14px; color:#fff; text-align:right;
     font-size:14px; display:flex; flex-direction:column;
-    text-shadow:0 0 8px rgba(255,215,0,0.25);
+    text-shadow:0 0 6px rgba(255,215,0,0.18);
 }
 
 .card-back h3, .card-back p strong { color:#ffd700; }
 
+/* فوتر */
 footer {
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    padding:35px 20px; text-align:center;
-    border-top:1px solid rgba(48,48,48,0.5); 
-    margin-top:60px;
-    text-shadow: 0 0 10px rgba(255,215,0,0.25);
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(6px);
+    padding:28px 14px; text-align:center;
+    border-top:1px solid rgba(48,48,48,0.45); 
+    margin-top:40px;
+    text-shadow: 0 0 6px rgba(255,215,0,0.18);
 }
 
-.footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
+.footer-title { font-size:16px; color:#ffd700; margin-bottom:14px; }
 
-.social-row { display:flex; justify-content:center; gap:18px; }
+.social-row { display:flex; justify-content:center; gap:14px; }
 
 .social-icon {
-    width:48px; height:48px; border-radius:50%;
+    width:44px; height:44px; border-radius:50%;
     background: rgba(26,26,26,0.7);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(4px);
     display:flex; align-items:center; justify-content:center;
-    color:#ffd700; font-size:22px;
+    color:#ffd700; font-size:20px;
+    transition: transform 160ms ease, background 160ms ease;
 }
 
-/* حذف خط زیر آیکون‌های شبکه‌های اجتماعی (لینک‌ها) */
-.social-icon, .social-icon:link, .social-icon:visited, .social-icon:active {
-    text-decoration: none;
-    -webkit-text-decoration: none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
+.social-icon:hover { transform: translateY(-4px); background:#ffd700; color:#000; }
 
-/* وقتی هاور می‌کنه همچنان رنگ عوض بشه */
-.social-icon:hover { background:#ffd700; color:#000; }
-
-/* جلوگیری از نشان دادن هایلایت لمسی و outline در المنت‌های کلیک‌پذیر (اضافی برای اطمینان) */
+/* تعامل لمسی و دسترس‌پذیری */
 .card-inner, .movie-card, .reserve-bar, a, button {
     -webkit-tap-highlight-color: transparent;
     outline: none;
 }
 
-/* --------------------------------------------------------
-           مرکز کامل پاپ‌آپ درباره ما  ✔
--------------------------------------------------------- */
-
+/* پاپ‌آپ درباره ما */
 #about-popup {
     display:none; 
     position:fixed; 
-    top:-45%; left:50%;
+    top:50%; left:50%;
     transform:translate(-50%,-50%);
-    width:300px;
-    background: rgba(17,17,17,0.95);
-    backdrop-filter: blur(12px);
-    border:2px solid rgba(255,215,0,0.5);
+    width:320px;
+    max-width:90%;
+    background: rgba(17,17,17,0.96);
+    backdrop-filter: blur(8px);
+    border:2px solid rgba(255,215,0,0.45);
     border-radius:12px; 
-    padding:20px; 
+    padding:18px; 
     font-size:14px; 
     text-align:right; 
     z-index:1000;
     opacity:0; 
-    transition:opacity .3s;
-    text-shadow: 0 0 8px rgba(255,215,0,0.2);
+    transition:opacity .22s ease, transform .22s ease;
+    text-shadow: 0 0 6px rgba(255,215,0,0.12);
 }
 
-#about-popup.show { display:block; opacity:1; }
+#about-popup.show { display:block; opacity:1; transform:translate(-50%,-50%) scale(1); }
 
-/* --------------------------------------------------------
-                لودر Orbit Loader
--------------------------------------------------------- */
-
+/* لودر orbit — سبک‌تر */
 #loading-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:#111;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background:#0d0d0d;
+    display: flex; justify-content: center; align-items: center;
     z-index: 10000;
     opacity: 1;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.45s ease, visibility 0.45s ease;
+    visibility: visible;
 }
-
-#loading-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
+#loading-overlay.hidden { opacity:0; visibility:hidden; pointer-events:none; }
 
 .loader {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
 }
 
 .loader .circle {
   position: absolute;
-  width: 38px;
-  height: 38px;
+  width: 34px; height: 34px;
   opacity: 0;
   transform: rotate(225deg);
-  animation: orbit 5.5s infinite;
+  animation: orbit 4.5s infinite;
 }
 
 .loader .circle:after {
   content: '';
   position: absolute;
-  width: 5px;
-  height: 5px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: yellow;
+  top:0; left:50%; transform:translateX(-50%);
 }
 
-.loader .circle:nth-child(2) { animation-delay: 240ms; }
-.loader .circle:nth-child(3) { animation-delay: 480ms; }
-.loader .circle:nth-child(4) { animation-delay: 720ms; }
-.loader .circle:nth-child(5) { animation-delay: 960ms; }
+.loader .circle:nth-child(2) { animation-delay: 160ms; }
+.loader .circle:nth-child(3) { animation-delay: 320ms; }
+.loader .circle:nth-child(4) { animation-delay: 480ms; }
+.loader .circle:nth-child(5) { animation-delay: 640ms; }
 
 @keyframes orbit { 
   0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
-  7%   { transform:rotate(345deg); animation-timing-function: linear; }
   30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-  39%  { transform:rotate(690deg); animation-timing-function: linear; }
   70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-  75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
   76%  { transform:rotate(945deg); opacity: 0; }
   100% { transform:rotate(945deg); opacity: 0; } 
 }
 
 /* ریسپانسیو */
-
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
 @media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
 
-
-/* --------------------------------------------------------
-   اضافه‌شده: rules برای Tilt و Scroll Reveal
-   (این قسمت صرفا اضافه است و چیزهای قبلی را حذف نکرده)
--------------------------------------------------------- */
-
-/* متغیرهای tilt و ترکیب با flip */
+/* Tilt / reveal rules (همچنان سبک و بهینه) */
 .card-inner {
-    /* متغیرها برای tilt */
     --tiltX: 0deg;
     --tiltY: 0deg;
-    /* ترکیب rotateX / rotateY با tilt */
     transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
-    will-change: transform;
 }
 
-/* وقتی flipped است، rotateY 180deg به محاسبه اضافه می‌شود */
 .card-inner.flipped {
     transform: rotateX(var(--tiltX)) rotateY(calc(var(--tiltY) + 180deg));
 }
 
-/* مقداری نرمی بیشتر هنگام هاور/حرکت ماوس */
 .card-inner {
-    transition: transform 220ms cubic-bezier(0.2,0.8,0.2,1);
+    transition: transform 200ms cubic-bezier(0.2,0.8,0.2,1);
 }
 
-/* Reveal (انیمیشن ظاهر شدن هنگام اسکرول) */
+/* reveal */
 .reveal {
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 600ms cubic-bezier(0.2,0.8,0.2,1), transform 600ms cubic-bezier(0.2,0.8,0.2,1);
+    transform: translateY(14px);
+    transition: opacity 520ms cubic-bezier(0.2,0.8,0.2,1), transform 520ms cubic-bezier(0.2,0.8,0.2,1);
     will-change: opacity, transform;
 }
 
@@ -361,11 +338,11 @@ footer {
 </head>
 <body>
 <!-- ذرات طلایی -->
-<div id="gold-particles"></div>
+<div id="gold-particles" aria-hidden="true"></div>
 
 <!-- لودر -->
-<div id="loading-overlay">
-  <div class="loader">
+<div id="loading-overlay" aria-hidden="false">
+  <div class="loader" aria-hidden="true">
     <div class="circle"></div>
     <div class="circle"></div>
     <div class="circle"></div>
@@ -374,89 +351,128 @@ footer {
   </div>
 </div>
 
-<header><div class="logo-fa">Soft Shiraz</div></header>
+<header><div class="logo-fa" aria-label="Soft Shiraz">Soft Shiraz</div></header>
 
-<main style="
-    padding-bottom: 15px;
-    padding-top: 15px;
-">
-    <section class="section">
-        <h2>اکران‌های آینده</h2>
-        <div class="movies-grid" id="cards-container"></div>
+<main style="padding-bottom: 15px; padding-top: 15px;">
+    <section class="section" aria-labelledby="upcoming-title">
+        <h2 id="upcoming-title">اکران‌های آینده</h2>
+        <div class="movies-grid" id="cards-container" role="list"></div>
     </section>
 </main>
 
-<footer style="
-    margin-top: unset;
-    padding-top: 20px;
-    padding-bottom: 20px;
-">
+<footer style="margin-top: unset; padding-top: 20px; padding-bottom: 20px;">
     <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
     <div class="social-row">
-        <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
-        <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
+        <a class="social-icon" href="https://t.me/softshiraz" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+        <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a class="social-icon" id="about-btn" role="button" aria-haspopup="dialog" aria-controls="about-popup" aria-expanded="false"><i class="fas fa-info"></i></a>
     </div>
 
-    <div id="about-popup">
+    <div id="about-popup" role="dialog" aria-hidden="true">
         <strong>درباره ما:</strong>
         <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
     </div>
 </footer>
 
 <script>
-/* ---------------------------------------------------
-            ایجاد ۸۰ ذره طلایی تصادفی
---------------------------------------------------- */
-const particleContainer = document.getElementById("gold-particles");
-for (let i = 0; i < 80; i++) {
-    const p = document.createElement("div");
-    p.className = "particle";
-    const size = Math.random() * 3 + 2;
-    p.style.width = size + "px";
-    p.style.height = size + "px";
-    p.style.left = Math.random() * 100 + "%";
-    p.style.top = Math.random() * -100 + "vh"; /* از بالا شروع شود */
-    p.style.animationDuration = Math.random() * 4 + 4 + "s";
-    p.style.animationDelay = Math.random() * 3 + "s";
-    particleContainer.appendChild(p);
-}
+/* ================================
+   بهینه‌سازی عملکرد — خلاصه تغییرات:
+   - تعداد ذرات کمتر و ساده‌تر (GPU-friendly)
+   - بارگذاری کارت‌ها بصورت موازی (Promise.allSettled)
+   - تصاویر بعد از افزودن کارت‌ها نالازی می‌شوند (loading="lazy")
+   - Tilt با requestAnimationFrame برای کاهش reflow
+   - Passive listenerها جایی که لازم بود
+   - لودر مخفی شدن وقتی محتوای اصلی آماده شد یا حداقل تا نیم ثانیه
+   ================================ */
 
-/* لودینگ */
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        document.getElementById('loading-overlay').classList.add('hidden');
-    }, 5000);
-});
+/* ---------- ذرات طلایی (بهینه) ---------- */
+(function createParticles() {
+    const particleContainer = document.getElementById("gold-particles");
+    // تعداد کاهش یافته برای روان‌تر شدن
+    const PARTICLE_COUNT = Math.min(40, Math.max(20, Math.floor(window.innerWidth / 60)));
+    // استفاده از یک fragment برای append کردن یکجا
+    const frag = document.createDocumentFragment();
 
-/* کارت‌ها */
-const container = document.getElementById("cards-container");
-let openCard = null;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        const size = Math.random() * 3 + 2;
+        p.style.width = size + "px";
+        p.style.height = size + "px";
+        p.style.left = Math.random() * 100 + "%";
+        // شروع تصادفی بالاتر از صفحه
+        p.style.top = (Math.random() * -120) + "vh";
+        // طول انیمیشن طولانی‌تر و متنوع‌تر برای کاهش بار همزمان
+        p.style.animationDuration = (Math.random() * 6 + 6).toFixed(2) + "s";
+        p.style.animationDelay = (Math.random() * 4).toFixed(2) + "s";
+        frag.appendChild(p);
+    }
 
-/* ---------------------------
-   اضافه‌شده: IntersectionObserver
-   برای reveal هنگام اسکرول
-   --------------------------- */
+    particleContainer.appendChild(frag);
+
+    // بازنشانی در اندازه پنجره (به طور کم هزینه)
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            // سریع بررسی و در صورت نیاز تعداد ذرات را تنظیم می‌کنیم (اجتناب از بازسازی مداوم)
+            // ساده نگه داشته شده: در این نسخه، تغییر تعداد ذرات در resize انجام نمی‌شود تا از هزینه جلوگیری شود
+        }, 250);
+    }, { passive: true });
+})();
+
+/* ---------- لودر ---------- */
+(function loadingOverlayLogic() {
+    const overlay = document.getElementById('loading-overlay');
+    // حداقل زمان نمایش لودر تا تجربه‌ی بصری: 500ms
+    const MIN_SHOW = 500;
+    const start = Date.now();
+
+    function hideOverlayNow() {
+        const elapsed = Date.now() - start;
+        const wait = Math.max(0, MIN_SHOW - elapsed);
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+            overlay.setAttribute('aria-hidden', 'true');
+        }, wait);
+    }
+
+    // اگر صفحه به طور کامل لود شد، لودر را مخفی کن
+    window.addEventListener('load', hideOverlayNow, { once: true, passive: true });
+
+    // فallback: بعد از 6 ثانیه هر طور شده مخفی کن (موقعیت شبکه‌های کند)
+    setTimeout(hideOverlayNow, 6000);
+})();
+
+/* ---------- IntersectionObserver برای reveal ---------- */
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            revealObserver.unobserve(entry.target); // فقط یکبار انیمیشن نمایش داده شود
+            revealObserver.unobserve(entry.target);
         }
     });
 }, { threshold: 0.18 });
 
-/* ---------------------------
-   تابع کمکی برای اضافه کردن Tilt
-   --------------------------- */
+/* ---------- Tilt با requestAnimationFrame (throttled) ---------- */
 function attachTilt(innerEl) {
     if (!innerEl) return;
 
-    // محدودسازی زاویه
-    const maxTilt = 8; // درجه حداکثر
-    // حرکت ماوس
-    function handleMove(e) {
-        // پشتیبانی از touch
+    const maxTilt = 8;
+    let latestEvent = null;
+    let ticking = false;
+
+    function onMove(e) {
+        latestEvent = e;
+        if (!ticking) {
+            requestAnimationFrame(updateTilt);
+            ticking = true;
+        }
+    }
+
+    function updateTilt() {
+        const e = latestEvent;
+        if (!e) { ticking = false; return; }
         const isTouch = e.type.startsWith('touch');
         const clientX = isTouch ? (e.touches[0] && e.touches[0].clientX) || 0 : e.clientX;
         const clientY = isTouch ? (e.touches[0] && e.touches[0].clientY) || 0 : e.clientY;
@@ -464,14 +480,16 @@ function attachTilt(innerEl) {
         const rect = innerEl.getBoundingClientRect();
         const relX = clientX - rect.left;
         const relY = clientY - rect.top;
-        const px = (relX / rect.width) - 0.5; // -0.5 ... 0.5
+        const px = (relX / rect.width) - 0.5;
         const py = (relY / rect.height) - 0.5;
 
-        const tiltY = (px * maxTilt).toFixed(2); // جهت افقی -> rotateY
-        const tiltX = (-py * maxTilt).toFixed(2); // جهت عمودی -> rotateX (معکوس برای حس طبیعی)
+        const tiltY = (px * maxTilt).toFixed(2);
+        const tiltX = (-py * maxTilt).toFixed(2);
 
         innerEl.style.setProperty('--tiltX', tiltX + 'deg');
         innerEl.style.setProperty('--tiltY', tiltY + 'deg');
+
+        ticking = false;
     }
 
     function resetTilt() {
@@ -479,58 +497,90 @@ function attachTilt(innerEl) {
         innerEl.style.setProperty('--tiltY', '0deg');
     }
 
-    innerEl.addEventListener('mousemove', handleMove);
-    innerEl.addEventListener('mouseleave', resetTilt);
-    innerEl.addEventListener('touchmove', function(e){ handleMove(e); }, {passive:true});
-    innerEl.addEventListener('touchend', resetTilt);
+    innerEl.addEventListener('mousemove', onMove, { passive: true });
+    innerEl.addEventListener('mouseleave', resetTilt, { passive: true });
+    innerEl.addEventListener('touchmove', onMove, { passive: true });
+    innerEl.addEventListener('touchend', resetTilt, { passive: true });
 }
 
-/* ---------------------------
-   بارگذاری کارت‌ها (بدون تغییر ساختار اصلی)
-   یک کلاس 'reveal' به کارت اضافه می‌کنیم
-   و به هر card-inner، قابلیت tilt متصل می‌شود
-   --------------------------- */
-async function loadCardsStrictly() {
-    for (let num = 1; num <= 12; num++) {
+/* ---------- بارگذاری کارت‌ها بصورت موازی (سریع‌تر از حلقه‌ی سریالی) ---------- */
+async function loadCardsOptimized() {
+    const container = document.getElementById("cards-container");
+    const TOTAL = 12;
+    const fetches = [];
+
+    for (let num = 1; num <= TOTAL; num++) {
+        // هر fetch به صورت جدا انجام می‌شود و می‌توانند همزمان اجرا شوند
+        fetches.push(
+            fetch(`cards/${num}.html`, { cache: "no-store" })
+                .then(res => ({ res, num }))
+                .catch(err => ({ err, num }))
+        );
+    }
+
+    // Promise.allSettled به ما اجازه می‌دهد نتایج هر fetch را دریافت کنیم بدون شکست کل عملیات
+    const results = await Promise.allSettled(fetches);
+
+    // مرتب‌سازی بر اساس شماره کارت تا ترتیب حفظ شود
+    const settled = results.map(r => {
+        if (r.status === 'fulfilled') return r.value;
+        return null;
+    });
+
+    // برای هر نتیجه، اگر پاسخ موفق است، HTML را اضافه کن
+    for (let i = 0; i < settled.length; i++) {
+        const item = settled[i];
+        if (!item || !item.res || !item.res.ok) continue;
         try {
-            const response = await fetch(`cards/${num}.html`, { cache: "no-store" });
-            if (!response.ok) continue;
-            const html = await response.text();
+            const html = await item.res.text();
             const card = document.createElement("div");
-            card.className = "movie-card";
+            card.className = "movie-card reveal";
+            card.setAttribute('role', 'listitem');
             card.innerHTML = html;
 
-            // اضافه‌شده: کلاس reveal برای انیمیشن اسکرول
-            card.classList.add('reveal');
+            // پس از قرار دادن در DOM، تصاویر داخل کارت را lazy-load کنیم برای بهبود LCP
+            // (ممکن است فایل‌های cards/*.html حاوی <img> باشند)
+            const imgs = card.querySelectorAll('img');
+            imgs.forEach(img => {
+                // اگر از قبل lazy نباشد، اضافه می‌کنیم
+                if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
+                // برای کاهش repaint، از decoding=async استفاده می‌کنیم اگر پشتیبانی شد
+                try { img.decoding = 'async'; } catch (e) {}
+            });
 
-            container.appendChild(card);
-
-            // مشاهده برای reveal
-            revealObserver.observe(card);
-
-            // اتصال دکمه رزرو (مثل قبل)
+            // اتصال رزرو و ترفندها
             const reserveButton = card.querySelector(".reserve-bar");
             if (reserveButton) {
-                reserveButton.addEventListener("click", () => {
+                reserveButton.addEventListener("click", (evt) => {
+                    // استفاده از noopener/noreferrer در تغییر مکان
                     window.location.href = "https://t.me/softshirazadmin";
                 });
             }
 
-            // اضافه‌شده: اتصال tilt به card-inner داخل کارت (در صورت وجود)
+            // اتصال tilt به card-inner در صورت وجود
             const inner = card.querySelector(".card-inner");
-            if (inner) {
-                attachTilt(inner);
-                // اگر می‌خواهید، اینجا می‌توانیم شدت tilt را بر اساس اندازه کارت تغییر دهیم
-            }
+            if (inner) attachTilt(inner);
+
+            container.appendChild(card);
+            revealObserver.observe(card);
         } catch (e) {
-            console.log("خطا در لود کارت", num);
+            // نادیده گرفتن کارت‌هایی که خوانده نمی‌شوند
+            console.warn('خطا در پردازش کارت شماره', item && item.num, e);
         }
+    }
+
+    // پس از افزودن کارت‌ها، سعی در مخفی کردن لودر
+    const overlay = document.getElementById('loading-overlay');
+    if (overlay) {
+        overlay.classList.add('hidden');
+        overlay.setAttribute('aria-hidden', 'true');
     }
 }
 
-loadCardsStrictly();
+loadCardsOptimized();
 
-/* flip */
+/* ---------- flip کارت‌ها (همان رفتار، اما سبک) ---------- */
+let openCard = null;
 document.addEventListener("click", function (e) {
     const cardInner = e.target.closest(".card-inner");
     if (cardInner) {
@@ -538,20 +588,44 @@ document.addEventListener("click", function (e) {
         cardInner.classList.toggle("flipped");
         openCard = cardInner.classList.contains("flipped") ? cardInner : null;
     }
-});
+}, { passive: true });
 
-/* درباره ما */
+/* ---------- درباره ما popup ---------- */
 const aboutBtn = document.getElementById("about-btn");
 const aboutPopup = document.getElementById("about-popup");
-aboutBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    aboutPopup.classList.toggle("show");
-});
-document.addEventListener("click", (e) => {
-    if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
-        aboutPopup.classList.remove("show");
+if (aboutBtn && aboutPopup) {
+    aboutBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isShown = aboutPopup.classList.toggle("show");
+        aboutBtn.setAttribute('aria-expanded', isShown ? 'true' : 'false');
+        aboutPopup.setAttribute('aria-hidden', isShown ? 'false' : 'true');
+    }, { passive: true });
+
+    document.addEventListener("click", (e) => {
+        if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
+            aboutPopup.classList.remove("show");
+            aboutPopup.setAttribute('aria-hidden', 'true');
+            aboutBtn.setAttribute('aria-expanded', 'false');
+        }
+    }, { passive: true });
+}
+
+/* ---------- دسترسی: کلید Esc برای بستن popup ---------- */
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (aboutPopup.classList.contains('show')) {
+            aboutPopup.classList.remove('show');
+            aboutPopup.setAttribute('aria-hidden', 'true');
+            aboutBtn.setAttribute('aria-expanded', 'false');
+        }
+        // اگر کارتی باز باشد، آن را ببند
+        if (openCard) {
+            openCard.classList.remove('flipped');
+            openCard = null;
+        }
     }
-});
+}, { passive: true });
+
 </script>
 </body>
 </html>
