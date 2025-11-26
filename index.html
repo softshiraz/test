@@ -10,275 +10,109 @@
 
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+body { font-family: "Vazirmatn", sans-serif; background:#0e0e0f; color:#fff; overflow-x:hidden; }
 
-body { 
-    font-family: "Vazirmatn", sans-serif; 
-    background:#0e0e0f;
-    color:#fff;
-    overflow-x:hidden;
-}
+#gold-particles { position: fixed; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events:none; z-index:0; }
+.particle { position:absolute; width:4px; height:4px; background:rgba(255,215,0,0.8); border-radius:50%; box-shadow:0 0 6px rgba(255,215,0,0.9); animation: floatDown linear infinite; }
+@keyframes floatDown { from { transform: translateY(-120vh); opacity:1; } to { transform: translateY(120vh); opacity:0; } }
 
-/* ذرات طلایی */
-#gold-particles {
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    overflow:hidden;
-    pointer-events:none;
-    z-index:0;
-}
+header { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding:15px 25px; display:flex; justify-content:flex-end; align-items:center; border-bottom:1px solid rgba(48,48,48,0.5); position:sticky; top:0; z-index:10; text-shadow:0 0 10px rgba(255,215,0,0.25); }
+.logo-fa { font-weight:700; font-size:26px; background:linear-gradient(45deg,#ffd700,#ffb300); -webkit-background-clip:text; color:transparent; }
 
-.particle {
-    position:absolute;
-    width:4px; height:4px;
-    background:rgba(255,215,0,0.8);
-    border-radius:50%;
-    box-shadow:0 0 6px rgba(255,215,0,0.9);
-    animation: floatDown linear infinite;
-}
+main { padding:35px 15px 60px; display:flex; flex-wrap:wrap; gap:30px; justify-content:center; }
 
-@keyframes floatDown {
-    from { transform: translateY(-120vh); opacity:1; }
-    to { transform: translateY(120vh); opacity:0; }
-}
+.section { display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
 
-/* هدر */
-header {
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    padding:15px 25px;
-    display:flex; justify-content:flex-end; align-items:center;
-    border-bottom:1px solid rgba(48,48,48,0.5); 
-    position:sticky; top:0; z-index:10;
-    text-shadow:0 0 10px rgba(255,215,0,0.25);
-}
+/* عنوان بخش‌ها */
+.section h2 { color:#ffd700; font-size:24px; text-align:right; margin-bottom:10px; text-shadow:0 0 8px rgba(255,215,0,0.3); }
 
-.logo-fa {
-    font-weight:700;
-    font-size:26px;
-    background:linear-gradient(45deg,#ffd700,#ffb300);
-    -webkit-background-clip:text;
-    color:transparent;
-}
-
-main { padding:35px 15px 60px; }
-
-h2 {
-    color:#ffd700; font-size:28px; text-align:center;
-    margin-bottom:35px; border-bottom:3px solid #ffd700;
-    display:inline-block; padding-bottom:6px;
-    text-shadow:0 0 8px rgba(255,215,0,0.3);
-}
-
-.section { text-align:center; }
-
-/* کارت‌ها افقی */
+/* لیست کارت‌ها افقی با drag */
 .movies-grid {
     display:flex;
     gap:20px;
-    overflow-x:auto;
+    overflow-x:hidden; /* نوار اسکرول مخفی */
     padding-bottom:10px;
-    scroll-behavior:smooth;
+    cursor: grab;
     -webkit-overflow-scrolling: touch;
 }
 
-.movies-grid::-webkit-scrollbar { height:8px; }
-.movies-grid::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.5); border-radius:4px; }
-.movies-grid::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
-
 /* کارت‌ها */
 .movie-card { perspective:1000px; position:relative; flex:0 0 auto; }
-
-.card-inner {
-    position: relative;
-    transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
-    transform-style: preserve-3d;
-    cursor: pointer;
-    width: 280px;
-    height: 420px; 
-}
-
-/* لبه‌دارتر */
-.card-front, .card-back {
-    position:absolute;
-    top:0; left:0; width:100%; height:100%;
-    border-radius:16px;
-    overflow:hidden;
-    backface-visibility:hidden;
-
-    border:2px solid rgba(255,215,0,0.65);
-
-    box-shadow:
-        0 0 8px rgba(255,215,0,0.25),
-        inset 0 0 6px rgba(255,215,0,0.2);
-
-    background: rgba(19,19,20,0.75);
-    backdrop-filter: blur(10px);
-}
-
+.card-inner { position: relative; transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1); transform-style: preserve-3d; cursor: pointer; width: 280px; height: 420px; }
+.card-front, .card-back { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden; backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65); box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2); background: rgba(19,19,20,0.75); backdrop-filter: blur(10px); }
 .card-inner.flipped { transform: rotateY(180deg); }
 
 .card-front { display:flex; flex-direction:column; }
-
 .img-bar { flex:1; width:100%; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; }
-
-.date-bar, .title-bar, .reserve-bar {
-    height:36px; line-height:36px;
-    padding:0 10px; text-align:center;
-    background: rgba(0,0,0,0.3);
-    border-top:1px solid rgba(255,255,255,0.1);
-    font-size:14px;
-}
-
+.date-bar, .title-bar, .reserve-bar { height:36px; line-height:36px; padding:0 10px; text-align:center; background: rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1); font-size:14px; }
 .date-bar { color:#ffd700; }
 .title-bar { color:#fff; }
-.reserve-bar { 
-    color:#000; background:#ffd700; font-weight:bold; cursor:pointer;
-}
+.reserve-bar { color:#000; background:#ffd700; font-weight:bold; cursor:pointer; }
 
-.card-back {
-    transform:rotateY(180deg);
-    padding:15px; color:#fff; text-align:right;
-    font-size:14px; display:flex; flex-direction:column;
-}
-
+.card-back { transform:rotateY(180deg); padding:15px; color:#fff; text-align:right; font-size:14px; display:flex; flex-direction:column; }
 .card-back h3, .card-back p strong { color:#ffd700; }
 
 /* فوتر */
-footer {
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    padding:20px; text-align:center;
-    border-top:1px solid rgba(48,48,48,0.5); 
-}
-
+footer { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding:20px; text-align:center; border-top:1px solid rgba(48,48,48,0.5); }
 .footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
-
 .social-row { display:flex; justify-content:center; gap:18px; }
-
-.social-icon {
-    width:48px; height:48px; border-radius:50%;
-    background: rgba(26,26,26,0.7);
-    backdrop-filter: blur(5px);
-    display:flex; align-items:center; justify-content:center;
-    color:#ffd700; font-size:22px;
-    text-decoration:none;
-}
-
+.social-icon { width:48px; height:48px; border-radius:50%; background: rgba(26,26,26,0.7); backdrop-filter: blur(5px); display:flex; align-items:center; justify-content:center; color:#ffd700; font-size:22px; text-decoration:none; }
 .social-icon:hover { background:#ffd700; color:#000; }
 
-#about-popup {
-    display:none; 
-    position:fixed; 
-    top:-45%; left:50%;
-    transform:translate(-50%,-50%);
-    width:300px;
-    background: rgba(17,17,17,0.95);
-    backdrop-filter: blur(12px);
-    border:2px solid rgba(255,215,0,0.5);
-    border-radius:12px; 
-    padding:20px; 
-    font-size:14px; 
-    text-align:right; 
-    z-index:1000;
-    opacity:0; 
-    transition:opacity .3s;
-}
-
+#about-popup { display:none; position:fixed; top:-45%; left:50%; transform:translate(-50%,-50%); width:300px; background: rgba(17,17,17,0.95); backdrop-filter: blur(12px); border:2px solid rgba(255,215,0,0.5); border-radius:12px; padding:20px; font-size:14px; text-align:right; z-index:1000; opacity:0; transition:opacity .3s; }
 #about-popup.show { display:block; opacity:1; }
 
-#loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:#111;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    opacity: 1;
-    transition: opacity 0.5s ease;
-}
-
-#loading-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
+#loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background:#111; display: flex; justify-content: center; align-items: center; z-index: 10000; opacity: 1; transition: opacity 0.5s ease; }
+#loading-overlay.hidden { opacity: 0; pointer-events: none; }
 
 .loader { position: relative; width: 40px; height: 40px; }
-
-.loader .circle {
-  position: absolute;
-  width: 38px; height: 38px;
-  opacity: 0;
-  transform: rotate(225deg);
-  animation: orbit 5.5s infinite;
-}
-
-.loader .circle:after {
-  content: '';
-  position: absolute;
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: yellow;
-}
-
+.loader .circle { position: absolute; width: 38px; height: 38px; opacity: 0; transform: rotate(225deg); animation: orbit 5.5s infinite; }
+.loader .circle:after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: yellow; }
 .loader .circle:nth-child(2) { animation-delay: 240ms; }
 .loader .circle:nth-child(3) { animation-delay: 480ms; }
 .loader .circle:nth-child(4) { animation-delay: 720ms; }
 .loader .circle:nth-child(5) { animation-delay: 960ms; }
 
-@keyframes orbit { 
-  0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
-  7%   { transform:rotate(345deg); animation-timing-function: linear; }
-  30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-  39%  { transform:rotate(690deg); animation-timing-function: linear; }
-  70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-  75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
-  76%  { transform:rotate(945deg); opacity: 0; }
-  100% { transform:rotate(945deg); opacity: 0; } 
-}
+@keyframes orbit { 0% { transform:rotate(225deg); opacity: 1; } 7% { transform:rotate(345deg); } 30% { transform:rotate(455deg); } 39% { transform:rotate(690deg); } 70% { transform:rotate(815deg); opacity: 1; } 75% { transform:rotate(945deg); } 76% { transform:rotate(945deg); opacity: 0; } 100% { transform:rotate(945deg); opacity: 0; } }
 </style>
-
 </head>
 <body>
 
 <div id="gold-particles"></div>
-
 <div id="loading-overlay">
   <div class="loader">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
+    <div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div>
   </div>
 </div>
 
 <header><div class="logo-fa">Soft Shiraz</div></header>
 
 <main>
-    <section class="section">
-        <h2>اکران‌های آینده</h2>
-        <div class="movies-grid" id="cards-container"></div>
-    </section>
+  <!-- اکران‌های آینده -->
+  <section class="section">
+    <h2>اکران‌های آینده</h2>
+    <div class="movies-grid" id="upcoming-cards"></div>
+  </section>
+
+  <!-- اکران شده‌ها -->
+  <section class="section">
+    <h2>اکران شده‌ها</h2>
+    <div class="movies-grid" id="released-cards"></div>
+  </section>
 </main>
 
 <footer>
-    <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
-    <div class="social-row">
-        <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
-        <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
-    </div>
-
-    <div id="about-popup">
-        <strong>درباره ما:</strong>
-        <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
-    </div>
+  <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
+  <div class="social-row">
+    <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
+    <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
+  </div>
+  <div id="about-popup">
+    <strong>درباره ما:</strong>
+    <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
+  </div>
 </footer>
 
 <script>
@@ -305,60 +139,77 @@ window.addEventListener('load', () => {
 });
 
 // کارت‌ها
-const container = document.getElementById("cards-container");
+const upcomingContainer = document.getElementById("upcoming-cards");
+const releasedContainer = document.getElementById("released-cards");
 let openCard = null;
 
-async function loadCardsStrictly() {
-    for (let num = 1; num <= 12; num++) {
+async function loadCards(container, folder, count=12){
+    for (let num=1; num<=count; num++){
         try {
-            const response = await fetch(`cards/${num}.html`, { cache: "no-store" });
-            if (!response.ok) continue;
-            const html = await response.text();
-
+            const resp = await fetch(`${folder}/${num}.html`, { cache:"no-store" });
+            if (!resp.ok) continue;
+            const html = await resp.text();
             const card = document.createElement("div");
             card.className = "movie-card";
             card.innerHTML = html;
-
             container.appendChild(card);
 
-            const reserveButton = card.querySelector(".reserve-bar");
-            if (reserveButton) {
-                reserveButton.addEventListener("click", () => {
-                    window.location.href = "https://t.me/softshirazadmin";
-                });
-            }
-
-        } catch (e) {
+            const btn = card.querySelector(".reserve-bar");
+            if(btn) btn.addEventListener("click", ()=>{ window.location.href="https://t.me/softshirazadmin"; });
+        } catch(e){
             console.log("خطا در لود کارت", num);
         }
     }
 }
-
-loadCardsStrictly();
+loadCards(upcomingContainer, "cards");
+loadCards(releasedContainer, "released-cards");
 
 // Flip
-document.addEventListener("click", function (e) {
+document.addEventListener("click", e=>{
     const cardInner = e.target.closest(".card-inner");
-    if (cardInner) {
-        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
+    if(cardInner){
+        if(openCard && openCard!==cardInner) openCard.classList.remove("flipped");
         cardInner.classList.toggle("flipped");
-        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
+        openCard = cardInner.classList.contains("flipped")? cardInner : null;
     }
 });
 
 // درباره ما
 const aboutBtn = document.getElementById("about-btn");
 const aboutPopup = document.getElementById("about-popup");
-
-aboutBtn.addEventListener("click", (e) => {
+aboutBtn.addEventListener("click", e=>{
     e.stopPropagation();
     aboutPopup.classList.toggle("show");
 });
+document.addEventListener("click", e=>{
+    if(!aboutPopup.contains(e.target) && e.target!==aboutBtn) aboutPopup.classList.remove("show");
+});
 
-document.addEventListener("click", (e) => {
-    if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
-        aboutPopup.classList.remove("show");
-    }
+// Drag & touch scroll
+const grids = document.querySelectorAll(".movies-grid");
+grids.forEach(grid=>{
+    let isDown = false, startX, scrollLeft;
+    grid.addEventListener("mousedown", e=>{
+        isDown=true; grid.classList.add("active"); startX=e.pageX-grid.offsetLeft; scrollLeft=grid.scrollLeft;
+    });
+    grid.addEventListener("mouseleave",()=>{isDown=false; grid.classList.remove("active");});
+    grid.addEventListener("mouseup",()=>{isDown=false; grid.classList.remove("active");});
+    grid.addEventListener("mousemove", e=>{
+        if(!isDown) return; e.preventDefault();
+        const x=e.pageX-grid.offsetLeft;
+        const walk=(x-startX)*2;
+        grid.scrollLeft=scrollLeft-walk;
+    });
+
+    // Touch support
+    let touchStartX=0, scrollStartX=0;
+    grid.addEventListener("touchstart", e=>{
+        touchStartX=e.touches[0].pageX; scrollStartX=grid.scrollLeft;
+    });
+    grid.addEventListener("touchmove", e=>{
+        const x=e.touches[0].pageX;
+        grid.scrollLeft=scrollStartX-(x-touchStartX);
+    });
 });
 </script>
 
