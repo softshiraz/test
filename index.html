@@ -2,149 +2,206 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>Horizontal Infinite Scroll</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎬 سافت شیراز 🎬</title>
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-    body {
-        background: #111;
-        color: #fff;
-        font-family: sans-serif;
-        margin: 0;
-        padding: 0;
-    }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+ font-family:"Vazirmatn",sans-serif;
+ background:#0e0e0f;
+ color:#fff;
+ overflow-x:hidden;
+}
 
-    h2 {
-        margin: 20px;
-        font-size: 24px;
-        color: gold;
-    }
+/* بخش‌ها */
+.section-title{
+ color:#ffd700;
+ font-size:22px;
+ margin:20px 0 10px 0;
+ padding-right:10px;
+}
 
-    /* کانتینر لیست کارت‌ها */
-    .loop-container {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        padding: 20px 0;
-    }
+/* کانتینر اسکرول افقی */
+.scroller{
+ position:relative;
+ width:100%;
+ overflow:hidden;
+ padding:10px 0;
+ white-space:nowrap;
+}
 
-    .loop-track {
-        display: flex;
-        gap: 20px;
-        white-space: nowrap;
-        will-change: transform;
-    }
+/* Track */
+.scroller-track{
+ display:flex;
+ gap:18px;
+ width:max-content;
+}
 
-    .card {
-        min-width: 250px;
-        height: 350px;
-        background: #222;
-        border-radius: 12px;
-        border: 2px solid gold;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 28px;
-        flex-shrink: 0;
-    }
+/* کارت‌ها همان است و تغییری نمی‌کنم */
+.movie-card{perspective:1000px;position:relative;}
+.card-inner{
+ width:250px;height:380px;
+ transition:transform .3s;
+ transform-style:preserve-3d;
+ cursor:pointer;
+}
+.card-front,.card-back{
+ position:absolute;top:0;left:0;width:100%;height:100%;
+ border-radius:16px;
+ border:2px solid rgba(255,215,0,.65);
+ overflow:hidden;
+ backface-visibility:hidden;
+ background:rgba(19,19,20,.75);
+}
+.card-back{transform:rotateY(180deg);padding:15px;}
+.card-inner.flipped{transform:rotateY(180deg);}
 </style>
 </head>
+
 <body>
 
-<!-- ==== اکران‌های آینده ==== -->
-<h2>اکران‌های آینده</h2>
-<div class="loop-container">
-    <div class="loop-track" id="future-track">
-
-        <!-- کارت نمونه — می‌توانی عکس، نام فیلم، توضیح و... بگذاری -->
-        <div class="card">A1</div>
-        <div class="card">A2</div>
-        <div class="card">A3</div>
-        <div class="card">A4</div>
-        <div class="card">A5</div>
-
+<header>
+    <div class="logo-fa" style="font-weight:700;font-size:26px;
+    background:linear-gradient(45deg,#ffd700,#ffb300);
+    -webkit-background-clip:text;color:transparent;">
+        Soft Shiraz
     </div>
-</div>
+</header>
 
-<!-- ==== اکران شده‌ها ==== -->
-<h2>اکران شده‌ها</h2>
-<div class="loop-container">
-    <div class="loop-track" id="past-track">
+<main style="padding:20px;">
 
-        <div class="card">B1</div>
-        <div class="card">B2</div>
-        <div class="card">B3</div>
-        <div class="card">B4</div>
-        <div class="card">B5</div>
-
+    <!-- 🔥 لیست 1 → اکران‌های آینده -->
+    <h2 class="section-title">اکران‌های آینده</h2>
+    <div class="scroller" id="future-scroller">
+        <div class="scroller-track" id="future-track"></div>
     </div>
-</div>
 
+    <!-- 🔥 لیست 2 → اکران‌شده‌ها -->
+    <h2 class="section-title">اکران‌شده‌ها</h2>
+    <div class="scroller" id="released-scroller">
+        <div class="scroller-track" id="released-track"></div>
+    </div>
+
+</main>
 
 <script>
 
-/* ------------------------------
-   تابع ساخت اسکرول اتوماتیک + Drag
--------------------------------- */
-function createInfiniteScroll(trackId, speed = 1) {
+/* -----------------------------
+   🔥 LOAD CARDS FOR BOTH LISTS
+------------------------------ */
 
-    const track = document.getElementById(trackId);
+async function loadCards(folder, track){
+    for(let i=1;i<=20;i++){
+        try{
+            const res = await fetch(`${folder}/${i}.html`);
+            if(!res.ok) continue;
+            const html = await res.text();
+            const div = document.createElement("div");
+            div.className = "movie-card";
+            div.innerHTML = html;
+            track.appendChild(div);
+        }catch(e){}
+    }
+}
+
+const futureTrack   = document.getElementById("future-track");
+const releasedTrack = document.getElementById("released-track");
+
+loadCards("card",   futureTrack);
+loadCards("cards",  releasedTrack);
+
+/* -----------------------------
+   🔥 CARD FLIP (بدون تغییر)
+------------------------------ */
+
+let openCard=null;
+document.addEventListener("click",e=>{
+    const inner=e.target.closest(".card-inner");
+    if(!inner) return;
+    if(openCard && openCard!==inner){ openCard.classList.remove("flipped"); }
+    inner.classList.toggle("flipped");
+    openCard=inner.classList.contains("flipped")?inner:null;
+});
+
+/* ------------------------------------------------
+   🔥 AUTO SCROLL + DRAG SCROLL (Infinite + Smooth)
+   → برای هر دو لیست به‌صورت هماهنگ
+-------------------------------------------------- */
+
+function enableScroller(scroller, track){
+
     let pos = 0;
-    let isDown = false;
-    let startX;
+    let speed = 0.4; // سرعت حرکت اتوماتیک
+    let dragging = false;
+    let startX = 0;
 
-    // اسکرول اتوماتیک بدون باگ
-    function autoScroll() {
-        pos -= speed;
-        track.style.transform = `translateX(${pos}px)`;
+    /* Auto Loop */
+    function autoScroll(){
+        if(!dragging){
+            pos -= speed;
+            track.style.transform = `translateX(${pos}px)`;
+        }
 
-        const firstCard = track.children[0];
-        const cardWidth = firstCard.offsetWidth + 20;
+        const first = track.children[0];
+        const rect = first.getBoundingClientRect();
 
-        if (Math.abs(pos) >= cardWidth) {
-            track.appendChild(firstCard);
-            pos += cardWidth;
+        if(rect.right < 0){
+            track.appendChild(first);
+            pos += first.offsetWidth + 18;
         }
 
         requestAnimationFrame(autoScroll);
     }
     autoScroll();
 
-
-    // Drag با موس
-    track.addEventListener("mousedown", e => {
-        isDown = true;
-        startX = e.pageX;
+    /* Drag */
+    scroller.addEventListener("mousedown", e=>{
+        dragging=true;
+        startX=e.clientX;
     });
 
-    window.addEventListener("mouseup", () => isDown = false);
-
-    track.addEventListener("mousemove", e => {
-        if (!isDown) return;
-        let walk = (e.pageX - startX) * 1.3;
-        pos += walk;
-        startX = e.pageX;
+    document.addEventListener("mouseup", ()=>{
+        dragging=false;
     });
 
-    // لمس موبایل
-    track.addEventListener("touchstart", e => {
-        isDown = true;
-        startX = e.touches[0].pageX;
-    }, { passive: true });
+    document.addEventListener("mousemove", e=>{
+        if(!dragging) return;
+        let dx = e.clientX - startX;
+        startX = e.clientX;
+        pos += dx;
+    });
 
-    track.addEventListener("touchend", () => isDown = false);
+    /* Touch */
+    scroller.addEventListener("touchstart", e=>{
+        dragging=true;
+        startX=e.touches[0].clientX;
+    });
 
-    track.addEventListener("touchmove", e => {
-        if (!isDown) return;
-        let walk = (e.touches[0].pageX - startX) * 1.3;
-        pos += walk;
-        startX = e.touches[0].pageX;
-    }, { passive: true });
+    scroller.addEventListener("touchend", ()=>{
+        dragging=false;
+    });
+
+    scroller.addEventListener("touchmove", e=>{
+        if(!dragging) return;
+        let dx = e.touches[0].clientX - startX;
+        startX = e.touches[0].clientX;
+        pos += dx;
+    });
 }
 
-
-/* ---- اجرای اسکرول برای دو لیست ---- */
-createInfiniteScroll("future-track", 1);
-createInfiniteScroll("past-track", 0.8);
+/* فعال‌سازی برای هر دو لیست */
+enableScroller(
+    document.getElementById("future-scroller"),
+    document.getElementById("future-track")
+);
+enableScroller(
+    document.getElementById("released-scroller"),
+    document.getElementById("released-track")
+);
 
 </script>
 
