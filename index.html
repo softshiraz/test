@@ -4,204 +4,380 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎬 سافت شیراز 🎬</title>
-
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{
- font-family:"Vazirmatn",sans-serif;
- background:#0e0e0f;
- color:#fff;
- overflow-x:hidden;
+/* ———— تمام CSS اصلی بدون تغییر ———— */
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    font-family: "Vazirmatn", sans-serif; 
+    background:#0e0e0f;
+    color:#fff;
+    overflow-x:hidden;
 }
 
-/* بخش‌ها */
-.section-title{
- color:#ffd700;
- font-size:22px;
- margin:20px 0 10px 0;
- padding-right:10px;
+/* ذرات طلایی */
+#gold-particles {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:0;
+}
+.particle {
+    position:absolute;
+    width:4px; height:4px;
+    background:rgba(255,215,0,0.8);
+    border-radius:50%;
+    box-shadow:0 0 6px rgba(255,215,0,0.9);
+    animation: floatDown linear infinite;
+}
+@keyframes floatDown {
+    from { transform: translateY(-120vh); opacity:1; }
+    to { transform: translateY(120vh); opacity:0; }
 }
 
-/* کانتینر اسکرول افقی */
-.scroller{
- position:relative;
- width:100%;
- overflow:hidden;
- padding:10px 0;
- white-space:nowrap;
+/* هدر */
+header {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    padding:15px 25px;
+    display:flex; justify-content:flex-end; align-items:center;
+    border-bottom:1px solid rgba(48,48,48,0.5); 
+    position:sticky; top:0; z-index:10;
+    text-shadow:0 0 10px rgba(255,215,0,0.25);
+}
+.logo-fa {
+    font-weight:700;
+    font-size:26px;
+    background:linear-gradient(45deg,#ffd700,#ffb300);
+    -webkit-background-clip:text;
+    color:transparent;
 }
 
-/* Track */
-.scroller-track{
- display:flex;
- gap:18px;
- width:max-content;
+main { padding:35px 15px 60px; }
+h2 {
+    color:#ffd700; font-size:28px; text-align:right;
+    margin-bottom:20px;
+    display:block;
+    padding-right:5px;
 }
 
-/* کارت‌ها همان است و تغییری نمی‌کنم */
-.movie-card{perspective:1000px;position:relative;}
-.card-inner{
- width:250px;height:380px;
- transition:transform .3s;
- transform-style:preserve-3d;
- cursor:pointer;
+.movies-grid {
+    display:flex;
+    gap:20px;
+    overflow-x:hidden; /* اسکرول قبلی حذف */
+    position:relative;
+    white-space:nowrap;
+    user-select:none;
+    cursor:grab;
 }
-.card-front,.card-back{
- position:absolute;top:0;left:0;width:100%;height:100%;
- border-radius:16px;
- border:2px solid rgba(255,215,0,.65);
- overflow:hidden;
- backface-visibility:hidden;
- background:rgba(19,19,20,.75);
+.movies-grid:active { cursor:grabbing; }
+
+.movie-card { perspective:1000px; display:inline-block; }
+.card-inner {
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+    width: 280px;
+    height: 420px; 
 }
-.card-back{transform:rotateY(180deg);padding:15px;}
-.card-inner.flipped{transform:rotateY(180deg);}
+
+/* جلو/پشت کارت + استایل‌ها بدون تغییر */
+.card-front, .card-back {
+    position:absolute;
+    top:0; left:0; width:100%; height:100%;
+    border-radius:16px;
+    overflow:hidden;
+    backface-visibility:hidden;
+    border:2px solid rgba(255,215,0,0.65);
+    box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
+    background: rgba(19,19,20,0.75);
+    backdrop-filter: blur(10px);
+}
+.card-inner.flipped { transform: rotateY(180deg); }
+
+.card-front { display:flex; flex-direction:column; }
+.img-bar { flex:1; width:100%; overflow:hidden; }
+.img-bar img { width:100%; height:100%; object-fit:cover; }
+
+.date-bar, .title-bar, .reserve-bar {
+    height:36px; line-height:36px;
+    padding:0 10px; text-align:center;
+    background: rgba(0,0,0,0.3);
+    border-top:1px solid rgba(255,255,255,0.1);
+    font-size:14px;
+}
+.date-bar { color:#ffd700; }
+.title-bar { color:#fff; }
+.reserve-bar { 
+    color:#000; background:#ffd700; font-weight:bold; cursor:pointer;
+}
+
+.card-back {
+    transform:rotateY(180deg);
+    padding:15px; color:#fff; text-align:right;
+    font-size:14px; display:flex; flex-direction:column;
+}
+.card-back h3, .card-back p strong { color:#ffd700; }
+
+/* فوتر */
+footer {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    padding:20px; text-align:center;
+    border-top:1px solid rgba(48,48,48,0.5); 
+}
+
+.footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
+.social-row { display:flex; justify-content:center; gap:18px; }
+.social-icon {
+    width:48px; height:48px; border-radius:50%;
+    background: rgba(26,26,26,0.7);
+    backdrop-filter: blur(5px);
+    display:flex; align-items:center; justify-content:center;
+    color:#ffd700; font-size:22px;
+    text-decoration:none;
+}
+.social-icon:hover { background:#ffd700; color:#000; }
+
+#about-popup {
+    display:none; 
+    position:fixed; 
+    top:-45%; left:50%;
+    transform:translate(-50%,-50%);
+    width:300px;
+    background: rgba(17,17,17,0.95);
+    backdrop-filter: blur(12px);
+    border:2px solid rgba(255,215,0,0.5);
+    border-radius:12px; 
+    padding:20px; 
+    font-size:14px; 
+    text-align:right; 
+    z-index:1000;
+    opacity:0; 
+    transition:opacity .3s;
+}
+#about-popup.show { display:block; opacity:1; }
+
+/* لودر */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:#111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+#loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader { position: relative; width: 40px; height: 40px; }
+.loader .circle {
+  position: absolute;
+  width: 38px; height: 38px;
+  opacity: 0;
+  transform: rotate(225deg);
+  animation: orbit 5.5s infinite;
+}
+.loader .circle:after {
+  content: '';
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: yellow;
+}
+.loader .circle:nth-child(2) { animation-delay: 240ms; }
+.loader .circle:nth-child(3) { animation-delay: 480ms; }
+.loader .circle:nth-child(4) { animation-delay: 720ms; }
+.loader .circle:nth-child(5) { animation-delay: 960ms; }
+
+@keyframes orbit { 
+  0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
+  7%   { transform:rotate(345deg); animation-timing-function: linear; }
+  30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
+  39%  { transform:rotate(690deg); animation-timing-function: linear; }
+  70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+  75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
+  76%  { transform:rotate(945deg); opacity: 0; }
+  100% { transform:rotate(945deg); opacity: 0; } 
+}
 </style>
 </head>
-
 <body>
 
-<header>
-    <div class="logo-fa" style="font-weight:700;font-size:26px;
-    background:linear-gradient(45deg,#ffd700,#ffb300);
-    -webkit-background-clip:text;color:transparent;">
-        Soft Shiraz
-    </div>
-</header>
+<!-- ذرات -->
+<div id="gold-particles"></div>
 
-<main style="padding:20px;">
+<!-- لودر -->
+<div id="loading-overlay">
+  <div class="loader">
+    <div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div>
+  </div>
+</div>
 
-    <!-- 🔥 لیست 1 → اکران‌های آینده -->
-    <h2 class="section-title">اکران‌های آینده</h2>
-    <div class="scroller" id="future-scroller">
-        <div class="scroller-track" id="future-track"></div>
-    </div>
+<header><div class="logo-fa">Soft Shiraz</div></header>
 
-    <!-- 🔥 لیست 2 → اکران‌شده‌ها -->
-    <h2 class="section-title">اکران‌شده‌ها</h2>
-    <div class="scroller" id="released-scroller">
-        <div class="scroller-track" id="released-track"></div>
-    </div>
+<main>
+
+<h2>اکران‌های آینده</h2>
+<div class="movies-grid" id="future-list"></div>
+
+<h2 style="margin-top:50px;">اکران‌شده‌ها</h2>
+<div class="movies-grid" id="released-list"></div>
 
 </main>
 
+<footer>
+    <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
+    <div class="social-row">
+        <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
+    </div>
+
+    <div id="about-popup">
+        <strong>درباره ما:</strong>
+        <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
+    </div>
+</footer>
+
 <script>
-
-/* -----------------------------
-   🔥 LOAD CARDS FOR BOTH LISTS
------------------------------- */
-
-async function loadCards(folder, track){
-    for(let i=1;i<=20;i++){
-        try{
-            const res = await fetch(`${folder}/${i}.html`);
-            if(!res.ok) continue;
-            const html = await res.text();
-            const div = document.createElement("div");
-            div.className = "movie-card";
-            div.innerHTML = html;
-            track.appendChild(div);
-        }catch(e){}
-    }
+/* ذرات */
+const particleContainer = document.getElementById("gold-particles");
+for (let i = 0; i < 80; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    const size = Math.random() * 3 + 2;
+    p.style.width = size + "px";
+    p.style.height = size + "px";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.top = Math.random() * -100 + "vh";
+    p.style.animationDuration = Math.random() * 4 + 4 + "s";
+    p.style.animationDelay = Math.random() * 3 + "s";
+    particleContainer.appendChild(p);
 }
 
-const futureTrack   = document.getElementById("future-track");
-const releasedTrack = document.getElementById("released-track");
-
-loadCards("card",   futureTrack);
-loadCards("cards",  releasedTrack);
-
-/* -----------------------------
-   🔥 CARD FLIP (بدون تغییر)
------------------------------- */
-
-let openCard=null;
-document.addEventListener("click",e=>{
-    const inner=e.target.closest(".card-inner");
-    if(!inner) return;
-    if(openCard && openCard!==inner){ openCard.classList.remove("flipped"); }
-    inner.classList.toggle("flipped");
-    openCard=inner.classList.contains("flipped")?inner:null;
+/* لودر */
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('loading-overlay').classList.add('hidden');
+    }, 5000);
 });
 
-/* ------------------------------------------------
-   🔥 AUTO SCROLL + DRAG SCROLL (Infinite + Smooth)
-   → برای هر دو لیست به‌صورت هماهنگ
--------------------------------------------------- */
+/* ———————————————— کارت‌ها ———————————————— */
+async function loadCards(target, folderName) {
+    for (let num = 1; num <= 12; num++) {
+        try {
+            const response = await fetch(`${folderName}/${num}.html`, { cache: "no-store" });
+            if (!response.ok) continue;
+            const html = await response.text();
 
-function enableScroller(scroller, track){
+            const card = document.createElement("div");
+            card.className = "movie-card";
+            card.innerHTML = html;
 
-    let pos = 0;
-    let speed = 0.4; // سرعت حرکت اتوماتیک
-    let dragging = false;
-    let startX = 0;
+            target.appendChild(card);
 
-    /* Auto Loop */
-    function autoScroll(){
-        if(!dragging){
-            pos -= speed;
-            track.style.transform = `translateX(${pos}px)`;
-        }
-
-        const first = track.children[0];
-        const rect = first.getBoundingClientRect();
-
-        if(rect.right < 0){
-            track.appendChild(first);
-            pos += first.offsetWidth + 18;
-        }
-
-        requestAnimationFrame(autoScroll);
+            const reserveButton = card.querySelector(".reserve-bar");
+            if (reserveButton) {
+                reserveButton.addEventListener("click", () => {
+                    window.location.href = "https://t.me/softshirazadmin";
+                });
+            }
+        } catch {}
     }
-    autoScroll();
-
-    /* Drag */
-    scroller.addEventListener("mousedown", e=>{
-        dragging=true;
-        startX=e.clientX;
-    });
-
-    document.addEventListener("mouseup", ()=>{
-        dragging=false;
-    });
-
-    document.addEventListener("mousemove", e=>{
-        if(!dragging) return;
-        let dx = e.clientX - startX;
-        startX = e.clientX;
-        pos += dx;
-    });
-
-    /* Touch */
-    scroller.addEventListener("touchstart", e=>{
-        dragging=true;
-        startX=e.touches[0].clientX;
-    });
-
-    scroller.addEventListener("touchend", ()=>{
-        dragging=false;
-    });
-
-    scroller.addEventListener("touchmove", e=>{
-        if(!dragging) return;
-        let dx = e.touches[0].clientX - startX;
-        startX = e.touches[0].clientX;
-        pos += dx;
-    });
 }
 
-/* فعال‌سازی برای هر دو لیست */
-enableScroller(
-    document.getElementById("future-scroller"),
-    document.getElementById("future-track")
-);
-enableScroller(
-    document.getElementById("released-scroller"),
-    document.getElementById("released-track")
-);
+loadCards(document.getElementById("future-list"), "card");    // آینده
+loadCards(document.getElementById("released-list"), "cards"); // اکران‌شده
+
+/* ———————————————— Flip ———————————————— */
+let openCard = null;
+document.addEventListener("click", function (e) {
+    const cardInner = e.target.closest(".card-inner");
+    if (cardInner) {
+        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
+        cardInner.classList.toggle("flipped");
+        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
+    }
+});
+
+/* ———————————————— درباره ———————————————— */
+const aboutBtn = document.getElementById("about-btn");
+const aboutPopup = document.getElementById("about-popup");
+
+aboutBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    aboutPopup.classList.toggle("show");
+});
+document.addEventListener("click", (e) => {
+    if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
+        aboutPopup.classList.remove("show");
+    }
+});
+
+/* ———————————————— اسکرول اتوماتیک + Drag ———————————————— */
+function enableSuperScroll(container) {
+
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+    let speed = 0.3; // سرعت حرکت اتوماتیک
+
+    function loop() {
+        container.scrollLeft += speed;
+        if (container.scrollLeft >= container.scrollWidth - container.clientWidth - 5) {
+            container.scrollLeft = 0; // بازگشت
+        }
+        requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    /* DRAG */
+    container.addEventListener("mousedown", (e)=>{
+        isDown = true;
+        startX = e.pageX;
+        scrollStart = container.scrollLeft;
+    });
+    container.addEventListener("mousemove", (e)=>{
+        if (!isDown) return;
+        const dx = e.pageX - startX;
+        container.scrollLeft = scrollStart - dx;
+    });
+    container.addEventListener("mouseup", ()=>{ isDown = false; });
+    container.addEventListener("mouseleave", ()=>{ isDown = false; });
+
+    /* TOUCH */
+    container.addEventListener("touchstart", (e)=>{
+        isDown = true;
+        startX = e.touches[0].pageX;
+        scrollStart = container.scrollLeft;
+    });
+    container.addEventListener("touchmove", (e)=>{
+        if (!isDown) return;
+        const dx = e.touches[0].pageX - startX;
+        container.scrollLeft = scrollStart - dx;
+    });
+    container.addEventListener("touchend", ()=>{ isDown = false; });
+}
+
+setTimeout(()=>{
+    enableSuperScroll(document.getElementById("future-list"));
+    enableSuperScroll(document.getElementById("released-list"));
+}, 2000);
 
 </script>
 
