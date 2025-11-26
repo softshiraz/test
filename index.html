@@ -69,20 +69,14 @@ h2 {
 
 .section { margin-bottom:50px; position:relative; }
 
-/* کارت‌ها افقی با drag و auto scroll */
+/* کارت‌ها افقی با overflow مخفی برای infinite slider */
 .movies-grid {
     display:flex;
     gap:20px;
-    overflow-x:auto;
-    scroll-behavior:smooth;
-    -webkit-overflow-scrolling: touch;
+    overflow:hidden;
     padding-bottom:10px;
     cursor: grab;
 }
-
-.movies-grid::-webkit-scrollbar { height:8px; }
-.movies-grid::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.5); border-radius:4px; }
-.movies-grid::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
 
 .movie-card { perspective:1000px; position:relative; flex:0 0 auto; }
 
@@ -298,36 +292,6 @@ window.addEventListener('load', () => {
     }, 5000);
 });
 
-// Drag + swipe + auto scroll
-function enableScroll(container){
-    let isDown=false, startX, scrollLeft;
-
-    // drag
-    container.addEventListener('mousedown',(e)=>{ isDown=true; startX=e.pageX-container.offsetLeft; scrollLeft=container.scrollLeft; container.style.cursor='grabbing'; });
-    container.addEventListener('mouseleave',()=>{ isDown=false; container.style.cursor='grab'; });
-    container.addEventListener('mouseup',()=>{ isDown=false; container.style.cursor='grab'; });
-    container.addEventListener('mousemove',(e)=>{ if(!isDown) return; const x=e.pageX - container.offsetLeft; container.scrollLeft = scrollLeft - (x-startX)*2; });
-
-    // touch
-    container.addEventListener('touchstart',(e)=>{ startX=e.touches[0].pageX - container.offsetLeft; scrollLeft=container.scrollLeft; });
-    container.addEventListener('touchmove',(e)=>{ e.preventDefault(); const x=e.touches[0].pageX - startX; container.scrollLeft = scrollLeft - x; });
-
-    // auto scroll
-    setInterval(()=>{
-        if(!isDown){
-            container.scrollLeft += 0.5;
-            if(container.scrollLeft + container.clientWidth >= container.scrollWidth){
-                container.scrollLeft = 0;
-            }
-        }
-    },20);
-}
-
-const futureContainer = document.getElementById("future-cards");
-const pastContainer = document.getElementById("past-cards");
-enableScroll(futureContainer);
-enableScroll(pastContainer);
-
 let openCard = null;
 
 // بارگذاری کارت‌ها
@@ -347,6 +311,9 @@ async function loadCards(container, folder){
     }
 }
 
+const futureContainer = document.getElementById("future-cards");
+const pastContainer = document.getElementById("past-cards");
+
 loadCards(futureContainer,'card');  // اکران های آینده
 loadCards(pastContainer,'cards');   // اکران شده ها
 
@@ -365,6 +332,43 @@ const aboutBtn = document.getElementById("about-btn");
 const aboutPopup = document.getElementById("about-popup");
 aboutBtn.addEventListener("click",(e)=>{ e.stopPropagation(); aboutPopup.classList.toggle("show"); });
 document.addEventListener("click",(e)=>{ if(!aboutPopup.contains(e.target) && e.target!==aboutBtn) aboutPopup.classList.remove("show"); });
+
+// ---------- Infinite slider ----------
+function infiniteSlider(container, speed = 0.5){
+    let totalWidth = 0;
+    let cards = Array.from(container.children);
+    
+    // duplicate cards to ensure seamless looping
+    cards.forEach(c => { totalWidth += c.offsetWidth + parseInt(getComputedStyle(c).marginRight); });
+    const clone = container.innerHTML;
+    container.innerHTML += clone;
+
+    let position = 0;
+    function animate(){
+        position += speed;
+        if(position >= totalWidth){
+            position = 0;
+        }
+        container.scrollLeft = position;
+        requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+}
+
+function waitForCards(container){
+    return new Promise(resolve=>{
+        const interval = setInterval(()=>{
+            if(container.children.length>0){
+                clearInterval(interval);
+                resolve();
+            }
+        },50);
+    });
+}
+
+// wait and then start sliders
+waitForCards(futureContainer).then(()=>{ infiniteSlider(futureContainer, 0.5); });
+waitForCards(pastContainer).then(()=>{ infiniteSlider(pastContainer, 0.5); });
 
 </script>
 </body>
