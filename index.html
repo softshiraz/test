@@ -47,7 +47,7 @@ h2 {
 .movies-grid {
     display:flex;
     gap:20px;
-    overflow:hidden; /* هیچ نوار اسکرولی نباشد */
+    overflow:hidden;
     position:relative;
     width:100%;
 }
@@ -296,30 +296,30 @@ const aboutPopup = document.getElementById("about-popup");
 aboutBtn.addEventListener("click",(e)=>{ e.stopPropagation(); aboutPopup.classList.toggle("show"); });
 document.addEventListener("click",(e)=>{ if(!aboutPopup.contains(e.target) && e.target!==aboutBtn) aboutPopup.classList.remove("show"); });
 
-// اسلایدر گردشی افقی بی‌نقص
-function startLoopSlider(container){
-    const speed = 0.5; // px per frame
-    function animate(){
-        if(!container.firstElementChild) return requestAnimationFrame(animate);
+// اسلایدر اتوماتیک افقی - loop واقعی
+function startAutoSlider(container){
+    const gap = parseInt(getComputedStyle(container).gap) || 0;
+    const speed = 0.5; // px/frame
 
+    function animate(){
+        const firstCard = container.firstElementChild;
+        if(!firstCard) return requestAnimationFrame(animate);
         container.scrollLeft += speed;
 
-        const firstCard = container.firstElementChild;
-        const firstCardRight = firstCard.getBoundingClientRect().right;
-        const containerLeft = container.getBoundingClientRect().left;
-
-        if(firstCardRight < containerLeft){
+        const firstRect = firstCard.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        if(firstRect.right < containerRect.left){
             container.appendChild(firstCard);
-            container.scrollLeft -= firstCard.offsetWidth + parseInt(getComputedStyle(container).gap);
+            container.scrollLeft -= firstCard.offsetWidth + gap;
         }
 
         requestAnimationFrame(animate);
     }
+
     animate();
 }
 
-startLoopSlider(futureContainer);
-
+startAutoSlider(futureContainer);
 </script>
 </body>
 </html>
