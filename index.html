@@ -2,138 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, <!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎬 سافت شیراز 🎬</title>
-
-<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-body { font-family:"Vazirmatn", sans-serif; background:#0e0e0f; color:#fff; overflow-x:hidden; margin:0; padding:0; }
-
-header { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding:15px 25px; display:flex; justify-content:flex-end; align-items:center; border-bottom:1px solid rgba(48,48,48,0.5); position:sticky; top:0; z-index:10; text-shadow:0 0 10px rgba(255,215,0,0.25);}
-.logo-fa { font-weight:700; font-size:26px; background:linear-gradient(45deg,#ffd700,#ffb300); -webkit-background-clip:text; color:transparent;}
-main { padding:35px 15px 60px;}
-h2 { color:#ffd700; font-size:28px; text-align:right; margin-bottom:15px;}
-.section { margin-bottom:50px; }
-.carousel-wrapper { overflow:hidden; position:relative; }
-.movies-grid { display:flex; gap:20px; transition: transform 0.5s ease; }
-.movie-card { flex:0 0 auto; width:280px; height:420px; perspective:1000px; position:relative; }
-.card-inner { width:100%; height:100%; position:relative; transform-style: preserve-3d; transition: transform 0.3s; cursor:pointer; }
-.card-front, .card-back { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden; backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65); box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2); background: rgba(19,19,20,0.75); backdrop-filter: blur(10px);}
-.card-inner.flipped { transform:rotateY(180deg);}
-.card-front { display:flex; flex-direction:column; }
-.img-bar { flex:1; width:100%; overflow:hidden; }
-.img-bar img { width:100%; height:100%; object-fit:cover; }
-.date-bar, .title-bar, .reserve-bar { height:36px; line-height:36px; padding:0 10px; text-align:center; background: rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1); font-size:14px; }
-.date-bar { color:#ffd700; } .title-bar { color:#fff; } .reserve-bar { color:#000; background:#ffd700; font-weight:bold; cursor:pointer; }
-.card-back { transform:rotateY(180deg); padding:15px; color:#fff; text-align:right; font-size:14px; display:flex; flex-direction:column; }
-.card-back h3, .card-back p strong { color:#ffd700; }
-footer { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding:20px; text-align:center; border-top:1px solid rgba(48,48,48,0.5); }
-.footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
-.social-row { display:flex; justify-content:center; gap:18px; }
-.social-icon { width:48px; height:48px; border-radius:50%; background: rgba(26,26,26,0.7); backdrop-filter: blur(5px); display:flex; align-items:center; justify-content:center; color:#ffd700; font-size:22px; text-decoration:none;}
-.social-icon:hover { background:#ffd700; color:#000; }
-#about-popup { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:300px; background: rgba(17,17,17,0.95); backdrop-filter: blur(12px); border:2px solid rgba(255,215,0,0.5); border-radius:12px; padding:20px; font-size:14px; text-align:right; z-index:1000; opacity:0; transition:opacity .3s; }
-#about-popup.show { display:block; opacity:1; }
-#loading-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:#111; display:flex; justify-content:center; align-items:center; z-index:10000; opacity:1; transition:opacity 0.5s ease;}
-#loading-overlay.hidden { opacity:0; pointer-events:none;}
-.loader { position: relative; width: 40px; height: 40px; }
-.loader .circle { position: absolute; width: 38px; height: 38px; opacity: 0; transform: rotate(225deg); animation: orbit 5.5s infinite;}
-.loader .circle:after { content:''; position:absolute; width:5px; height:5px; border-radius:50%; background:yellow; }
-.loader .circle:nth-child(2){animation-delay:240ms;} .loader .circle:nth-child(3){animation-delay:480ms;} .loader .circle:nth-child(4){animation-delay:720ms;} .loader .circle:nth-child(5){animation-delay:960ms;}
-@keyframes orbit {0%{transform:rotate(225deg);opacity:1;}7%{transform:rotate(345deg);}30%{transform:rotate(455deg);}39%{transform:rotate(690deg);}70%{transform:rotate(815deg);opacity:1;}75%{transform:rotate(945deg);}76%{transform:rotate(945deg);opacity:0;}100%{transform:rotate(945deg);opacity:0;}}
-</style>
-</head>
-<body>
-
-<div id="loading-overlay"><div class="loader"><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div></div></div>
-
-<header><div class="logo-fa">Soft Shiraz</div></header>
-
-<main>
-  <section class="section">
-    <h2>اکران‌های آینده</h2>
-    <div class="carousel-wrapper">
-      <div class="movies-grid" id="future-cards"></div>
-    </div>
-  </section>
-
-  <section class="section">
-    <h2>اکران شده‌ها</h2>
-    <div class="carousel-wrapper">
-      <div class="movies-grid" id="past-cards"></div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
-  <div class="social-row">
-    <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
-    <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
-  </div>
-  <div id="about-popup"><strong>درباره ما:</strong><p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p></div>
-</footer>
-
-<script>
-// لودر
-window.addEventListener('load', () => { setTimeout(()=>{ document.getElementById('loading-overlay').classList.add('hidden'); },5000); });
-
-// Flip کارت‌ها
-let openCard = null;
-document.addEventListener("click", e=>{ const ci=e.target.closest(".card-inner"); if(ci){ if(openCard && openCard!==ci) openCard.classList.remove("flipped"); ci.classList.toggle("flipped"); openCard=ci.classList.contains("flipped")?ci:null; } });
-
-// پاپ‌آپ
-const aboutBtn = document.getElementById("about-btn");
-const aboutPopup = document.getElementById("about-popup");
-aboutBtn.addEventListener("click",(e)=>{ e.stopPropagation(); aboutPopup.classList.toggle("show"); });
-document.addEventListener("click",(e)=>{ if(!aboutPopup.contains(e.target) && e.target!==aboutBtn) aboutPopup.classList.remove("show"); });
-
-// بارگذاری کارت‌ها
-async function loadCards(container, folder){
-    for(let i=1;i<=12;i++){
-        try{
-            const res=await fetch(`${folder}/${i}.html`,{cache:"no-store"});
-            if(!res.ok) continue;
-            const html=await res.text();
-            const card=document.createElement("div");
-            card.className="movie-card";
-            card.innerHTML=html;
-            container.appendChild(card);
-            const btn=card.querySelector(".reserve-bar"); if(btn) btn.addEventListener("click",()=>{ window.location.href="https://t.me/softshirazadmin"; });
-        }catch(e){ console.log("خطا در لود کارت",i); }
-    }
-}
-
-// Auto-play slider
-function startAutoPlay(container){
-    const cards = container.querySelectorAll(".movie-card");
-    if(cards.length===0) return;
-    let index=0;
-    const total=cards.length;
-    const cardWidth=cards[0].offsetWidth + 20;
-    setInterval(()=>{
-        index++; if(index>=total) index=0;
-        container.style.transform = `translateX(-${index*cardWidth}px)`;
-    },3000);
-}
-
-// شروع
-const futureContainer=document.getElementById("future-cards");
-const pastContainer=document.getElementById("past-cards");
-
-loadCards(futureContainer,'card').then(()=>startAutoPlay(futureContainer));
-loadCards(pastContainer,'cards').then(()=>startAutoPlay(pastContainer));
-</script>
-
-</body>
-</html>
 <title>🎬 سافت شیراز 🎬</title>
 
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
@@ -149,37 +18,215 @@ body {
     overflow-x:hidden;
 }
 
-header { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding:15px 25px; display:flex; justify-content:flex-end; align-items:center; border-bottom:1px solid rgba(48,48,48,0.5); position:sticky; top:0; z-index:10; text-shadow:0 0 10px rgba(255,215,0,0.25);}
-.logo-fa { font-weight:700; font-size:26px; background:linear-gradient(45deg,#ffd700,#ffb300); -webkit-background-clip:text; color:transparent;}
-main { padding:35px 15px 60px;}
-h2 { color:#ffd700; font-size:28px; text-shadow:0 0 8px rgba(255,215,0,0.3); margin-bottom:20px; text-align:right;}
-.section { margin-bottom:50px; position:relative;}
-.movies-grid { display:flex; gap:20px; overflow-x:hidden; scroll-behavior:smooth; padding-bottom:10px;}
-.movie-card { perspective:1000px; position:relative; flex:0 0 auto; }
-.card-inner { position: relative; transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1); transform-style: preserve-3d; cursor: grab; width: 280px; height: 420px; }
-.card-front, .card-back { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden; backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65); box-shadow: 0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2); background: rgba(19,19,20,0.75); backdrop-filter: blur(10px);}
+#gold-particles {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:0;
+}
+
+.particle {
+    position:absolute;
+    width:4px; height:4px;
+    background:rgba(255,215,0,0.8);
+    border-radius:50%;
+    box-shadow:0 0 6px rgba(255,215,0,0.9);
+    animation: floatDown linear infinite;
+}
+
+@keyframes floatDown {
+    from { transform: translateY(-120vh); opacity:1; }
+    to { transform: translateY(120vh); opacity:0; }
+}
+
+header {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    padding:15px 25px;
+    display:flex; justify-content:flex-end; align-items:center;
+    border-bottom:1px solid rgba(48,48,48,0.5); 
+    position:sticky; top:0; z-index:10;
+    text-shadow:0 0 10px rgba(255,215,0,0.25);
+}
+
+.logo-fa {
+    font-weight:700;
+    font-size:26px;
+    background:linear-gradient(45deg,#ffd700,#ffb300);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+main { padding:35px 15px 60px; }
+
+h2 { 
+    color:#ffd700; font-size:28px; text-shadow:0 0 8px rgba(255,215,0,0.3); 
+    margin-bottom:20px;
+    text-align:right;
+}
+
+.section { margin-bottom:50px; position:relative; }
+
+/* کارت‌ها افقی با scroll snap و drag */
+.movies-grid {
+    display:flex;
+    gap:20px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom:10px;
+    cursor: grab;
+
+    scroll-snap-type: x mandatory;
+}
+
+.movie-card { perspective:1000px; position:relative; flex:0 0 auto; scroll-snap-align: start; }
+
+.card-inner {
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    cursor: grab;
+    width: 280px;
+    height: 420px; 
+}
+
+.card-front, .card-back {
+    position:absolute;
+    top:0; left:0; width:100%; height:100%;
+    border-radius:16px;
+    overflow:hidden;
+    backface-visibility:hidden;
+    border:2px solid rgba(255,215,0,0.65);
+    box-shadow: 0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
+    background: rgba(19,19,20,0.75);
+    backdrop-filter: blur(10px);
+}
+
 .card-inner.flipped { transform: rotateY(180deg); }
+
 .card-front { display:flex; flex-direction:column; }
+
 .img-bar { flex:1; width:100%; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; }
-.date-bar, .title-bar, .reserve-bar { height:36px; line-height:36px; padding:0 10px; text-align:center; background: rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1); font-size:14px; }
-.date-bar { color:#ffd700; } .title-bar { color:#fff; } .reserve-bar { color:#000; background:#ffd700; font-weight:bold; cursor:pointer; }
-.card-back { transform:rotateY(180deg); padding:15px; color:#fff; text-align:right; font-size:14px; display:flex; flex-direction:column; }
+
+.date-bar, .title-bar, .reserve-bar {
+    height:36px; line-height:36px;
+    padding:0 10px; text-align:center;
+    background: rgba(0,0,0,0.3);
+    border-top:1px solid rgba(255,255,255,0.1);
+    font-size:14px;
+}
+
+.date-bar { color:#ffd700; }
+.title-bar { color:#fff; }
+.reserve-bar { color:#000; background:#ffd700; font-weight:bold; cursor:pointer; }
+
+.card-back {
+    transform:rotateY(180deg);
+    padding:15px; color:#fff; text-align:right;
+    font-size:14px; display:flex; flex-direction:column;
+}
+
 .card-back h3, .card-back p strong { color:#ffd700; }
-footer { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding:20px; text-align:center; border-top:1px solid rgba(48,48,48,0.5); }
+
+footer {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    padding:20px; text-align:center;
+    border-top:1px solid rgba(48,48,48,0.5); 
+}
+
 .footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
+
 .social-row { display:flex; justify-content:center; gap:18px; }
-.social-icon { width:48px; height:48px; border-radius:50%; background: rgba(26,26,26,0.7); backdrop-filter: blur(5px); display:flex; align-items:center; justify-content:center; color:#ffd700; font-size:22px; text-decoration:none;}
+
+.social-icon {
+    width:48px; height:48px; border-radius:50%;
+    background: rgba(26,26,26,0.7);
+    backdrop-filter: blur(5px);
+    display:flex; align-items:center; justify-content:center;
+    color:#ffd700; font-size:22px;
+    text-decoration:none;
+}
+
 .social-icon:hover { background:#ffd700; color:#000; }
-#about-popup { display:none; position:fixed; top:-45%; left:50%; transform:translate(-50%,-50%); width:300px; background: rgba(17,17,17,0.95); backdrop-filter: blur(12px); border:2px solid rgba(255,215,0,0.5); border-radius:12px; padding:20px; font-size:14px; text-align:right; z-index:1000; opacity:0; transition:opacity .3s; }
+
+#about-popup {
+    display:none; 
+    position:fixed; 
+    top:-45%; left:50%;
+    transform:translate(-50%,-50%);
+    width:300px;
+    background: rgba(17,17,17,0.95);
+    backdrop-filter: blur(12px);
+    border:2px solid rgba(255,215,0,0.5);
+    border-radius:12px; 
+    padding:20px; 
+    font-size:14px; 
+    text-align:right; 
+    z-index:1000;
+    opacity:0; 
+    transition:opacity .3s;
+}
+
 #about-popup.show { display:block; opacity:1; }
-#loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background:#111; display: flex; justify-content: center; align-items: center; z-index: 10000; opacity: 1; transition: opacity 0.5s ease; }
-#loading-overlay.hidden { opacity: 0; pointer-events: none; }
+
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:#111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+#loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
 .loader { position: relative; width: 40px; height: 40px; }
-.loader .circle { position: absolute; width: 38px; height: 38px; opacity: 0; transform: rotate(225deg); animation: orbit 5.5s infinite;}
-.loader .circle:after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: yellow; }
-.loader .circle:nth-child(2) { animation-delay: 240ms; } .loader .circle:nth-child(3) { animation-delay: 480ms; } .loader .circle:nth-child(4) { animation-delay: 720ms; } .loader .circle:nth-child(5) { animation-delay: 960ms; }
-@keyframes orbit { 0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 7%   { transform:rotate(345deg); animation-timing-function: linear; } 30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; } 39%  { transform:rotate(690deg); animation-timing-function: linear; } 70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; } 75%  { transform:rotate(945deg); animation-timing-function: ease-out; } 76%  { transform:rotate(945deg); opacity: 0; } 100% { transform:rotate(945deg); opacity: 0; }
+
+.loader .circle {
+  position: absolute;
+  width: 38px; height: 38px;
+  opacity: 0;
+  transform: rotate(225deg);
+  animation: orbit 5.5s infinite;
+}
+
+.loader .circle:after {
+  content: '';
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: yellow;
+}
+
+.loader .circle:nth-child(2) { animation-delay: 240ms; }
+.loader .circle:nth-child(3) { animation-delay: 480ms; }
+.loader .circle:nth-child(4) { animation-delay: 720ms; }
+.loader .circle:nth-child(5) { animation-delay: 960ms; }
+
+@keyframes orbit { 
+  0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
+  7%   { transform:rotate(345deg); animation-timing-function: linear; }
+  30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
+  39%  { transform:rotate(690deg); animation-timing-function: linear; }
+  70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+  75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
+  76%  { transform:rotate(945deg); opacity: 0; }
+  100% { transform:rotate(945deg); opacity: 0; } 
+}
 </style>
 </head>
 <body>
@@ -199,11 +246,13 @@ footer { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding:20px;
 <header><div class="logo-fa">Soft Shiraz</div></header>
 
 <main>
+  <!-- اکران های آینده -->
   <section class="section">
     <h2>اکران‌های آینده</h2>
     <div class="movies-grid" id="future-cards"></div>
   </section>
 
+  <!-- اکران شده ها -->
   <section class="section">
     <h2>اکران شده‌ها</h2>
     <div class="movies-grid" id="past-cards"></div>
@@ -247,10 +296,42 @@ window.addEventListener('load', () => {
     }, 5000);
 });
 
+// فعال کردن drag و swipe
+function enableDragScroll(container){
+    let isDown=false, startX, scrollLeft;
+
+    container.addEventListener('mousedown',(e)=>{ isDown=true; startX=e.pageX-container.offsetLeft; scrollLeft=container.scrollLeft; container.style.cursor='grabbing'; });
+    container.addEventListener('mouseleave',()=>{ isDown=false; container.style.cursor='grab'; });
+    container.addEventListener('mouseup',()=>{ isDown=false; container.style.cursor='grab'; });
+    container.addEventListener('mousemove',(e)=>{ if(!isDown) return; const x=e.pageX - container.offsetLeft; container.scrollLeft = scrollLeft - (x-startX); });
+
+    container.addEventListener('touchstart',(e)=>{ startX=e.touches[0].pageX - container.offsetLeft; scrollLeft=container.scrollLeft; });
+    container.addEventListener('touchmove',(e)=>{ e.preventDefault(); const x=e.touches[0].pageX - startX; container.scrollLeft = scrollLeft - x; });
+}
+
+// Auto-play slider هر 3 ثانیه
+function enableAutoPlay(container){
+    setInterval(()=>{
+        let scrollAmount = container.clientWidth / container.children.length;
+        if(container.scrollLeft + scrollAmount >= container.scrollWidth - container.clientWidth){
+            container.scrollTo({left:0, behavior:'smooth'});
+        } else {
+            container.scrollBy({left:scrollAmount, behavior:'smooth'});
+        }
+    },3000);
+}
+
+const futureContainer = document.getElementById("future-cards");
+const pastContainer = document.getElementById("past-cards");
+enableDragScroll(futureContainer);
+enableDragScroll(pastContainer);
+enableAutoPlay(futureContainer);
+enableAutoPlay(pastContainer);
+
 let openCard = null;
 
-// بارگذاری کارت‌ها و اجرای auto-play بعد از لود کامل
-async function loadCards(container, folder, callback){
+// بارگذاری کارت‌ها
+async function loadCards(container, folder){
     for (let num=1; num<=12; num++){
         try {
             const response = await fetch(`${folder}/${num}.html`, { cache:"no-store" });
@@ -264,8 +345,10 @@ async function loadCards(container, folder, callback){
             if(reserveButton) reserveButton.addEventListener("click", ()=>{ window.location.href="https://t.me/softshirazadmin"; });
         } catch(e){ console.log("خطا در لود کارت", num); }
     }
-    if(callback) callback();
 }
+
+loadCards(futureContainer,'card');  // اکران های آینده
+loadCards(pastContainer,'cards');   // اکران شده ها
 
 // Flip
 document.addEventListener("click", function(e){
@@ -282,28 +365,6 @@ const aboutBtn = document.getElementById("about-btn");
 const aboutPopup = document.getElementById("about-popup");
 aboutBtn.addEventListener("click",(e)=>{ e.stopPropagation(); aboutPopup.classList.toggle("show"); });
 document.addEventListener("click",(e)=>{ if(!aboutPopup.contains(e.target) && e.target!==aboutBtn) aboutPopup.classList.remove("show"); });
-
-// Auto-play slider افقی
-function startAutoPlay(container){
-    const cards = container.querySelectorAll(".movie-card");
-    if(cards.length===0) return;
-    let index = 0;
-    const cardWidth = cards[0].offsetWidth + 20; // card + gap
-    setInterval(()=>{
-        index++;
-        if(index * cardWidth >= container.scrollWidth){
-            index = 0;
-        }
-        container.scrollTo({left:index*cardWidth, behavior:"smooth"});
-    },3000);
-}
-
-// لیست کارت‌ها
-const futureContainer = document.getElementById("future-cards");
-const pastContainer = document.getElementById("past-cards");
-
-loadCards(futureContainer,'card', ()=> startAutoPlay(futureContainer));  // اکران های آینده
-loadCards(pastContainer,'cards', ()=> startAutoPlay(pastContainer));   // اکران شده ها
 
 </script>
 </body>
