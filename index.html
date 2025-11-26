@@ -3,147 +3,160 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Movie Cards</title>
+<title>سایت فیلم – نسخه گلاس مورفیسم طلایی</title>
 
 <style>
-/* ===================================================================
-   *** استایل اصلی خودت (بدون حذف یا تغییر مخرب) ***
-   =================================================================== */
-body {
-  font-family: sans-serif;
-  background: #000;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
+    @font-face {
+        font-family: "iransans";
+        src: url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap");
+    }
 
-/* پس‌زمینه طلایی */
-.gold-bg {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, rgba(255,215,0,0.15), transparent 70%);
-  z-index: -1;
-}
+    body {
+        margin: 0;
+        font-family: "Vazirmatn", sans-serif;
+        background: #000;
+        overflow-x: hidden;
+    }
 
-/* کارت فیلم */
-.movie-card {
-  width: 230px;
-  height: 330px;
-  margin: 20px auto;
-  border-radius: 20px;
-  overflow: hidden;
-  perspective: 1200px;
-  position: relative;
-  cursor: pointer;
+    /* پس‌زمینه طلایی با افکت پارالاکس */
+    #gold-bg {
+        position: fixed;
+        width: 120%;
+        height: 120%;
+        top: -10%;
+        left: -10%;
+        background: radial-gradient(circle, rgba(255,200,100,0.4), rgba(0,0,0,0.9));
+        filter: blur(80px);
+        z-index: -2;
+        transition: transform 0.2s linear;
+    }
 
-  /* ------------------------------
-     📌 شیشه‌ای ارتقایافته (Glassmorphism)
-     ------------------------------ */
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
-  box-shadow:
-    0 10px 25px rgba(255, 215, 0, 0.15),
-    0 0 20px rgba(255, 215, 0, 0.1);
+    /* گلاس مورفیسم */
+    .glass {
+        backdrop-filter: blur(14px) saturate(180%);
+        -webkit-backdrop-filter: blur(14px) saturate(180%);
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
 
-  transition: backdrop-filter 0.2s ease-out, transform 0.2s ease-out;
-}
+    /* کارت فیلم با شیشه مات + هایلایت طلایی 3D */
+    .movie-card {
+        width: 220px;
+        padding: 18px;
+        margin: 20px;
+        border-radius: 20px;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid rgba(255, 200, 0, 0.35);
+        box-shadow:
+            0 0 12px rgba(255, 200, 0, 0.4),
+            inset 0 0 25px rgba(255, 200, 0, 0.15),
+            0 20px 40px rgba(0,0,0,0.4);
+        backdrop-filter: blur(10px);
+    }
 
-/* افکت نور طلایی سه‌بعدی */
-.movie-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,215,0,0.25), transparent 70%);
-  opacity: 0.2;
-  pointer-events: none;
-  transition: opacity 0.3s ease-out;
-}
+    /* هایلایت طلایی 3D در حالت Hover */
+    .movie-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow:
+            0 0 25px rgba(255, 200, 0, 0.7),
+            inset 0 0 35px rgba(255, 200, 0, 0.25),
+            0 25px 50px rgba(0,0,0,0.55);
+        border-color: rgba(255, 220, 0, 0.7);
+    }
 
-/* هنگام هاور — نور بیشتر */
-.movie-card:hover::before {
-  opacity: 0.35;
-}
+    /* افکت نور طلایی متحرک */
+    .movie-card::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,230,150,0.25), transparent 60%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+    .movie-card:hover::after {
+        opacity: 1;
+        animation: shine 2.2s infinite linear;
+    }
 
-/* لایه جلو کارت */
-.front,
-.back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  border-radius: 20px;
-}
+    @keyframes shine {
+        from { transform: translate(-20%, -20%); }
+        to   { transform: translate(20%, 20%); }
+    }
 
-.back {
-  transform: rotateY(180deg);
-}
+    .movie-img {
+        width: 100%;
+        border-radius: 12px;
+        margin-bottom: 12px;
+    }
 
-/* لی‌اوت کارت‌ها */
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+    .movie-title {
+        color: #ffd27f;
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .movie-year {
+        color: #fff;
+        opacity: 0.8;
+    }
+
+    /* ظرف کارت‌ها */
+    #movies-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding-top: 60px;
+    }
 </style>
-
 </head>
+
 <body>
 
-<div class="gold-bg"></div>
+<div id="gold-bg"></div>
 
-<h1 style="text-align:center; color:#ffd700; margin-top:25px;">🎬 Movie Cards</h1>
+<h1 style="text-align:center;color:#ffd27f;margin-top:30px;">
+    🎬 مجموعه فیلم‌ها – نسخه حرفه‌ای گلاس مورفیسم
+</h1>
 
-<div class="container">
-
-  <!-- نمونه کارت -->
-  <div class="movie-card">
-    <div class="front" style="background:url('https://iili.io/dXUzQp7.jpg') center/cover;"></div>
-    <div class="back" style="background:#111; color:white; padding:20px;">
-      <h2>Movie Title</h2>
-      <p>Some description...</p>
-    </div>
-  </div>
-
-  <div class="movie-card">
-    <div class="front" style="background:url('https://iili.io/dXUzOtQ.jpg') center/cover;"></div>
-    <div class="back" style="background:#111; color:white; padding:20px;">
-      <h2>Movie Title</h2>
-      <p>Some description...</p>
-    </div>
-  </div>
-
-  <div class="movie-card">
-    <div class="front" style="background:url('https://iili.io/dXU6Hwu.jpg') center/cover;"></div>
-    <div class="back" style="background:#111; color:white; padding:20px;">
-      <h2>Movie Title</h2>
-      <p>Some description...</p>
-    </div>
-  </div>
-
-</div>
+<div id="movies-container"></div>
 
 <script>
-/* ===================================================================
-   🎨 فقط پیشنهاد شماره ۱ — افکت شیشه‌ای هوشمند
-   =================================================================== */
+    // پارالاکس طلایی هوشمند
+    document.addEventListener("mousemove", (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        document.getElementById("gold-bg").style.transform = `translate(${x}px, ${y}px)`;
+    });
 
-/* 1) تغییر مقدار blur با حرکت موس روی کارت */
-document.querySelectorAll(".movie-card").forEach(card => {
-  card.addEventListener("mousemove", (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percent = x / rect.width;
+    // نمونه دیتای فیلم‌ها
+    const movies = [
+        { title: "Inception", year: 2010, poster: "https://m.media-amazon.com/images/I/81p+xe8cbnL._AC_UF894,1000_QL80_.jpg" },
+        { title: "Interstellar", year: 2014, poster: "https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_UF1000,1000_QL80_.jpg" },
+        { title: "John Wick", year: 2014, poster: "https://m.media-amazon.com/images/I/71tD7pMxTRL._AC_UF894,1000_QL80_.jpg" },
+        { title: "The Dark Knight", year: 2008, poster: "https://m.media-amazon.com/images/I/51k0qa6zY-L._AC_.jpg" },
+    ];
 
-    const blur = 6 + percent * 5; // بلور پویا
-
-    card.style.backdropFilter = `blur(${blur}px)`;
-    card.style.transform = `scale(1.03)`;
-  });
-
-  card.addEventListener("mouseleave", () => {
-    card.style.backdropFilter = `blur(8px)`;
-    card.style.transform = `scale(1)`;
-  });
-});
+    // تولید کارت‌ها
+    const container = document.getElementById("movies-container");
+    movies.forEach(movie => {
+        const card = document.createElement("div");
+        card.className = "movie-card glass";
+        card.innerHTML = `
+            <img class="movie-img" src="${movie.poster}">
+            <div class="movie-title">${movie.title}</div>
+            <div class="movie-year">${movie.year}</div>
+        `;
+        container.appendChild(card);
+    });
 </script>
 
 </body>
