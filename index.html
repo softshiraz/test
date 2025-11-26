@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎬 سافت شیراز 🎬</title>
+
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-/* -------------------- تمام CSS اصلی تو حفظ شده -------------------- */
 
+<style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
 body { 
@@ -18,7 +18,6 @@ body {
     overflow-x:hidden;
 }
 
-/* ذرات طلایی */
 #gold-particles {
     position: fixed;
     top:0; left:0;
@@ -42,7 +41,6 @@ body {
     to { transform: translateY(120vh); opacity:0; }
 }
 
-/* هدر */
 header {
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
@@ -63,42 +61,36 @@ header {
 
 main { padding:35px 15px 60px; }
 
-h2 {
-    color:#ffd700; font-size:28px; text-align:right;
+h2 { 
+    color:#ffd700; font-size:28px; text-shadow:0 0 8px rgba(255,215,0,0.3); 
     margin-bottom:20px;
-    padding-right:10px;
-    text-shadow:0 0 8px rgba(255,215,0,0.3);
+    text-align:right;
 }
 
-.section { text-align:right; }
+.section { margin-bottom:50px; position:relative; }
 
-/* -------------------- اسلایدر جدید -------------------- */
-
-.slider-container {
-    width:100%;
-    overflow:hidden;
-    position:relative;
-    padding-bottom:10px;
-}
-
-.slider-track {
+/* کارت‌ها افقی با drag و auto scroll */
+.movies-grid {
     display:flex;
     gap:20px;
-    will-change: transform;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom:10px;
+    cursor: grab;
 }
 
-.movie-card {
-    flex:0 0 auto;
-}
+.movies-grid::-webkit-scrollbar { height:8px; }
+.movies-grid::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.5); border-radius:4px; }
+.movies-grid::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
 
-/* کارت‌ها */
-.movie-card { perspective:1000px; position:relative; }
+.movie-card { perspective:1000px; position:relative; flex:0 0 auto; }
 
 .card-inner {
     position: relative;
     transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
     transform-style: preserve-3d;
-    cursor: pointer;
+    cursor: grab;
     width: 280px;
     height: 420px; 
 }
@@ -110,9 +102,7 @@ h2 {
     overflow:hidden;
     backface-visibility:hidden;
     border:2px solid rgba(255,215,0,0.65);
-    box-shadow:
-        0 0 8px rgba(255,215,0,0.25),
-        inset 0 0 6px rgba(255,215,0,0.2);
+    box-shadow: 0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
     background: rgba(19,19,20,0.75);
     backdrop-filter: blur(10px);
 }
@@ -144,7 +134,6 @@ h2 {
 
 .card-back h3, .card-back p strong { color:#ffd700; }
 
-/* فوتر */
 footer {
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
@@ -167,7 +156,6 @@ footer {
 
 .social-icon:hover { background:#ffd700; color:#000; }
 
-/* پاپ‌آپ */
 #about-popup {
     display:none; 
     position:fixed; 
@@ -188,45 +176,107 @@ footer {
 
 #about-popup.show { display:block; opacity:1; }
 
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:#111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
 
+#loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader { position: relative; width: 40px; height: 40px; }
+
+.loader .circle {
+  position: absolute;
+  width: 38px; height: 38px;
+  opacity: 0;
+  transform: rotate(225deg);
+  animation: orbit 5.5s infinite;
+}
+
+.loader .circle:after {
+  content: '';
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: yellow;
+}
+
+.loader .circle:nth-child(2) { animation-delay: 240ms; }
+.loader .circle:nth-child(3) { animation-delay: 480ms; }
+.loader .circle:nth-child(4) { animation-delay: 720ms; }
+.loader .circle:nth-child(5) { animation-delay: 960ms; }
+
+@keyframes orbit { 
+  0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
+  7%   { transform:rotate(345deg); animation-timing-function: linear; }
+  30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
+  39%  { transform:rotate(690deg); animation-timing-function: linear; }
+  70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+  75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
+  76%  { transform:rotate(945deg); opacity: 0; }
+  100% { transform:rotate(945deg); opacity: 0; } 
+}
 </style>
 </head>
 <body>
 
 <div id="gold-particles"></div>
 
+<div id="loading-overlay">
+  <div class="loader">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+  </div>
+</div>
+
 <header><div class="logo-fa">Soft Shiraz</div></header>
 
 <main>
+  <!-- اکران های آینده -->
+  <section class="section">
+    <h2>اکران‌های آینده</h2>
+    <div class="movies-grid" id="future-cards"></div>
+  </section>
 
-    <section class="section">
-        <h2>اکران‌های آینده</h2>
-
-        <!-- اسلایدر -->
-        <div class="slider-container">
-            <div class="slider-track" id="cards-container"></div>
-        </div>
-
-    </section>
-
+  <!-- اکران شده ها -->
+  <section class="section">
+    <h2>اکران شده‌ها</h2>
+    <div class="movies-grid" id="past-cards"></div>
+  </section>
 </main>
 
 <footer>
-    <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
-    <div class="social-row">
-        <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
-        <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
-    </div>
+  <div class="footer-title">شبکه‌های اجتماعی سافت شیراز</div>
+  <div class="social-row">
+      <a class="social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
+      <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
+  </div>
 
-    <div id="about-popup">
-        <strong>درباره ما:</strong>
-        <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
-    </div>
+  <div id="about-popup">
+      <strong>درباره ما:</strong>
+      <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
+  </div>
 </footer>
 
 <script>
-/* -------------------- کد ذرات طلایی -------------------- */
+// ذرات طلایی
 const particleContainer = document.getElementById("gold-particles");
 for (let i = 0; i < 80; i++) {
     const p = document.createElement("div");
@@ -241,108 +291,81 @@ for (let i = 0; i < 80; i++) {
     particleContainer.appendChild(p);
 }
 
-/* -------------------- لود کارت‌ها -------------------- */
-const track = document.getElementById("cards-container");
+// لودر
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('loading-overlay').classList.add('hidden');
+    }, 5000);
+});
 
-async function loadCards() {
-    for (let num = 1; num <= 12; num++) {
+// Drag + swipe + auto scroll
+function enableScroll(container){
+    let isDown=false, startX, scrollLeft;
+
+    // drag
+    container.addEventListener('mousedown',(e)=>{ isDown=true; startX=e.pageX-container.offsetLeft; scrollLeft=container.scrollLeft; container.style.cursor='grabbing'; });
+    container.addEventListener('mouseleave',()=>{ isDown=false; container.style.cursor='grab'; });
+    container.addEventListener('mouseup',()=>{ isDown=false; container.style.cursor='grab'; });
+    container.addEventListener('mousemove',(e)=>{ if(!isDown) return; const x=e.pageX - container.offsetLeft; container.scrollLeft = scrollLeft - (x-startX)*2; });
+
+    // touch
+    container.addEventListener('touchstart',(e)=>{ startX=e.touches[0].pageX - container.offsetLeft; scrollLeft=container.scrollLeft; });
+    container.addEventListener('touchmove',(e)=>{ e.preventDefault(); const x=e.touches[0].pageX - startX; container.scrollLeft = scrollLeft - x; });
+
+    // auto scroll
+    setInterval(()=>{
+        if(!isDown){
+            container.scrollLeft += 0.5;
+            if(container.scrollLeft + container.clientWidth >= container.scrollWidth){
+                container.scrollLeft = 0;
+            }
+        }
+    },20);
+}
+
+const futureContainer = document.getElementById("future-cards");
+const pastContainer = document.getElementById("past-cards");
+enableScroll(futureContainer);
+enableScroll(pastContainer);
+
+let openCard = null;
+
+// بارگذاری کارت‌ها
+async function loadCards(container, folder){
+    for (let num=1; num<=12; num++){
         try {
-            const response = await fetch(`cards/${num}.html`);
-            if (!response.ok) continue;
+            const response = await fetch(`${folder}/${num}.html`, { cache:"no-store" });
+            if(!response.ok) continue;
             const html = await response.text();
-
             const card = document.createElement("div");
             card.className = "movie-card";
             card.innerHTML = html;
-
-            track.appendChild(card);
-        } catch(e) {}
+            container.appendChild(card);
+            const reserveButton = card.querySelector(".reserve-bar");
+            if(reserveButton) reserveButton.addEventListener("click", ()=>{ window.location.href="https://t.me/softshirazadmin"; });
+        } catch(e){ console.log("خطا در لود کارت", num); }
     }
 }
-loadCards();
 
-/* -------------------- اسلایدر نرم + لوپ واقعی -------------------- */
+loadCards(futureContainer,'card');  // اکران های آینده
+loadCards(pastContainer,'cards');   // اکران شده ها
 
-let pos = 0;
-let speed = 0.4; // سرعت حرکت
-let isDragging = false;
-let startX = 0;
-let prevX = 0;
-let velocity = 0;
-
-/* حرکت اتوماتیک */
-function autoSlide() {
-    pos -= speed;
-    track.style.transform = `translateX(${pos}px)`;
-
-    const first = track.children[0];
-    const rect = first.getBoundingClientRect();
-
-    if (rect.right < -50) {
-        track.appendChild(first);
-        pos += first.offsetWidth + 20;
-    }
-
-    requestAnimationFrame(autoSlide);
-}
-autoSlide();
-
-/* Drag */
-track.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    startX = e.pageX - pos;
-    prevX = e.pageX;
-});
-track.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-    pos = e.pageX - startX;
-    velocity = e.pageX - prevX;
-    prevX = e.pageX;
-});
-track.addEventListener("mouseup", () => { isDragging = false; });
-track.addEventListener("mouseleave", () => { isDragging = false; });
-
-/* Touch */
-track.addEventListener("touchstart", (e) => {
-    isDragging = true;
-    startX = e.touches[0].pageX - pos;
-    prevX = e.touches[0].pageX;
-});
-track.addEventListener("touchmove", (e) => {
-    if (!isDragging) return;
-    pos = e.touches[0].pageX - startX;
-    velocity = e.touches[0].pageX - prevX;
-    prevX = e.touches[0].pageX;
-});
-track.addEventListener("touchend", () => { isDragging = false; });
-
-/* -------------------- فلپ کارت -------------------- */
-let openCard = null;
-
-document.addEventListener("click", function (e) {
+// Flip
+document.addEventListener("click", function(e){
     const cardInner = e.target.closest(".card-inner");
-    if (cardInner) {
-        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
+    if(cardInner){
+        if(openCard && openCard!==cardInner) openCard.classList.remove("flipped");
         cardInner.classList.toggle("flipped");
-        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
+        openCard = cardInner.classList.contains("flipped")?cardInner:null;
     }
 });
 
-/* -------------------- درباره ما -------------------- */
+// پاپ‌آپ درباره ما
 const aboutBtn = document.getElementById("about-btn");
 const aboutPopup = document.getElementById("about-popup");
+aboutBtn.addEventListener("click",(e)=>{ e.stopPropagation(); aboutPopup.classList.toggle("show"); });
+document.addEventListener("click",(e)=>{ if(!aboutPopup.contains(e.target) && e.target!==aboutBtn) aboutPopup.classList.remove("show"); });
 
-aboutBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    aboutPopup.classList.toggle("show");
-});
-
-document.addEventListener("click", (e) => {
-    if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
-        aboutPopup.classList.remove("show");
-    }
-});
 </script>
-
 </body>
 </html>
