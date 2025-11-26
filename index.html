@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🎬 سافت شیراز 🎬</title>
+
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -14,6 +16,29 @@ body {
     background:#0e0e0f;
     color:#fff;
     overflow-x:hidden;
+}
+
+#gold-particles {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:0;
+}
+
+.particle {
+    position:absolute;
+    width:4px; height:4px;
+    background:rgba(255,215,0,0.8);
+    border-radius:50%;
+    box-shadow:0 0 6px rgba(255,215,0,0.9);
+    animation: floatDown linear infinite;
+}
+
+@keyframes floatDown {
+    from { transform: translateY(-120vh); opacity:1; }
+    to { transform: translateY(120vh); opacity:0; }
 }
 
 header {
@@ -47,16 +72,12 @@ h2 {
 .movies-grid {
     display:flex;
     gap:20px;
-    overflow:hidden; /* هیچ نوار اسکرولی نباشد */
-    position:relative;
-    width:100%;
+    overflow-x:hidden; /* نوار اسکرول پنهان */
+    scroll-behavior:smooth;
+    padding-bottom:10px;
 }
 
-.movie-card { 
-    perspective:1000px; 
-    position:relative; 
-    flex:0 0 auto;
-}
+.movie-card { perspective:1000px; position:relative; flex:0 0 auto; }
 
 .card-inner {
     position: relative;
@@ -163,7 +184,10 @@ footer {
     transition: opacity 0.5s ease;
 }
 
-#loading-overlay.hidden { opacity: 0; pointer-events: none; }
+#loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 
 .loader { position: relative; width: 40px; height: 40px; }
 
@@ -221,6 +245,11 @@ footer {
     <h2>اکران‌های آینده</h2>
     <div class="movies-grid" id="future-cards"></div>
   </section>
+
+  <section class="section">
+    <h2>اکران شده‌ها</h2>
+    <div class="movies-grid" id="past-cards"></div>
+  </section>
 </main>
 
 <footer>
@@ -230,6 +259,7 @@ footer {
       <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
       <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
   </div>
+
   <div id="about-popup">
       <strong>درباره ما:</strong>
       <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
@@ -259,7 +289,6 @@ window.addEventListener('load', () => {
     }, 5000);
 });
 
-const futureContainer = document.getElementById("future-cards");
 let openCard = null;
 
 // بارگذاری کارت‌ها
@@ -278,7 +307,12 @@ async function loadCards(container, folder){
         } catch(e){ console.log("خطا در لود کارت", num); }
     }
 }
-loadCards(futureContainer,'card');
+
+const futureContainer = document.getElementById("future-cards");
+const pastContainer = document.getElementById("past-cards");
+
+loadCards(futureContainer,'card');  // اکران های آینده
+loadCards(pastContainer,'cards');   // اکران شده ها
 
 // Flip
 document.addEventListener("click", function(e){
@@ -296,25 +330,21 @@ const aboutPopup = document.getElementById("about-popup");
 aboutBtn.addEventListener("click",(e)=>{ e.stopPropagation(); aboutPopup.classList.toggle("show"); });
 document.addEventListener("click",(e)=>{ if(!aboutPopup.contains(e.target) && e.target!==aboutBtn) aboutPopup.classList.remove("show"); });
 
-// اسلایدر اتوماتیک افقی بدون تکان و loop واقعی
-function startAutoSlider(container){
-    let speed = 0.5; // سرعت حرکت px/frame
-    function animate(){
-        const firstCard = container.firstElementChild;
-        if(!firstCard) return requestAnimationFrame(animate);
-        container.scrollLeft += speed;
-        // اگر کارت کامل خارج شد، آن را به انتها منتقل کن
-        if(firstCard.getBoundingClientRect().right < container.getBoundingClientRect().left){
-            container.appendChild(firstCard);
-            container.scrollLeft -= firstCard.offsetWidth + parseInt(getComputedStyle(container).gap);
+// Auto-play slider افقی
+function startAutoPlay(container){
+    let index = 0;
+    const cardWidth = container.querySelector(".movie-card") ? container.querySelector(".movie-card").offsetWidth + 20 : 300; // card + gap
+    setInterval(()=>{
+        index++;
+        if(index * cardWidth >= container.scrollWidth){
+            index = 0;
         }
-        requestAnimationFrame(animate);
-    }
-    animate();
+        container.scrollTo({left:index*cardWidth, behavior:"smooth"});
+    },3000);
 }
 
-startAutoSlider(futureContainer);
-
+futureContainer.addEventListener("DOMNodeInserted", ()=>{ startAutoPlay(futureContainer); }, { once:true });
+pastContainer.addEventListener("DOMNodeInserted", ()=>{ startAutoPlay(pastContainer); }, { once:true });
 </script>
 </body>
 </html>
