@@ -341,16 +341,15 @@ document.addEventListener("click", function(e) {
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
     const dateTime   = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
 
-    const message = `سلام تیم سافت شیراز
+    const message = `💖 سلام تیم سافت شیراز 💖
 
-درخواست رزرو بلیط
+✨🎟*درخواست رزرو بلیط*🎟✨
 
-فیلم: ${movieName}
-زمان: ${dateTime}
+🎬 فیلم : ${movieName} 🍿
+🕓 زمان : ${dateTime} ⏰
 
-ممنون میشم شرایط رزرو و موجودی سانس رو برام بفرستید
-
-مرسی از زحماتتون`;
+✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏
+🌟 مرسی ازتون 🌟`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://t.me/Softshirazbot?text=${encoded}`, "_blank");
