@@ -63,16 +63,21 @@ header {
 
 main { padding:35px 15px 60px; }
 
+/* عنوان */
 h2 {
-    color:#ffd700; font-size:28px; text-align:center;
-    margin-bottom:35px; border-bottom:3px solid #ffd700;
-    display:inline-block; padding-bottom:6px;
+    color:#ffd700;
+    font-size:28px;
+    text-align:center;
+    margin-bottom:35px;
+    border-bottom:3px solid #ffd700;
+    display:inline-block;
+    padding-bottom:6px;
     text-shadow:0 0 8px rgba(255,215,0,0.3);
 }
 
 .section { text-align:center; }
 
-/* کارت‌ها */
+/* گرید کارت‌ها */
 .movies-grid {
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -80,22 +85,20 @@ h2 {
     justify-items:center;
     max-width:1200px;
     margin:0 auto;
-    opacity: 1 !important;
-    transform: none !important;
 }
 
 .movie-card { perspective:1000px; position:relative; }
 
 .card-inner {
     position: relative;
-    transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
+    transition: transform 0.3s;
     transform-style: preserve-3d;
     cursor: pointer;
     width: 280px;
     height: 420px; 
 }
 
-/* لبه‌دار */
+/* جلو و پشت کارت */
 .card-front, .card-back {
     position:absolute;
     top:0; left:0; width:100%; height:100%;
@@ -103,19 +106,14 @@ h2 {
     overflow:hidden;
     backface-visibility:hidden;
     border:2px solid rgba(255,215,0,0.65);
-    box-shadow:
-        0 0 8px rgba(255,215,0,0.25),
-        inset 0 0 6px rgba(255,215,0,0.2);
+    box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
     background: rgba(19,19,20,0.75);
     backdrop-filter: blur(10px);
 }
 
 .card-inner.flipped { transform: rotateY(180deg); }
 
-/* جلو کارت */
-.card-front { display:flex; flex-direction:column; }
-
-.img-bar { flex:1; width:100%; overflow:hidden; }
+.img-bar { flex:1; }
 .img-bar img { width:100%; height:100%; object-fit:cover; }
 
 .date-bar, .title-bar, .reserve-bar {
@@ -128,121 +126,61 @@ h2 {
 
 .date-bar { color:#ffd700; }
 .title-bar { color:#fff; }
-.reserve-bar { 
-    color:#000; background:#ffd700; font-weight:bold; cursor:pointer;
+.reserve-bar {
+    color:#000;
+    background:#ffd700;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-/* پشت کارت */
 .card-back {
     transform:rotateY(180deg);
-    padding:15px; color:#fff; text-align:right;
-    font-size:14px; display:flex; flex-direction:column;
+    padding:15px;
+    font-size:14px;
+    text-align:right;
 }
 
-.card-back h3, .card-back p strong { color:#ffd700; }
-
-/* فوتر */
 footer {
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
-    padding:20px; text-align:center;
+    padding:20px;
+    text-align:center;
     border-top:1px solid rgba(48,48,48,0.5); 
 }
 
-.footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
+.footer-title { color:#ffd700; margin-bottom:18px; font-size:18px; }
 
 .social-row { display:flex; justify-content:center; gap:18px; }
 
 .social-icon {
     width:48px; height:48px; border-radius:50%;
     background: rgba(26,26,26,0.7);
-    backdrop-filter: blur(5px);
-    display:flex; align-items:center; justify-content:center;
+    display:flex; justify-content:center; align-items:center;
     color:#ffd700; font-size:22px;
     text-decoration:none;
 }
-
 .social-icon:hover { background:#ffd700; color:#000; }
 
-/* پاپ‌آپ */
+/* درباره ما */
 #about-popup {
     display:none; 
     position:fixed; 
-    top:-45%; left:50%;
+    top:50%; left:50%;
     transform:translate(-50%,-50%);
-    width:300px;
-    background: rgba(17,17,17,0.95);
-    backdrop-filter: blur(12px);
+    background:rgba(17,17,17,0.95);
+    padding:20px;
+    border-radius:12px;
     border:2px solid rgba(255,215,0,0.5);
-    border-radius:12px; 
-    padding:20px; 
-    font-size:14px; 
-    text-align:right; 
+    width:300px;
     z-index:1000;
-    opacity:0; 
-    transition:opacity .3s;
 }
 
-#about-popup.show { display:block; opacity:1; }
+#about-popup.show { display:block; }
 
-/* لودر */
-#loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:#111;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    opacity: 1;
-    transition: opacity 0.5s ease;
-}
-
-#loading-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.loader { position: relative; width: 40px; height: 40px; }
-
-.loader .circle {
-  position: absolute;
-  width: 38px; height: 38px;
-  opacity: 0;
-  transform: rotate(225deg);
-  animation: orbit 5.5s infinite;
-}
-
-.loader .circle:after {
-  content: '';
-  position: absolute;
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: yellow;
-}
-
-.loader .circle:nth-child(2) { animation-delay: 240ms; }
-.loader .circle:nth-child(3) { animation-delay: 480ms; }
-.loader .circle:nth-child(4) { animation-delay: 720ms; }
-.loader .circle:nth-child(5) { animation-delay: 960ms; }
-
-@keyframes orbit { 
-  0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
-  7%   { transform:rotate(345deg); animation-timing-function: linear; }
-  30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-  39%  { transform:rotate(690deg); animation-timing-function: linear; }
-  70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-  75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
-  76%  { transform:rotate(945deg); opacity: 0; }
-  100% { transform:rotate(945deg); opacity: 0; } 
-}
-
-@media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
+/* ریسپانسیو */
+@media (max-width:1200px){ .movies-grid{grid-template-columns:repeat(3,1fr);} }
+@media (max-width:768px){ .movies-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:480px){ .movies-grid{grid-template-columns:1fr;} }
 </style>
 
 </head>
@@ -250,19 +188,9 @@ footer {
 
 <div id="gold-particles"></div>
 
-<div id="loading-overlay">
-  <div class="loader">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-  </div>
-</div>
-
 <header><div class="logo-fa">Soft Shiraz</div></header>
 
-<main style="padding-top:20px;">
+<main>
     <section class="section">
         <h2>اکران‌های آینده</h2>
         <div class="movies-grid" id="cards-container"></div>
@@ -284,34 +212,11 @@ footer {
 </footer>
 
 <script>
-<script>
-// ذرات طلایی
-const particleContainer = document.getElementById("gold-particles");
-for (let i = 0; i < 80; i++) {
-    const p = document.createElement("div");
-    p.className = "particle";
-    const size = Math.random() * 3 + 2;
-    p.style.width = size + "px";
-    p.style.height = size + "px";
-    p.style.left = Math.random() * 100 + "%";
-    p.style.top = Math.random() * -100 + "vh";
-    p.style.animationDuration = Math.random() * 4 + 4 + "s";
-    p.style.animationDelay = Math.random() * 3 + "s";
-    particleContainer.appendChild(p);
-}
-
-// لودر
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        document.getElementById('loading-overlay').classList.add('hidden');
-    }, 5000);
-});
-
-// کارت‌ها
+// بارگذاری کارت‌ها بدون تداخل
 const container = document.getElementById("cards-container");
 let openCard = null;
 
-async function loadCardsStrictly() {
+async function loadCards() {
     for (let num = 1; num <= 12; num++) {
         try {
             const response = await fetch(`cards/${num}.html`, { cache: "no-store" });
@@ -321,19 +226,16 @@ async function loadCardsStrictly() {
             const card = document.createElement("div");
             card.className = "movie-card";
             card.innerHTML = html;
-
             container.appendChild(card);
 
-        } catch (e) {
-            console.log("خطا در لود کارت", num);
-        }
+        } catch (e) { console.log("خطا در لود کارت", num); }
     }
 }
+loadCards();
 
-loadCardsStrictly();
-
-// جلوگیری از چرخش روی دکمه رزرو
+// چرخش کارت
 document.addEventListener("click", function (e) {
+
     if (e.target.closest(".reserve-bar")) return;
 
     const cardInner = e.target.closest(".card-inner");
@@ -344,7 +246,7 @@ document.addEventListener("click", function (e) {
     }
 });
 
-// === سیستم رزرو هوشمند با ربات @Softshirazbot ===
+// === سیستم رزرو هوشمند ===
 document.addEventListener("click", function(e) {
     const reserveBar = e.target.closest(".reserve-bar");
     if (!reserveBar) return;
@@ -387,3 +289,6 @@ document.addEventListener("click", (e) => {
     }
 });
 </script>
+
+</body>
+</html>
