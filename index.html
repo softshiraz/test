@@ -284,6 +284,7 @@ footer {
 </footer>
 
 <script>
+<script>
 // ذرات طلایی
 const particleContainer = document.getElementById("gold-particles");
 for (let i = 0; i < 80; i++) {
@@ -323,14 +324,6 @@ async function loadCardsStrictly() {
 
             container.appendChild(card);
 
-            const reserveButton = card.querySelector(".reserve-bar");
-            if (reserveButton) {
-                reserveButton.addEventListener("click", (e) => {
-                    e.stopPropagation(); // جلوگیری از چرخش
-                    window.location.href = "https://t.me/Softshirazbot";
-                });
-            }
-
         } catch (e) {
             console.log("خطا در لود کارت", num);
         }
@@ -339,13 +332,9 @@ async function loadCardsStrictly() {
 
 loadCardsStrictly();
 
-// جلوگیری از چرخش روی دکمه رزرو + فعال بودن چرخش روی بقیه بخش‌ها
+// جلوگیری از چرخش روی دکمه رزرو
 document.addEventListener("click", function (e) {
-
-    // اگر روی دکمه رزرو بود، هیچ کاری نکن
-    if (e.target.closest(".reserve-bar")) {
-        return;
-    }
+    if (e.target.closest(".reserve-bar")) return;
 
     const cardInner = e.target.closest(".card-inner");
     if (cardInner) {
@@ -360,7 +349,7 @@ document.addEventListener("click", function(e) {
     const reserveBar = e.target.closest(".reserve-bar");
     if (!reserveBar) return;
 
-    e.stopPropagation(); // جلوگیری از فلیپ شدن کارت
+    e.stopPropagation();
 
     const cardFront = reserveBar.closest(".card-front");
     if (!cardFront) return;
@@ -368,12 +357,21 @@ document.addEventListener("click", function(e) {
     const movieName = cardFront.querySelector(".date-bar").textContent.trim();
     const dateTime  = cardFront.querySelector(".title-bar").textContent.trim();
 
-const message = `💖 سلام تیم سافت شیراز 💖\n\n✨🎟*درخواست رزرو بلیط*🎟✨\n\n🎬 فیلم: 🍿${movieName}\n🕓 زمان:  ⏰${dateTime}\n\n✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\n🌟 مرسی ازتون 🌟`;
+    const message =
+`💖 سلام تیم سافت شیراز 💖
+
+✨🎟 *درخواست رزرو بلیط* 🎟✨
+
+🎬 فیلم: 🍿 ${movieName}
+🕓 زمان: ⏰ ${dateTime}
+
+✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏
+🌟 مرسی ازتون 🌟`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://t.me/Softshirazbot?text=${encoded}`, "_blank");
 });
-    
+
 // درباره ما
 const aboutBtn = document.getElementById("about-btn");
 const aboutPopup = document.getElementById("about-popup");
@@ -389,6 +387,3 @@ document.addEventListener("click", (e) => {
     }
 });
 </script>
-
-</body>
-</html>
