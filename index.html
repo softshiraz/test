@@ -9,12 +9,44 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* متغیرهای تم */
+:root {
+    --bg-body: #0e0e0f;
+    --bg-header-footer: rgba(0,0,0,0.5);
+    --bg-card: rgba(19,19,20,0.75);
+    --border-card: rgba(255,215,0,0.65);
+    --text-main: #ffffff;
+    --text-accent: #ffd700;
+    --bg-reserve: #ffd700;
+    --bg-reserve-hover: #ffea00;
+    --particle-color: rgba(255,215,0,0.8);
+    --particle-shadow: rgba(255,215,0,0.9);
+}
+
+:root[data-theme="light"] {
+    --bg-body: #f5f5f7;
+    --bg-header-footer: rgba(255,255,255,0.9);
+    --bg-card: rgba(255,255,255,0.9);
+    --border-card: rgba(255,193,7,0.7);
+    --text-main: #111111;
+    --text-accent: #c79100;
+    --bg-reserve: #ffca28;
+    --bg-reserve-hover: #ffd54f;
+    --particle-color: rgba(255,193,7,0.8);
+    --particle-shadow: rgba(255,193,7,0.9);
+}
 
 body { 
     font-family: "Vazirmatn", sans-serif; 
-    background:#0e0e0f;
-    color:#fff;
+    background: var(--bg-body);
+    color: var(--text-main);
     overflow-x:hidden;
 }
 
@@ -31,9 +63,9 @@ body {
 .particle {
     position:absolute;
     width:4px; height:4px;
-    background:rgba(255,215,0,0.8);
+    background: var(--particle-color);
     border-radius:50%;
-    box-shadow:0 0 6px rgba(255,215,0,0.9);
+    box-shadow:0 0 6px var(--particle-shadow);
     animation: floatDown linear infinite;
 }
 
@@ -44,12 +76,17 @@ body {
 
 /* هدر */
 header {
-    background: rgba(0,0,0,0.5);
+    background: var(--bg-header-footer);
     backdrop-filter: blur(10px);
-    padding:15px 25px;
-    display:flex; justify-content:flex-end; align-items:center;
+    padding:10px 20px;
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:10px;
     border-bottom:1px solid rgba(48,48,48,0.5); 
-    position:sticky; top:0; z-index:10;
+    position:sticky;
+    top:0;
+    z-index:10;
     text-shadow:0 0 10px rgba(255,215,0,0.25);
 }
 
@@ -61,12 +98,39 @@ header {
     color:transparent;
 }
 
+/* دکمه تم */
+#theme-toggle {
+    margin-left:15px;
+    padding:6px 14px;
+    border-radius:999px;
+    border:1px solid var(--border-card);
+    background:transparent;
+    color:var(--text-accent);
+    cursor:pointer;
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+#theme-toggle i {
+    font-size:14px;
+}
+
+#theme-toggle:hover {
+    background:rgba(255,215,0,0.1);
+}
+
 main { padding:35px 15px 60px; }
 
 h2 {
-    color:#ffd700; font-size:28px; text-align:center;
-    margin-bottom:35px; border-bottom:3px solid #ffd700;
-    display:inline-block; padding-bottom:6px;
+    color:var(--text-accent);
+    font-size:28px;
+    text-align:center;
+    margin-bottom:35px;
+    border-bottom:3px solid var(--text-accent);
+    display:inline-block;
+    padding-bottom:6px;
     text-shadow:0 0 8px rgba(255,215,0,0.3);
 }
 
@@ -102,43 +166,26 @@ h2 {
     border-radius:16px;
     overflow:hidden;
     backface-visibility:hidden;
-    border:2px solid rgba(255,215,0,0.65);
+    border:2px solid var(--border-card);
     box-shadow:
         0 0 8px rgba(255,215,0,0.25),
         inset 0 0 6px rgba(255,215,0,0.2);
-    background: rgba(19,19,20,0.75);
+    background: var(--bg-card);
     backdrop-filter: blur(10px);
 }
 
 .card-inner.flipped { transform: rotateY(180deg); }
 
-/* کارت‌ها */
-.movies-grid {
-    display:grid; grid-template-columns:repeat(4,1fr); gap:20px; justify-items:center;
-    max-width:1200px; margin:0 auto;
-}
-.movie-card { perspective:1000px; position:relative; }
-.card-inner {
-    position:relative; width:280px; height:420px; cursor:pointer;
-    transition:transform 0.6s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d;
-}
-.card-inner.flipped { transform:rotateY(180deg); }
-.card-front, .card-back {
-    position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
-    backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65);
-    box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
-    background:rgba(19,19,20,0.75); backdrop-filter:blur(10px);
-}
 .card-front { display:flex; flex-direction:column; }
 .img-bar { flex:1; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
 .movie-card:hover .img-bar img { transform:scale(1.08); }
 
-/* ——— اسم فیلم (بزرگ و درخشان) ——— */
+/* اسم فیلم */
 .date-bar {
     height:52px !important; line-height:52px !important; padding:0 10px;
     text-align:center; background:rgba(0,0,0,0.45); border-top:none !important;
-    color:#ffd700; font-size:19px !important; font-weight:900 !important;
+    color:var(--text-accent); font-size:19px !important; font-weight:900 !important;
     letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
 }
 .date-bar strong {
@@ -149,35 +196,35 @@ h2 {
 .title-bar {
     height:36px; line-height:36px; padding:0 10px; text-align:center;
     background:rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1);
-    color:#fff; font-weight:600; font-size:15px;
+    color:var(--text-main); font-weight:600; font-size:15px;
 }
 
 /* دکمه رزرو */
 .reserve-bar {
     height:36px; line-height:36px; padding:0 10px; text-align:center;
-    background:#ffd700; color:#000; font-weight:bold; cursor:pointer;
+    background:var(--bg-reserve); color:#000; font-weight:bold; cursor:pointer;
     transition:background 0.3s;
 }
-.reserve-bar:hover { background:#ffea00; }
+.reserve-bar:hover { background:var(--bg-reserve-hover); }
 
 /* پشت کارت */
 .card-back {
     transform:rotateY(180deg);
-    padding:15px; color:#fff; text-align:right;
+    padding:15px; color:var(--text-main); text-align:right;
     font-size:14px; display:flex; flex-direction:column;
 }
 
-.card-back h3, .card-back p strong { color:#ffd700; }
+.card-back h3, .card-back p strong { color:var(--text-accent); }
 
 /* فوتر */
 footer {
-    background: rgba(0,0,0,0.5);
+    background: var(--bg-header-footer);
     backdrop-filter: blur(10px);
     padding:20px; text-align:center;
     border-top:1px solid rgba(48,48,48,0.5); 
 }
 
-.footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
+.footer-title { font-size:18px; color:var(--text-accent); margin-bottom:18px; }
 
 .social-row { display:flex; justify-content:center; gap:18px; }
 
@@ -186,11 +233,11 @@ footer {
     background: rgba(26,26,26,0.7);
     backdrop-filter: blur(5px);
     display:flex; align-items:center; justify-content:center;
-    color:#ffd700; font-size:22px;
+    color:var(--text-accent); font-size:22px;
     text-decoration:none;
 }
 
-.social-icon:hover { background:#ffd700; color:#000; }
+.social-icon:hover { background:var(--text-accent); color:#000; }
 
 /* پاپ‌آپ */
 #about-popup {
@@ -201,7 +248,7 @@ footer {
     width:300px;
     background: rgba(17,17,17,0.95);
     backdrop-filter: blur(12px);
-    border:2px solid rgba(255,215,0,0.5);
+    border:2px solid var(--border-card);
     border-radius:12px; 
     padding:20px; 
     font-size:14px; 
@@ -209,8 +256,15 @@ footer {
     z-index:1000;
     opacity:0; 
     transition:opacity .3s;
+    color:#fff;
 }
 
+:root[data-theme="light"] #about-popup {
+    background: rgba(255,255,255,0.98);
+    color:#111;
+}
+
+/* نمایش پاپ‌آپ */
 #about-popup.show { display:block; opacity:1; }
 
 /* لودر */
@@ -288,7 +342,13 @@ footer {
   </div>
 </div>
 
-<header><div class="logo-fa">Soft Shiraz</div></header>
+<header>
+    <button id="theme-toggle">
+        <i class="fas fa-moon"></i>
+        <span>لایت مود</span>
+    </button>
+    <div class="logo-fa">Soft Shiraz</div>
+</header>
 
 <main style="padding-top:20px;">
     <section class="section">
@@ -312,7 +372,7 @@ footer {
 </footer>
 
 <script>
-// ذرات طلایی (همون قبلی)
+// ذرات طلایی
 const particleContainer = document.getElementById("gold-particles");
 for (let i = 0; i < 80; i++) {
     const p = document.createElement("div");
@@ -334,7 +394,7 @@ window.addEventListener('load', () => {
     }, 5000);
 });
 
-// لود کارت‌ها (همون قبلی - بدون تغییر)
+// لود کارت‌ها
 const container = document.getElementById("cards-container");
 let openCard = null;
 
@@ -365,7 +425,7 @@ document.addEventListener("click", function(e) {
     const cardFront = reserveBar.closest(".card-front");
     if (!cardFront) return;
 
-    // گرفتن نام فیلم و سانس از داخل کارت (دقیقاً از date-bar و title-bar)
+    // گرفتن نام فیلم و سانس
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
     const dateTime   = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
 
@@ -383,9 +443,9 @@ document.addEventListener("click", function(e) {
     window.open(`https://t.me/Softshirazbot?text=${encoded}`, "_blank");
 });
 
-// فلیپ کارت (فقط وقتی روی جاهای دیگه کلیک بشه)
+// فلیپ کارت
 document.addEventListener("click", function(e) {
-    if (e.target.closest(".reserve-bar")) return; // اگر روی رزرو بود، فلیپ نشه
+    if (e.target.closest(".reserve-bar")) return;
 
     const cardInner = e.target.closest(".card-inner");
     if (cardInner) {
@@ -409,4 +469,40 @@ document.addEventListener("click", (e) => {
         aboutPopup.classList.remove("show");
     }
 });
+
+// --- Theme toggle with localStorage ---
+const root = document.documentElement;
+const themeToggleBtn = document.getElementById("theme-toggle");
+const themeToggleText = themeToggleBtn.querySelector("span");
+const themeToggleIcon = themeToggleBtn.querySelector("i");
+
+const storedTheme = localStorage.getItem("theme");
+const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+let currentTheme = storedTheme || (systemPrefersDark ? "dark" : "light");
+
+function applyTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    if (theme === "dark") {
+        themeToggleText.textContent = "لایت مود";
+        themeToggleIcon.classList.remove("fa-sun");
+        themeToggleIcon.classList.add("fa-moon");
+    } else {
+        themeToggleText.textContent = "دارک مود";
+        themeToggleIcon.classList.remove("fa-moon");
+        themeToggleIcon.classList.add("fa-sun");
+    }
+}
+
+// اعمال تم اولیه
+applyTheme(currentTheme);
+
+// رویداد کلیک
+themeToggleBtn.addEventListener("click", () => {
+   currentTheme = currentTheme === "dark" ? "light" : "dark";
+   applyTheme(currentTheme);
+   localStorage.setItem("theme", currentTheme);
+});
 </script>
+
+</body>
+</html>
