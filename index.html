@@ -9,38 +9,57 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-* {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    -webkit-tap-highlight-color: transparent;
-}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 
-/* متغیرهای تم */
+/* پالت طلایی + تم‌ها */
 :root {
-    --bg-body: #0e0e0f;
-    --bg-header-footer: rgba(0,0,0,0.5);
-    --bg-card: rgba(19,19,20,0.75);
-    --border-card: rgba(255,215,0,0.65);
-    --text-main: #ffffff;
-    --text-accent: #ffd700;
-    --bg-reserve: #ffd700;
-    --bg-reserve-hover: #ffea00;
-    --particle-color: rgba(255,215,0,0.8);
-    --particle-shadow: rgba(255,215,0,0.9);
+    /* تم دارک */
+    --bg-body: #0b0b10;
+    --bg-header-footer: rgba(10,10,14,0.9);
+    --bg-card: rgba(20,20,26,0.9);
+    --bg-overlay: rgba(5,5,8,0.95);
+
+    --gold-main: #D4AF37;
+    --gold-light: #F9E79F;
+    --gold-deep: #B88746;
+
+    --text-main: #f2f2f2;
+    --text-muted: #b0b0b0;
+
+    --border-gold: rgba(212,175,55,0.5);
+
+    --bg-reserve: #D4AF37;
+    --bg-reserve-hover: #F4D03F;
+
+    --particle-color: rgba(244,208,63,0.7);
+    --particle-shadow: rgba(212,175,55,0.8);
+
+    --shadow-gold: 0 8px 24px rgba(212,175,55,0.18);
 }
 
 :root[data-theme="light"] {
-    --bg-body: #f5f5f7;
-    --bg-header-footer: rgba(255,255,255,0.9);
-    --bg-card: rgba(255,255,255,0.9);
-    --border-card: rgba(255,193,7,0.7);
-    --text-main: #111111;
-    --text-accent: #c79100;
-    --bg-reserve: #ffca28;
-    --bg-reserve-hover: #ffd54f;
-    --particle-color: rgba(255,193,7,0.8);
-    --particle-shadow: rgba(255,193,7,0.9);
+    /* تم لایت */
+    --bg-body: #FDF5E6;
+    --bg-header-footer: rgba(253,245,230,0.95);
+    --bg-card: rgba(255,255,255,0.98);
+    --bg-overlay: rgba(253,245,230,0.98);
+
+    --gold-main: #B88746;
+    --gold-light: #F7DC6F;
+    --gold-deep: #8E6B2E;
+
+    --text-main: #1f1f1f;
+    --text-muted: #666666;
+
+    --border-gold: rgba(184,135,70,0.45);
+
+    --bg-reserve: #B88746;
+    --bg-reserve-hover: #D4AF37;
+
+    --particle-color: rgba(184,134,11,0.6);
+    --particle-shadow: rgba(212,175,55,0.7);
+
+    --shadow-gold: 0 8px 24px rgba(184,135,70,0.16);
 }
 
 body { 
@@ -48,6 +67,7 @@ body {
     background: var(--bg-body);
     color: var(--text-main);
     overflow-x:hidden;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* ذرات طلایی */
@@ -63,75 +83,73 @@ body {
 .particle {
     position:absolute;
     width:4px; height:4px;
-    background: var(--particle-color);
+    background:var(--particle-color);
     border-radius:50%;
-    box-shadow:0 0 6px var(--particle-shadow);
+    box-shadow:0 0 8px var(--particle-shadow);
     animation: floatDown linear infinite;
 }
 
 @keyframes floatDown {
-    from { transform: translateY(-120vh); opacity:1; }
-    to { transform: translateY(120vh); opacity:0; }
+    from { transform: translateY(-120vh) scale(0.8); opacity:1; }
+    to { transform: translateY(120vh) scale(1.2); opacity:0; }
 }
 
 /* هدر */
 header {
     background: var(--bg-header-footer);
     backdrop-filter: blur(10px);
-    padding:10px 20px;
-    display:flex;
-    justify-content:flex-end;
-    align-items:center;
-    gap:10px;
+    padding:15px 25px;
+    display:flex; justify-content:flex-end; align-items:center;
+    gap:12px;
     border-bottom:1px solid rgba(48,48,48,0.5); 
-    position:sticky;
-    top:0;
-    z-index:10;
-    text-shadow:0 0 10px rgba(255,215,0,0.25);
-}
-
-.logo-fa {
-    font-weight:700;
-    font-size:26px;
-    background:linear-gradient(45deg,#ffd700,#ffb300);
-    -webkit-background-clip:text;
-    color:transparent;
+    position:sticky; top:0; z-index:10;
+    box-shadow: var(--shadow-gold);
 }
 
 /* دکمه تم */
 #theme-toggle {
-    margin-left:15px;
     padding:6px 14px;
     border-radius:999px;
-    border:1px solid var(--border-card);
-    background:transparent;
-    color:var(--text-accent);
+    border:1px solid var(--border-gold);
+    background:rgba(212,175,55,0.08);
+    color:var(--text-main);
     cursor:pointer;
     font-size:13px;
     display:flex;
     align-items:center;
     gap:6px;
+    transition:all 0.25s ease;
 }
-
-#theme-toggle i {
-    font-size:14px;
-}
-
+#theme-toggle i { font-size:14px; }
 #theme-toggle:hover {
-    background:rgba(255,215,0,0.1);
+    background:var(--gold-main);
+    color:#111;
+    box-shadow:0 4px 16px rgba(212,175,55,0.45);
+    transform:translateY(-1px);
+}
+
+.logo-fa {
+    font-weight:700;
+    font-size:26px;
+    background:linear-gradient(135deg,var(--gold-main),var(--gold-light));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 0 12px rgba(212,175,55,0.45);
 }
 
 main { padding:35px 15px 60px; }
 
 h2 {
-    color:var(--text-accent);
-    font-size:28px;
-    text-align:center;
+    background:linear-gradient(135deg,var(--gold-main),var(--gold-light));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    font-size:28px; text-align:center;
     margin-bottom:35px;
-    border-bottom:3px solid var(--text-accent);
-    display:inline-block;
-    padding-bottom:6px;
-    text-shadow:0 0 8px rgba(255,215,0,0.3);
+    border-bottom:3px solid rgba(212,175,55,0.4);
+    display:inline-block; padding-bottom:6px;
+    text-shadow:0 0 8px rgba(212,175,55,0.3);
 }
 
 .section { text-align:center; }
@@ -152,7 +170,7 @@ h2 {
 
 .card-inner {
     position: relative;
-    transition: transform 0.3s cubic-bezier(0.3, 0, 0.2, 1);
+    transition: transform 0.35s cubic-bezier(0.3, 0, 0.2, 1);
     transform-style: preserve-3d;
     cursor: pointer;
     width: 280px;
@@ -166,16 +184,15 @@ h2 {
     border-radius:16px;
     overflow:hidden;
     backface-visibility:hidden;
-    border:2px solid var(--border-card);
-    box-shadow:
-        0 0 8px rgba(255,215,0,0.25),
-        inset 0 0 6px rgba(255,215,0,0.2);
+    border:2px solid var(--border-gold);
+    box-shadow: var(--shadow-gold);
     background: var(--bg-card);
     backdrop-filter: blur(10px);
 }
 
 .card-inner.flipped { transform: rotateY(180deg); }
 
+/* کارت‌ها (محتوا) */
 .card-front { display:flex; flex-direction:column; }
 .img-bar { flex:1; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
@@ -184,9 +201,11 @@ h2 {
 /* اسم فیلم */
 .date-bar {
     height:52px !important; line-height:52px !important; padding:0 10px;
-    text-align:center; background:rgba(0,0,0,0.45); border-top:none !important;
-    color:var(--text-accent); font-size:19px !important; font-weight:900 !important;
-    letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
+    text-align:center;
+    background:linear-gradient(135deg,rgba(212,175,55,0.2),rgba(0,0,0,0.65));
+    border-top:none !important;
+    color:var(--gold-light); font-size:19px !important; font-weight:900 !important;
+    letter-spacing:1.2px; text-shadow:0 0 14px rgba(212,175,55,0.7);
 }
 .date-bar strong {
     font-size:21px !important; display:block; transform:translateY(1px);
@@ -203,9 +222,14 @@ h2 {
 .reserve-bar {
     height:36px; line-height:36px; padding:0 10px; text-align:center;
     background:var(--bg-reserve); color:#000; font-weight:bold; cursor:pointer;
-    transition:background 0.3s;
+    transition:background 0.3s, transform 0.2s, box-shadow 0.2s;
+    box-shadow:0 4px 14px rgba(212,175,55,0.4);
 }
-.reserve-bar:hover { background:var(--bg-reserve-hover); }
+.reserve-bar:hover { 
+    background:var(--bg-reserve-hover);
+    transform:translateY(-2px);
+    box-shadow:0 7px 20px rgba(212,175,55,0.6);
+}
 
 /* پشت کارت */
 .card-back {
@@ -213,8 +237,7 @@ h2 {
     padding:15px; color:var(--text-main); text-align:right;
     font-size:14px; display:flex; flex-direction:column;
 }
-
-.card-back h3, .card-back p strong { color:var(--text-accent); }
+.card-back h3, .card-back p strong { color:var(--gold-main); }
 
 /* فوتر */
 footer {
@@ -224,7 +247,14 @@ footer {
     border-top:1px solid rgba(48,48,48,0.5); 
 }
 
-.footer-title { font-size:18px; color:var(--text-accent); margin-bottom:18px; }
+.footer-title { 
+    font-size:18px; 
+    background:linear-gradient(135deg,var(--gold-main),var(--gold-light));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    margin-bottom:18px; 
+}
 
 .social-row { display:flex; justify-content:center; gap:18px; }
 
@@ -233,11 +263,17 @@ footer {
     background: rgba(26,26,26,0.7);
     backdrop-filter: blur(5px);
     display:flex; align-items:center; justify-content:center;
-    color:var(--text-accent); font-size:22px;
+    color:var(--gold-main); font-size:22px;
     text-decoration:none;
+    border:1px solid var(--border-gold);
+    transition:all 0.2s ease;
 }
 
-.social-icon:hover { background:var(--text-accent); color:#000; }
+.social-icon:hover { 
+    background:var(--gold-main); 
+    color:#000; 
+    transform:translateY(-2px) scale(1.05);
+}
 
 /* پاپ‌آپ */
 #about-popup {
@@ -246,9 +282,9 @@ footer {
     top:-45%; left:50%;
     transform:translate(-50%,-50%);
     width:300px;
-    background: rgba(17,17,17,0.95);
+    background: var(--bg-overlay);
     backdrop-filter: blur(12px);
-    border:2px solid var(--border-card);
+    border:2px solid var(--border-gold);
     border-radius:12px; 
     padding:20px; 
     font-size:14px; 
@@ -256,15 +292,8 @@ footer {
     z-index:1000;
     opacity:0; 
     transition:opacity .3s;
-    color:#fff;
+    color:var(--text-main);
 }
-
-:root[data-theme="light"] #about-popup {
-    background: rgba(255,255,255,0.98);
-    color:#111;
-}
-
-/* نمایش پاپ‌آپ */
 #about-popup.show { display:block; opacity:1; }
 
 /* لودر */
@@ -282,7 +311,6 @@ footer {
     opacity: 1;
     transition: opacity 0.5s ease;
 }
-
 #loading-overlay.hidden {
     opacity: 0;
     pointer-events: none;
@@ -297,7 +325,6 @@ footer {
   transform: rotate(225deg);
   animation: orbit 5.5s infinite;
 }
-
 .loader .circle:after {
   content: '';
   position: absolute;
@@ -305,7 +332,6 @@ footer {
   border-radius: 50%;
   background: yellow;
 }
-
 .loader .circle:nth-child(2) { animation-delay: 240ms; }
 .loader .circle:nth-child(3) { animation-delay: 480ms; }
 .loader .circle:nth-child(4) { animation-delay: 720ms; }
@@ -394,7 +420,7 @@ window.addEventListener('load', () => {
     }, 5000);
 });
 
-// لود کارت‌ها
+// لود کارت‌ها (همان قبلی)
 const container = document.getElementById("cards-container");
 let openCard = null;
 
@@ -425,7 +451,7 @@ document.addEventListener("click", function(e) {
     const cardFront = reserveBar.closest(".card-front");
     if (!cardFront) return;
 
-    // گرفتن نام فیلم و سانس
+    // گرفتن نام فیلم و سانس از داخل کارت
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
     const dateTime   = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
 
@@ -445,7 +471,7 @@ document.addEventListener("click", function(e) {
 
 // فلیپ کارت
 document.addEventListener("click", function(e) {
-    if (e.target.closest(".reserve-bar")) return;
+    if (e.target.closest(".reserve-bar")) return; // اگر روی رزرو بود، فلیپ نشه
 
     const cardInner = e.target.closest(".card-inner");
     if (cardInner) {
@@ -470,7 +496,7 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// --- Theme toggle with localStorage ---
+// تم دارک / لایت با ذخیره در localStorage
 const root = document.documentElement;
 const themeToggleBtn = document.getElementById("theme-toggle");
 const themeToggleText = themeToggleBtn.querySelector("span");
@@ -484,23 +510,21 @@ function applyTheme(theme) {
     root.setAttribute("data-theme", theme);
     if (theme === "dark") {
         themeToggleText.textContent = "لایت مود";
-        themeToggleIcon.classList.remove("fa-sun");
-        themeToggleIcon.classList.add("fa-moon");
+        themeToggleIcon.className = "fas fa-sun";
     } else {
         themeToggleText.textContent = "دارک مود";
-        themeToggleIcon.classList.remove("fa-moon");
-        themeToggleIcon.classList.add("fa-sun");
+        themeToggleIcon.className = "fas fa-moon";
     }
 }
 
 // اعمال تم اولیه
 applyTheme(currentTheme);
 
-// رویداد کلیک
+// تغییر تم با کلیک
 themeToggleBtn.addEventListener("click", () => {
-   currentTheme = currentTheme === "dark" ? "light" : "dark";
-   applyTheme(currentTheme);
-   localStorage.setItem("theme", currentTheme);
+    currentTheme = currentTheme === "dark" ? "light" : "dark";
+    applyTheme(currentTheme);
+    localStorage.setItem("theme", currentTheme);
 });
 </script>
 
