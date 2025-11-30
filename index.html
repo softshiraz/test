@@ -9,7 +9,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 
-<title>🎬 سافت شیراز 🎬</title>
+<title>سافت شیراز</title>
 
 <!-- فونت با نسخه‌گذاری -->
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
@@ -70,20 +70,41 @@ header {
     color:transparent;
 }
 
-/* دکمه همبرگر */
+/* دکمه همبرگر جدید با Ham 3 */
 .hamburger-btn {
-    width:48px; height:42px; display:flex; align-items:center; justify-content:center;
-    background: rgba(26,26,26,0.6); border-radius:10px; border:2px solid rgba(255,215,0,0.25);
-    cursor:pointer; transition:transform .18s, background .18s; color:#ffd700;
+    width:52px; height:52px;
+    background: rgba(26,26,26,0.7);
+    border-radius:14px;
+    border:2px solid rgba(255,215,0,0.3);
+    cursor:pointer;
+    transition:all .25s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
-.hamburger-btn:active { transform:scale(.97); }
-.hamburger-inner { width:22px; height:16px; position:relative; }
-.hamburger-inner span { position:absolute; left:0; left:0; height:2px; background:#ffd700; display:block; border-radius:2px; }
-.hamburger-inner span:nth-child(1){ top:0; }
-.hamburger-inner span:nth-child(2){ top:7px; }
-.hamburger-inner span:nth-child(3){ top:14px; }
+.hamburger-btn:hover { background:rgba(255,215,0,0.12); border-color:#ffd700; }
+.hamburger-btn:active { transform:scale(0.94); }
 
-/* منوی کشویی (از سمت چپ باز می‌شود) */
+/* استایل‌های Ham 3 */
+.ham3 {
+    cursor:pointer;
+    user-select:none;
+}
+.ham3 .line {
+    fill:none;
+    transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+    stroke:#ffd700;
+    stroke-width:5.5;
+    stroke-linecap:round;
+}
+.ham3 .top    { stroke-dasharray: 40 130; }
+.ham3 .middle { stroke-dasharray: 40 140; }
+.ham3 .bottom { stroke-dasharray: 40 205; }
+.ham3.active .top    { stroke-dasharray: 75 130; stroke-dashoffset: -63px; }
+.ham3.active .middle { stroke-dashoffset: -102px; }
+.ham3.active .bottom { stroke-dasharray: 110 205; stroke-dashoffset: -86px; }
+
+/* منوی کشویی */
 #side-menu {
     position:fixed; top:0; right:0; height:100vh; width:320px; max-width:85%;
     background:linear-gradient(180deg, rgba(12,12,12,0.98), rgba(20,20,20,0.98));
@@ -92,7 +113,6 @@ header {
     z-index:30; padding:28px; display:flex; flex-direction:column; gap:18px; direction:rtl;
     border-right: 2px solid rgba(255,215,0,0.12);
 }
-#side-menu.open { transform: translateX(0); }
 #side-menu.open { transform: translateX(0); }
 
 #menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
@@ -108,13 +128,13 @@ header {
 }
 .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
 
-/* بک‌دراپ برای کلیک بیرون و تار کردن پس‌زمینه */
+/* بک‌دراپ */
 #menu-backdrop {
     position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* بقیه استایل‌ها همچنان */
+/* بقیه استایل‌ها بدون تغییر */
 main { padding:35px 15px 60px; }
 
 h2 {
@@ -126,7 +146,6 @@ h2 {
 
 .section { text-align:center; }
 
-/* کارت‌ها */
 .movies-grid {
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -137,12 +156,10 @@ h2 {
 }
 
 .movie-card { perspective:1000px; position:relative; }
-
 .card-inner {
     position:relative; width:280px; height:420px; cursor:pointer;
     transition:transform 0.35s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d;
 }
-
 .card-inner.flipped { transform:rotateY(180deg); }
 
 .card-front, .card-back {
@@ -157,25 +174,20 @@ h2 {
 .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
 .movie-card:hover .img-bar img { transform:scale(1.08); }
 
-/* اسم فیلم */
 .date-bar {
     height:52px !important; line-height:52px !important; padding:0 10px;
-    text-align:center; background:rgba(0,0,0,0.45); border-top:none !important;
+    text-align:center; background:rgba(0,0,0,0.45);
     color:#ffd700; font-size:19px !important; font-weight:900 !important;
     letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
 }
-.date-bar strong {
-    font-size:21px !important; display:block; transform:translateY(1px);
-}
+.date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
 
-/* سانس */
 .title-bar {
     height:36px; line-height:36px; padding:0 10px; text-align:center;
     background:rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1);
     color:#fff; font-weight:600; font-size:15px;
 }
 
-/* رزرو */
 .reserve-bar {
     height:36px; line-height:36px; padding:0 10px; text-align:center;
     background:#ffd700; color:#000; font-weight:bold; cursor:pointer;
@@ -183,16 +195,13 @@ h2 {
 }
 .reserve-bar:hover { background:#ffea00; }
 
-/* پشت کارت */
 .card-back {
     transform:rotateY(180deg);
     padding:15px; color:#fff; text-align:left;
     font-size:14px; display:flex; flex-direction:column;
 }
-
 .card-back h3, .card-back p strong { color:#ffd700; }
 
-/* فوتر */
 footer {
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
@@ -201,9 +210,7 @@ footer {
 }
 
 .footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
-
 .social-row { display:flex; justify-content:center; gap:18px; }
-
 .social-icon {
     width:48px; height:48px; border-radius:50%;
     background: rgba(26,26,26,0.7);
@@ -212,14 +219,12 @@ footer {
     color:#ffd700; font-size:22px;
     text-decoration:none;
 }
-
 .social-icon:hover { background:#ffd700; color:#000; }
 
-/* درباره ما */
 #about-popup {
     display:none; 
     position:fixed; 
-    top:-45%; left:50%;
+    top:50%; left:50%;
     transform:translate(-50%,-50%);
     width:300px;
     background: rgba(17,17,17,0.95);
@@ -233,48 +238,24 @@ footer {
     opacity:0; 
     transition:opacity .3s;
 }
+#about-popup.show { display:block; opacity:1; top:50%; }
 
-#about-popup.show { display:block; opacity:1; }
-
-/* لودر */
 #loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:#111;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    opacity: 1;
-    transition: opacity 0.5s ease;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background:#111; display: flex; justify-content: center; align-items: center;
+    z-index: 10000; opacity: 1; transition: opacity 0.5s ease;
 }
-
-#loading-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
+#loading-overlay.hidden { opacity: 0; pointer-events: none; }
 
 .loader { position: relative; width: 40px; height: 40px; }
-
 .loader .circle {
-  position: absolute;
-  width: 38px; height: 38px;
-  opacity: 0;
-  transform: rotate(225deg);
-  animation: orbit 5.5s infinite;
+  position: absolute; width: 38px; height: 38px; opacity: 0;
+  transform: rotate(225deg); animation: orbit 5.5s infinite;
 }
-
 .loader .circle:after {
-  content: '';
-  position: absolute;
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: yellow;
+  content: ''; position: absolute; width: 5px; height: 5px;
+  border-radius: 50%; background: yellow;
 }
-
 .loader .circle:nth-child(2) { animation-delay: 240ms; }
 .loader .circle:nth-child(3) { animation-delay: 480ms; }
 .loader .circle:nth-child(4) { animation-delay: 720ms; }
@@ -295,7 +276,6 @@ footer {
 @media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
 </style>
-
 </head>
 <body>
 
@@ -312,18 +292,20 @@ footer {
 </div>
 
 <header>
-    <!-- همبرگر در سمت چپ (روبروی لوگو) -->
+    <!-- دکمه همبرگر جدید با Ham 3 -->
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
-        <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
+        <svg class="ham3" viewBox="0 0 100 100" width="36">
+            <path class="line top" d="m 70,33 h -40 c -11.092231,0 11.883874,13.496726 -3.420361,12.956839 -0.962502,-2.089471 -2.222071,-3.282996 -4.545687,-3.282996 -2.323616,0 -5.113897,2.622752 -5.113897,7.071068 0,4.448316 2.080609,7.007933 5.555839,7.007933 2.401943,0 2.96769,-1.283974 4.166879,-3.282995 2.209342,0.273823 4.031294,1.642466 5.857227,-0.252538 v -13.005715 16.288404 h 7.653568"/>
+            <path class="line middle" d="m 70,50 h -40 c -5.6862,0 -8.534259,5.373483 -8.534259,11.551069 0,7.187738 3.499166,10.922274 13.131984,10.922274 11.021777,0 7.022787,-15.773343 15.531095,-15.773343 3.268142,0 5.177031,-2.159429 5.177031,-6.7 0,-4.540571 -1.766442,-7.33533 -5.087851,-7.326157 -3.321409,0.0092 -5.771288,2.789632 -5.771288,7.326157 0,4.536525 2.478983,6.805271 5.771288,6.7"/>
+            <path class="line bottom" d="m 70,67 h -40 c 0,0 -3.680675,0.737051 -3.660714,-3.517857 0.02541,-5.415597 3.391687,-10.357143 10.982142,-10.357143 4.048418,0 17.88928,0.178572 23.482143,0.178572 0,2.563604 2.451177,3.403635 4.642857,3.392857 2.19168,-0.01078 4.373905,-1.369814 4.375,-3.392857 0.0011,-2.023043 -1.924401,-2.589191 -4.553571,-4.107143 -2.62917,-1.517952 -4.196429,-1.799562 -4.196429,-3.660714 0,-1.861153 2.442181,-3.118811 4.196429,-3.035715 1.754248,0.0831 4.375,0.890841 4.375,3.125 2.628634,0 6.160714,0.267857 6.160714,0.267857 l -0.178571,-2.946428 10.178571,0 -10.178571,0 v 6.696428 l 8.928571,0 -8.928571,0 v 7.142858 l 10.178571,0 -10.178571,0"/>
+        </svg>
     </button>
 
     <div class="logo-fa">Soft Shiraz</div>
 </header>
 
-<!-- بک‌دراپ -->
 <div id="menu-backdrop" tabindex="-1"></div>
 
-<!-- منوی کشویی -->
 <nav id="side-menu" aria-hidden="true">
     <button id="menu-close" aria-label="بستن منو"><i class="fas fa-times"></i></button>
     <div class="side-brand">Soft Shiraz</div>
@@ -386,7 +368,7 @@ window.addEventListener('load', () => {
     }, 5000);
 });
 
-// لود کارت‌ها با ضد کش
+// لود کارت‌ها
 const container = document.getElementById("cards-container");
 let openCard = null;
 
@@ -407,14 +389,12 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
-// رزرو با بررسی متن دکمه
+// رزرو بلیط
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
     if (!reserveBtn) return;
-
     e.stopPropagation();
 
-    // بررسی متن دکمه
     if (reserveBtn.textContent.trim() !== "رزرو بلیط") return;
 
     const cardFront = reserveBtn.closest(".card-front");
@@ -423,7 +403,7 @@ document.addEventListener("click", function(e) {
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
     const dateTime   = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
 
-    const message = `💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\n🌟 مرسی ازتون 🌟`;
+    const message = `سلام وقت بخیر\n\nفیلم : ${movieName}\nزمان : ${dateTime}\n\nممنون میشم شرایط رزرو و موجودی رو اعلام کنید\nمرسی ازتون`;
 
     const encoded = encodeURIComponent(message);
     window.open(`https://t.me/softshirazadmin?text=${encoded}`, "_blank");
@@ -432,12 +412,9 @@ document.addEventListener("click", function(e) {
 // فلیپ کارت
 document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar")) return;
-
     const cardInner = e.target.closest(".card-inner");
     if (cardInner) {
-        if (openCard && openCard !== cardInner) {
-            openCard.classList.remove("flipped");
-        }
+        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
         cardInner.classList.toggle("flipped");
         openCard = cardInner.classList.contains("flipped") ? cardInner : null;
     }
@@ -456,18 +433,19 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// --- منوی همبرگری ---
+// --- منوی همبرگری با Ham 3 ---
 const hamburger = document.getElementById('hamburger');
 const sideMenu = document.getElementById('side-menu');
 const backdrop = document.getElementById('menu-backdrop');
 const menuClose = document.getElementById('menu-close');
+const hamSvg = hamburger.querySelector('.ham3');
 
 function openMenu() {
     sideMenu.classList.add('open');
     backdrop.classList.add('visible');
     hamburger.setAttribute('aria-expanded', 'true');
     sideMenu.setAttribute('aria-hidden', 'false');
-    // تمرکز را به اولین لینک منتقل کن
+    hamSvg.classList.add('active');
     const firstLink = sideMenu.querySelector('.side-links a');
     if (firstLink) firstLink.focus();
 }
@@ -477,6 +455,7 @@ function closeMenu() {
     backdrop.classList.remove('visible');
     hamburger.setAttribute('aria-expanded', 'false');
     sideMenu.setAttribute('aria-hidden', 'true');
+    hamSvg.classList.remove('active');
     hamburger.focus();
 }
 
@@ -487,19 +466,10 @@ hamburger.addEventListener('click', (e) => {
 });
 
 menuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMenu(); });
-backdrop.addEventListener('click', (e) => { closeMenu(); });
-
-// بستن با Escape
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu();
-});
-
-// جلوگیری از بسته شدن منو هنگام تعامل درون آن
-sideMenu.addEventListener('click', (e) => {
-    e.stopPropagation();
-});
+backdrop.addEventListener('click', closeMenu);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+sideMenu.addEventListener('click', (e) => { e.stopPropagation(); });
 
 </script>
-
 </body>
 </html>
