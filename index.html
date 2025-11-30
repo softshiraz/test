@@ -28,11 +28,32 @@ body {
     transition: background 0.3s, color 0.3s;
 }
 
-/* لایت مود */
+/* لایت مود ملایم */
 body.light-mode {
-    background: #fff;
-    color: #000;
+    background: #e2e2e2;
+    color: #111;
 }
+
+/* اعمال لایت مود به کارت‌ها، هدر و فوتر */
+body.light-mode header {
+    background: rgba(240,240,240,0.95);
+    color:#111;
+    text-shadow: none;
+}
+body.light-mode footer {
+    background: rgba(240,240,240,0.95);
+    color:#111;
+}
+body.light-mode .card-front, body.light-mode .card-back {
+    background: rgba(250,250,250,0.95);
+    border-color: #ccc;
+    color:#111;
+    box-shadow:0 0 8px rgba(200,200,0,0.15), inset 0 0 6px rgba(200,200,0,0.1);
+}
+body.light-mode .date-bar { color:#d18f00; text-shadow:none; }
+body.light-mode .reserve-bar { background:#d18f00; color:#111; }
+body.light-mode .reserve-bar:hover { background:#c77e00; }
+
 
 /* ذرات طلایی */
 #gold-particles {
