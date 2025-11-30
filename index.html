@@ -25,6 +25,13 @@ body {
     background:#0e0e0f;
     color:#fff;
     overflow-x:hidden;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* تم لایت مود */
+body.light-mode {
+    background:#fdfdfd;
+    color:#111;
 }
 
 /* ذرات طلایی */
@@ -83,18 +90,18 @@ header {
 .hamburger-inner span:nth-child(2){ top:7px; }
 .hamburger-inner span:nth-child(3){ top:14px; }
 
-/* منوی کشویی (از سمت چپ باز می‌شود) */
+/* منوی کشویی */
 #side-menu {
     position: fixed; 
     top: 0; 
-    left: auto;      /* منو از سمت چپ */
-    right: 0;  /* جلوگیری از اثرات rtl */
+    left: auto;
+    right: 0;
     height: 100vh; 
     width: 320px; 
     max-width: 85%;
     background: linear-gradient(180deg, rgba(12,12,12,0.98), rgba(20,20,20,0.98));
     box-shadow: 4px 0 30px rgba(0,0,0,0.6);
-    transform: translateX(100%);  /* مخفی بودن اولیه */
+    transform: translateX(100%);
     transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
     z-index: 30; 
     padding: 28px; 
@@ -106,7 +113,16 @@ header {
 }
 #side-menu.open { transform: translateX(0); }
 
-#menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
+#menu-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:10px;
+}
+
+#menu-close { background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
+
+#theme-toggle {
+    background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer;
+}
 
 .side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:right; }
 .side-desc { font-size:13px; color:rgba(255,255,255,0.8); text-align:right; }
@@ -119,7 +135,7 @@ header {
 }
 .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
 
-/* بک‌دراپ برای کلیک بیرون و تار کردن پس‌زمینه */
+/* بک‌دراپ */
 #menu-backdrop {
     position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
 }
@@ -168,25 +184,20 @@ h2 {
 .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
 .movie-card:hover .img-bar img { transform:scale(1.08); }
 
-/* اسم فیلم */
 .date-bar {
     height:52px !important; line-height:52px !important; padding:0 10px;
     text-align:center; background:rgba(0,0,0,0.45); border-top:none !important;
     color:#ffd700; font-size:19px !important; font-weight:900 !important;
     letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
 }
-.date-bar strong {
-    font-size:21px !important; display:block; transform:translateY(1px);
-}
+.date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
 
-/* سانس */
 .title-bar {
     height:36px; line-height:36px; padding:0 10px; text-align:center;
     background:rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1);
     color:#fff; font-weight:600; font-size:15px;
 }
 
-/* رزرو */
 .reserve-bar {
     height:36px; line-height:36px; padding:0 10px; text-align:center;
     background:#ffd700; color:#000; font-weight:bold; cursor:pointer;
@@ -194,16 +205,9 @@ h2 {
 }
 .reserve-bar:hover { background:#ffea00; }
 
-/* پشت کارت */
-.card-back {
-    transform:rotateY(180deg);
-    padding:15px; color:#fff; text-align:right;
-    font-size:14px; display:flex; flex-direction:column;
-}
-
+.card-back { transform:rotateY(180deg); padding:15px; color:#fff; text-align:right; font-size:14px; display:flex; flex-direction:column; }
 .card-back h3, .card-back p strong { color:#ffd700; }
 
-/* فوتر */
 footer {
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
@@ -223,10 +227,8 @@ footer {
     color:#ffd700; font-size:22px;
     text-decoration:none;
 }
-
 .social-icon:hover { background:#ffd700; color:#000; }
 
-/* درباره ما */
 #about-popup {
     display:none; 
     position:fixed; 
@@ -244,10 +246,8 @@ footer {
     opacity:0; 
     transition:opacity .3s;
 }
-
 #about-popup.show { display:block; opacity:1; }
 
-/* لودر */
 #loading-overlay {
     position: fixed;
     top: 0;
@@ -262,45 +262,16 @@ footer {
     opacity: 1;
     transition: opacity 0.5s ease;
 }
-
-#loading-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
+#loading-overlay.hidden { opacity: 0; pointer-events: none; }
 
 .loader { position: relative; width: 40px; height: 40px; }
-
-.loader .circle {
-  position: absolute;
-  width: 38px; height: 38px;
-  opacity: 0;
-  transform: rotate(225deg);
-  animation: orbit 5.5s infinite;
-}
-
-.loader .circle:after {
-  content: '';
-  position: absolute;
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: yellow;
-}
-
+.loader .circle { position: absolute; width: 38px; height: 38px; opacity: 0; transform: rotate(225deg); animation: orbit 5.5s infinite; }
+.loader .circle:after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: yellow; }
 .loader .circle:nth-child(2) { animation-delay: 240ms; }
 .loader .circle:nth-child(3) { animation-delay: 480ms; }
 .loader .circle:nth-child(4) { animation-delay: 720ms; }
 .loader .circle:nth-child(5) { animation-delay: 960ms; }
-
-@keyframes orbit { 
-  0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
-  7%   { transform:rotate(345deg); animation-timing-function: linear; }
-  30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-  39%  { transform:rotate(690deg); animation-timing-function: linear; }
-  70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-  75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
-  76%  { transform:rotate(945deg); opacity: 0; }
-  100% { transform:rotate(945deg); opacity: 0; } 
-}
+@keyframes orbit { 0% { transform:rotate(225deg); opacity: 1; } 7% { transform:rotate(345deg); } 30% { transform:rotate(455deg); } 39% { transform:rotate(690deg); } 70% { transform:rotate(815deg); opacity:1; } 75% { transform:rotate(945deg); } 76% { transform:rotate(945deg); opacity:0; } 100% { transform:rotate(945deg); opacity:0; } }
 
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
 @media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
@@ -323,20 +294,20 @@ footer {
 </div>
 
 <header>
-    <!-- همبرگر در سمت چپ (روبروی لوگو) -->
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
         <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
-
     <div class="logo-fa">Soft Shiraz</div>
 </header>
 
-<!-- بک‌دراپ -->
 <div id="menu-backdrop" tabindex="-1"></div>
 
-<!-- منوی کشویی -->
 <nav id="side-menu" aria-hidden="true">
-    <button id="menu-close" aria-label="بستن منو"><i class="fas fa-times"></i></button>
+    <div id="menu-header">
+        <button id="menu-close" aria-label="بستن منو"><i class="fas fa-times"></i></button>
+        <button id="theme-toggle" aria-label="تغییر تم"><i class="fas fa-sun"></i></button>
+    </div>
+
     <div class="side-brand">Soft Shiraz</div>
     <div class="side-desc">معرفی اکران‌های آینده، رزرو بلیط و اخبار سینما</div>
 
@@ -422,10 +393,7 @@ loadCardsStrictly();
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
     if (!reserveBtn) return;
-
     e.stopPropagation();
-
-    // بررسی متن دکمه
     if (reserveBtn.textContent.trim() !== "رزرو بلیط") return;
 
     const cardFront = reserveBtn.closest(".card-front");
@@ -435,7 +403,6 @@ document.addEventListener("click", function(e) {
     const dateTime   = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
 
     const message = `💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\n🌟 مرسی ازتون 🌟`;
-
     const encoded = encodeURIComponent(message);
     window.open(`https://t.me/softshirazadmin?text=${encoded}`, "_blank");
 });
@@ -443,7 +410,6 @@ document.addEventListener("click", function(e) {
 // فلیپ کارت
 document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar")) return;
-
     const cardInner = e.target.closest(".card-inner");
     if (cardInner) {
         if (openCard && openCard !== cardInner) {
@@ -478,7 +444,6 @@ function openMenu() {
     backdrop.classList.add('visible');
     hamburger.setAttribute('aria-expanded', 'true');
     sideMenu.setAttribute('aria-hidden', 'false');
-    // تمرکز را به اولین لینک منتقل کن
     const firstLink = sideMenu.querySelector('.side-links a');
     if (firstLink) firstLink.focus();
 }
@@ -499,17 +464,14 @@ hamburger.addEventListener('click', (e) => {
 
 menuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMenu(); });
 backdrop.addEventListener('click', (e) => { closeMenu(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+sideMenu.addEventListener('click', (e) => { e.stopPropagation(); });
 
-// بستن با Escape
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu();
+// --- تغییر تم ---
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
 });
-
-// جلوگیری از بسته شدن منو هنگام تعامل درون آن
-sideMenu.addEventListener('click', (e) => {
-    e.stopPropagation();
-});
-
 </script>
 
 </body>
