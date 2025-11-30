@@ -384,6 +384,13 @@ document.addEventListener("click", (e) => {
         aboutPopup.classList.remove("show");
     }
 });
+    
+document.querySelectorAll('.completed .reserve-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+});
 </script>
 
 </body>
