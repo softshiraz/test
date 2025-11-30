@@ -78,7 +78,7 @@ header {
 }
 .hamburger-btn:active { transform:scale(.97); }
 .hamburger-inner { width:22px; height:16px; position:relative; }
-.hamburger-inner span { position:absolute; left:0; right:0; height:2px; background:#ffd700; display:block; border-radius:2px; }
+.hamburger-inner span { position:absolute; left:0; left:0; height:2px; background:#ffd700; display:block; border-radius:2px; }
 .hamburger-inner span:nth-child(1){ top:0; }
 .hamburger-inner span:nth-child(2){ top:7px; }
 .hamburger-inner span:nth-child(3){ top:14px; }
@@ -90,14 +90,14 @@ header {
     box-shadow: 4px 0 30px rgba(0,0,0,0.6);
     transform: translateX(-110%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
     z-index:30; padding:28px; display:flex; flex-direction:column; gap:18px; direction:rtl;
-    border-right: 2px solid rgba(255,215,0,0.12);
+    border-left: 2px solid rgba(255,215,0,0.12);
 }
 #side-menu.open { transform: translateX(0); }
 
 #menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
 
-.side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:right; }
-.side-desc { font-size:13px; color:rgba(255,255,255,0.8); text-align:right; }
+.side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:left; }
+.side-desc { font-size:13px; color:rgba(255,255,255,0.8); text-align:left; }
 
 .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
 .side-links a {
@@ -185,7 +185,7 @@ h2 {
 /* پشت کارت */
 .card-back {
     transform:rotateY(180deg);
-    padding:15px; color:#fff; text-align:right;
+    padding:15px; color:#fff; text-align:left;
     font-size:14px; display:flex; flex-direction:column;
 }
 
@@ -227,7 +227,7 @@ footer {
     border-radius:12px; 
     padding:20px; 
     font-size:14px; 
-    text-align:right; 
+    text-align:left; 
     z-index:1000;
     opacity:0; 
     transition:opacity .3s;
@@ -336,7 +336,7 @@ footer {
         <a href="#" role="menuitem">درباره ما</a>
     </div>
 
-    <div style="margin-top:auto; font-size:13px; color:rgba(255,255,255,0.8); text-align:right;">
+    <div style="margin-top:auto; font-size:13px; color:rgba(255,255,255,0.8); text-align:left;">
         نسخه وب — سافت شیراز
     </div>
 </nav>
