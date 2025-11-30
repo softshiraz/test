@@ -313,11 +313,9 @@ footer {
 
 <header>
     <!-- همبرگر در سمت چپ (روبروی لوگو) -->
-    <svg class="ham ham3" viewBox="0 0 100 100" width="80" id="menuToggle">
-  <path class="line top" d="m 70,33 h -40 c -11.092231,0 11.883874,13.496726 -3.420361,12.956839 -0.962502,-2.089471 -2.222071,-3.282996 -4.545687,-3.282996 -2.323616,0 -5.113897,2.622752 -5.113897,7.071068 0,4.448316 2.080609,7.007933 5.555839,7.007933 2.401943,0 2.96769,-1.283974 4.166879,-3.282995 2.209342,0.273823 4.031294,1.642466 5.857227,-0.252538 v -13.005715 16.288404 h 7.653568"></path>
-  <path class="line middle" d="m 70,50 h -40 c -5.6862,0 -8.534259,5.373483 -8.534259,11.551069 0,7.187738 3.499166,10.922274 13.131984,10.922274 11.021777,0 7.022787,-15.773343 15.531095,-15.773343 3.268142,0 5.177031,-2.159429 5.177031,-6.7 0,-4.540571 -1.766442,-7.33533 -5.087851,-7.326157 -3.321409,0.0092 -5.771288,2.789632 -5.771288,7.326157 0,4.536525 2.478983,6.805271 5.771288,6.7"></path>
-  <path class="line bottom" d="m 70,67 h -40 c 0,0 -3.680675,0.737051 -3.660714,-3.517857 0.02541,-5.415597 3.391687,-10.357143 10.982142,-10.357143 4.048418,0 17.88928,0.178572 23.482143,0.178572 0,2.563604 2.451177,3.403635 4.642857,3.392857 2.19168,-0.01078 4.373905,-1.369814 4.375,-3.392857 0.0011,-2.023043 -1.924401,-2.589191 -4.553571,-4.107143 -2.62917,-1.517952 -4.196429,-1.799562 -4.196429,-3.660714 0,-1.861153 2.442181,-3.118811 4.196429,-3.035715 1.754248,0.0831 4.375,0.890841 4.375,3.125 2.628634,0 6.160714,0.267857 6.160714,0.267857 l -0.178571,-2.946428 10.178571,0 -10.178571,0 v 6.696428 l 8.928571,0 -8.928571,0 v 7.142858 l 10.178571,0 -10.178571,0"></path>
-</svg>
+    <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
+        <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
 
     <div class="logo-fa">Soft Shiraz</div>
 </header>
@@ -458,48 +456,213 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// --- منوی همبرگری ---
-const hamburger = document.getElementById('hamburger');
-const sideMenu = document.getElementById('side-menu');
-const backdrop = document.getElementById('menu-backdrop');
-const menuClose = document.getElementById('menu-close');
+        /* --- دکمه همبرگر (Ham 3) --- */
+        #hamburger {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+        #hamburger:hover { background: #fff; transform: scale(1.05); }
 
-function openMenu() {
-    sideMenu.classList.add('open');
-    backdrop.classList.add('visible');
-    hamburger.setAttribute('aria-expanded', 'true');
-    sideMenu.setAttribute('aria-hidden', 'false');
-    // تمرکز را به اولین لینک منتقل کن
-    const firstLink = sideMenu.querySelector('.side-links a');
-    if (firstLink) firstLink.focus();
-}
+        .ham {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        .line {
+            fill: none;
+            transition: stroke-dasharray 400ms, stroke-dashoffset 400ms;
+            stroke: #333;
+            stroke-width: 5.5;
+            stroke-linecap: round;
+        }
+        .ham3 .top    { stroke-dasharray: 40 130; }
+        .ham3 .middle { stroke-dasharray: 40 140; }
+        .ham3 .bottom { stroke-dasharray: 40 205; }
+        .ham3.active .top    { stroke-dasharray: 75 130; stroke-dashoffset: -63px; }
+        .ham3.active .middle { stroke-dashoffset: -102px; }
+        .ham3.active .bottom { stroke-dasharray: 110 205; stroke-dashoffset: -86px; }
 
-function closeMenu() {
-    sideMenu.classList.remove('open');
-    backdrop.classList.remove('visible');
-    hamburger.setAttribute('aria-expanded', 'false');
-    sideMenu.setAttribute('aria-hidden', 'true');
-    hamburger.focus();
-}
+        /* --- منوی کناری --- */
+        #side-menu {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            height: 100%;
+            background: #2c3e50;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1000;
+            padding-top: 90px;
+            color: white;
+        }
+        #side-menu.open {
+            right: 0;
+        }
+        .side-links {
+            list-style: none;
+        }
+        .side-links a {
+            display: block;
+            padding: 18px 30px;
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .side-links a:hover,
+        .side-links a:focus {
+            background: #34495e;
+            padding-right: 40px;
+            outline: none;
+        }
 
-hamburger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-    if (expanded) closeMenu(); else openMenu();
-});
+        /* --- پس‌زمینه تیره --- */
+        #menu-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s;
+            z-index: 999;
+        }
+        #menu-backdrop.visible {
+            opacity: 1;
+            visibility: visible;
+        }
 
-menuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMenu(); });
-backdrop.addEventListener('click', (e) => { closeMenu(); });
+        /* --- دکمه بستن --- */
+        #menu-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: #ecf0f1;
+            font-size: 28px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+        #menu-close:hover {
+            background: rgba(255,255,255,0.1);
+        }
 
-// بستن با Escape
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu();
-});
+        /* محتوای اصلی */
+        .content {
+            padding: 100px 40px;
+            text-align: center;
+            font-size: 24px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
 
-// جلوگیری از بسته شدن منو هنگام تعامل درون آن
-sideMenu.addEventListener('click', (e) => {
-    e.stopPropagation();
-});
+    <!-- دکمه همبرگر (Ham 3) -->
+    <div id="hamburger" class="ham ham3" aria-expanded="false" aria-label="باز کردن منو" role="button" tabindex="0">
+        <svg viewBox="0 0 100 100" width="60">
+            <path class="line top"
+                d="m 70,33 h -40 c -11.092231,0 11.883874,13.496726 -3.420361,12.956839 -0.962502,-2.089471 -2.222071,-3.282996 -4.545687,-3.282996 -2.323616,0 -5.113897,2.622752 -5.113897,7.071068 0,4.448316 2.080609,7.007933 5.555839,7.007933 2.401943,0 2.96769,-1.283974 4.166879,-3.282995 2.209342,0.273823 4.031294,1.642466 5.857227,-0.252538 v -13.005715 16.288404 h 7.653568"/>
+            <path class="line middle"
+                d="m 70,50 h -40 c -5.6862,0 -8.534259,5.373483 -8.534259,11.551069 0,7.187738 3.499166,10.922274 13.131984,10.922274 11.021777,0 7.022787,-15.773343 15.531095,-15.773343 3.268142,0 5.177031,-2.159429 5.177031,-6.7 0,-4.540571 -1.766442,-7.33533 -5.087851,-7.326157 -3.321409,0.0092 -5.771288,2.789632 -5.771288,7.326157 0,4.536525 2.478983,6.805271 5.771288,6.7"/>
+            <path class="line bottom"
+                d="m 70,67 h -40 c 0,0 -3.680675,0.737051 -3.660714,-3.517857 0.02541,-5.415597 3.391687,-10.357143 10.982142,-10.357143 4.048418,0 17.88928,0.178572 23.482143,0.178572 0,2.563604 2.451177,3.403635 4.642857,3.392857 2.19168,-0.01078 4.373905,-1.369814 4.375,-3.392857 0.0011,-2.023043 -1.924401,-2.589191 -4.553571,-4.107143 -2.62917,-1.517952 -4.196429,-1.799562 -4.196429,-3.660714 0,-1.861153 2.442181,-3.118811 4.196429,-3.035715 1.754248,0.0831 4.375,0.890841 4.375,3.125 2.628634,0 6.160714,0.267857 6.160714,0.267857 l -0.178571,-2.946428 10.178571,0 -10.178571,0 v 6.696428 l 8.928571,0 -8.928571,0 v 7.142858 l 10.178571,0 -10.178571,0"/>
+        </svg>
+    </div>
+
+    <!-- پس‌زمینه تیره -->
+    <div id="menu-backdrop"></div>
+
+    <!-- منوی کناری -->
+    <nav id="side-menu" aria-hidden="true">
+        <button id="menu-close" aria-label="بستن منو">×</button>
+        <ul class="side-links">
+            <li><a href="#">خانه</a></li>
+            <li><a href="#">درباره ما</a></li>
+            <li><a href="#">خدمات</a></li>
+            <li><a href="#">پروژه‌ها</a></li>
+            <li><a href="#">وبلاگ</a></li>
+            <li><a href="#">تماس با ما</a></li>
+        </ul>
+    </nav>
+
+    <!-- محتوای صفحه -->
+    <div class="content">
+        <h1>منوی کناری با انیمیشن Ham 3</h1>
+        <p>روی دکمه همبرگر کلیک کنید تا منو باز شود</p>
+    </div>
+
+    <!-- اسکریپت جاوااسکریپت -->
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const sideMenu = document.getElementById('side-menu');
+        const backdrop = document.getElementById('menu-backdrop');
+        const menuClose = document.getElementById('menu-close');
+
+        function openMenu() {
+            sideMenu.classList.add('open');
+            backdrop.classList.add('visible');
+            hamburger.classList.add('active');
+            hamburger.setAttribute('aria-expanded', 'true');
+            sideMenu.setAttribute('aria-hidden', 'false');
+            const firstLink = sideMenu.querySelector('.side-links a');
+            if (firstLink) setTimeout(() => firstLink.focus(), 400);
+        }
+
+        function closeMenu() {
+            sideMenu.classList.remove('open');
+            backdrop.classList.remove('visible');
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            sideMenu.setAttribute('aria-hidden', 'true');
+            hamburger.focus();
+        }
+
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+            if (expanded) closeMenu(); else openMenu();
+        });
+
+        menuClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeMenu();
+        });
+
+        backdrop.addEventListener('click', closeMenu);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sideMenu.classList.contains('open')) {
+                closeMenu();
+            }
+        });
+
+        sideMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // پشتیبانی از Enter/Space روی دکمه همبرگر (کیبورد)
+        hamburger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                hamburger.click();
+            }
+        });
 
 </script>
 
