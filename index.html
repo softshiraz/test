@@ -340,6 +340,10 @@ document.addEventListener("click", function(e) {
 
     e.stopPropagation();
 
+    // اگر کارت تکمیل شده است، کاری نکن
+    const cardInner = reserveBar.closest(".card-inner");
+    if (cardInner && cardInner.classList.contains("completed")) return;
+
     const cardFront = reserveBar.closest(".card-front");
     if (!cardFront) return;
 
@@ -383,13 +387,6 @@ document.addEventListener("click", (e) => {
     if (!aboutPopup.contains(e.target) && e.target !== aboutBtn) {
         aboutPopup.classList.remove("show");
     }
-});
-    
-document.querySelectorAll('.completed .reserve-btn').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-    });
 });
 </script>
 
