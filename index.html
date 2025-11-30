@@ -25,146 +25,7 @@ body {
     background:#0e0e0f;
     color:#fff;
     overflow-x:hidden;
-    transition: background 0.3s, color 0.3s;
 }
-
-/* =======================
-   تم لایت مود (Light Mode)
-   ======================= */
-body.light-mode {
-    background: #ffffff; /* پس‌زمینه اصلی */
-    color: #1a1a1a;      /* متن اصلی */
-}
-
-/* هدر و فوتر */
-body.light-mode header,
-body.light-mode footer {
-    background: #f9f9f9; /* خاکستری خیلی روشن */
-    color: #1a1a1a;
-    text-shadow: none;
-}
-
-/* کارت‌ها / بخش‌ها */
-body.light-mode .card-front,
-body.light-mode .card-back {
-    background: #f9f9f9;
-    border-color: #e0e0e0;
-    color: #1a1a1a;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-/* عناوین */
-body.light-mode h2,
-body.light-mode .date-bar {
-    color: #111111;
-}
-
-/* دکمه‌ها */
-body.light-mode .reserve-bar {
-    background: #ffcc00; /* Primary */
-    color: #000;
-}
-body.light-mode .reserve-bar:hover {
-    background: #e6b800;
-}
-body.light-mode .reserve-secondary {
-    background: #f1f1f1; /* Secondary */
-    color: #1a1a1a;
-}
-
-/* لینک‌ها و منو */
-body.light-mode .side-links a {
-    background: #f1f1f1;
-    border-color: #e0e0e0;
-    color: #1a73e8; /* لینک آبی */
-}
-body.light-mode .side-links a:hover {
-    background: #e0e0e0;
-    color: #155ab6;
-}
-
-/* آیکون‌ها */
-body.light-mode .social-icon {
-    background: #f1f1f1;
-    color: #1a1a1a;
-}
-body.light-mode .social-icon:hover {
-    background: #ffcc00;
-    color: #000;
-}
-
-/* هشدارها و پیام‌ها */
-body.light-mode .alert-error { color: #ff0000; }
-body.light-mode .alert-success { color: #28a745; }
-
-/* =======================
-   تم دارک مود (Dark Mode)
-   ======================= */
-body.dark-mode,
-body:not(.light-mode) {
-    background: #121212; /* پس‌زمینه اصلی تیره */
-    color: #e0e0e0;      /* متن روشن */
-}
-
-/* هدر و فوتر */
-body.dark-mode header,
-body.dark-mode footer {
-    background: #1a1a1a;
-    color: #e0e0e0;
-}
-
-/* کارت‌ها / بخش‌ها */
-body.dark-mode .card-front,
-body.dark-mode .card-back {
-    background: #2a2a2a;
-    border-color: #333333;
-    color: #ffffff;
-    box-shadow: 0 4px 10px rgba(255,255,255,0.05);
-}
-
-/* عناوین */
-body.dark-mode h2,
-body.dark-mode .date-bar {
-    color: #ffffff;
-}
-
-/* دکمه‌ها */
-body.dark-mode .reserve-bar {
-    background: #ffcc00; /* Primary */
-    color: #000;
-}
-body.dark-mode .reserve-bar:hover {
-    background: #e6b800;
-}
-body.dark-mode .reserve-secondary {
-    background: #333333; /* Secondary */
-    color: #e0e0e0;
-}
-
-/* لینک‌ها و منو */
-body.dark-mode .side-links a {
-    background: #2e2e2e;
-    border-color: #444444;
-    color: #4aa3ff; /* لینک آبی روشن */
-}
-body.dark-mode .side-links a:hover {
-    background: #3a3a3a;
-    color: #2196f3;
-}
-
-/* آیکون‌ها */
-body.dark-mode .social-icon {
-    background: #333333;
-    color: #e0e0e0;
-}
-body.dark-mode .social-icon:hover {
-    background: #ffcc00;
-    color: #000;
-}
-
-/* هشدارها و پیام‌ها */
-body.dark-mode .alert-error { color: #ff4d4d; }
-body.dark-mode .alert-success { color: #4caf50; }
 
 /* ذرات طلایی */
 #gold-particles {
@@ -246,24 +107,6 @@ header {
 #side-menu.open { transform: translateX(0); }
 
 #menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
-
-/* دکمه تغییر تم */
-#theme-toggle {
-    align-self:flex-start;
-    background:transparent;
-    border:none;
-    color:#ffd700;
-    font-size:20px;
-    cursor:pointer;
-}
-
-/* ردیف بالای منو برای close و theme */
-#side-menu .top-row {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
 
 .side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:right; }
 .side-desc { font-size:13px; color:rgba(255,255,255,0.8); text-align:right; }
@@ -493,11 +336,7 @@ footer {
 
 <!-- منوی کشویی -->
 <nav id="side-menu" aria-hidden="true">
-    <div class="top-row">
-        <button id="menu-close" aria-label="بستن منو"><i class="fas fa-times"></i></button>
-        <button id="theme-toggle" aria-label="تغییر تم"><i class="fas fa-adjust"></i></button>
-    </div>
-
+    <button id="menu-close" aria-label="بستن منو"><i class="fas fa-times"></i></button>
     <div class="side-brand">Soft Shiraz</div>
     <div class="side-desc">معرفی اکران‌های آینده، رزرو بلیط و اخبار سینما</div>
 
@@ -586,6 +425,7 @@ document.addEventListener("click", function(e) {
 
     e.stopPropagation();
 
+    // بررسی متن دکمه
     if (reserveBtn.textContent.trim() !== "رزرو بلیط") return;
 
     const cardFront = reserveBtn.closest(".card-front");
@@ -638,6 +478,7 @@ function openMenu() {
     backdrop.classList.add('visible');
     hamburger.setAttribute('aria-expanded', 'true');
     sideMenu.setAttribute('aria-hidden', 'false');
+    // تمرکز را به اولین لینک منتقل کن
     const firstLink = sideMenu.querySelector('.side-links a');
     if (firstLink) firstLink.focus();
 }
@@ -658,15 +499,17 @@ hamburger.addEventListener('click', (e) => {
 
 menuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMenu(); });
 backdrop.addEventListener('click', (e) => { closeMenu(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
-sideMenu.addEventListener('click', (e) => { e.stopPropagation(); });
 
-// تغییر تم بین دراک مود و لایت مود
-const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    document.body.classList.toggle('light-mode');
+// بستن با Escape
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
 });
+
+// جلوگیری از بسته شدن منو هنگام تعامل درون آن
+sideMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+
 </script>
 
 </body>
