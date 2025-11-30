@@ -28,227 +28,61 @@ body {
 }
 
 /* ذرات طلایی */
-#gold-particles {
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    overflow:hidden;
-    pointer-events:none;
-    z-index:0;
-}
-
-.particle {
-    position:absolute;
-    width:4px; height:4px;
-    background:rgba(255,215,0,0.8);
-    border-radius:50%;
-    box-shadow:0 0 6px rgba(255,215,0,0.9);
-    animation: floatDown linear infinite;
-}
-
-@keyframes floatDown {
-    from { transform: translateY(-120vh); opacity:1; }
-    to { transform: translateY(120vh); opacity:0; }
-}
+#gold-particles { position: fixed; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events:none; z-index:0; }
+.particle { position:absolute; width:4px; height:4px; background:rgba(255,215,0,0.8); border-radius:50%; box-shadow:0 0 6px rgba(255,215,0,0.9); animation: floatDown linear infinite; }
+@keyframes floatDown { from { transform: translateY(-120vh); opacity:1; } to { transform: translateY(120vh); opacity:0; } }
 
 /* هدر */
-header {
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    padding:15px 25px;
-    display:flex; justify-content:flex-end; align-items:center;
-    border-bottom:1px solid rgba(48,48,48,0.5); 
-    position:sticky; top:0; z-index:10;
-    text-shadow:0 0 10px rgba(255,215,0,0.25);
-}
-
-.logo-fa {
-    font-weight:700;
-    font-size:26px;
-    background:linear-gradient(45deg,#ffd700,#ffb300);
-    -webkit-background-clip:text;
-    color:transparent;
-}
+header { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding:15px 25px; display:flex; justify-content:flex-end; align-items:center; border-bottom:1px solid rgba(48,48,48,0.5); position:sticky; top:0; z-index:10; text-shadow:0 0 10px rgba(255,215,0,0.25); }
+.logo-fa { font-weight:700; font-size:26px; background:linear-gradient(45deg,#ffd700,#ffb300); -webkit-background-clip:text; color:transparent; }
 
 main { padding:35px 15px 60px; }
-
-h2 {
-    color:#ffd700; font-size:28px; text-align:center;
-    margin-bottom:35px; border-bottom:3px solid #ffd700;
-    display:inline-block; padding-bottom:6px;
-    text-shadow:0 0 8px rgba(255,215,0,0.3);
-}
-
+h2 { color:#ffd700; font-size:28px; text-align:center; margin-bottom:35px; border-bottom:3px solid #ffd700; display:inline-block; padding-bottom:6px; text-shadow:0 0 8px rgba(255,215,0,0.3); }
 .section { text-align:center; }
 
 /* کارت‌ها */
-.movies-grid {
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-    justify-items:center;
-    max-width:1200px;
-    margin:0 auto;
-}
-
+.movies-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; justify-items:center; max-width:1200px; margin:0 auto; }
 .movie-card { perspective:1000px; position:relative; }
-
-.card-inner {
-    position:relative; width:280px; height:420px; cursor:pointer;
-    transition:transform 0.35s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d;
-}
-
+.card-inner { position:relative; width:280px; height:420px; cursor:pointer; transition:transform 0.35s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d; }
 .card-inner.flipped { transform:rotateY(180deg); }
-
-.card-front, .card-back {
-    position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
-    backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65);
-    box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
-    background:rgba(19,19,20,0.75); backdrop-filter:blur(10px);
-}
-
+.card-front, .card-back { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden; backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65); box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2); background:rgba(19,19,20,0.75); backdrop-filter:blur(10px); }
 .card-front { display:flex; flex-direction:column; }
 .img-bar { flex:1; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
 .movie-card:hover .img-bar img { transform:scale(1.08); }
-
-/* اسم فیلم */
-.date-bar {
-    height:52px !important; line-height:52px !important; padding:0 10px;
-    text-align:center; background:rgba(0,0,0,0.45); border-top:none !important;
-    color:#ffd700; font-size:19px !important; font-weight:900 !important;
-    letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
-}
-.date-bar strong {
-    font-size:21px !important; display:block; transform:translateY(1px);
-}
-
-/* سانس */
-.title-bar {
-    height:36px; line-height:36px; padding:0 10px; text-align:center;
-    background:rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1);
-    color:#fff; font-weight:600; font-size:15px;
-}
-
-/* رزرو */
-.reserve-bar {
-    height:36px; line-height:36px; padding:0 10px; text-align:center;
-    background:#ffd700; color:#000; font-weight:bold; cursor:pointer;
-    transition:background 0.3s;
-}
+.date-bar { height:52px !important; line-height:52px !important; padding:0 10px; text-align:center; background:rgba(0,0,0,0.45); border-top:none !important; color:#ffd700; font-size:19px !important; font-weight:900 !important; letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8); }
+.date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
+.title-bar { height:36px; line-height:36px; padding:0 10px; text-align:center; background:rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1); color:#fff; font-weight:600; font-size:15px; }
+.reserve-bar { height:36px; line-height:36px; padding:0 10px; text-align:center; background:#ffd700; color:#000; font-weight:bold; cursor:pointer; transition:background 0.3s; }
 .reserve-bar:hover { background:#ffea00; }
-
-/* پشت کارت */
-.card-back {
-    transform:rotateY(180deg);
-    padding:15px; color:#fff; text-align:right;
-    font-size:14px; display:flex; flex-direction:column;
-}
-
+.card-back { transform:rotateY(180deg); padding:15px; color:#fff; text-align:right; font-size:14px; display:flex; flex-direction:column; }
 .card-back h3, .card-back p strong { color:#ffd700; }
 
 /* فوتر */
-footer {
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    padding:20px; text-align:center;
-    border-top:1px solid rgba(48,48,48,0.5); 
-}
-
+footer { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding:20px; text-align:center; border-top:1px solid rgba(48,48,48,0.5); }
 .footer-title { font-size:18px; color:#ffd700; margin-bottom:18px; }
-
 .social-row { display:flex; justify-content:center; gap:18px; }
-
-.social-icon {
-    width:48px; height:48px; border-radius:50%;
-    background: rgba(26,26,26,0.7);
-    backdrop-filter: blur(5px);
-    display:flex; align-items:center; justify-content:center;
-    color:#ffd700; font-size:22px;
-    text-decoration:none;
-}
-
+.social-icon { width:48px; height:48px; border-radius:50%; background: rgba(26,26,26,0.7); backdrop-filter: blur(5px); display:flex; align-items:center; justify-content:center; color:#ffd700; font-size:22px; text-decoration:none; }
 .social-icon:hover { background:#ffd700; color:#000; }
 
 /* درباره ما */
-#about-popup {
-    display:none; 
-    position:fixed; 
-    top:-45%; left:50%;
-    transform:translate(-50%,-50%);
-    width:300px;
-    background: rgba(17,17,17,0.95);
-    backdrop-filter: blur(12px);
-    border:2px solid rgba(255,215,0,0.5);
-    border-radius:12px; 
-    padding:20px; 
-    font-size:14px; 
-    text-align:right; 
-    z-index:1000;
-    opacity:0; 
-    transition:opacity .3s;
-}
-
+#about-popup { display:none; position:fixed; top:-45%; left:50%; transform:translate(-50%,-50%); width:300px; background: rgba(17,17,17,0.95); backdrop-filter: blur(12px); border:2px solid rgba(255,215,0,0.5); border-radius:12px; padding:20px; font-size:14px; text-align:right; z-index:1000; opacity:0; transition:opacity .3s; }
 #about-popup.show { display:block; opacity:1; }
 
 /* لودر */
-#loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:#111;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    opacity: 1;
-    transition: opacity 0.5s ease;
-}
-
-#loading-overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
+#loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background:#111; display: flex; justify-content: center; align-items: center; z-index: 10000; opacity: 1; transition: opacity 0.5s ease; }
+#loading-overlay.hidden { opacity: 0; pointer-events: none; }
 .loader { position: relative; width: 40px; height: 40px; }
-
-.loader .circle {
-  position: absolute;
-  width: 38px; height: 38px;
-  opacity: 0;
-  transform: rotate(225deg);
-  animation: orbit 5.5s infinite;
-}
-
-.loader .circle:after {
-  content: '';
-  position: absolute;
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: yellow;
-}
-
+.loader .circle { position: absolute; width: 38px; height: 38px; opacity: 0; transform: rotate(225deg); animation: orbit 5.5s infinite; }
+.loader .circle:after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: yellow; }
 .loader .circle:nth-child(2) { animation-delay: 240ms; }
 .loader .circle:nth-child(3) { animation-delay: 480ms; }
 .loader .circle:nth-child(4) { animation-delay: 720ms; }
 .loader .circle:nth-child(5) { animation-delay: 960ms; }
-
-@keyframes orbit { 
-  0%   { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 
-  7%   { transform:rotate(345deg); animation-timing-function: linear; }
-  30%  { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-  39%  { transform:rotate(690deg); animation-timing-function: linear; }
-  70%  { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-  75%  { transform:rotate(945deg); animation-timing-function: ease-out; }
-  76%  { transform:rotate(945deg); opacity: 0; }
-  100% { transform:rotate(945deg); opacity: 0; } 
-}
-
+@keyframes orbit { 0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 7% { transform:rotate(345deg); animation-timing-function: linear; } 30% { transform:rotate(455deg); animation-timing-function: ease-in-out; } 39% { transform:rotate(690deg); animation-timing-function: linear; } 70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; } 75% { transform:rotate(945deg); animation-timing-function: ease-out; } 76% { transform:rotate(945deg); opacity: 0; } 100% { transform:rotate(945deg); opacity: 0; } }
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:768px)  { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px)  { .movies-grid{grid-template-columns:1fr;} }
+@media (max-width:768px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:480px) { .movies-grid{grid-template-columns:1fr;} }
 </style>
 
 </head>
@@ -258,11 +92,7 @@ footer {
 
 <div id="loading-overlay">
   <div class="loader">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
+    <div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div>
   </div>
 </div>
 
@@ -282,7 +112,6 @@ footer {
         <a class="social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
         <a class="social-icon" id="about-btn"><i class="fas fa-info"></i></a>
     </div>
-
     <div id="about-popup">
         <strong>درباره ما:</strong>
         <p>سافت شیراز مرجع معرفی فیلم‌های آینده و اخبار سینما است.</p>
@@ -312,10 +141,9 @@ window.addEventListener('load', () => {
     }, 5000);
 });
 
-// لود کارت‌ها با ضد کش
+// لود کارت‌ها
 const container = document.getElementById("cards-container");
 let openCard = null;
-
 async function loadCardsStrictly() {
     for (let num = 1; num <= 150; num++) {
         try {
@@ -333,18 +161,17 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
-// رزرو
+// رزرو با بررسی متن دکمه
 document.addEventListener("click", function(e) {
-    const reserveBar = e.target.closest(".reserve-bar");
-    if (!reserveBar) return;
+    const reserveBtn = e.target.closest(".reserve-bar a");
+    if (!reserveBtn) return;
 
     e.stopPropagation();
 
-    // اگر کارت تکمیل شده است، کاری نکن
-    const cardInner = reserveBar.closest(".card-inner");
-    if (cardInner && cardInner.classList.contains("completed")) return;
+    // بررسی متن دکمه
+    if (reserveBtn.textContent.trim() !== "رزرو بلیط") return;
 
-    const cardFront = reserveBar.closest(".card-front");
+    const cardFront = reserveBtn.closest(".card-front");
     if (!cardFront) return;
 
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
@@ -364,7 +191,7 @@ document.addEventListener("click", function(e) {
 
 // فلیپ کارت
 document.addEventListener("click", function(e) {
-    if (e.target.closest(".reserve-bar")) return;
+    if (e.target.closest(".reserve-bar a")) return;
 
     const cardInner = e.target.closest(".card-inner");
     if (cardInner) {
