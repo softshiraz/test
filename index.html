@@ -85,13 +85,14 @@ header {
 
 /* منوی کشویی (از سمت چپ باز می‌شود) */
 #side-menu {
-    position:fixed; top:0; left:0; height:100vh; width:320px; max-width:85%;
+    position:fixed; top:0; right:0; height:100vh; width:320px; max-width:85%;
     background:linear-gradient(180deg, rgba(12,12,12,0.98), rgba(20,20,20,0.98));
-    box-shadow: 4px 0 30px rgba(0,0,0,0.6);
-    transform: translateX(-110%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
+    box-shadow: -4px 0 30px rgba(0,0,0,0.6);
+    transform: translateX(110%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
     z-index:30; padding:28px; display:flex; flex-direction:column; gap:18px; direction:rtl;
-    border-left: 2px solid rgba(255,215,0,0.12);
+    border-right: 2px solid rgba(255,215,0,0.12);
 }
+#side-menu.open { transform: translateX(0); }
 #side-menu.open { transform: translateX(0); }
 
 #menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
