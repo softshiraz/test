@@ -137,65 +137,132 @@ h2 {
 
 .section { text-align:center; }
 
-    /* کارت کتاب */
-.book-card {
-    width: 280px;
-    border-radius: 16px;
-    border: 2px solid rgba(255,215,0,0.65);
-    overflow: hidden;
-    background: rgba(19,19,20,0.75);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
-    color: #fff;
-    margin-bottom: 20px;
+/* --- ریست و فونت --- */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Tahoma', sans-serif; }
+body { background:#111; color:#fff; line-height:1.6; }
+
+/* --- هدر --- */
+header {
+    background:#1a1a1a;
+    padding:20px;
+    text-align:center;
+    position:relative;
 }
+header h1 { font-size:2.2rem; color:#ffd700; margin-bottom:5px; }
+header .event-date { font-size:1rem; color:#eee; }
+
+/* --- معرفی ایونت --- */
+.intro {
+    max-width:1000px;
+    margin:20px auto;
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    align-items:center;
+    padding:0 15px;
+}
+.intro img {
+    width:300px;
+    border-radius:12px;
+    flex-shrink:0;
+    transition:transform 0.3s;
+}
+.intro img:hover { transform:scale(1.05); }
+.intro-text { flex:1; }
+.intro-text h2 { color:#ffd700; margin-bottom:10px; }
+.intro-text p { font-size:1rem; }
+
+/* --- کارت‌ها --- */
+.books-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+    gap:20px;
+    max-width:1200px;
+    margin:30px auto;
+    padding:0 15px;
+}
+
+/* کارت کتاب */
+.book-card {
+    border-radius:16px;
+    overflow:hidden;
+    background: rgba(19,19,20,0.85);
+    backdrop-filter: blur(10px);
+    border:2px solid rgba(255,215,0,0.65);
+    box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor:pointer;
+}
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow:0 0 20px rgba(255,215,0,0.45), inset 0 0 8px rgba(255,215,0,0.25);
+}
+
+/* جلد کتاب */
+.book-card img {
+    width:100%;
+    height:350px;
+    object-fit:cover;
+    transition: transform 0.4s;
+}
+.book-card:hover img { transform: scale(1.08); }
 
 /* هدر کارت */
 .book-header {
-    height: 52px;
-    line-height: 52px;
-    text-align: center;
+    height:52px;
+    line-height:52px;
+    text-align:center;
     background: rgba(0,0,0,0.45);
     color: #ffd700;
-    font-weight: 900;
-    position: relative;
-    cursor: pointer;
-    padding: 0 15px;
+    font-weight:900;
+    position:relative;
+    padding:0 15px;
 }
-
-.book-title {
-    font-size: 19px;
-}
-
+.book-title { font-size:19px; }
 .toggle-icon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 22px;
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:22px;
     transition: transform 0.3s;
 }
+.book-card.open .toggle-icon { transform: translateY(-50%) rotate(180deg); }
 
-.book-card.open .toggle-icon {
-    transform: translateY(-50%) rotate(180deg);
-}
-
-/* محتوای باز شونده */
+/* محتوای بازشونده */
 .book-content {
-    max-height: 0;
-    overflow: hidden;
+    max-height:0;
+    overflow:hidden;
     transition: max-height 0.4s ease, padding 0.3s ease;
-    padding: 0 15px;
+    padding:0 15px;
 }
-
 .book-card.open .book-content {
-    max-height: 500px; /* ارتفاع کافی برای محتوا */
-    padding-bottom: 15px;
+    max-height:400px;
+    padding-bottom:15px;
 }
+.book-content p { margin:10px 0; font-size:15px; }
 
-.book-content p {
-    margin: 10px 0;
-    font-size: 15px;
+/* --- بخش ثبت‌نام / دانلود PDF --- */
+.download-section {
+    text-align:center;
+    margin:40px 0;
+}
+.download-section a {
+    display:inline-block;
+    background:#ffd700;
+    color:#000;
+    font-weight:bold;
+    padding:12px 25px;
+    border-radius:8px;
+    text-decoration:none;
+    transition:background 0.3s;
+}
+.download-section a:hover { background:#ffea00; }
+
+/* --- ریسپانسیو --- */
+@media(max-width:768px) {
+    .intro { flex-direction:column; text-align:center; }
+    .intro img { width:80%; margin:0 auto; }
 }
 
 /* فوتر */
