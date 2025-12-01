@@ -357,7 +357,7 @@ footer {
 <main style="padding-top:20px;">
     <section class="section">
         <h2>اکران‌های آینده</h2>
-        <div class="movies-grid" id="cards-container"></div>
+        <div class="movies-grid" id="card-container"></div>
     </section>
 </main>
 
@@ -399,13 +399,13 @@ window.addEventListener('load', () => {
 });
 
 // لود کارت‌ها با ضد کش
-const container = document.getElementById("cards-container");
+const container = document.getElementById("card-container");
 let openCard = null;
 
-async function loadCardsStrictly() {
+async function loadcardStrictly() {
     for (let num = 1; num <= 150; num++) {
         try {
-            const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
+            const response = await fetch(`card/${num}.html?v=${Date.now()}`, { cache: "no-store" });
             if (!response.ok) continue;
             const html = await response.text();
             const card = document.createElement("div");
@@ -417,7 +417,7 @@ async function loadCardsStrictly() {
         }
     }
 }
-loadCardsStrictly();
+loadcardStrictly();
 
 // رزرو با بررسی متن دکمه
 document.addEventListener("click", function(e) {
