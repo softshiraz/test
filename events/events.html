@@ -265,6 +265,13 @@ header .event-date { font-size:1rem; color:#eee; }
     .intro img { width:80%; margin:0 auto; }
 }
 
+/* باز و بسته کردن کارت‌ها*/
+document.querySelectorAll(".book-header").forEach(header => {
+    header.addEventListener("click", () => {
+        header.parentElement.classList.toggle("open");
+    });
+});
+    
 /* فوتر */
 footer {
     background: rgba(0,0,0,0.5);
