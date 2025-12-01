@@ -1,149 +1,125 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ایونت کتاب‌خوانی</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- فونت و آیکون‌ها -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- جلوگیری از کش شدن -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
+<title>🎬 سافت شیراز — ایونت کتاب‌خوانی 🎬</title>
+
+<!-- فونت -->
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
 
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-    font-family: "Vazirmatn", sans-serif;
-    color: #fff;
-}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+body { font-family: "Vazirmatn", sans-serif; background:#0e0e0f; color:#fff; overflow-x:hidden; }
+
+/* ذرات طلایی */
+#gold-particles { position:fixed; top:0; left:0; width:100%; height:100%; overflow:hidden; pointer-events:none; z-index:0; }
+.particle { position:absolute; width:4px; height:4px; background:rgba(255,215,0,0.8); border-radius:50%; box-shadow:0 0 6px rgba(255,215,0,0.9); animation: floatDown linear infinite; }
+@keyframes floatDown { from { transform:translateY(-120vh); opacity:1; } to { transform:translateY(120vh); opacity:0; } }
 
 /* هدر */
-.header {
-    text-align: center;
-    padding: 35px 10px;
-    font-size: 35px;
-    font-weight: 900;
-    color: #ffd700;
-    text-shadow: 0 0 12px rgba(255,215,0,0.45);
-}
+header { background:rgba(0,0,0,0.5); backdrop-filter:blur(10px); padding:15px 25px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(48,48,48,0.5); position:sticky; top:0; z-index:20; text-shadow:0 0 10px rgba(255,215,0,0.25); }
+.logo-fa { font-weight:700; font-size:26px; background:linear-gradient(45deg,#ffd700,#ffb300); -webkit-background-clip:text; color:transparent; }
 
-/* توضیحات رویداد */
-.event-box {
-    max-width: 720px;
-    background: rgba(255,215,0,0.08);
-    margin: 0 auto 30px auto;
-    border-radius: 14px;
-    padding: 22px;
-    border: 1px solid rgba(255,215,0,0.3);
-    line-height: 1.9;
-    font-size: 16px;
-    box-shadow: 0 0 20px rgba(255,215,0,0.1);
-}
+/* همبرگر */
+.hamburger-btn { width:48px; height:42px; display:flex; align-items:center; justify-content:center; background:rgba(26,26,26,0.6); border-radius:10px; border:2px solid rgba(255,215,0,0.25); cursor:pointer; color:#ffd700; }
+.hamburger-inner { width:22px; height:16px; position:relative; }
+.hamburger-inner span { position:absolute; left:0; right:0; height:2px; background:#ffd700; border-radius:2px; }
+.hamburger-inner span:nth-child(1){ top:0; }
+.hamburger-inner span:nth-child(2){ top:7px; }
+.hamburger-inner span:nth-child(3){ top:14px; }
 
-/* بخش کارت‌ها */
-.movies-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    max-width: 700px;
-    margin: 0 auto;
-}
+/* منو */
+#side-menu { position:fixed; top:0; right:0; width:320px; max-width:85%; height:100vh; background:linear-gradient(180deg,rgba(12,12,12,0.98),rgba(20,20,20,0.98)); transform:translateX(100%); transition:.32s; z-index:30; padding:28px; display:flex; flex-direction:column; gap:18px; direction:rtl; }
+#side-menu.open { transform:translateX(0); }
+#menu-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:.3s; z-index:25; }
+#menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* کارت‌ها — نسخه جدید بدون چرخش */
-.book-card {
-    background: rgba(25,25,25,0.75);
-    border: 2px solid rgba(255,215,0,0.4);
-    border-radius: 12px;
-    padding: 0;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-    transition: all .3s;
-}
+/* --- کارت‌های کتاب --- */
+.books-grid { display:flex; flex-direction:column; gap:16px; max-width:650px; margin:0 auto; }
+.book-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,215,0,0.25); border-radius:12px; overflow:hidden; backdrop-filter:blur(8px); }
 
-/* سربرگ کارت */
-.book-header {
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    background: rgba(0,0,0,0.4);
-}
+.book-header { display:flex; justify-content:space-between; align-items:center; padding:14px 18px; cursor:pointer; font-size:18px; font-weight:700; color:#ffd700; }
+.book-header i { transition:transform .3s; }
+.book-card.open .book-header i { transform:rotate(180deg); }
 
-.book-title {
-    font-size: 19px;
-    font-weight: 900;
-    color: #ffd700;
-    text-shadow: 0 0 10px rgba(255,215,0,0.35);
-}
+.book-content { max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px; }
+.book-card.open .book-content { max-height:400px; padding:14px 18px 18px; }
+.book-content p { font-size:14px; line-height:1.8; }
 
-.toggle-icon {
-    color: #ffd700;
-    font-size: 16px;
-    transition: transform .3s;
-}
-
-/* متن داخل کارت */
-.book-content {
-    padding: 15px 18px;
-    display: none;
-    font-size: 14px;
-    line-height: 1.8;
-    text-align: right;
-}
-
-/* نمایش و چرخش فلش */
-.book-card.open .book-content {
-    display: block;
-}
-.book-card.open .toggle-icon {
-    transform: rotate(180deg);
-}
+footer { background:rgba(0,0,0,0.5); padding:20px; text-align:center; border-top:1px solid rgba(48,48,48,0.5); margin-top:40px; }
 </style>
 </head>
-
 <body>
 
-<div class="header">ایونت کتاب‌خوانی</div>
+<div id="gold-particles"></div>
+<header>
+    <button class="hamburger-btn" id="hamburger"><span class="hamburger-inner"><span></span><span></span><span></span></span></button>
+    <div class="logo-fa">Soft Shiraz</div>
+</header>
+<div id="menu-backdrop"></div>
+<nav id="side-menu"></nav>
 
-<div class="event-box">
-    در این رویداد کنار هم کتاب می‌خوانیم، دربارهٔ آن گفتگو می‌کنیم و تجربه‌های جالبمان را با هم به اشتراک می‌گذاریم.  
-    در این صفحه می‌توانید کتاب‌های معرفی‌شده و اطلاعات هر کتاب را ببینید.
-</div>
+<main style="padding:25px;">
+    <h2 style="text-align:center; color:#ffd700; margin-bottom:30px;">ایونت کتاب‌خوانی</h2>
+    <div class="books-grid" id="books"></div>
+</main>
 
-<!-- بخش نمایش کارت‌ها -->
-<div id="cards-container" class="movies-grid"></div>
-
+<footer>
+    سافت شیراز — رویداد کتاب‌خوانی
+</footer>
 
 <script>
-/* لود کارت‌ها از پوشه cards/ */
-async function loadCardsStrictly() {
-    const container = document.getElementById("cards-container");
-
-    for (let num = 1; num <= 150; num++) {
-        try {
-            const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
-            if (!response.ok) continue;
-
-            const html = await response.text();
-
-            const card = document.createElement("div");
-            card.className = "book-card";
-            card.innerHTML = html;
-
-            container.appendChild(card);
-        } catch (e) {}
-    }
+// ذرات
+const particleContainer = document.getElementById("gold-particles");
+for (let i = 0; i < 70; i++) {
+  const p=document.createElement("div"); p.className="particle";
+  const size=Math.random()*3+2;
+  p.style.width=size+"px"; p.style.height=size+"px";
+  p.style.left=Math.random()*100+"%";
+  p.style.top=Math.random()*-100+"vh";
+  p.style.animationDuration=Math.random()*4+4+"s";
+  particleContainer.appendChild(p);
 }
-loadCardsStrictly();
 
-/* باز و بسته شدن کارت */
-document.addEventListener("click", function(e) {
-    const header = e.target.closest(".book-header");
-    if (!header) return;
+// کارت کتاب
+const books=[
+  {
+    title:"ملت عشق",
+    info:"این کتاب اثری از الیف شافاک است و داستان عشق زمینی و عرفانی را همزمان روایت می‌کند."
+  },
+  {
+    title:"سمفونی مردگان",
+    info:"رمانی از عباس معروفی که به شکل چندصدایی زندگی یک خانواده را روایت می‌کند."
+  },
+  {
+    title:"بی‌خوابی",
+    info:"روایتی فلسفی و انسانی از علیرضا روشن درباره معنا، زمان و زیستن."
+  }
+];
 
-    const card = header.closest(".book-card");
-    card.classList.toggle("open");
+const container=document.getElementById("books");
+books.forEach(b=>{
+  const card=document.createElement("div");
+  card.className="book-card";
+  card.innerHTML=`
+    <div class="book-header">
+      <span>${b.title}</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class="book-content"><p>${b.info}</p></div>
+  `;
+  card.querySelector('.book-header').addEventListener('click',()=>{
+    card.classList.toggle('open');
+  });
+  container.appendChild(card);
 });
 </script>
 
