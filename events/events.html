@@ -137,6 +137,67 @@ h2 {
 
 .section { text-align:center; }
 
+    /* کارت کتاب */
+.book-card {
+    width: 280px;
+    border-radius: 16px;
+    border: 2px solid rgba(255,215,0,0.65);
+    overflow: hidden;
+    background: rgba(19,19,20,0.75);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* هدر کارت */
+.book-header {
+    height: 52px;
+    line-height: 52px;
+    text-align: center;
+    background: rgba(0,0,0,0.45);
+    color: #ffd700;
+    font-weight: 900;
+    position: relative;
+    cursor: pointer;
+    padding: 0 15px;
+}
+
+.book-title {
+    font-size: 19px;
+}
+
+.toggle-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    transition: transform 0.3s;
+}
+
+.book-card.open .toggle-icon {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* محتوای باز شونده */
+.book-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    padding: 0 15px;
+}
+
+.book-card.open .book-content {
+    max-height: 500px; /* ارتفاع کافی برای محتوا */
+    padding-bottom: 15px;
+}
+
+.book-content p {
+    margin: 10px 0;
+    font-size: 15px;
+}
+
 /* فوتر */
 footer {
     background: rgba(0,0,0,0.5);
