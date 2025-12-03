@@ -75,7 +75,7 @@ header {
     position: fixed;
     top: 0;
     left: auto;
-    right: 0;
+6    right: 0;
     height: 100vh;
     width: 320px;
     max-width: 85%;
@@ -102,7 +102,7 @@ header {
     background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03);
 }
 .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
-/* آیکون‌های اجتماعی داخل منو - حالا مربع با لبه گرد */
+/* آیکون‌های اجتماعی داخل منو - مربع با لبه گرد */
 .menu-social-title {
     margin-top: 20px;
     font-size: 16px;
@@ -118,7 +118,7 @@ header {
 .menu-social-icon {
     width: 48px;
     height: 48px;
-    border-radius: 12px; /* مربع با لبه گرد ملایم */
+    border-radius: 12px;
     background: rgba(26,26,26,0.7);
     backdrop-filter: blur(5px);
     display: flex;
@@ -145,15 +145,41 @@ header {
     position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
-/* بقیه استایل‌ها */
-main { padding:35px 15px 60px; }
-h2 {
-    color:#ffd700; font-size:28px; text-align:center;
-    margin-bottom:35px; border-bottom:3px solid #ffd700;
-    display:inline-block; padding-bottom:6px;
-    text-shadow:0 0 8px rgba(255,215, span0,0.3);
+
+/* عنوان جدید: اکران‌های آینده با کادر نیمه‌شفاف طلایی */
+.section-title-wrapper {
+    text-align: center;
+    margin: 40px 0 50px;
+    position: relative;
+    z-index: 2;
 }
-.section { text-align:center; }
+.section-title-box {
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 215, 0, 0.6);
+    border-radius: 18px;
+    padding: 16px 50px;
+    box-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.3),
+        inset 0 0 15px rgba(255, 215, 0, 0.1);
+    animation: glowPulse 4s ease-in-out infinite alternate;
+}
+.section-title-box h2 {
+    color: #ffd700;
+    font-size: 32px;
+    font-weight: 900;
+    margin: 0;
+    text-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.6),
+        0 0 20px rgba(255, 215, 0, 0.4);
+    letter-spacing: 2px;
+}
+@keyframes glowPulse {
+    from { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.1); }
+    to { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.2); }
+}
+
 /* کارت‌ها */
 .movies-grid {
     display:grid;
@@ -301,12 +327,19 @@ h2 {
     </div>
     <div class="side-footer-text">ساخته شده توسط فلوکی</div>
 </nav>
+
 <main style="padding-top:20px;">
     <section class="section">
-        <h2>اکران‌های آینده</h2>
+        <!-- عنوان جدید با کادر طلایی نیمه‌شفاف -->
+        <div class="section-title-wrapper">
+            <div class="section-title-box">
+                <h2>اکران‌های آینده</h2>
+            </div>
+        </div>
         <div class="movies-grid" id="cards-container"></div>
     </section>
 </main>
+
 <script>
 // ذرات طلایی
 const particleContainer = document.getElementById("gold-particles");
