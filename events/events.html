@@ -49,7 +49,7 @@ header {
     display:flex; justify-content:space-between; align-items:center;
     border-bottom:1px solid rgba(48,48,48,0.5);
     position:sticky; top:0; z-index:20;
-    text-shadow:0 0 10px rgba(255,215,0,0.7);
+    text-shadow:0 0 10px rgba(255,215,0,0.25);
 }
 .logo-fa {
     font-weight:700;
@@ -101,7 +101,7 @@ header {
     background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03);
 }
 .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
-/* آیکون‌های اجتماعی داخل منو */
+/* آیکون‌های اجتماعی داخل منو - مربع با لبه گرد */
 .menu-social-title {
     margin-top: 20px;
     font-size: 16px;
@@ -145,7 +145,7 @@ header {
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* عنوان اکران‌های آینده با کادر طلایی */
+/* عنوان جدید: اکران‌های آینده با کادر طلایی نیمه‌شفاف */
 .section-title-wrapper {
     text-align: center;
     margin: 40px 0 50px;
@@ -204,61 +204,83 @@ header {
 .img-bar { flex:1; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
 .movie-card:hover .img-bar img { transform:scale(1.08); }
+/* اسم فیلم */
 .date-bar {
     height:52px !important; line-height:52px !important; padding:0 10px;
     text-align:center; background:rgba(0,0,0,0.45); border-top:none !important;
     color:#ffd700; font-size:19px !important; font-weight:900 !important;
     letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
 }
-.date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
+.date-bar strong {
+    font-size:21px !important; display:block; transform:translateY(1px);
+}
+/* سانس */
 .title-bar {
     height:36px; line-height:36px; padding:0 10px; text-align:center;
     background:rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1);
     color:#fff; font-weight:600; font-size:15px;
 }
+/* رزرو */
 .reserve-bar {
     height:36px; line-height:36px; padding:0 10px; text-align:center;
     background:#ffd700; color:#000; font-weight:bold; cursor:pointer;
     transition:background 0.3s;
 }
 .reserve-bar:hover { background:#ffea00; }
+/* پشت کارت */
 .card-back {
     transform:rotateY(180deg);
     padding:15px; color:#fff; text-align:right;
     font-size:14px; display:flex; flex-direction:column;
 }
 .card-back h3, .card-back p strong { color:#ffd700; }
-
 /* لودر */
 #loading-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background:#111; display: flex; justify-content: center; align-items: center;
-    z-index: 10000; opacity: 1; transition: opacity 0.5s ease;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:#111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.5s ease;
 }
-#loading-overlay.hidden { opacity: 0; pointer-events: none; }
+#loading-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 .loader { position: relative; width: 40px; height: 40px; }
 .loader .circle {
-    position: absolute; width: 38px; height: 38px; opacity: 0;
-    transform: rotate(225deg); animation: orbit 5.5s infinite;
+  position: absolute;
+  width: 38px; height: 38px;
+  opacity: 0;
+  transform: rotate(225deg);
+  animation: orbit 5.5s infinite;
 }
 .loader .circle:after {
-    content: ''; position: absolute; width: 5px; height: 5px;
-    border-radius: 50%; background: yellow;
+  content: '';
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: yellow;
 }
 .loader .circle:nth-child(2) { animation-delay: 240ms; }
 .loader .circle:nth-child(3) { animation-delay: 480ms; }
 .loader .circle:nth-child(4) { animation-delay: 720ms; }
 .loader .circle:nth-child(5) { animation-delay: 960ms; }
 @keyframes orbit {
-    0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
-    7% { transform:rotate(345deg); animation-timing-function: linear; }
-    30% { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-    39% { transform:rotate(690deg); animation-timing-function: linear; }
-    70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-    75% { transform:rotate(945deg); animation-timing-function: ease-out; }
-    76% { transform:rotate(945deg); opacity: 0; }
-    100% { transform:rotate(945deg); opacity: 0; }
+  0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
+  7% { transform:rotate(345deg); animation-timing-function: linear; }
+  30% { transform:rotate(455deg); animation-timing-function: ease-in-out; }
+  39 Authority: { transform:rotate(690deg); animation-timing-function: linear; }
+  70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+  75% { transform:rotate(945deg); animation-timing-function: ease-out; }
+  76% { transform:rotate(945deg); opacity: 0; }
+  100% { transform:rotate(945deg); opacity: 0; }
 }
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
 @media (max-width:768px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
@@ -282,7 +304,9 @@ header {
     </button>
     <div class="logo-fa">Soft Shiraz</div>
 </header>
+<!-- بک‌دراپ -->
 <div id="menu-backdrop" tabindex="-1"></div>
+<!-- منوی کشویی -->
 <nav id="side-menu" aria-hidden="true">
     <button id="menu-close" aria-label="بستن منو">×</button>
     <div class="side-brand">Soft Shiraz</div>
@@ -357,7 +381,7 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
-// رزرو بلیط
+// رزرو
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
     if (!reserveBtn) return;
@@ -405,12 +429,13 @@ function closeMenu() {
     sideMenu.setAttribute('aria-hidden', 'true');
     hamburger.focus();
 }
-hamburger.addEventListener('click', (e) => { e.stopPropagation(); const expanded = hamburger.getAttribute('aria-expanded') === 'true'; expanded ? closeMenu() : openMenu(); });
+hamburger.addEventListener('click', (e) => { e.stopPropagation(); const expanded = hamburger.getAttribute('aria-expanded') === 'true'; if (expanded) closeMenu(); else openMenu(); });
 menuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMenu(); });
 backdrop.addEventListener('click', closeMenu);
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); }
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+sideMenu.addEventListener('click', (e) => { e.stopPropagation(); });
 
-// انیمیشن جدید پس‌زمینه طلایی (جایگزین کامل قبلی)
+// انیمیشن بک‌گراند جدید (دقیقاً کد تو با کمی بهینه‌سازی)
 (() => {
   const canvas = document.createElement('canvas');
   document.body.appendChild(canvas);
@@ -422,10 +447,7 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(
   const ctx = canvas.getContext('2d');
   let w, h, particles = [], N = 120, maxDist = 120;
 
-  function resize() {
-    w = canvas.width = innerWidth;
-    h = canvas.height = innerHeight;
-  }
+  function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
   addEventListener('resize', resize);
   resize();
 
@@ -448,19 +470,14 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(
   function frame() {
     ctx.clearRect(0, 0, w, h);
     for (let p of particles) {
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0) p.x = w;
-      if (p.x > w) p.x = 0;
-      if (p.y < 0) p.y = h;
-      if (p.y > h) p.y = 0;
-
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
       ctx.beginPath();
       ctx.fillStyle = `rgba(255,215,0,${p.a * 0.9})`;
       ctx.arc(p.x, p.y, p.r, 0, 6.28);
       ctx.fill();
     }
-
     ctx.lineWidth = 0.7;
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -477,7 +494,6 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(
     }
     requestAnimationFrame(frame);
   }
-
   init();
   frame();
 })();
