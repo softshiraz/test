@@ -27,12 +27,21 @@ header {
     position:sticky; top:0; z-index:20;
     text-shadow:0 0 10px rgba(255,215,0,0.25);
 }
+.logo-link {
+    text-decoration: none;
+    cursor: pointer;
+}
 .logo-fa {
     font-weight:700;
     font-size:26px;
     background:linear-gradient(45deg,#ffd700,#ffb300);
     -webkit-background-clip:text;
     color:transparent;
+    transition: all 0.3s ease;
+}
+.logo-link:hover .logo-fa {
+    text-shadow: 0 0 20px rgba(255,215,0,0.8);
+    transform: scale(1.05);
 }
 /* دکمه همبرگر */
 .hamburger-btn {
@@ -149,7 +158,7 @@ header {
 #loading-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; background:#111;
     display: flex; justify-content: center; align-items: center; z-index: 10000;
-    opacity: 1; transition: opacity 0.8s ease;
+    opacity: 1; transition: opacity 0.9s ease;
 }
 #loading-overlay.hidden { opacity: 0; pointer-events: none; }
 .loader { position: relative; width: 40px; height: 40px; }
@@ -196,7 +205,10 @@ header {
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
         <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
-    <div class="logo-fa">Soft Shiraz</div>
+    <!-- لوگو حالا قابل کلیک و لینک داره -->
+    <a href="https://softshiraz.github.io/web/" target="_blank" rel="noopener" class="logo-link">
+        <div class="logo-fa">Soft Shiraz</div>
+    </a>
 </header>
 
 <div id="menu-backdrop" tabindex="-1"></div>
@@ -233,9 +245,9 @@ header {
 </main>
 
 <script>
-// لودر — حالا درست کار می‌کنه
+// لودر — دقیقاً ۵ ثانیه کامل نمایش داده میشه
 const overlay = document.getElementById('loading-overlay');
-const minDuration = 5000; // ۵ ثانیه
+const minDuration = 5000;
 const startTime = Date.now();
 
 window.addEventListener('load', () => {
@@ -318,7 +330,7 @@ backdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
 sideMenu.addEventListener('click', e => e.stopPropagation());
 
-// انیمیشن بک‌گراند جدید (تنها انیمیشن فعال)
+// انیمیشن بک‌گراند
 (() => {
   const canvas = document.createElement('canvas');
   document.body.appendChild(canvas);
