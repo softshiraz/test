@@ -173,6 +173,62 @@ main { padding:35px 15px 80px; }
 <!-- بک‌دراپ -->
 <div id="menu-backdrop"></div>
 
+/* کارت‌ها */
+.movies-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    justify-items:center;
+    max-width:1200px;
+    margin:0 auto;
+}
+.movie-card { perspective:1000px; position:relative; }
+.card-inner {
+    position:relative; width:280px; height:420px; cursor:pointer;
+    transition:transform 0.35s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d;
+}
+.card-inner.flipped { transform:rotateY(180deg); }
+.card-front, .card-back {
+    position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
+    backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65);
+    box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
+    background:rgba(19,19,20,0.75); backdrop-filter:blur(10px);
+}
+.card-front { display:flex; flex-direction:column; }
+.img-bar { flex:1; overflow:hidden; }
+.img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
+.movie-card:hover .img-bar img { transform:scale(1.08); }
+/* اسم فیلم */
+.date-bar {
+    height:52px !important; line-height:52px !important; padding:0 10px;
+    text-align:center; background:rgba(0,0,0,0.45); border-top:none !important;
+    color:#ffd700; font-size:19px !important; font-weight:900 !important;
+    letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
+}
+.date-bar strong {
+    font-size:21px !important; display:block; transform:translateY(1px);
+}
+/* سانس */
+.title-bar {
+    height:36px; line-height:36px; padding:0 10px; text-align:center;
+    background:rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1);
+    color:#fff; font-weight:600; font-size:15px;
+}
+/* رزرو */
+.reserve-bar {
+    height:36px; line-height:36px; padding:0 10px; text-align:center;
+    background:#ffd700; color:#000; font-weight:bold; cursor:pointer;
+    transition:background 0.3s;
+}
+.reserve-bar:hover { background:#ffea00; }
+/* پشت کارت */
+.card-back {
+    transform:rotateY(180deg);
+    padding:15px; color:#fff; text-align:right;
+    font-size:14px; display:flex; flex-direction:column;
+}
+.card-back h3, .card-back p strong { color:#ffd700; }
+
 <!-- منوی کشویی -->
 <nav id="side-menu">
     <button id="menu-close"><i class="fas fa-times"></i></button>
