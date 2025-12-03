@@ -234,9 +234,17 @@ header {
 
 <script>
 // لودر — حالا درست کار می‌کنه
+const overlay = document.getElementById('loading-overlay');
+const minDuration = 5000; // ۵ ثانیه
+const startTime = Date.now();
+
 window.addEventListener('load', () => {
-    const overlay = document.getElementById('loading-overlay');
-    overlay.classList.add('hidden');
+    const elapsed = Date.now() - startTime;
+    const delay = Math.max(0, minDuration - elapsed);
+
+    setTimeout(() => {
+        overlay.classList.add('hidden');
+    }, delay);
 });
 
 // لود کارت‌ها
