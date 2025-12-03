@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- جلوگیری از کش شدن -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>سافت شیراز</title>
+<!-- فونت با نسخه‌گذاری -->
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
+<!-- آیکون‌ها با نسخه‌گذاری -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
@@ -46,7 +49,7 @@ header {
     display:flex; justify-content:space-between; align-items:center;
     border-bottom:1px solid rgba(48,48,48,0.5);
     position:sticky; top:0; z-index:20;
-    text-shadow:0 0 10px rgba(255,215,0,0.25);
+    text-shadow:0 0 10px rgba(255,215,0,0.7);
 }
 .logo-fa {
     font-weight:700;
@@ -156,7 +159,9 @@ header {
     border: 2px solid rgba(255, 215, 0, 0.6);
     border-radius: 18px;
     padding: 16px 50px;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.1);
+    box-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.3),
+        inset 0 0 15px rgba(255, 215, 0, 0.1);
     animation: glowPulse 4s ease-in-out infinite alternate;
 }
 .section-title-box h2 {
@@ -164,7 +169,9 @@ header {
     font-size: 32px;
     font-weight: 900;
     margin: 0;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4);
+    text-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.6),
+        0 0 20px rgba(255, 215, 0, 0.4);
     letter-spacing: 2px;
 }
 @keyframes glowPulse {
@@ -172,7 +179,7 @@ header {
     to { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.2); }
 }
 
-/* کارت‌ها و بقیه استایل‌ها */
+/* کارت‌ها */
 .movies-grid {
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -221,34 +228,23 @@ header {
     font-size:14px; display:flex; flex-direction:column;
 }
 .card-back h3, .card-back p strong { color:#ffd700; }
+
 /* لودر */
 #loading-overlay {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background:#111;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    opacity: 1;
-    transition: opacity 0.5s ease;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background:#111; display: flex; justify-content: center; align-items: center;
+    z-index: 10000; opacity: 1; transition: opacity 0.5s ease;
 }
 #loading-overlay.hidden { opacity: 0; pointer-events: none; }
 .loader { position: relative; width: 40px; height: 40px; }
 .loader .circle {
-    position: absolute;
-    width: 38px; height: 38px;
-    opacity: 0;
-    transform: rotate(225deg);
-    animation: orbit 5.5s infinite;
+    position: absolute; width: 38px; height: 38px; opacity: 0;
+    transform: rotate(225deg); animation: orbit 5.5s infinite;
 }
 .loader .circle:after {
-    content: '';
-    position: absolute;
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: yellow;
+    content: ''; position: absolute; width: 5px; height: 5px;
+    border-radius: 50%; background: yellow;
 }
 .loader .circle:nth-child(2) { animation-delay: 240ms; }
 .loader .circle:nth-child(3) { animation-delay: 480ms; }
@@ -371,7 +367,7 @@ document.addEventListener("click", function(e) {
     if (!cardFront) return;
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
     const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
-    const message = `سلام وقت بخیر\n\nفیلم: ${movieName}\nزمان: ${dateTime}\n\nممنون میشم شرایط رزرو و موجودی رو اعلام کنید\nمرسی ازتون`;
+    const message = `سلام وقت بخیر\n\nفیلم : ${movieName}\nزمان : ${dateTime}\n\nممنون میشم شرایط رزرو و موجودی رو اعلام کنید\nمرسی ازتون`;
     const encoded = encodeURIComponent(message);
     window.open(`https://t.me/softshirazadmin?text=${encoded}`, "_blank");
 });
@@ -381,7 +377,9 @@ document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar")) return;
     const cardInner = e.target.closest(".card-inner");
     if (cardInner) {
-        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
+        if (openCard && openCard !== cardInner) {
+            openCard.classList.remove("flipped");
+        }
         cardInner.classList.toggle("flipped");
         openCard = cardInner.classList.contains("flipped") ? cardInner : null;
     }
@@ -392,13 +390,13 @@ const hamburger = document.getElementById('hamburger');
 const sideMenu = document.getElementById('side-menu');
 const backdrop = document.getElementById('menu-backdrop');
 const menuClose = document.getElementById('menu-close');
-
 function openMenu() {
     sideMenu.classList.add('open');
     backdrop.classList.add('visible');
     hamburger.setAttribute('aria-expanded', 'true');
     sideMenu.setAttribute('aria-hidden', 'false');
-    sideMenu.querySelector('.side-links a')?.focus();
+    const firstLink = sideMenu.querySelector('.side-links a');
+    if (firstLink) firstLink.focus();
 }
 function closeMenu() {
     sideMenu.classList.remove('open');
@@ -407,13 +405,12 @@ function closeMenu() {
     sideMenu.setAttribute('aria-hidden', 'true');
     hamburger.focus();
 }
-hamburger.addEventListener('click', e => { e.stopPropagation(); hamburger.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu(); });
-menuClose.addEventListener('click', e => { e.stopPropagation(); closeMenu(); });
+hamburger.addEventListener('click', (e) => { e.stopPropagation(); const expanded = hamburger.getAttribute('aria-expanded') === 'true'; expanded ? closeMenu() : openMenu(); });
+menuClose.addEventListener('click', (e) => { e.stopPropagation(); closeMenu(); });
 backdrop.addEventListener('click', closeMenu);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-sideMenu.addEventListener('click', e => e.stopPropagation());
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); }
 
-// === انیمیشن جدید پس‌زمینه (دقیقاً همون کدی که دادی) ===
+// انیمیشن جدید پس‌زمینه طلایی (جایگزین کامل قبلی)
 (() => {
   const canvas = document.createElement('canvas');
   document.body.appendChild(canvas);
@@ -425,7 +422,10 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   const ctx = canvas.getContext('2d');
   let w, h, particles = [], N = 120, maxDist = 120;
 
-  function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
+  function resize() {
+    w = canvas.width = innerWidth;
+    h = canvas.height = innerHeight;
+  }
   addEventListener('resize', resize);
   resize();
 
@@ -448,14 +448,19 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   function frame() {
     ctx.clearRect(0, 0, w, h);
     for (let p of particles) {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
-      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = w;
+      if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h;
+      if (p.y > h) p.y = 0;
+
       ctx.beginPath();
       ctx.fillStyle = `rgba(255,215,0,${p.a * 0.9})`;
       ctx.arc(p.x, p.y, p.r, 0, 6.28);
       ctx.fill();
     }
+
     ctx.lineWidth = 0.7;
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -472,6 +477,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
     }
     requestAnimationFrame(frame);
   }
+
   init();
   frame();
 })();
