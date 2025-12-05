@@ -1,0 +1,36 @@
+backend:
+  name: github
+  repo: YOURUSERNAME/YOUR-REPO-NAME    # مثلاً: alireza/my-website
+  branch: main                          # معمولاً main یا master
+
+# جایی که عکس‌ها آپلود بشن
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+# مجموعه تنظیمات سایت
+collections:
+  - name: "config"
+    label: "تنظیمات سایت"
+    delete: false
+    files:
+      - label: "تنظیمات عمومی"
+        name: "general"
+        file: "data/site-config.json"    # این فایل رو خودمون الان می‌سازیم
+        fields:
+          - {label: "نام سایت", name: "siteName", widget: "string", default: "سایت من"}
+          - {label: "توضیح کوتاه", name: "description", widget: "text"}
+          - {label: "فاویکون", name: "favicon", widget: "image"}
+          - {label: "لوگو اصلی", name: "logo", widget: "image"}
+          - {label: "رنگ اصلی سایت", name: "primaryColor", widget: "color", default: "#3b82f6"}
+          - {label: "رنگ پس‌زمینه", name: "backgroundColor", widget: "color", default: "#ffffff"}
+          
+  - name: "icons"
+    label: "آیکن‌های شبکه‌های اجتماعی"
+    folder: "data/social-icons"
+    create: true
+    slug: "{{name}}"
+    fields:
+      - {label: "نام شبکه", name: "name", widget: "string"}
+      - {label: "لینک", name: "url", widget: "string"}
+      - {label: "آیکن (SVG یا عکس)", name: "icon", widget: "image"}
+      - {label: "رنگ آیکن", name: "color", widget: "color", default: "#000000"}
