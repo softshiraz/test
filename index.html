@@ -491,6 +491,28 @@ sideMenu.addEventListener('click', (e) => {
   frame();
 })();
 </script>
+    <script>
+// لود خودکار تنظیمات هنگام باز شدن صفحه
+fetch('https://raw.githubusercontent.com/اسم-کاربری-تو/اسم-ریپازیتوری-تو/main/data/config.json')
+  .then(r => r.json())
+  .then(cfg => {
+    // تغییر عنوان و فاویکون
+    document.title = cfg.siteName;
+    let link = document.querySelector("link[rel='icon']") || document.createElement('link');
+    link.rel = 'icon'; link.href = cfg.favicon + '?v=' + Date.now();
+    document.head.appendChild(link);
+
+    // اعمال رنگ‌ها
+    document.documentElement.style.setProperty('--primary', cfg.primaryColor);
+    document.documentElement.style.setProperty('--accent', cfg.accentColor);
+    document.documentElement.style.setProperty('--bg', cfg.backgroundColor);
+
+    // تغییر لوگو و متن‌ها
+    if (document.getElementById('site-logo'))   document.getElementById('site-logo').src = cfg.logo;
+    if (document.getElementById('header-text')) document.getElementById('header-text').textContent = cfg.headerText;
+    if (document.getElementById('footer-text')) document.getElementById('footer-text').textContent = cfg.footerText;
+  });
+</script>
 </body>
 </html>
  
