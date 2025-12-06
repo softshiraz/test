@@ -7,170 +7,397 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>سافت شیراز</title>
-
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{
-    font-family:"Vazirmatn",sans-serif;
-    background:#0e0e0f;color:#fff;overflow-x:hidden;
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body {
+    font-family: "Vazirmatn", sans-serif;
+    background:#0e0e0f;
+    color:#fff;
+    overflow-x:hidden;
 }
-
 /* هدر */
-header{
-    background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);
-    padding:15px 25px;display:flex;justify-content:space-between;align-items:center;
+header {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    padding:15px 25px;
+    display:flex; justify-content:space-between; align-items:center;
     border-bottom:1px solid rgba(48,48,48,0.5);
-    position:sticky;top:0;z-index:20;
+    position:sticky; top:0; z-index:20;
     text-shadow:0 0 10px rgba(255,215,0,0.25);
 }
-.logo-link{text-decoration:none;cursor:pointer;}
-.logo-fa{
-    font-weight:700;font-size:26px;
+.logo-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+.logo-fa {
+    font-weight:700;
+    font-size:26px;
     background:linear-gradient(45deg,#ffd700,#ffb300);
-    -webkit-background-clip:text;color:transparent;
-    transition:.3s;
+    -webkit-background-clip:text;
+    color:transparent;
+    transition: all 0.3s ease;
 }
-.logo-link:hover .logo-fa{ text-shadow:0 0 20px rgba(255,215,0,0.8);transform:scale(1.05); }
-
+.logo-link:hover .logo-fa {
+    text-shadow: 0 0 20px rgba(255,215,0,0.8);
+    transform: scale(1.05);
+}
 /* دکمه همبرگر */
-.hamburger-btn{
-    width:48px;height:42px;display:flex;align-items:center;justify-content:center;
-    background:rgba(26,26,26,0.6);border-radius:10px;
-    border:2px solid rgba(255,215,0,0.25);
-    cursor:pointer;transition:transform .18s;color:#ffd700;
+.hamburger-btn {
+    width:48px; height:42px; display:flex; align-items:center; justify-content:center;
+    background: rgba(26,26,26,0.6); border-radius:10px; border:2px solid rgba(255,215,0,0.25);
+    cursor:pointer; transition:transform .18s, background .18s; color:#ffd700;
 }
-.hamburger-btn:active{transform:scale(.97);}
-.hamburger-inner{width:22px;height:16px;position:relative;}
-.hamburger-inner span{
-    position:absolute;left:0;right:0;height:2px;
-    background:#ffd700;border-radius:2px;
-}
-.hamburger-inner span:nth-child(1){top:0;}
-.hamburger-inner span:nth-child(2){top:7px;}
-.hamburger-inner span:nth-child(3){top:14px;}
+.hamburger-btn:active { transform:scale(.97); }
+.hamburger-inner { width:22px; height:16px; position:relative; }
+.hamburger-inner span { position:absolute; left:0; right:0; height:2px; background:#ffd700; display:block; border-radius:2px; }
+.hamburger-inner span:nth-child(1){ top:0; }
+.hamburger-inner span:nth-child(2){ top:7px; }
+.hamburger-inner span:nth-child(3){ top:14px; }
 
 /* منوی کشویی */
-#side-menu{
-    position:fixed;top:0;right:0;height:100vh;width:320px;max-width:85%;
-    background:linear-gradient(180deg,rgba(12,12,12,0.98),rgba(20,20,20,0.98));
-    box-shadow:4px 0 30px rgba(0,0,0,0.6);
-    transform:translateX(100%);transition:.32s cubic-bezier(.2,.9,.2,1);
-    z-index:30;padding:28px;display:flex;flex-direction:column;gap:18px;
-    border-right:2px solid rgba(255,215,0,0.12);
+#side-menu {
+    position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
+    background: linear-gradient(180deg, rgba(12,12,12,0.98), rgba(20,20,20,0.98));
+    box-shadow: 4px 0 30px rgba(0,0,0,0.6);
+    transform: translateX(100%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
+    z-index: 30; padding: 28px; display: flex; flex-direction: column; gap: 18px;
+    direction: rtl; border-right: 2px solid rgba(255,215,0,0.12);
 }
-#side-menu.open{transform:translateX(0);}
-#menu-close{
-    background:transparent;border:none;color:#ffd700;font-size:20px;cursor:pointer;
+#side-menu.open { transform: translateX(0); }
+#menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
+.side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:right; }
+.side-desc { font-size:13px; color:rgba(255,255,255,0.8); text-align:right; }
+.side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
+.side-links a {
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:12px 14px; border-radius:10px; text-decoration:none; color:#fff; font-weight:600;
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03);
 }
-.side-brand{font-weight:800;color:#ffd700;font-size:20px;text-align:right;}
-.side-links{display:flex;flex-direction:column;gap:8px;margin-top:6px;}
-.side-links a{
-    padding:12px 14px;border-radius:10px;text-decoration:none;color:#fff;
-    display:flex;justify-content:space-between;
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.03);
+.side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
+.menu-social-title { margin-top: 20px; font-size: 16px; color: #ffd700; text-align: right; }
+.menu-social-row { display: flex; justify-content: center; gap: 18px; margin-top: 12px; }
+.menu-social-icon {
+    width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
+    backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
+    color: #ffd700; font-size: 22px; text-decoration: none; transition: all 0.3s;
 }
-.side-links a:hover{background:rgba(255,215,0,0.06);color:#ffd700;}
+.menu-social-icon:hover { background: #ffd700; color: #000; }
+.side-footer-text { margin-top: auto; font-size: 13px; color: rgba(255,255,255,0.7); text-align: right; padding-top: 20px; }
 
-.menu-social-row{display:flex;justify-content:center;gap:18px;margin-top:12px;}
-.menu-social-icon{
-    width:48px;height:48px;border-radius:12px;background:rgba(26,26,26,1);
-    display:flex;align-items:center;justify-content:center;
-    color:#ffd700;font-size:22px;transition:.3s;text-decoration:none;
+/* بک‌دراپ */
+#menu-backdrop {
+    position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
 }
-.menu-social-icon:hover{background:#ffd700;color:#000;}
-.side-footer-text{margin-top:auto;font-size:13px;color:rgba(255,255,255,0.7);}
+#menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* بک دراپ */
-#menu-backdrop{
-    position:fixed;inset:0;background:rgba(0,0,0,0.55);opacity:0;pointer-events:none;
-    transition:opacity .28s;z-index:25;
+/* عنوان اکران‌های آینده */
+.section-title-wrapper {
+    text-align: center; margin: 40px 0 50px; position: relative; z-index: 2;
 }
-#menu-backdrop.visible{opacity:1;pointer-events:auto;}
-
-/* عنوان */
-.section-title-wrapper{text-align:center;margin:40px 0 50px;}
-.section-title-box{
-    display:inline-flex;padding:16px 50px;border:2px solid #ffd700;
-    border-radius:18px;animation:glowPulse 4s infinite alternate;
+.section-title-box {
+    display: inline-flex; background: rgb(255 215 0 / 0%); backdrop-filter: blur(10px);
+    border: 2px solid rgb(255 215 0); border-radius: 18px; padding: 16px 50px;
+    box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1);
+    animation: glowPulse 4s ease-in-out infinite alternate;
 }
-.section-title-box h2{
-    color:#ffd700;font-size:32px;font-weight:900;margin:0;
-    text-shadow:0 0 10px rgba(255,215,0,0.6);
+.section-title-box h2 {
+    color: #ffd700; font-size: 32px; font-weight: 900; margin: 0;
+    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4); letter-spacing: 2px;
 }
-@keyframes glowPulse{
-    from{box-shadow:0 0 20px rgba(255,215,0,0.3);}
-    to{box-shadow:0 0 30px rgba(255,215,0,0.5);}
-}
-
-/* ⭐⭐⭐ کارت‌های کوچک‌تر ⭐⭐⭐ */
-
-.movies-grid{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    gap:20px;justify-items:center;max-width:1200px;margin:0 auto;
+@keyframes glowPulse {
+    from { box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1); }
+    to { box-shadow: 0 0 30px rgba(255,215,0,0.5), inset 0 0 20px rgba(255,215,0,0.2); }
 }
 
-.movie-card{perspective:1000px;position:relative;}
+/* کارت‌ها */
+.movies-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    justify-items:center;
+    max-width:1200px;
+    margin:0 auto;
+    padding: 0 15px;
+}
+.movie-card { perspective:1000px; position:relative; }
+.card-inner {
+    position:relative; width:280px; height:420px; cursor:pointer;
+    transition:transform 0.35s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d;
+}
+.card-inner.flipped { transform:rotateY(180deg); }
+.card-front, .card-back {
+    position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
+    backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65);
+    box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
+    background:rgba(19,19,20,0.75); backdrop-filter:blur(10px);
+}
+.card-front { display:flex; flex-direction:column; }
+.img-bar { flex:1; overflow:hidden; }
+.img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
+.movie-card:hover .img-bar img { transform:scale(1.08); }
+.date-bar {
+    height:52px !important; line-height:52px !important; padding:0 10px; text-align:center;
+    background:rgba(0,0,0,0.45); color:#ffd700; font-size:19px !important; font-weight:900 !important;
+    letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
+}
+.date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
+.title-bar {
+    height:36px; line-height:36px; padding:0 10px; text-align:center;
+    background:rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1);
+    color:#fff; font-weight:600; font-size:15px;
+}
+.reserve-bar {
+    height:36px; line-height:36px; padding:0 10px; text-align:center;
+    background:#ffd700; color:#000; font-weight:bold; cursor:pointer; transition:background 0.3s;
+}
+.reserve-bar:hover { background:#ffea00; }
+.card-back {
+    transform:rotateY(180deg); padding:15px; color:#fff; text-align:right;
+    font-size:14px; display:flex; flex-direction:column;
+}
+.card-back h3, .card-back p strong { color:#ffd700; }
 
-.card-inner{
-    width:230px;             /* قبلاً 280px */
-    height:350px;            /* قبلاً 420px */
-    transition:transform .35s;
-    transform-style:preserve-3d;
-    cursor:pointer;
+/* لودر */
+#loading-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background:#111;
+    display: flex; justify-content: center; align-items: center; z-index: 10000;
+    opacity: 1; transition: opacity 0.9s ease;
+}
+#loading-overlay.hidden { opacity: 0; pointer-events: none; }
+.loader { position: relative; width: 40px; height: 40px; }
+.loader .circle {
+    position: absolute; width: 38px; height: 38px; opacity: 0;
+    transform: rotate(225deg); animation: orbit 5.5s infinite;
+}
+.loader .circle:after {
+    content: ''; position: absolute; width: 5px; height: 5px;
+    border-radius: 50%; background: yellow;
+}
+.loader .circle:nth-child(2) { animation-delay: 240ms; }
+.loader .circle:nth-child(3) { animation-delay: 480ms; }
+.loader .circle:nth-child(4) { animation-delay: 720ms; }
+.loader .circle:nth-child(5) { animation-delay: 960ms; }
+@keyframes orbit {
+    0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
+    7% { transform:rotate(345deg); animation-timing-function: linear; }
+    30% { transform:rotate(455deg); animation-timing-function: ease-in-out; }
+    39% { transform:rotate(690deg); animation-timing-function: linear; }
+    70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+    75% { transform:rotate(945deg); animation-timing-function: ease-out; }
+    76% { transform:rotate(945deg); opacity: 0; }
+    100% { transform:rotate(945deg); opacity: 0; }
 }
 
-.card-inner.flipped{transform:rotateY(180deg);}
-
-.card-front,.card-back{
-    position:absolute;top:0;left:0;width:100%;height:100%;
-    border-radius:16px;overflow:hidden;backface-visibility:hidden;
-    border:2px solid rgba(255,215,0,0.65);
-    background:rgba(19,19,20,0.75);backdrop-filter:blur(10px);
+/* ==== ریسپانسیو جدید ==== */
+@media (max-width: 1200px) {
+    .movies-grid { grid-template-columns: repeat(3, 1fr); }
 }
-
-.img-bar img{
-    width:100%;height:100%;object-fit:cover;transition:.4s;
+@media (max-width: 768px) {
+    .movies-grid { grid-template-columns: repeat(2, 1fr); }
 }
-.movie-card:hover .img-bar img{transform:scale(1.08);}
-
-.date-bar{
-    height:45px;line-height:45px; /* کوچک‌تر شده */
-    font-size:17px;font-weight:900;
+@media (max-width: 560px) {          /* تغییر اصلی: زیر 560 پیکسل → تک ستونی */
+    .movies-grid {
+        grid-template-columns: 1fr !important;   /* فقط یک کارت در هر ردیف */
+        gap: 25px;
+    }
+    .card-inner {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
 }
-
-.title-bar{
-    height:32px;line-height:32px;font-size:14px;
-}
-
-.reserve-bar{
-    height:32px;line-height:32px;font-size:14px;
-}
-
-/* پشت کارت */
-.card-back{
-    transform:rotateY(180deg);
-    padding:12px;font-size:13px;
-}
-
-/* رسپانسیو */
-@media(max-width:1200px){ .movies-grid{grid-template-columns:repeat(3,1fr);} }
-@media(max-width:768px){ .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media(max-width:480px){ .movies-grid{grid-template-columns:repeat(2,1fr);} }
-
 </style>
 </head>
 <body>
 
-<!-- ... کل بخش‌های دیگر بدون تغییر ... -->
+<div id="loading-overlay">
+  <div class="loader">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+  </div>
+</div>
+
+<header>
+    <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
+        <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+    <a href="https://softshiraz.github.io/web/" target="_blank" rel="noopener" class="logo-link">
+        <div class="logo-fa">Soft Shiraz</div>
+    </a>
+</header>
+
+<div id="menu-backdrop" tabindex="-1"></div>
+
+<nav id="side-menu" aria-hidden="true">
+    <button id="menu-close" aria-label="بستن منو">×</button>
+    <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
+    <div class="side-links" role="menu">
+        <a href="events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
+        <a href="pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
+        <a href="pages/about.html" role="menuitem">درباره ما</a>
+    </div>
+    <div class="menu-social-row">
+        <a class="menu-social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a class="menu-social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="menu-social-icon" href="https://t.me/FLOKI000" target="_blank"><i class="fas fa-headset"></i></a>
+    </div>
+    <div class="side-footer-text">ساخته شده توسط فلوکی</div>
+</nav>
+
+<main>
+    <section class="section">
+        <div class="section-title-wrapper">
+            <div class="section-title-box">
+                <h2>اکران‌های آینده</h2>
+            </div>
+        </div>
+        <div class="movies-grid" id="cards-container"></div>
+    </section>
+</main>
 
 <script>
-/* همه اسکریپت‌ها بدون تغییر هستند */
+// لودر — دقیقاً ۵ ثانیه کامل نمایش داده میشه
+const overlay = document.getElementById('loading-overlay');
+const minDuration = 5000;
+const startTime = Date.now();
 
+window.addEventListener('load', () => {
+    const elapsed = Date.now() - startTime;
+    const delay = Math.max(0, minDuration - elapsed);
+    setTimeout(() => overlay.classList.add('hidden'), delay);
+});
+
+// لود کارت‌ها
+const container = document.getElementById("cards-container");
+let openCard = null;
+async function loadCardsStrictly() {
+    for (let num = 1; num <= 150; num++) {
+        try {
+            const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
+            if (!response.ok) continue;
+            const html = await response.text();
+            const card = document.createElement("div");
+            card.className = "movie-card";
+            card.innerHTML = html;
+            container.appendChild(card);
+        } catch (e) {
+            console.log("خطا در لود کارت", num);
+        }
+    }
+}
+loadCardsStrictly();
+
+// رزرو
+document.addEventListener("click", function(e) {
+    const reserveBtn = e.target.closest(".reserve-bar a");
+    if (!reserveBtn) return;
+    e.stopPropagation();
+    if (reserveBtn.textContent.trim() !== "تهیه بلیط") return;
+    const cardFront = reserveBtn.closest(".card-front");
+    if (!cardFront) return;
+    const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
+    const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
+    const message = `سلام وقت بخیر\n\nفیلم : ${movieName}\nزمان : ${dateTime}\n\nممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\nمرسی ازتون`;
+    const encoded = encodeURIComponent(message);
+    window.open(`https://t.me/softshirazadmin?text=${encoded}`, "_blank");
+});
+
+// فلیپ کارت
+document.addEventListener("click", function(e) {
+    if (e.target.closest(".reserve-bar")) return;
+    const cardInner = e.target.closest(".card-inner");
+    if (cardInner) {
+        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
+        cardInner.classList.toggle("flipped");
+        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
+    }
+});
+
+// منوی همبرگری
+const hamburger = document.getElementById('hamburger');
+const sideMenu = document.getElementById('side-menu');
+const backdrop = document.getElementById('menu-backdrop');
+const menuClose = document.getElementById('menu-close');
+function openMenu() {
+    sideMenu.classList.add('open');
+    backdrop.classList.add('visible');
+    hamburger.setAttribute('aria-expanded', 'true');
+    sideMenu.setAttribute('aria-hidden', 'false');
+}
+function closeMenu() {
+    sideMenu.classList.remove('open');
+    backdrop.classList.remove('visible');
+    hamburger.setAttribute('aria-expanded', 'false');
+    sideMenu.setAttribute('aria-hidden', 'true');
+}
+hamburger.addEventListener('click', e => { e.stopPropagation(); hamburger.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
+menuClose.addEventListener('click', closeMenu);
+backdrop.addEventListener('click', closeMenu);
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
+
+// انیمیشن بک‌گراند
+(() => {
+  const canvas = document.createElement('canvas');
+  document.body.appendChild(canvas);
+  canvas.style.position = 'fixed';
+  canvas.style.inset = '0';
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = '-1';
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [], N = 120, maxDist = 120;
+
+  function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
+  addEventListener('resize', resize);
+  resize();
+
+  function rand(a, b) { return Math.random() * (b - a) + a; }
+
+  function init() {
+    particles = [];
+    for (let i = 0; i < N; i++) {
+      particles.push({
+        x: rand(0, w), y: rand(0, h),
+        vx: rand(-0.45, 0.45), vy: rand(-0.45, 0.45),
+        r: rand(0.8, 2.2), a: rand(0.4, 0.95)
+      });
+    }
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, w, h);
+    for (let p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(255,215,0,${p.a * 0.9})`;
+      ctx.arc(p.x, p.y, p.r, 0, 6.28);
+      ctx.fill();
+    }
+    ctx.lineWidth = 0.7;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const p = particles[i], q = particles[j];
+        const d = Math.hypot(p.x - q.x, p.y - q.y);
+        if (d < maxDist) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(255,215,0,${(1 - d / maxDist) * 0.22})`;
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  init();
+  frame();
+})();
 </script>
-
 </body>
 </html>
