@@ -131,12 +131,13 @@ header {
     background:rgba(19,19,20,0.75); backdrop-filter:blur(10px);
 }
 .card-front { display:flex; flex-direction:column; position: relative; }
+.card-back { position: relative; }
 
-/* دکمه رفت و برگشت کارت */
+/* دکمه رفت و برگشت کارت - هر دو طرف (front و back) */
 .flip-btn {
     position: absolute;
     top: 10px;
-    right: 10px;
+    left: 10px; /* سمت چپ */
     width: 40px;
     height: 40px;
     background: rgba(0,0,0,0.7);
@@ -156,6 +157,8 @@ header {
     color: #000;
     transform: scale(1.1);
 }
+.card-front .flip-btn { top: 10px; left: 10px; }
+.card-back .flip-btn { top: 10px; left: 10px; }
 
 /* کانتینر برای عکس و ویدیو */
 .media-container {
@@ -209,8 +212,8 @@ header {
     background: #ffd700;
     color: #000;
 }
-.nav-left { left: 10px; }
-.nav-right { right: 10px; }
+.nav-left { right: 10px; } /* در RTL، سمت چپ صفحه سمت راست است */
+.nav-right { left: 10px; } /* سمت راست صفحه سمت چپ است */
 
 .img-bar { flex:1; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
@@ -269,7 +272,7 @@ header {
 }
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
 @media (max-width:768px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:480px) { .movies-grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
@@ -374,11 +377,21 @@ async function loadCardsStrictly() {
             // اضافه کردن دکمه رفت و برگشت به card-front
             const cardFront = card.querySelector('.card-front');
             if (cardFront) {
-                const flipBtn = document.createElement('button');
-                flipBtn.className = 'flip-btn';
-                flipBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
-                flipBtn.setAttribute('aria-label', 'رفت و برگشت کارت');
-                cardFront.appendChild(flipBtn);
+                const flipBtnFront = document.createElement('button');
+                flipBtnFront.className = 'flip-btn';
+                flipBtnFront.innerHTML = '<i class="fas fa-sync-alt"></i>';
+                flipBtnFront.setAttribute('aria-label', 'رفت و برگشت کارت');
+                cardFront.appendChild(flipBtnFront);
+            }
+
+            // اضافه کردن دکمه به card-back
+            const cardBack = card.querySelector('.card-back');
+            if (cardBack) {
+                const flipBtnBack = document.createElement('button');
+                flipBtnBack.className = 'flip-btn';
+                flipBtnBack.innerHTML = '<i class="fas fa-sync-alt"></i>';
+                flipBtnBack.setAttribute('aria-label', 'رفت و برگشت کارت');
+                cardBack.appendChild(flipBtnBack);
             }
 
             // جایگزینی img-bar با media-container برای عکس و ویدیو
@@ -395,24 +408,24 @@ async function loadCardsStrictly() {
 
                 // اسلاید ویدیو
                 const videoSlide = document.createElement('div');
-                videoSlide.className = 'media-slide';
+                videoSlide.className = 'media-slide video-slide';
                 const video = document.createElement('video');
                 video.src = `trailers/${num}.mp4`; // فرض بر این که ویدیوها در پوشه trailers هستند
                 video.controls = true;
                 videoSlide.appendChild(video);
                 mediaContainer.appendChild(videoSlide);
 
-                // دکمه‌های ناوبری
+                // دکمه‌های ناوبری (فلش‌ها)
                 const leftBtn = document.createElement('button');
                 leftBtn.className = 'nav-btn nav-left';
-                leftBtn.innerHTML = '<i class="fas fa-chevron-right"></i>'; // چون RTL است، جهت معکوس
-                leftBtn.setAttribute('aria-label', 'عکس قبلی');
+                leftBtn.innerHTML = '<i class="fas fa-chevron-right"></i>'; // RTL
+                leftBtn.setAttribute('aria-label', 'عکس بعدی');
                 mediaContainer.appendChild(leftBtn);
 
                 const rightBtn = document.createElement('button');
                 rightBtn.className = 'nav-btn nav-right';
                 rightBtn.innerHTML = '<i class="fas fa-chevron-left"></i>'; // RTL
-                rightBtn.setAttribute('aria-label', 'عکس بعدی');
+                rightBtn.setAttribute('aria-label', 'عکس قبلی');
                 mediaContainer.appendChild(rightBtn);
 
                 imgBar.parentNode.replaceChild(mediaContainer, imgBar);
@@ -458,9 +471,9 @@ document.addEventListener("click", function(e) {
     const slides = mediaContainer.querySelectorAll(".media-slide");
     let currentIndex = Array.from(slides).findIndex(slide => slide.classList.contains("active"));
     if (navBtn.classList.contains("nav-left")) {
-        currentIndex = (currentIndex + 1) % slides.length; // RTL: left برای بعدی
+        currentIndex = (currentIndex + 1) % slides.length;
     } else {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length; // right برای قبلی
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
     }
     slides.forEach((slide, index) => {
         slide.classList.toggle("active", index === currentIndex);
