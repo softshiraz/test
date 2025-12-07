@@ -131,24 +131,24 @@ header {
     position: absolute;
     top: 10px;
     left: 10px;
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
     background: #ffd700;
     color: #000;
     border: none;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
     z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 15px rgba(255,215,0,0.6);
+    box-shadow: 0 4px 15px rgba(255,215,0,0.6);
     transition: all 0.3s ease;
 }
 .flip-btn:hover {
     transform: scale(1.15);
-    box-shadow: 0 0 25px rgba(255,215,0,0.9);
+    box-shadow: 0 6px 25px rgba(255,215,0,0.9);
 }
 
 /* عکس + تریلر با فلش */
@@ -171,7 +171,7 @@ header {
     object-fit: cover;
 }
 
-/* فلش‌ها */
+/* فلش‌های چپ و راست */
 .nav-btn {
     position: absolute;
     top: 50%;
@@ -342,6 +342,9 @@ async function loadCardsStrictly() {
                 video.src = `trailers/${num}.mp4`;
                 video.controls = true;
                 video.poster = `cards/${num}.jpg`;
+                video.style.width = "100%";
+                video.style.height = "100%";
+                video.style.objectFit = "cover";
                 videoSlide.appendChild(video);
                 mediaContainer.appendChild(videoSlide);
 
@@ -366,14 +369,16 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
-// چرخش کارت دقیقاً مثل حالت اولیه (با کلیک روی کارت یا دکمه)
+// چرخش کارت دقیقاً مثل حالت اولیه (کلیک روی هر جای کارت یا دکمه)
 document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar") || e.target.closest(".nav-btn")) return;
 
     const cardInner = e.target.closest(".card-inner");
     if (!cardInner) return;
 
-    if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
+    if (openCard && openCard !== cardInner) {
+        openCard.classList.remove("flipped");
+    }
     cardInner.classList.toggle("flipped");
     openCard = cardInner.classList.contains("flipped") ? cardInner : null;
 });
