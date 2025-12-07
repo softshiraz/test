@@ -130,7 +130,88 @@ header {
     box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
     background:rgba(19,19,20,0.75); backdrop-filter:blur(10px);
 }
-.card-front { display:flex; flex-direction:column; }
+.card-front { display:flex; flex-direction:column; position: relative; }
+
+/* دکمه رفت و برگشت کارت */
+.flip-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,0.7);
+    border: 2px solid #ffd700;
+    border-radius: 50%;
+    color: #ffd700;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.flip-btn:hover {
+    background: #ffd700;
+    color: #000;
+    transform: scale(1.1);
+}
+
+/* کانتینر برای عکس و ویدیو */
+.media-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+.media-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+.media-slide.active {
+    opacity: 1;
+}
+.media-slide img,
+.media-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.video-slide video {
+    object-fit: cover;
+}
+
+/* دکمه‌های چپ و راست برای جابه‌جایی عکس و ویدیو */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    border: none;
+    color: #ffd700;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 4;
+    padding: 10px;
+    transition: all 0.3s ease;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav-btn:hover {
+    background: #ffd700;
+    color: #000;
+}
+.nav-left { left: 10px; }
+.nav-right { right: 10px; }
+
 .img-bar { flex:1; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
 .movie-card:hover .img-bar img { transform:scale(1.08); }
@@ -188,7 +269,7 @@ header {
 }
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
 @media (max-width:768px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px) { .movies-grid{grid-template-columns:1fr;} }
+@media (max-width:480px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
 </style>
 </head>
 <body>
@@ -289,6 +370,54 @@ async function loadCardsStrictly() {
             const card = document.createElement("div");
             card.className = "movie-card";
             card.innerHTML = html;
+
+            // اضافه کردن دکمه رفت و برگشت به card-front
+            const cardFront = card.querySelector('.card-front');
+            if (cardFront) {
+                const flipBtn = document.createElement('button');
+                flipBtn.className = 'flip-btn';
+                flipBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+                flipBtn.setAttribute('aria-label', 'رفت و برگشت کارت');
+                cardFront.appendChild(flipBtn);
+            }
+
+            // جایگزینی img-bar با media-container برای عکس و ویدیو
+            const imgBar = card.querySelector('.img-bar');
+            if (imgBar) {
+                const mediaContainer = document.createElement('div');
+                mediaContainer.className = 'media-container';
+
+                // اسلاید عکس
+                const imageSlide = document.createElement('div');
+                imageSlide.className = 'media-slide active';
+                imageSlide.innerHTML = imgBar.innerHTML;
+                mediaContainer.appendChild(imageSlide);
+
+                // اسلاید ویدیو
+                const videoSlide = document.createElement('div');
+                videoSlide.className = 'media-slide';
+                const video = document.createElement('video');
+                video.src = `trailers/${num}.mp4`; // فرض بر این که ویدیوها در پوشه trailers هستند
+                video.controls = true;
+                videoSlide.appendChild(video);
+                mediaContainer.appendChild(videoSlide);
+
+                // دکمه‌های ناوبری
+                const leftBtn = document.createElement('button');
+                leftBtn.className = 'nav-btn nav-left';
+                leftBtn.innerHTML = '<i class="fas fa-chevron-right"></i>'; // چون RTL است، جهت معکوس
+                leftBtn.setAttribute('aria-label', 'عکس قبلی');
+                mediaContainer.appendChild(leftBtn);
+
+                const rightBtn = document.createElement('button');
+                rightBtn.className = 'nav-btn nav-right';
+                rightBtn.innerHTML = '<i class="fas fa-chevron-left"></i>'; // RTL
+                rightBtn.setAttribute('aria-label', 'عکس بعدی');
+                mediaContainer.appendChild(rightBtn);
+
+                imgBar.parentNode.replaceChild(mediaContainer, imgBar);
+            }
+
             container.appendChild(card);
         } catch (e) {
             console.log("خطا در لود کارت", num);
@@ -296,6 +425,47 @@ async function loadCardsStrictly() {
     }
 }
 loadCardsStrictly();
+
+// کلیک روی دکمه flip برای برگرداندن کارت (نه کلیک روی کارت)
+document.addEventListener("click", function(e) {
+    const flipBtn = e.target.closest(".flip-btn");
+    if (flipBtn) {
+        e.stopPropagation();
+        const cardInner = flipBtn.closest(".movie-card").querySelector(".card-inner");
+        if (cardInner) {
+            if (openCard && openCard !== cardInner) {
+                openCard.classList.remove("flipped");
+            }
+            cardInner.classList.toggle("flipped");
+            openCard = cardInner.classList.contains("flipped") ? cardInner : null;
+        }
+        return;
+    }
+
+    // جلوگیری از flip با کلیک روی کارت
+    if (e.target.closest(".card-inner") && !e.target.closest(".reserve-bar") && !e.target.closest(".flip-btn")) {
+        e.stopPropagation();
+        return;
+    }
+});
+
+// جابه‌جایی بین عکس و ویدیو با دکمه‌های nav
+document.addEventListener("click", function(e) {
+    const navBtn = e.target.closest(".nav-btn");
+    if (!navBtn) return;
+    e.stopPropagation();
+    const mediaContainer = navBtn.closest(".media-container");
+    const slides = mediaContainer.querySelectorAll(".media-slide");
+    let currentIndex = Array.from(slides).findIndex(slide => slide.classList.contains("active"));
+    if (navBtn.classList.contains("nav-left")) {
+        currentIndex = (currentIndex + 1) % slides.length; // RTL: left برای بعدی
+    } else {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length; // right برای قبلی
+    }
+    slides.forEach((slide, index) => {
+        slide.classList.toggle("active", index === currentIndex);
+    });
+});
 
 // رزرو
 document.addEventListener("click", function(e) {
@@ -312,17 +482,6 @@ document.addEventListener("click", function(e) {
     const encoded = encodeURIComponent(message);
     window.open(`https://t.me/softshirazadmin?text=${encoded}`, "_blank");
 });;
-
-// فلیپ کارت
-document.addEventListener("click", function(e) {
-    if (e.target.closest(".reserve-bar")) return;
-    const cardInner = e.target.closest(".card-inner");
-    if (cardInner) {
-        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
-        cardInner.classList.toggle("flipped");
-        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
-    }
-});
 
 // منوی همبرگری
 const hamburger = document.getElementById('hamburger');
