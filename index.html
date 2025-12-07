@@ -166,41 +166,39 @@ header {
     100% { transform:rotate(945deg); opacity: 0; }
 }
 
-/* ریسپانسیو — فقط این قسمت تغییر کرد */
-@media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:768px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px) { 
+/* فقط این قسمت درست شده — حالا کارت‌ها در موبایل نمایش داده میشن + دوتا دوتا + زیبا */
+@media (max-width:1200px) { .movies-grid { grid-template-columns:repeat(3,1fr); } }
+@media (max-width:768px) { .movies-grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:480px) {
     .movies-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 14px;
-        padding: 0 10px;
+        padding: 0 12px;
     }
-    .movie-card .card-inner {
-        width: 100%;
-        height: auto;
+    .card-inner {
+        width: 100% !important;
+        height: auto !important;
         aspect-ratio: 280 / 420;
     }
     .card-front, .card-back {
-        border-radius: 12px;
+        border-radius: 13px;
     }
     .date-bar {
-        height: 44px !important;
-        line-height: 44px !important;
-        font-size: 16px !important;
+        height: 42px !important;
+        line-height: 42px !important;
+        font-size: 15px !important;
     }
-    .date-bar strong { font-size: 18px !important; }
+    .date-bar strong { font-size: 17px !important; }
     .title-bar, .reserve-bar {
-        height: 32px;
-        line-height: 32px;
-        font-size: 13px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 12.5px;
     }
-    .reserve-bar { font-size: 14px; }
+    .reserve-bar { font-size: 13.5px; }
 }
 </style>
 </head>
 <body>
-
-<!-- بقیه کد دقیقاً همون قبلیه — هیچ تغییری نداده شده -->
 
 <div id="loading-overlay">
   <div class="loader">
@@ -251,7 +249,7 @@ header {
 </main>
 
 <script>
-// اسکریپت‌ها 100% بدون تغییر
+// اسکریپت‌ها کاملاً بدون تغییر
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 5000;
 const startTime = Date.now();
