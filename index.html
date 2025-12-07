@@ -7,9 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>سافت شیراز</title>
-<!-- فونت با نسخه‌گذاری -->
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
-<!-- آیکون‌ها با نسخه‌گذاری -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -19,7 +17,6 @@ body {
     color:#fff;
     overflow-x:hidden;
 }
-/* هدر */
 header {
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
@@ -29,23 +26,14 @@ header {
     position:sticky; top:0; z-index:20;
     text-shadow:0 0 10px rgba(255,215,0,0.25);
 }
-.logo-link {
-    text-decoration: none;
-    cursor: pointer;
-}
+.logo-link { text-decoration: none; cursor: pointer; }
 .logo-fa {
-    font-weight:700;
-    font-size:26px;
+    font-weight:700; font-size:26px;
     background:linear-gradient(45deg,#ffd700,#ffb300);
-    -webkit-background-clip:text;
-    color:transparent;
+    -webkit-background-clip:text; color:transparent;
     transition: all 0.3s ease;
 }
-.logo-link:hover .logo-fa {
-    text-shadow: 0 0 20px rgba(255,215,0,0.8);
-    transform: scale(1.05);
-}
-/* دکمه همبرگر */
+.logo-link:hover .logo-fa { text-shadow: 0 0 20px rgba(255,215,0,0.8); transform: scale(1.05); }
 .hamburger-btn {
     width:48px; height:42px; display:flex; align-items:center; justify-content:center;
     background: rgba(26,26,26,0.6); border-radius:10px; border:2px solid rgba(255,215,0,0.25);
@@ -58,7 +46,6 @@ header {
 .hamburger-inner span:nth-child(2){ top:7px; }
 .hamburger-inner span:nth-child(3){ top:14px; }
 
-/* منوی کشویی */
 #side-menu {
     position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
     background: linear-gradient(180deg, rgba(12,12,12,0.98), rgba(20,20,20,0.98));
@@ -70,7 +57,6 @@ header {
 #side-menu.open { transform: translateX(0); }
 #menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
 .side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:right; }
-.side-desc { font-size:13px; color:rgba(255,255,255,0.8); text-align:right; }
 .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
 .side-links a {
     display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -78,7 +64,6 @@ header {
     background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03);
 }
 .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
-.menu-social-title { margin-top: 20px; font-size: 16px; color: #ffd700; text-align: right; }
 .menu-social-row { display: flex; justify-content: center; gap: 18px; margin-top: 12px; }
 .menu-social-icon {
     width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
@@ -88,16 +73,12 @@ header {
 .menu-social-icon:hover { background: #ffd700; color: #000; }
 .side-footer-text { margin-top: auto; font-size: 13px; color: rgba(255,255,255,0.7); text-align: right; padding-top: 20px; }
 
-/* بک‌دراپ */
 #menu-backdrop {
     position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* عنوان اکران‌های آینده */
-.section-title-wrapper {
-    text-align: center; margin: 40px 0 50px; position: relative; z-index: 2;
-}
+.section-title-wrapper { text-align: center; margin: 40px 0 50px; position: relative; z-index: 2; }
 .section-title-box {
     display: inline-flex; background: rgb(255 215 0 / 0%); backdrop-filter: blur(10px);
     border: 2px solid rgb(255 215 0); border-radius: 18px; padding: 16px 50px;
@@ -120,104 +101,88 @@ header {
 }
 .movie-card { perspective:1000px; position:relative; }
 .card-inner {
-    position:relative; width:280px; height:420px; cursor:pointer;
-    transition:transform 0.35s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d;
+    position:relative; width:280px; height:420px;
+    transition:transform 0.6s cubic-bezier(0.25,0.8,0.25,1);
+    transform-style:preserve-3d;
 }
 .card-inner.flipped { transform:rotateY(180deg); }
+
 .card-front, .card-back {
     position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
     backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65);
     box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
     background:rgba(19,19,20,0.75); backdrop-filter:blur(10px);
 }
-.card-front { display:flex; flex-direction:column; position: relative; }
-.card-back { position: relative; }
+.card-front { display:flex; flex-direction:column; position:relative; }
+.card-back { transform:rotateY(180deg); padding:15px; color:#fff; text-align:right; font-size:14px; display:flex; flex-direction:column; position:relative; }
 
-/* دکمه رفت و برگشت کارت - هر دو طرف (front و back) */
+/* دکمه مربع لبه‌دار چسبیده به گوشه بالا-چپ (هر دو طرف) */
 .flip-btn {
     position: absolute;
-    top: 10px;
-    left: 10px; /* سمت چپ */
-    width: 40px;
-    height: 40px;
-    background: rgba(0,0,0,0.7);
-    border: 2px solid #ffd700;
-    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 44px;
+    height: 44px;
+    background: rgba(0,0,0,0.85);
+    border: 3px solid #ffd700;
+    border-left: none;
+    border-top: none;
+    border-radius: 0 0 12px 0;
     color: #ffd700;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
-    z-index: 5;
-    transition: all 0.3s ease;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
 }
 .flip-btn:hover {
     background: #ffd700;
     color: #000;
     transform: scale(1.1);
 }
-.card-front .flip-btn { top: 10px; left: 10px; }
-.card-back .flip-btn { top: 10px; left: 10px; }
 
-/* کانتینر برای عکس و ویدیو */
+/* کانتینر عکس + تریلر */
 .media-container {
-    flex: 1;
     position: relative;
+    flex: 1;
     overflow: hidden;
 }
 .media-slide {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.5s ease;
 }
-.media-slide.active {
-    opacity: 1;
-}
+.media-slide.active { opacity: 1; }
 .media-slide img,
 .media-slide video {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-.video-slide video {
-    object-fit: cover;
-}
 
-/* دکمه‌های چپ و راست برای جابه‌جایی عکس و ویدیو */
+/* فلش‌های چپ و راست برای عوض کردن عکس/فیلم */
 .nav-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0,0,0,0.5);
-    border: none;
+    background: rgba(0,0,0,0.7);
     color: #ffd700;
+    border: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
     font-size: 20px;
     cursor: pointer;
-    z-index: 4;
-    padding: 10px;
-    transition: all 0.3s ease;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    z-index: 5;
+    transition: all 0.3s;
 }
-.nav-btn:hover {
-    background: #ffd700;
-    color: #000;
-}
-.nav-left { right: 10px; } /* در RTL، سمت چپ صفحه سمت راست است */
-.nav-right { left: 10px; } /* سمت راست صفحه سمت چپ است */
+.nav-btn:hover { background: #ffd700; color: #000; }
+.nav-left { right: 8px; }
+.nav-right { left: 8px; }
 
-.img-bar { flex:1; overflow:hidden; }
-.img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
-.movie-card:hover .img-bar img { transform:scale(1.08); }
 .date-bar {
     height:52px !important; line-height:52px !important; padding:0 10px; text-align:center;
     background:rgba(0,0,0,0.45); color:#ffd700; font-size:19px !important; font-weight:900 !important;
@@ -234,11 +199,6 @@ header {
     background:#ffd700; color:#000; font-weight:bold; cursor:pointer; transition:background 0.3s;
 }
 .reserve-bar:hover { background:#ffea00; }
-.card-back {
-    transform:rotateY(180deg); padding:15px; color:#fff; text-align:right;
-    font-size:14px; display:flex; flex-direction:column;
-}
-.card-back h3, .card-back p strong { color:#ffd700; }
 
 /* لودر */
 #loading-overlay {
@@ -270,6 +230,8 @@ header {
     76% { transform:rotate(945deg); opacity: 0; }
     100% { transform:rotate(945deg); opacity: 0; }
 }
+
+/* ریسپانسیو اصلی (همون قبلی) */
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
 @media (max-width:768px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:480px) { .movies-grid{grid-template-columns:1fr;} }
@@ -291,7 +253,6 @@ header {
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
         <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
-    <!-- لوگو حالا قابل کلیک و لینک داره -->
     <a href="https://softshiraz.github.io/web/" target="_blank" rel="noopener" class="logo-link">
         <div class="logo-fa">Soft Shiraz</div>
     </a>
@@ -300,70 +261,46 @@ header {
 <div id="menu-backdrop" tabindex="-1"></div>
 
 <nav id="side-menu" aria-hidden="true">
-    <button id="menu-close" aria-label="بستن منو" style="
-    padding-bottom: 5px;
-    padding-top: 5px;
-    padding-right: 5px;
-    padding-left: 5px;
-">×</button>
-    <div class="side-brand" style="
-    padding-right: 20px;
-">ایونت‌های طلایی سافت شیراز</div>
-    <div class="side-links" role="menu" style="
-    margin-top: 0px;
-">
+    <button id="menu-close" style="padding:5px;">×</button>
+    <div class="side-brand" style="padding-right:20px;">ایونت‌های طلایی سافت شیراز</div>
+    <div class="side-links" role="menu">
         <a href="events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
         <a href="pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
         <a href="pages/about.html" role="menuitem">درباره ما</a>
     </div>
-    <div class="menu-social-row" style="
-    margin-top: 0px;
-    padding-top: 0px;
-">
+    <div class="menu-social-row">
         <a class="menu-social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
         <a class="menu-social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
         <a class="menu-social-icon" href="https://t.me/FLOKI000" target="_blank"><i class="fas fa-headset"></i></a>
     </div>
-    <div class="side-footer-text" style="
-    padding-top: 0px;
-    padding-right: 50px;
-">ساخته شده توسط فلوکی</div>
+    <div class="side-footer-text" style="padding-right:50px;">ساخته شده توسط فلوکی</div>
 </nav>
 
 <main style="padding-top:0px;">
     <section class="section">
-        <div class="section-title-wrapper" style="
-    margin-bottom: 30px;
-    margin-top: 30px;
-">
+        <div class="section-title-wrapper" style="margin:30px 0;">
             <div class="section-title-box">
                 <h2>اکران‌های آینده</h2>
             </div>
         </div>
-        <div class="movies-grid" id="cards-container" style="
-    margin-bottom: 30px;
-"></div>
+        <div class="movies-grid" id="cards-container" style="margin-bottom:30px;"></div>
     </section>
 </main>
 
 <script>
-// لودر — دقیقاً ۵ ثانیه کامل نمایش داده میشه
+// لودر
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 5000;
 const startTime = Date.now();
-
 window.addEventListener('load', () => {
     const elapsed = Date.now() - startTime;
     const delay = Math.max(0, minDuration - elapsed);
-
-    setTimeout(() => {
-        overlay.classList.add('hidden');
-    }, delay);
+    setTimeout(() => overlay.classList.add('hidden'), delay);
 });
 
-// لود کارت‌ها
 const container = document.getElementById("cards-container");
 let openCard = null;
+
 async function loadCardsStrictly() {
     for (let num = 1; num <= 150; num++) {
         try {
@@ -374,59 +311,54 @@ async function loadCardsStrictly() {
             card.className = "movie-card";
             card.innerHTML = html;
 
-            // اضافه کردن دکمه رفت و برگشت به card-front
-            const cardFront = card.querySelector('.card-front');
-            if (cardFront) {
-                const flipBtnFront = document.createElement('button');
-                flipBtnFront.className = 'flip-btn';
-                flipBtnFront.innerHTML = '<i class="fas fa-sync-alt"></i>';
-                flipBtnFront.setAttribute('aria-label', 'رفت و برگشت کارت');
-                cardFront.appendChild(flipBtnFront);
+            // دکمه مربع لبه‌دار چسبیده به گوشه بالا-چپ (جلو و پشت)
+            const front = card.querySelector('.card-front');
+            const back = card.querySelector('.card-back');
+            if (front) {
+                const btn = document.createElement('button');
+                btn.className = 'flip-btn';
+                btn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+                front.appendChild(btn);
+            }
+            if (back) {
+                const btn = document.createElement('button');
+                btn.className = 'flip-btn';
+                btn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+                back.appendChild(btn);
             }
 
-            // اضافه کردن دکمه به card-back
-            const cardBack = card.querySelector('.card-back');
-            if (cardBack) {
-                const flipBtnBack = document.createElement('button');
-                flipBtnBack.className = 'flip-btn';
-                flipBtnBack.innerHTML = '<i class="fas fa-sync-alt"></i>';
-                flipBtnBack.setAttribute('aria-label', 'رفت و برگشت کارت');
-                cardBack.appendChild(flipBtnBack);
-            }
-
-            // جایگزینی img-bar با media-container برای عکس و ویدیو
+            // تبدیل img-bar به عکس + تریلر با فلش
             const imgBar = card.querySelector('.img-bar');
-            if (imgBar) {
+            if (imgBar && imgBar.querySelector('img')) {
                 const mediaContainer = document.createElement('div');
                 mediaContainer.className = 'media-container';
 
                 // اسلاید عکس
-                const imageSlide = document.createElement('div');
-                imageSlide.className = 'media-slide active';
-                imageSlide.innerHTML = imgBar.innerHTML;
-                mediaContainer.appendChild(imageSlide);
+                const photoSlide = document.createElement('div');
+                photoSlide.className = 'media-slide active';
+                photoSlide.appendChild(imgBar.querySelector('img'));
+                mediaContainer.appendChild(photoSlide);
 
-                // اسلاید ویدیو
+                // اسلاید تریلر
                 const videoSlide = document.createElement('div');
-                videoSlide.className = 'media-slide video-slide';
+                videoSlide.className = 'media-slide';
                 const video = document.createElement('video');
-                video.src = `trailers/${num}.mp4`; // فرض بر این که ویدیوها در پوشه trailers هستند
+                video.src = `trailers/${num}.mp4`;
                 video.controls = true;
+                video.poster = `cards/${num}.jpg`;
                 videoSlide.appendChild(video);
                 mediaContainer.appendChild(videoSlide);
 
-                // دکمه‌های ناوبری (فلش‌ها)
-                const leftBtn = document.createElement('button');
-                leftBtn.className = 'nav-btn nav-left';
-                leftBtn.innerHTML = '<i class="fas fa-chevron-right"></i>'; // RTL
-                leftBtn.setAttribute('aria-label', 'عکس بعدی');
-                mediaContainer.appendChild(leftBtn);
+                // فلش‌ها
+                const leftArrow = document.createElement('button');
+                leftArrow.className = 'nav-btn nav-left';
+                leftArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                mediaContainer.appendChild(leftArrow);
 
-                const rightBtn = document.createElement('button');
-                rightBtn.className = 'nav-btn nav-right';
-                rightBtn.innerHTML = '<i class="fas fa-chevron-left"></i>'; // RTL
-                rightBtn.setAttribute('aria-label', 'عکس قبلی');
-                mediaContainer.appendChild(rightBtn);
+                const rightArrow = document.createElement('button');
+                rightArrow.className = 'nav-btn nav-right';
+                rightArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                mediaContainer.appendChild(rightArrow);
 
                 imgBar.parentNode.replaceChild(mediaContainer, imgBar);
             }
@@ -439,149 +371,93 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
-// کلیک روی دکمه flip برای برگرداندن کارت (نه کلیک روی کارت)
+// فقط با دکمه مربع کارت برمی‌گرده
 document.addEventListener("click", function(e) {
-    const flipBtn = e.target.closest(".flip-btn");
-    if (flipBtn) {
+    if (e.target.closest(".flip-btn")) {
         e.stopPropagation();
-        const cardInner = flipBtn.closest(".movie-card").querySelector(".card-inner");
-        if (cardInner) {
-            if (openCard && openCard !== cardInner) {
-                openCard.classList.remove("flipped");
-            }
-            cardInner.classList.toggle("flipped");
-            openCard = cardInner.classList.contains("flipped") ? cardInner : null;
-        }
-        return;
-    }
-
-    // جلوگیری از flip با کلیک روی کارت
-    if (e.target.closest(".card-inner") && !e.target.closest(".reserve-bar") && !e.target.closest(".flip-btn")) {
-        e.stopPropagation();
-        return;
+        const cardInner = e.target.closest(".movie-card").querySelector(".card-inner");
+        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
+        cardInner.classList.toggle("flipped");
+        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
     }
 });
 
-// جابه‌جایی بین عکس و ویدیو با دکمه‌های nav
+// عوض کردن عکس/تریلر با فلش
 document.addEventListener("click", function(e) {
-    const navBtn = e.target.closest(".nav-btn");
-    if (!navBtn) return;
+    const btn = e.target.closest(".nav-btn");
+    if (!btn) return;
     e.stopPropagation();
-    const mediaContainer = navBtn.closest(".media-container");
-    const slides = mediaContainer.querySelectorAll(".media-slide");
-    let currentIndex = Array.from(slides).findIndex(slide => slide.classList.contains("active"));
-    if (navBtn.classList.contains("nav-left")) {
-        currentIndex = (currentIndex + 1) % slides.length;
-    } else {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-    }
-    slides.forEach((slide, index) => {
-        slide.classList.toggle("active", index === currentIndex);
-    });
+    const container = btn.closest(".media-container");
+    const slides = container.querySelectorAll(".media-slide");
+    let active = container.querySelector(".media-slide.active");
+    let index = Array.from(slides).indexOf(active);
+    if (btn.classList.contains("nav-left")) index = (index + 1) % 2;
+    else index = (index - 1 + 2) % 2;
+    slides.forEach((s, i) => s.classList.toggle("active", i === index));
 });
 
 // رزرو
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
-    if (!reserveBtn) return;
+    if (!reserveBtn || reserveBtn.textContent.trim() !== "تهیه بلیط") return;
     e.stopPropagation();
-    // بررسی متن دکمه
-    if (reserveBtn.textContent.trim() !== "تهیه بلیط") return;
     const cardFront = reserveBtn.closest(".card-front");
-    if (!cardFront) return;
-    const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
-    const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
-    const message = `💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\n🌟 مرسی ازتون 🌟`;
-    const encoded = encodeURIComponent(message);
-    window.open(`https://t.me/softshirazadmin?text=${encoded}`, "_blank");
-});;
+    const movieName = cardFront.querySelector(".date-bar")?.textContent?.trim() || "نامشخص";
+    const dateTime = cardFront.querySelector(".title-bar")?.textContent?.trim() || "نامشخص";
+    const message = `سلام وقت بخیر\n\nفیلم : ${movieName}\nزمان : ${dateTime}\n\nممنون میشم شرایط رزرو و موجودی رو اعلام کنید\nمرسی ازتون`;
+    window.open(`https://t.me/softshirazadmin?text=${encodeURIComponent(message)}`, "_blank");
+});
 
-// منوی همبرگری
+// منو و بک‌گراند بدون تغییر
 const hamburger = document.getElementById('hamburger');
 const sideMenu = document.getElementById('side-menu');
 const backdrop = document.getElementById('menu-backdrop');
 const menuClose = document.getElementById('menu-close');
-function openMenu() {
-    sideMenu.classList.add('open');
-    backdrop.classList.add('visible');
-    hamburger.setAttribute('aria-expanded', 'true');
-    sideMenu.setAttribute('aria-hidden', 'false');
-    sideMenu.querySelector('.side-links a')?.focus();
-}
-function closeMenu() {
-    sideMenu.classList.remove('open');
-    backdrop.classList.remove('visible');
-    hamburger.setAttribute('aria-expanded', 'false');
-    sideMenu.setAttribute('aria-hidden', 'true');
-    hamburger.focus();
-}
+function openMenu() { sideMenu.classList.add('open'); backdrop.classList.add('visible'); hamburger.setAttribute('aria-expanded', 'true'); sideMenu.setAttribute('aria-hidden', 'false'); }
+function closeMenu() { sideMenu.classList.remove('open'); backdrop.classList.remove('visible'); hamburger.setAttribute('aria-expanded', 'false'); sideMenu.setAttribute('aria-hidden', 'true'); hamburger.focus(); }
 hamburger.addEventListener('click', e => { e.stopPropagation(); hamburger.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
 menuClose.addEventListener('click', e => { e.stopPropagation(); closeMenu(); });
 backdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
 sideMenu.addEventListener('click', e => e.stopPropagation());
 
-// انیمیشن بک‌گراند
 (() => {
   const canvas = document.createElement('canvas');
   document.body.appendChild(canvas);
-  canvas.style.position = 'fixed';
-  canvas.style.top = '0';
-  canvas.style.left = '0';
-  canvas.style.pointerEvents = 'none';
-  canvas.style.zIndex = '-1';
+  canvas.style.position = 'fixed'; canvas.style.top = '0'; canvas.style.left = '0';
+  canvas.style.pointerEvents = 'none'; canvas.style.zIndex = '-1';
   const ctx = canvas.getContext('2d');
   let w, h, particles = [], N = 120, maxDist = 120;
-
   function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
-  addEventListener('resize', resize);
-  resize();
-
+  addEventListener('resize', resize); resize();
   function rand(a, b) { return Math.random() * (b - a) + a; }
-
   function init() {
     particles = [];
     for (let i = 0; i < N; i++) {
-      particles.push({
-        x: rand(0, w),
-        y: rand(0, h),
-        vx: rand(-0.45, 0.45),
-        vy: rand(-0.45, 0.45),
-        r: rand(0.8, 2.2),
-        a: rand(0.4, 0.95)
-      });
+      particles.push({ x: rand(0, w), y: rand(0, h), vx: rand(-0.45, 0.45), vy: rand(-0.45, 0.45), r: rand(0.8, 2.2), a: rand(0.4, 0.95) });
     }
   }
-
   function frame() {
     ctx.clearRect(0, 0, w, h);
     for (let p of particles) {
       p.x += p.vx; p.y += p.vy;
       if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
       if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(255,215,0,${p.a * 0.9})`;
-      ctx.arc(p.x, p.y, p.r, 0, 6.28);
-      ctx.fill();
+      ctx.beginPath(); ctx.fillStyle = `rgba(255,215,0,${p.a * 0.9})`;
+      ctx.arc(p.x, p.y, p.r, 0, 6.28); ctx.fill();
     }
     ctx.lineWidth = 0.7;
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const p = particles[i], q = particles[j];
-        const d = Math.hypot(p.x - q.x, p.y - q.y);
-        if (d < maxDist) {
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(255,215,0,${(1 - d / maxDist) * 0.22})`;
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(q.x, q.y);
-          ctx.stroke();
-        }
+    for (let i = 0; i < particles.length; i++) for (let j = i + 1; j < particles.length; j++) {
+      const p = particles[i], q = particles[j];
+      const d = Math.hypot(p.x - q.x, p.y - q.y);
+      if (d < maxDist) {
+        ctx.beginPath(); ctx.strokeStyle = `rgba(255,215,0,${(1 - d / maxDist) * 0.22})`;
+        ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
       }
     }
     requestAnimationFrame(frame);
   }
-  init();
-  frame();
+  init(); frame();
 })();
 </script>
 </body>
