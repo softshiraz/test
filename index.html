@@ -1,547 +1,240 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soft Shiraz Cinema Experience</title>
 
-    <!-- Open Graph (گزینه 36) -->
-    <meta property="og:title" content="سافت شیراز - اکران‌های خصوصی و ایونت‌های طلایی">
-    <meta property="og:description" content="اکران‌های خصوصی فیلم و ایونت‌های خاص در شیراز">
-    <meta property="og:image" content="https://yourusername.github.io/your-repo/images/og-image.jpg">
-    <meta property="og:url" content="https://yourusername.github.io/your-repo/">
-    <meta property="og:type" content="website">
+<link rel="manifest" href="manifest.json">
 
-    <!-- Structured Data (گزینه 37) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "EventVenue",
-      "name": "سافت شیراز",
-      "url": "https://yourusername.github.io/your-repo/",
-      "description": "اکران‌های خصوصی و ایونت‌های فرهنگی در شیراز"
-    }
-    </script>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <title>سافت شیراز</title>
+<style>
+:root{
+--gold:#ffd700;
+--bg:#0e0e0f;
+--glass:rgba(255,255,255,0.06);
+--blur:14px;
+}
+body{
+margin:0;
+font-family:"Vazirmatn",sans-serif;
+background:var(--bg);
+color:#fff;
+overflow-x:hidden;
+}
 
-    <!-- فونت و آیکون -->
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
+/* 🎞 پرده سینما */
+.curtain{
+position:fixed;
+inset:0;
+background:linear-gradient(90deg,#400,#900,#400);
+z-index:9999;
+animation:openCurtain 2.2s ease forwards;
+}
+@keyframes openCurtain{
+to{transform:translateX(-100%);}
+}
 
-    <!-- PWA (گزینه 34) -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ffd700">
+/* ✨ لوگو انیمیشنی */
+.logo-fa{
+font-size:28px;
+font-weight:900;
+background:linear-gradient(45deg,#fff,var(--gold));
+-webkit-background-clip:text;
+color:transparent;
+animation:logoGlow 3s infinite alternate;
+}
+@keyframes logoGlow{
+to{text-shadow:0 0 25px var(--gold);}
+}
 
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-        body {
-            font-family: "Vazirmatn", sans-serif;
-            background:#0e0e0f;
-            color:#fff;
-            overflow-x:hidden;
-            position:relative;
-            min-height:100vh;
-        }
+/* 🎥 هدر */
+header{
+position:sticky;top:0;
+background:rgba(0,0,0,.6);
+backdrop-filter:blur(10px);
+padding:15px 25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:10;
+}
 
-        /* پارالاکس ملایم (گزینه 42) */
-        body::before {
-            content:''; position:fixed; inset:0; z-index:-3;
-            background: radial-gradient(circle at 50% 50%, rgba(255,215,0,0.08) 0%, transparent 70%);
-            pointer-events:none;
-        }
-        #particles-canvas { position:fixed; inset:0; z-index:-1; pointer-events:none; }
+/* 🎬 اسکرول پیشرفت */
+#progress{
+position:fixed;
+top:0;left:0;
+height:4px;
+background:var(--gold);
+width:0%;
+z-index:999;
+}
 
-        /* هدر */
-        header {
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            padding:15px 25px;
-            display:flex; justify-content:space-between; align-items:center;
-            border-bottom:1px solid rgba(48,48,48,0.5);
-            position:sticky; top:0; z-index:20;
-        }
-        .logo-link { text-decoration:none; cursor:pointer; }
-        .logo-fa {
-            font-weight:700; font-size:26px;
-            background:linear-gradient(45deg,#ffd700,#ffb300);
-            -webkit-background-clip:text; color:transparent;
-            transition:0.3s;
-        }
-        .logo-link:hover .logo-fa { text-shadow:0 0 20px rgba(255,215,0,0.8); transform:scale(1.05); }
+/* 🎞 کارت‌ها */
+.movies-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:22px;
+padding:40px;
+scroll-snap-type:x mandatory;
+}
+.movie-card{
+opacity:0;
+transform:translateY(40px);
+animation:cardIn .8s forwards;
+scroll-snap-align:center;
+}
+@keyframes cardIn{
+to{opacity:1;transform:none;}
+}
 
-        /* دکمه همبرگر */
-        .hamburger-btn {
-            width:48px; height:42px; display:flex; align-items:center; justify-content:center;
-            background:rgba(26,26,26,0.6); border-radius:10px; border:2px solid rgba(255,215,0,0.25);
-            cursor:pointer; color:#ffd700;
-        }
-        .hamburger-inner { width:22px; height:16px; position:relative; }
-        .hamburger-inner span { position:absolute; left:0; right:0; height:2px; background:#ffd700; border-radius:2px; }
-        .hamburger-inner span:nth-child(1){ top:0; }
-        .hamburger-inner span:nth-child(2){ top:7px; }
-        .hamburger-inner span:nth-child(3){ top:14px; }
+/* 🪟 گلس مورفیسم */
+.card-inner{
+background:var(--glass);
+backdrop-filter:blur(var(--blur));
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 25px 60px rgba(0,0,0,.6);
+}
 
-        /* کنترل‌های گرید/لیست */
-        .controls { display:flex; gap:12px; }
-        .control-btn {
-            width:42px; height:42px; border-radius:10px; background:rgba(26,26,26,0.6);
-            border:2px solid rgba(255,215,0,0.25); color:#ffd700; display:flex;
-            align-items:center; justify-content:center; cursor:pointer; transition:0.3s;
-        }
-        .control-btn.active, .control-btn:hover { background:#ffd700; color:#000; }
+/* 📽 پارالاکس */
+.card-inner img{
+width:100%;
+height:360px;
+object-fit:cover;
+transform:translateZ(0);
+}
 
-        /* فیلترها */
-        .filters {
-            max-width:1200px; margin:20px auto; padding:0 20px;
-            display:flex; flex-wrap:wrap; gap:15px; justify-content:center; align-items:center;
-        }
-        .filters input, .filters select {
-            padding:10px 15px; border-radius:10px; border:none;
-            background:rgba(255,255,255,0.1); color:#fff; font-family:inherit;
-        }
-        .filters input::placeholder { color:rgba(255,255,255,0.6); }
+/* 🎞 VHS */
+.vhs{
+filter:contrast(1.1) saturate(1.2);
+animation:vhs 2s infinite;
+}
+@keyframes vhs{
+0%{filter:hue-rotate(0deg);}
+100%{filter:hue-rotate(6deg);}
+}
 
-        /* عنوان بخش */
-        .section-title-wrapper { text-align:center; margin:40px 0 30px; }
-        .section-title-box {
-            display:inline-flex; background:rgba(255,215,0,0.1); backdrop-filter:blur(10px);
-            border:2px solid #ffd700; border-radius:18px; padding:16px 50px;
-            box-shadow:0 0 20px rgba(255,215,0,0.3); animation:glowPulse 4s ease-in-out infinite alternate;
-        }
-        .section-title-box h2 { color:#ffd700; font-size:32px; font-weight:900; letter-spacing:2px; }
-        @keyframes glowPulse {
-            from { box-shadow:0 0 20px rgba(255,215,0,0.3); }
-            to { box-shadow:0 0 30px rgba(255,215,0,0.5); }
-        }
+/* 🧂 Grain */
+body:after{
+content:"";
+position:fixed;
+inset:0;
+background:url("https://i.imgur.com/8aPzX7L.png");
+opacity:.08;
+pointer-events:none;
+z-index:100;
+}
 
-        /* گرید کارت‌ها */
-        .movies-grid {
-            display:grid; grid-template-columns:repeat(4,1fr); gap:25px;
-            max-width:1200px; margin:0 auto 60px; padding:0 20px;
-        }
-        .movies-grid.list { grid-template-columns:1fr; }
+/* 💬 دیوار نظرات */
+.comments{
+max-width:900px;
+margin:60px auto;
+padding:20px;
+background:rgba(255,255,255,.03);
+border-radius:20px;
+}
+.comment{
+padding:10px 0;
+border-bottom:1px solid rgba(255,255,255,.1);
+}
 
-        .movie-card {
-            perspective:1200px; opacity:0; transform:translateY(50px);
-            transition:opacity 0.8s ease, transform 0.8s ease; /* انیمیشن ورود - گزینه 41 */
-        }
-        .movie-card.visible { opacity:1; transform:translateY(0); }
+/* ⭐ امتیاز */
+.stars i{
+color:var(--gold);
+cursor:pointer;
+}
 
-        .card-inner {
-            position:relative; width:280px; height:420px; cursor:pointer;
-            transition:transform 0.5s cubic-bezier(0.2,0.8,0.3,1); transform-style:preserve-3d;
-        }
-        .movies-grid.list .card-inner { width:100%; height:auto; display:flex; flex-direction:row; }
-
-        /* افکت hover سه‌بعدی قوی (گزینه 45) */
-        .movie-card:hover .card-inner {
-            transform:translateZ(60px) rotateY(10deg) scale(1.1);
-            box-shadow:0 30px 60px rgba(255,215,0,0.4);
-        }
-
-        .card-front, .card-back {
-            position:absolute; inset:0; border-radius:16px; overflow:hidden;
-            backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65);
-            box-shadow:0 0 8px rgba(255,215,0,0.25); background:rgba(19,19,20,0.85);
-            backdrop-filter:blur(10px);
-        }
-        .card-back { transform:rotateY(180deg); padding:20px; text-align:right; font-size:14px; }
-        .card-back h3 { color:#ffd700; }
-
-        .img-bar { flex:1; overflow:hidden; }
-        .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
-        .movie-card:hover .img-bar img { transform:scale(1.1); }
-
-        .date-bar { height:52px; line-height:52px; text-align:center; background:rgba(0,0,0,0.5); color:#ffd700; font-size:19px; font-weight:900; }
-        .title-bar { height:36px; line-height:36px; text-align:center; background:rgba(0,0,0,0.3); }
-        .reserve-bar {
-            height:36px; line-height:36px; text-align:center; background:#ffd700;
-            color:#000; font-weight:bold; cursor:pointer;
-        }
-        .reserve-bar:hover { background:#ffea00; }
-
-        /* کد تخفیف (گزینه 54) */
-        .discount-badge {
-            position:absolute; top:10px; left:10px; z-index:5; background:#c0392b; color:#fff;
-            padding:6px 12px; border-radius:8px; font-size:13px; font-weight:bold;
-        }
-
-        /* علاقه‌مندی (گزینه 12) */
-        .favorite-btn {
-            position:absolute; top:10px; right:10px; z-index:5; width:40px; height:40px;
-            border-radius:50%; background:rgba(0,0,0,0.6); display:flex;
-            align-items:center; justify-content:center; cursor:pointer; font-size:18px;
-        }
-        .favorite-btn.active { color:#ffd700; }
-
-        /* منوی سایدبار */
-        #side-menu {
-            position:fixed; top:0; right:0; height:100vh; width:320px; max-width:85%;
-            background:linear-gradient(180deg,rgba(12,12,12,0.98),rgba(20,20,20,0.98));
-            box-shadow:4px 0 30px rgba(0,0,0,0.6); transform:translateX(100%);
-            transition:transform 0.32s cubic-bezier(.2,.9,.2,1); z-index:30; padding:28px;
-            display:flex; flex-direction:column; gap:18px; border-left:2px solid rgba(255,215,0,0.12);
-        }
-        #side-menu.open { transform:translateX(0); }
-        #menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
-        .side-links a {
-            display:block; padding:12px 14px; border-radius:10px; text-decoration:none;
-            color:#fff; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03);
-        }
-        .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
-
-        /* بک‌دراپ منو */
-        #menu-backdrop {
-            position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0;
-            pointer-events:none; transition:opacity .28s; z-index:25;
-        }
-        #menu-backdrop.visible { opacity:1; pointer-events:auto; }
-
-        /* مودال رزرو (گزینه 11) */
-        .modal {
-            display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85);
-            z-index:100; align-items:center; justify-content:center;
-        }
-        .modal-content {
-            background:#1a1a1a; padding:30px; border-radius:16px; width:90%; max-width:420px;
-            border:2px solid #ffd700; text-align:center;
-        }
-        .modal input { width:100%; padding:12px; margin:10px 0; border-radius:10px; border:none; background:rgba(255,255,255,0.1); color:#fff; }
-        .modal button {
-            width:100%; padding:12px; margin:5px 0; border:none; border-radius:10px;
-            background:#ffd700; color:#000; font-weight:bold; cursor:pointer;
-        }
-
-        /* لودر */
-        #loading-overlay {
-            position:fixed; inset:0; background:#111; display:flex;
-            justify-content:center; align-items:center; z-index:10000; opacity:1;
-            transition:opacity 0.9s ease;
-        }
-        #loading-overlay.hidden { opacity:0; pointer-events:none; }
-        .loader { position:relative; width:40px; height:40px; }
-        .loader .circle {
-            position:absolute; width:38px; height:38px; opacity:0;
-            transform:rotate(225deg); animation:orbit 5.5s infinite;
-        }
-        .loader .circle:after {
-            content:''; position:absolute; width:5px; height:5px;
-            border-radius:50%; background:yellow;
-        }
-        .loader .circle:nth-child(2) { animation-delay:240ms; }
-        .loader .circle:nth-child(3) { animation-delay:480ms; }
-        .loader .circle:nth-child(4) { animation-delay:720ms; }
-        .loader .circle:nth-child(5) { animation-delay:960ms; }
-        @keyframes orbit {
-            0% { transform:rotate(225deg); opacity:1; }
-            7% { transform:rotate(345deg); }
-            30% { transform:rotate(455deg); }
-            39% { transform:rotate(690deg); }
-            70% { transform:rotate(815deg); opacity:1; }
-            75% { transform:rotate(945deg); }
-            76%,100% { opacity:0; }
-        }
-
-        @media (max-width:1200px) {.movies-grid{grid-template-columns:repeat(3,1fr);}}
-        @media (max-width:768px) {.movies-grid{grid-template-columns:repeat(2,1fr);}}
-        @media (max-width:480px) {.movies-grid{grid-template-columns:1fr;}}
-    </style>
+/* 🎥 پروژکتور */
+.projector{
+position:fixed;
+top:-50px;left:50%;
+width:600px;height:600px;
+background:radial-gradient(circle,rgba(255,215,0,.15),transparent 70%);
+transform:translateX(-50%);
+pointer-events:none;
+animation:lightMove 6s infinite alternate;
+}
+@keyframes lightMove{
+to{opacity:.3;}
+}
+</style>
 </head>
+
 <body>
 
-    <div id="loading-overlay">
-        <div class="loader">
-            <div class="circle"></div><div class="circle"></div><div class="circle"></div>
-            <div class="circle"></div><div class="circle"></div>
-        </div>
-    </div>
+<div class="curtain"></div>
+<div id="progress"></div>
+<div class="projector"></div>
 
-    <canvas id="particles-canvas"></canvas>
+<header>
+<div class="logo-fa">Soft Shiraz</div>
+<button onclick="toggleVIP()">VIP</button>
+</header>
 
-    <header>
-        <button class="hamburger-btn" id="hamburger" aria-label="باز کردن منو">
-            <span class="hamburger-inner"><span></span><span></span><span></span></span>
-        </button>
-        <a href="index.html" class="logo-link"><div class="logo-fa">Soft Shiraz</div></a>
-        <div class="controls">
-            <button class="control-btn active" id="grid-view" title="گرید"><i class="fas fa-th"></i></button>
-            <button class="control-btn" id="list-view" title="لیست"><i class="fas fa-list"></i></button>
-        </div>
-    </header>
+<main>
+<section class="movies-grid" id="cards-container"></section>
 
-    <div id="menu-backdrop"></div>
-    <nav id="side-menu">
-        <button id="menu-close">×</button>
-        <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
-        <div class="side-links">
-            <a href="events/events.html">ایونت‌های کتابخوانی</a>
-            <a href="pages/past-releases.html">اکران‌های شده‌ها</a>
-            <a href="pages/venues.html">سالن‌های همکار</a> <!-- گزینه 24 -->
-            <a href="pages/gallery.html">گالری عکس</a> <!-- گزینه 28 -->
-            <a href="pages/about.html">درباره ما</a>
-        </div>
-        <div style="margin-top:auto; padding-top:20px; color:rgba(255,255,255,0.7); font-size:13px; text-align:right;">
-            <div style="color:#ffd700; margin-bottom:8px;">علاقه‌مندی‌ها</div>
-            <div id="sidebar-favorites">هیچ علاقه‌مندی‌ای اضافه نشده</div>
-        </div>
-        <div style="margin-top:20px; display:flex; justify-content:center; gap:18px;">
-            <a class="menu-social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
-            <a class="menu-social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
-        </div>
-    </nav>
+<section class="comments">
+<h3>🎬 نظرات مخاطبان</h3>
+<div class="comment">🔥 تجربه فوق‌العاده‌ای بود</div>
+<div class="comment">🎥 حس سینمای واقعی</div>
 
-    <div class="filters">
-        <input type="text" id="search" placeholder="جستجوی نام فیلم...">
-        <select id="genre-filter"><option value="">همه ژانرها</option></select>
-        <select id="sort">
-            <option value="soon">به‌زودی‌ترین</option>
-            <option value="name">نام الفبایی</option>
-        </select>
-    </div>
+<div class="stars">
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="far fa-star"></i>
+</div>
+</section>
+</main>
 
-    <main>
-        <section class="section-title-wrapper">
-            <div class="section-title-box"><h2>اکران‌های آینده</h2></div>
-        </section>
-        <div class="movies-grid" id="cards-container"></div>
-    </main>
+<script>
+// 🎬 پیام خوش‌آمد
+setTimeout(()=>{
+alert("🎥 به تجربه سینمایی Soft Shiraz خوش آمدید");
+},1200);
 
-    <!-- مودال رزرو -->
-    <div class="modal" id="reserve-modal">
-        <div class="modal-content">
-            <h3>رزرو بلیط</h3>
-            <p id="modal-event-title" style="color:#ffd700; margin:10px 0;"></p>
-            <input type="text" id="reserve-name" placeholder="نام و نام خانوادگی">
-            <input type="number" id="reserve-count" placeholder="تعداد بلیط" min="1" value="1">
-            <input type="tel" id="reserve-phone" placeholder="شماره تماس (اختیاری)">
-            <button id="send-reserve">ارسال به تلگرام</button>
-            <button onclick="document.getElementById('reserve-modal').style.display='none'">بستن</button>
-        </div>
-    </div>
+// 📊 نوار پیشرفت
+window.addEventListener("scroll",()=>{
+const h=document.documentElement;
+document.getElementById("progress").style.width=
+(h.scrollTop/(h.scrollHeight-h.clientHeight))*100+"%";
+});
 
-    <script>
-        // لودر ۵ ثانیه
-        const overlay = document.getElementById('loading-overlay');
-        const startTime = Date.now();
-        window.addEventListener('load', () => {
-            const elapsed = Date.now() - startTime;
-            setTimeout(() => overlay.classList.add('hidden'), Math.max(0, 5000 - elapsed));
-        });
+// 🎞 کارت دمو
+const c=document.getElementById("cards-container");
+for(let i=1;i<=6;i++){
+c.innerHTML+=`
+<div class="movie-card">
+<div class="card-inner ${i%2?'vhs':''}">
+<img src="https://picsum.photos/500/700?random=${i}">
+</div>
+</div>`;
+}
 
-        // پارتیکل پس‌زمینه (کد اصلی تو)
-        (() => {
-            const canvas = document.getElementById('particles-canvas');
-            const ctx = canvas.getContext('2d');
-            let w, h, particles = [], N = 120, maxDist = 120;
-            function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
-            addEventListener('resize', resize); resize();
-            function rand(a,b) { return Math.random()*(b-a)+a; }
-            function init() {
-                particles = [];
-                for(let i=0;i<N;i++){
-                    particles.push({x:rand(0,w),y:rand(0,h),vx:rand(-0.45,0.45),vy:rand(-0.45,0.45),r:rand(0.8,2.2),a:rand(0.4,0.95)});
-                }
-            }
-            function frame() {
-                ctx.clearRect(0,0,w,h);
-                for(let p of particles){
-                    p.x += p.vx; p.y += p.vy;
-                    if(p.x<0) p.x=w; if(p.x>w) p.x=0;
-                    if(p.y<0) p.y=h; if(p.y>h) p.y=0;
-                    ctx.beginPath(); ctx.fillStyle=`rgba(255,215,0,${p.a*0.9})`;
-                    ctx.arc(p.x,p.y,p.r,0,6.28); ctx.fill();
-                }
-                ctx.lineWidth=0.7;
-                for(let i=0;i<particles.length;i++){
-                    for(let j=i+1;j<particles.length;j++){
-                        const p=particles[i],q=particles[j];
-                        const d=Math.hypot(p.x-q.x,p.y-q.y);
-                        if(d<maxDist){
-                            ctx.beginPath(); ctx.strokeStyle=`rgba(255,215,0,${(1-d/maxDist)*0.22})`;
-                            ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
-                        }
-                    }
-                }
-                requestAnimationFrame(frame);
-            }
-            init(); frame();
-        })();
+// 👑 VIP
+function toggleVIP(){
+document.body.classList.toggle("vip");
+alert("👑 حالت VIP فعال شد");
+}
 
-        // داده‌ها از JSON
-        let events = [], filteredEvents = [];
-        async function loadData() {
-            try {
-                const res = await fetch('data.json?v='+Date.now());
-                events = await res.json();
-                filteredEvents = [...events];
-                renderCards();
-                populateGenreFilter();
-            } catch(e) { console.error("خطا در لود data.json"); }
-        }
-        loadData();
+// ⭐ امتیاز
+document.querySelectorAll(".stars i").forEach((s,i)=>{
+s.onclick=()=>{
+document.querySelectorAll(".stars i").forEach((x,j)=>{
+x.className=j<=i?"fas fa-star":"far fa-star";
+});
+};
+});
 
-        function renderCards() {
-            const container = document.getElementById("cards-container");
-            container.innerHTML = "";
-            filteredEvents.forEach(event => {
-                const card = document.createElement("div");
-                card.className = "movie-card";
-                card.innerHTML = `
-                    <div class="card-inner">
-                        ${event.discount ? `<div class="discount-badge">${event.discount}</div>` : ''}
-                        <div class="favorite-btn" data-id="${event.id}"><i class="far fa-heart"></i></div>
-                        <div class="card-front" data-admin-id="${event.adminId || 'softshirazadmin'}">
-                            <div class="img-bar"><img src="${event.image}" loading="lazy" alt="${event.title}"></div>
-                            <div class="date-bar"><strong>${event.date}</strong></div>
-                            <div class="title-bar">${event.title}</div>
-                            <div class="reserve-bar" data-id="${event.id}">تهیه بلیط</div>
-                        </div>
-                        <div class="card-back">
-                            <h3>${event.title}</h3>
-                            <p><strong>ژانر:</strong> ${event.genre || 'نامشخص'}</p>
-                            <p>${event.description || 'اکران خصوصی با بهترین کیفیت'}</p>
-                        </div>
-                    </div>`;
-                container.appendChild(card);
-            });
-
-            // انیمیشن ورود هنگام اسکرول
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add("visible"); });
-            }, {threshold:0.1});
-            document.querySelectorAll('.movie-card').forEach(c => observer.observe(c));
-
-            updateFavorites();
-        }
-
-        // فیلتر و جستجو
-        document.getElementById("search").addEventListener("input", filter);
-        document.getElementById("genre-filter").addEventListener("change", filter);
-        document.getElementById("sort").addEventListener("change", filter);
-
-        function filter() {
-            const query = document.getElementById("search").value.toLowerCase();
-            const genre = document.getElementById("genre-filter").value;
-            const sort = document.getElementById("sort").value;
-
-            filteredEvents = events.filter(e =>
-                (!query || e.title.toLowerCase().includes(query)) &&
-                (!genre || e.genre === genre)
-            );
-
-            if(sort === "name") filteredEvents.sort((a,b) => a.title.localeCompare(b.title));
-            if(sort === "soon") filteredEvents.sort((a,b) => new Date(a.date.split(' - ')[0].replace(/۱۴۰۴/g,'2025').replace(/\/\d+/g,m=>'/' + (parseInt(m.slice(1))+1))) - new Date(b.date.split(' - ')[0].replace(/۱۴۰۴/g,'2025').replace(/\/\d+/g,m=>'/' + (parseInt(m.slice(1))+1))));
-
-            renderCards();
-        }
-
-        function populateGenreFilter() {
-            const genres = [...new Set(events.map(e => e.genre).filter(Boolean))];
-            const select = document.getElementById("genre-filter");
-            genres.forEach(g => {
-                const opt = document.createElement("option");
-                opt.value = g; opt.textContent = g;
-                select.appendChild(opt);
-            });
-        }
-
-        // علاقه‌مندی‌ها
-        function updateFavorites() {
-            const favs = JSON.parse(localStorage.getItem("favorites") || "[]");
-            document.querySelectorAll(".favorite-btn").forEach(btn => {
-                const id = btn.dataset.id;
-                btn.innerHTML = favs.includes(id) ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
-                btn.onclick = () => {
-                    if(favs.includes(id)) favs.splice(favs.indexOf(id),1);
-                    else favs.push(id);
-                    localStorage.setItem("favorites", JSON.stringify(favs));
-                    updateFavorites();
-                    updateSidebarFavorites();
-                };
-            });
-            updateSidebarFavorites();
-        }
-
-        function updateSidebarFavorites() {
-            const favs = JSON.parse(localStorage.getItem("favorites") || "[]");
-            const container = document.getElementById("sidebar-favorites");
-            if(favs.length===0){ container.textContent="هیچ علاقه‌مندی‌ای اضافه نشده"; return; }
-            container.innerHTML = "";
-            favs.forEach(id => {
-                const ev = events.find(e => e.id === id);
-                if(ev){
-                    const a = document.createElement("a");
-                    a.href = "#"; a.textContent = ev.title; a.style.display="block"; a.style.margin="6px 0"; a.style.color="#ffd700";
-                    container.appendChild(a);
-                }
-            });
-        }
-
-        // گرید/لیست
-        document.getElementById("grid-view").onclick = () => {
-            document.querySelector(".movies-grid").classList.remove("list");
-            document.getElementById("grid-view").classList.add("active");
-            document.getElementById("list-view").classList.remove("active");
-        };
-        document.getElementById("list-view").onclick = () => {
-            document.querySelector(".movies-grid").classList.add("list");
-            document.getElementById("list-view").classList.add("active");
-            document.getElementById("grid-view").classList.remove("active");
-        };
-
-        // رزرو با مودال
-        let currentEvent = null;
-        document.addEventListener("click", e => {
-            const reserve = e.target.closest(".reserve-bar");
-            if(reserve){
-                currentEvent = events.find(ev => ev.id === reserve.dataset.id);
-                if(currentEvent){
-                    document.getElementById("modal-event-title").textContent = `${currentEvent.title} — ${currentEvent.date}`;
-                    document.getElementById("reserve-modal").style.display = "flex";
-                }
-            }
-        });
-
-        document.getElementById("send-reserve").onclick = () => {
-            if(!currentEvent) return;
-            const name = document.getElementById("reserve-name").value.trim() || "مشتری";
-            const count = document.getElementById("reserve-count").value || 1;
-            const phone = document.getElementById("reserve-phone").value.trim();
-
-            const message = `💖 سلام وقت بخیر 💖\n\n🎬 فیلم: ${currentEvent.title}\n🕓 زمان: ${currentEvent.date}\n👤 نام: ${name}\n🎟 تعداد: ${count} نفر\n${phone ? `📞 تماس: ${phone}\n` : ''}\nممنون میشم شرایط رزرو رو بفرمایید 🙏`;
-            window.open(`https://t.me/${currentEvent.adminId || 'softshirazadmin'}?text=${encodeURIComponent(message)}`, "_blank");
-            document.getElementById("reserve-modal").style.display = "none";
-        };
-
-        // فلیپ کارت
-        document.addEventListener("click", e => {
-            if(e.target.closest(".reserve-bar") || e.target.closest(".favorite-btn")) return;
-            const inner = e.target.closest(".card-inner");
-            if(inner) inner.classList.toggle("flipped");
-        });
-
-        // منوی همبرگری
-        const hamburger = document.getElementById('hamburger');
-        const sideMenu = document.getElementById('side-menu');
-        const backdrop = document.getElementById('menu-backdrop');
-        const menuClose = document.getElementById('menu-close');
-
-        function openMenu() {
-            sideMenu.classList.add('open');
-            backdrop.classList.add('visible');
-        }
-        function closeMenu() {
-            sideMenu.classList.remove('open');
-            backdrop.classList.remove('visible');
-        }
-
-        hamburger.addEventListener('click', () => sideMenu.classList.contains('open') ? closeMenu() : openMenu());
-        menuClose.addEventListener('click', closeMenu);
-        backdrop.addEventListener('click', closeMenu);
-        document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
-    </script>
+// 📦 PWA
+if("serviceWorker"in navigator){
+navigator.serviceWorker.register("sw.js");
+}
+</script>
 </body>
 </html>
