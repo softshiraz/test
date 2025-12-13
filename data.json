@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1",
+    "title": "فیلم نمونه",
+    "date": "۱۴۰۴/۱۰/۲۰ - ۲۰:۰۰",
+    "image": "images/poster1.jpg",
+    "genre": "درام",
+    "discount": "۲۰٪ تخفیف گروهی",
+    "adminId": "softshirazadmin"
+  }
+  // ... بقیه ایونت‌ها
+]
