@@ -95,58 +95,84 @@ header {
     direction: rtl; border-right: 2px solid rgba(255,215,0,0.12);
 }
 #side-menu.open { transform: translateX(0); }
-/* هدر منو با شمارنده آنلاین روبه‌روی دکمه × */
-#menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 20px;
+#menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
+.side-brand { 
+    font-weight:800; color:#ffd700; font-size:20px; text-align:center; width:100%; 
 }
-#menu-close {
-    background:transparent; border:none; color:#ffd700; font-size:28px; cursor:pointer; line-height:1;
-}
-#online-counter {
-    color: #ffd700;
-    font-size: 16px;
-    font-weight: bold;
-}
-.side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:right; padding-right: 20px; }
 .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
 .side-links a {
     display:flex; align-items:center; justify-content:space-between; gap:10px;
     padding:12px 14px; border-radius:10px; text-decoration:none; color:#fff; font-weight:600;
     background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03);
+    position: relative;
 }
 .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
+/* آیکون مربعی لبه‌گرد سمت چپ هر گزینه */
+.side-links a::after {
+    content: "\f0c8"; /* font-awesome square */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 18px;
+    color: #ffd700;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,215,0,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
 .menu-social-row { display: flex; justify-content: center; gap: 18px; margin-top: 12px; }
-.menu-install-icon, .menu-social-icon {
+/* آیکون نصب اپ - حالا داخل منو، کنار آیکون پشتیبانی */
+.menu-install-icon {
     width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
     backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
     color: #ffd700; font-size: 22px; text-decoration: none; transition: all 0.3s;
     cursor: pointer;
 }
-.menu-install-icon:hover, .menu-social-icon:hover { background: #ffd700; color: #000; }
-.side-footer-text { margin-top: auto; font-size: 13px; color: rgba(255,255,255,0.7); text-align: right; padding-top: 20px; padding-right: 50px; }
+.menu-install-icon:hover { background: #ffd700; color: #000; }
+.menu-social-icon {
+    width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
+    backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
+    color: #ffd700; font-size: 22px; text-decoration: none; transition: all 0.3s;
+}
+.menu-social-icon:hover { background: #ffd700; color: #000; }
+.side-footer-text { 
+    margin-top: auto; font-size: 13px; color: rgba(255,255,255,0.7); text-align: center; 
+    padding-top: 20px; width:100%;
+}
 /* بک‌دراپ */
 #menu-backdrop {
     position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
-/* عنوان اکران‌های آینده */
+/* عنوان اکران‌های آینده - اندازه یک کارت */
 .section-title-wrapper {
-    text-align: center; margin: 40px 0 50px; position: relative; z-index: 2;
+    max-width: 1200px;
+    margin: 40px auto 50px auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
 }
 .section-title-box {
-    display: inline-flex; background: rgb(255 215 0 / 0%); backdrop-filter: blur(10px);
-    border: 2px solid rgb(255 215 0); border-radius: 18px; padding: 16px 50px;
+    width: 280px;
+    background: rgb(255 215 0 / 0%);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgb(255 215 0);
+    border-radius: 18px;
+    padding: 16px 20px;
     box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1);
     animation: glowPulse 4s ease-in-out infinite alternate;
-    width: 280px;
+    text-align: center;
 }
 .section-title-box h2 {
-    color: #ffd700; font-size: 32px; font-weight: 900; margin: 0;
-    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4); letter-spacing: 2px;
+    color: #ffd700;
+    font-size: 32px;
+    font-weight: 900;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4);
+    letter-spacing: 2px;
 }
 @keyframes glowPulse {
     from { box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1); }
@@ -154,8 +180,13 @@ header {
 }
 /* کارت‌ها */
 .movies-grid {
-    display:grid; grid-template-columns:repeat(4,1fr); gap:20px; justify-items:center;
-    max-width:1200px; margin:0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 .movie-card { perspective:1000px; position:relative; }
 .card-inner {
@@ -258,17 +289,15 @@ header {
 </header>
 <div id="menu-backdrop" tabindex="-1"></div>
 <nav id="side-menu" aria-hidden="true">
-    <div id="menu-header">
-        <button id="menu-close" aria-label="بستن منو" style="padding-bottom: 5px;padding-top: 5px;padding-right: 5px;padding-left: 5px;">×</button>
-        <div id="online-counter">آنلاین: در حال بارگذاری...</div>
-    </div>
-    <div class="side-brand" style="padding-right: 20px;">ایونت‌های طلایی سافت شیراز</div>
+    <button id="menu-close" aria-label="بستن منو" style="padding-bottom: 5px;padding-top: 5px;padding-right: 5px;padding-left: 5px;">×</button>
+    <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
     <div class="side-links" role="menu" style="margin-top: 0px;">
         <a href="events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
         <a href="pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
         <a href="pages/about.html" role="menuitem">درباره ما</a>
     </div>
     <div class="menu-social-row" style="margin-top: 0px;padding-top: 0px;">
+        <!-- آیکون نصب اپ - کنار آیکون پشتیبانی -->
         <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز">
             <i class="fas fa-download"></i>
         </div>
@@ -276,11 +305,11 @@ header {
         <a class="menu-social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
         <a class="menu-social-icon" href="https://t.me/FLOKI000" target="_blank"><i class="fas fa-headset"></i></a>
     </div>
-    <div class="side-footer-text" style="padding-top: 0px;padding-right: 50px;">ساخته شده توسط فلوکی</div>
+    <div class="side-footer-text">ساخته شده توسط فلوکی</div>
 </nav>
 <main style="padding-top:0px;">
     <section class="section">
-        <div class="section-title-wrapper" style="margin-bottom: 30px; margin-top: 30px;">
+        <div class="section-title-wrapper">
             <div class="section-title-box">
                 <h2>اکران‌های آینده</h2>
             </div>
@@ -288,41 +317,7 @@ header {
         <div class="movies-grid" id="cards-container" style="margin-bottom: 30px;"></div>
     </section>
 </main>
-
-<!-- Statcounter Code -->
-<script type="text/javascript">
-var sc_project=13190784; 
-var sc_invisible=1; 
-var sc_security="f36de4b9"; 
-</script>
-<script type="text/javascript"
-src="https://www.statcounter.com/counter/counter.js" async></script>
-<noscript><div class="statcounter"><a title="Web Analytics"
-href="https://statcounter.com/" target="_blank"><img class="statcounter"
-src="https://c.statcounter.com/13190784/0/f36de4b9/1/" alt="Web Analytics"
-referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-
 <script>
-// بروزرسانی شمارنده آنلاین با چک هوشمند (تا وقتی لود بشه صبر می‌کنه)
-function updateOnlineFromStatcounter() {
-  if (typeof sc_online !== 'undefined' && sc_online >= 0) {
-    document.getElementById('online-counter').textContent = `آنلاین: ${sc_online} نفر`;
-  } else {
-    // اگر هنوز آماده نبود، ۲ ثانیه دیگه دوباره چک کن
-    setTimeout(updateOnlineFromStatcounter, 2000);
-  }
-}
-
-// شروع چک
-updateOnlineFromStatcounter();
-
-// بروزرسانی مداوم هر ۱۰ ثانیه بعد از لود شدن
-setInterval(() => {
-  if (typeof sc_online !== 'undefined') {
-    document.getElementById('online-counter').textContent = `آنلاین: ${sc_online} نفر`;
-  }
-}, 10000);
-
 // لودر
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 5000;
@@ -460,16 +455,16 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   init();
   frame();
 })();
-// کد نصب اپ
+// کد نصب اپ - حالا روی آیکون داخل منو
 let deferredPrompt;
 const installBtn = document.getElementById('install-button');
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installBtn.style.display = 'flex';
+  installBtn.style.display = 'flex'; // نمایش آیکون وقتی قابل نصب باشه
 });
 installBtn.addEventListener('click', async (e) => {
-  e.stopPropagation();
+  e.stopPropagation(); // جلوگیری از بسته شدن منو
   if (!deferredPrompt) return;
   deferredPrompt.prompt();
   const { outcome } = await deferredPrompt.userChoice;
@@ -484,26 +479,26 @@ if ('serviceWorker' in navigator) {
   const swCode = `
     const CACHE = 'softshiraz-web-v1';
     const files = ['/web/', '/web/index.html'];
-    
+   
     self.addEventListener('install', e => {
       e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(files)));
       self.skipWaiting();
     });
-    
+   
     self.addEventListener('activate', e => {
       e.waitUntil(self.clients.claim());
     });
-    
+   
     self.addEventListener('fetch', e => {
       e.respondWith(
         caches.match(e.request).then(res => res || fetch(e.request))
       );
     });
   `;
-  
+ 
   const blob = new Blob([swCode], {type: 'application/javascript'});
   const swUrl = URL.createObjectURL(blob);
-  
+ 
   window.addEventListener('load', () => {
     navigator.serviceWorker.register(swUrl, {scope: '/web/'})
       .then(reg => console.log('Service Worker ثبت شد'))
