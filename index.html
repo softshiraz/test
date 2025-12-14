@@ -96,6 +96,19 @@ header {
 }
 #side-menu.open { transform: translateX(0); }
 #menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
+/* شمارنده آنلاین - روبه‌روی دکمه × */
+#menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+#online-counter {
+    color: #ffd700;
+    font-size: 16px;
+    font-weight: bold;
+}
 .side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:right; }
 .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
 .side-links a {
@@ -104,19 +117,6 @@ header {
     background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03);
 }
 .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
-/* آیتم جدید آنلاین داخل منو */
-.online-menu-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 14px;
-    border-radius: 10px;
-    background: rgba(255,215,0,0.06);
-    border: 1px solid rgba(255,215,0,0.2);
-    color: #ffd700;
-    font-weight: 700;
-    font-size: 15px;
-}
 .menu-social-row { display: flex; justify-content: center; gap: 18px; margin-top: 12px; }
 /* آیکون نصب اپ - حالا داخل منو، کنار آیکون پشتیبانی */
 .menu-install-icon {
@@ -280,20 +280,16 @@ header {
 </header>
 <div id="menu-backdrop" tabindex="-1"></div>
 <nav id="side-menu" aria-hidden="true">
-    <button id="menu-close" aria-label="بستن منو" style="padding-bottom: 5px;padding-top: 5px;padding-right: 5px;padding-left: 5px;">×</button>
+    <div id="menu-header">
+        <button id="menu-close" aria-label="بستن منو" style="padding-bottom: 5px;padding-top: 5px;padding-right: 5px;padding-left: 5px;">×</button>
+        <div id="online-counter">آنلاین: در حال بارگذاری...</div>
+    </div>
     <div class="side-brand" style="padding-right: 20px;">ایونت‌های طلایی سافت شیراز</div>
     <div class="side-links" role="menu" style="margin-top: 0px;">
         <a href="events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
         <a href="pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
         <a href="pages/about.html" role="menuitem">درباره ما</a>
     </div>
-
-    <!-- آیتم جدید تعداد کاربران آنلاین داخل منو -->
-    <div class="online-menu-item">
-        <span>👁‍🗨 آنلاین حالا:</span>
-        <span id="online-count">در حال بارگذاری...</span>
-    </div>
-
     <div class="menu-social-row" style="margin-top: 0px;padding-top: 0px;">
         <!-- آیکون نصب اپ - کنار آیکون پشتیبانی -->
         <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز">
@@ -315,7 +311,28 @@ header {
         <div class="movies-grid" id="cards-container" style="margin-bottom: 30px;"></div>
     </section>
 </main>
+
+<!-- Statcounter Code (کد شمارش بازدید و کاربران آنلاین) -->
+<script type="text/javascript">
+var sc_project=13190784; 
+var sc_invisible=1; 
+var sc_security="f36de4b9"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js" async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"><img class="statcounter"
+src="https://c.statcounter.com/13190784/0/f36de4b9/1/" alt="Web Analytics"
+referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+
 <script>
+// نمایش تعداد کاربران آنلاین از Statcounter در منو
+setInterval(() => {
+  if (typeof sc_online !== 'undefined') {
+    document.getElementById('online-counter').textContent = `آنلاین: ${sc_online} نفر`;
+  }
+}, 10000); // هر ۱۰ ثانیه چک می‌کنه (Statcounter سریع آپدیت می‌کنه)
+
 // لودر
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 5000;
@@ -503,27 +520,6 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.log('خطا در ثبت SW:', err));
   });
 }
-
-// ===== اضافه شده: نمایش تعداد کاربران آنلاین =====
-const ONLINE_API = "https://online.softshiraz.workers.dev/";
-const onlineEl = document.getElementById("online-count");
-
-async function updateOnlineUsers() {
-  try {
-    const res = await fetch(ONLINE_API, { cache: "no-store" });
-    const data = await res.json();
-    onlineEl.textContent = data.online;
-  } catch (e) {
-    onlineEl.textContent = "—";
-  }
-}
-
-// اولین بار لود
-updateOnlineUsers();
-
-// هر 5 ثانیه آپدیت
-setInterval(updateOnlineUsers, 5000);
-
 </script>
 </body>
 </html>
