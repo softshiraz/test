@@ -12,7 +12,7 @@
 <!-- آیکون‌ها با نسخه‌گذاری -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
 
-<!-- PWA: Manifest Inline (همه چیز داخل یک فایل) -->
+<!-- PWA: Manifest Inline با آیکون دلخواه شما (لوگو S با تم انیمه) -->
 <link rel="manifest" href="data:application/manifest+json,{
   %22name%22:%22سافت%20شیراز%20-%20اکران‌های%20آینده%22,
   %22short_name%22:%22سافت%20شیراز%22,
@@ -25,13 +25,13 @@
   %22orientation%22:%22portrait-primary%22,
   %22icons%22:[
     {
-      %22src%22:%22https://img.freepik.com/free-vector/vintage-golden-cinema-tickets-movie-pass-template_1017-23457.jpg?semt=ais_hybrid%22,
+      %22src%22:%22https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png%22,
       %22sizes%22:%22192x192%22,
-      %22type%22:%22image/jpg%22,
+      %22type%22:%22image/png%22,
       %22purpose%22:%22any%20maskable%22
     },
     {
-      %22src%22:%22https://png.pngtree.com/thumb_back/fh260/background/20240103/pngtree-exquisite-vip-golden-ticket-embraced-by-black-background-with-intriguing-texture-image_13925143.png%22,
+      %22src%22:%22https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png%22,
       %22sizes%22:%22512x512%22,
       %22type%22:%22image/png%22,
       %22purpose%22:%22any%20maskable%22
@@ -39,8 +39,8 @@
   ]
 }">
 
-<!-- آیکون‌های اضافی برای PWA و اپل -->
-<link rel="apple-touch-icon" href="https://img.freepik.com/free-vector/vintage-golden-cinema-tickets-movie-pass-template_1017-23457.jpg?semt=ais_hybrid">
+<!-- آیکون‌های اضافی برای PWA و اپل (همان لوگوی شما) -->
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
 <meta name="theme-color" content="#ffd700">
 
 <style>
@@ -126,16 +126,16 @@ header {
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* عنوان اکران‌های آینده - حالا دقیقاً اندازه یک کارت (280px عرض) */
+/* عنوان اکران‌های آینده - اندازه یک کارت (280px) */
 .section-title-wrapper {
     max-width: 1200px;
     margin: 40px auto 50px auto;
     padding: 0 20px;
     display: flex;
-    justify-content: center; /* وسط چین در دسکتاپ */
+    justify-content: center;
 }
 .section-title-box {
-    width: 280px; /* دقیقاً همون عرض کارت‌ها */
+    width: 280px;
     background: rgb(255 215 0 / 0%);
     backdrop-filter: blur(10px);
     border: 2px solid rgb(255 215 0);
@@ -237,7 +237,7 @@ header {
     100% { transform:rotate(945deg); opacity: 0; }
 }
 
-/* ریسپانسیو - در موبایل هم عنوان اندازه یک کارت می‌مونه */
+/* ریسپانسیو */
 @media (max-width:1200px) {
     .movies-grid { grid-template-columns:repeat(3,1fr); }
 }
