@@ -7,9 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <title>سافت شیراز</title>
-<!-- فونت با نسخه‌گذاری -->
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
-<!-- آیکون‌ها با نسخه‌گذاری -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
 
 <!-- PWA Manifest با لوگوی خودت -->
@@ -50,7 +48,6 @@ body {
     color:#fff;
     overflow-x:hidden;
 }
-/* هدر */
 header {
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
@@ -76,7 +73,6 @@ header {
     text-shadow: 0 0 20px rgba(255,215,0,0.8);
     transform: scale(1.05);
 }
-/* دکمه همبرگر */
 .hamburger-btn {
     width:48px; height:42px; display:flex; align-items:center; justify-content:center;
     background: rgba(26,26,26,0.6); border-radius:10px; border:2px solid rgba(255,215,0,0.25);
@@ -89,7 +85,6 @@ header {
 .hamburger-inner span:nth-child(2){ top:7px; }
 .hamburger-inner span:nth-child(3){ top:14px; }
 
-/* منوی کشویی */
 #side-menu {
     position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
     background: linear-gradient(180deg, rgba(12,12,12,0.98), rgba(20,20,20,0.98));
@@ -135,13 +130,11 @@ header {
 .menu-install-icon:hover, .menu-social-icon:hover { background: #ffd700; color: #000; }
 .side-footer-text { margin-top: auto; font-size: 13px; color: rgba(255,255,255,0.7); text-align: right; padding-top: 20px; padding-right: 50px; }
 
-/* بک‌دراپ */
 #menu-backdrop {
     position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* عنوان اکران‌های آینده */
 .section-title-wrapper {
     text-align: center; margin: 40px 0 50px; position: relative; z-index: 2;
 }
@@ -255,7 +248,6 @@ header {
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
         <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
-    <!-- لوگو حالا قابل کلیک و لینک داره -->
     <a href="index.html" target="_blank" rel="noopener" class="logo-link">
         <div class="logo-fa">Soft Shiraz</div>
     </a>
@@ -294,17 +286,30 @@ header {
     </section>
 </main>
 
-<!-- شمارنده آنلاین Whos.Amung.Us با ID شما -->
-<script id="_wau3pv">var _wau = _wau || []; _wau.push(["small", "r7pk4merfu", "3pv"]);</script>
-<script async src="//waust.at/s.js"></script>
-
 <script>
-// نمایش تعداد آنلاین از Whos.Amung.Us در منو
-setInterval(() => {
-  if (typeof _wau !== 'undefined' && _wau.length > 0 && typeof _wau[0][3] !== 'undefined') {
-    document.getElementById('online-counter').textContent = `آنلاین: ${_wau[0][3]} نفر`;
-  }
-}, 5000);
+// لینک Cloudflare Worker شما
+const ONLINE_API = 'https://online.softshiraz.workers.dev/';
+
+// بروزرسانی تعداد آنلاین
+function updateOnlineCount() {
+  fetch(ONLINE_API + '?t=' + Date.now()) // برای جلوگیری از کش
+    .then(r => r.json())
+    .then(data => {
+      if (data && typeof data.online !== 'undefined') {
+        document.getElementById('online-counter').textContent = `آنلاین: ${data.online} نفر`;
+      } else {
+        document.getElementById('online-counter').textContent = 'آنلاین: —';
+      }
+    })
+    .catch(err => {
+      console.error('خطا در دریافت تعداد آنلاین:', err);
+      document.getElementById('online-counter').textContent = 'آنلاین: —';
+    });
+}
+
+// اولین بار و هر ۳۰ ثانیه
+updateOnlineCount();
+setInterval(updateOnlineCount, 30000);
 
 // لودر — دقیقاً ۵ ثانیه کامل نمایش داده میشه
 const overlay = document.getElementById('loading-overlay');
@@ -346,13 +351,11 @@ document.addEventListener("click", function(e) {
     if (!reserveBtn) return;
     e.stopPropagation();
 
-    // بررسی متن دکمه
     if (reserveBtn.textContent.trim() !== "تهیه بلیط") return;
 
     const cardFront = reserveBtn.closest(".card-front");
     if (!cardFront) return;
 
-    // گرفتن آیدی ادمین از data-admin-id (یا پیش‌فرض)
     const adminId = cardFront.dataset.adminId || "softshirazadmin";
 
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
