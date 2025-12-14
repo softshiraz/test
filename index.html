@@ -95,8 +95,7 @@ header {
     direction: rtl; border-right: 2px solid rgba(255,215,0,0.12);
 }
 #side-menu.open { transform: translateX(0); }
-#menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
-/* شمارنده آنلاین - روبه‌روی دکمه × */
+/* هدر منو با شمارنده آنلاین روبه‌روی دکمه × */
 #menu-header {
     display: flex;
     justify-content: space-between;
@@ -104,12 +103,15 @@ header {
     width: 100%;
     margin-bottom: 20px;
 }
+#menu-close {
+    background:transparent; border:none; color:#ffd700; font-size:28px; cursor:pointer; line-height:1;
+}
 #online-counter {
     color: #ffd700;
     font-size: 16px;
     font-weight: bold;
 }
-.side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:right; }
+.side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:right; padding-right: 20px; }
 .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
 .side-links a {
     display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -118,52 +120,33 @@ header {
 }
 .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
 .menu-social-row { display: flex; justify-content: center; gap: 18px; margin-top: 12px; }
-/* آیکون نصب اپ - حالا داخل منو، کنار آیکون پشتیبانی */
-.menu-install-icon {
+.menu-install-icon, .menu-social-icon {
     width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
     backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
     color: #ffd700; font-size: 22px; text-decoration: none; transition: all 0.3s;
     cursor: pointer;
 }
-.menu-install-icon:hover { background: #ffd700; color: #000; }
-.menu-social-icon {
-    width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
-    backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
-    color: #ffd700; font-size: 22px; text-decoration: none; transition: all 0.3s;
-}
-.menu-social-icon:hover { background: #ffd700; color: #000; }
-.side-footer-text { margin-top: auto; font-size: 13px; color: rgba(255,255,255,0.7); text-align: right; padding-top: 20px; }
+.menu-install-icon:hover, .menu-social-icon:hover { background: #ffd700; color: #000; }
+.side-footer-text { margin-top: auto; font-size: 13px; color: rgba(255,255,255,0.7); text-align: right; padding-top: 20px; padding-right: 50px; }
 /* بک‌دراپ */
 #menu-backdrop {
     position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
-/* عنوان اکران‌های آینده - اندازه یک کارت */
+/* عنوان اکران‌های آینده */
 .section-title-wrapper {
-    max-width: 1200px;
-    margin: 40px auto 50px auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: center;
+    text-align: center; margin: 40px 0 50px; position: relative; z-index: 2;
 }
 .section-title-box {
-    width: 280px;
-    background: rgb(255 215 0 / 0%);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgb(255 215 0);
-    border-radius: 18px;
-    padding: 16px 20px;
+    display: inline-flex; background: rgb(255 215 0 / 0%); backdrop-filter: blur(10px);
+    border: 2px solid rgb(255 215 0); border-radius: 18px; padding: 16px 50px;
     box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1);
     animation: glowPulse 4s ease-in-out infinite alternate;
-    text-align: center;
+    width: 280px;
 }
 .section-title-box h2 {
-    color: #ffd700;
-    font-size: 32px;
-    font-weight: 900;
-    margin: 0;
-    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4);
-    letter-spacing: 2px;
+    color: #ffd700; font-size: 32px; font-weight: 900; margin: 0;
+    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4); letter-spacing: 2px;
 }
 @keyframes glowPulse {
     from { box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1); }
@@ -171,13 +154,8 @@ header {
 }
 /* کارت‌ها */
 .movies-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    justify-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:20px; justify-items:center;
+    max-width:1200px; margin:0 auto;
 }
 .movie-card { perspective:1000px; position:relative; }
 .card-inner {
@@ -291,7 +269,6 @@ header {
         <a href="pages/about.html" role="menuitem">درباره ما</a>
     </div>
     <div class="menu-social-row" style="margin-top: 0px;padding-top: 0px;">
-        <!-- آیکون نصب اپ - کنار آیکون پشتیبانی -->
         <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز">
             <i class="fas fa-download"></i>
         </div>
@@ -303,7 +280,7 @@ header {
 </nav>
 <main style="padding-top:0px;">
     <section class="section">
-        <div class="section-title-wrapper">
+        <div class="section-title-wrapper" style="margin-bottom: 30px; margin-top: 30px;">
             <div class="section-title-box">
                 <h2>اکران‌های آینده</h2>
             </div>
@@ -312,7 +289,7 @@ header {
     </section>
 </main>
 
-<!-- Statcounter Code (کد شمارش بازدید و کاربران آنلاین) -->
+<!-- Statcounter Code -->
 <script type="text/javascript">
 var sc_project=13190784; 
 var sc_invisible=1; 
@@ -326,12 +303,25 @@ src="https://c.statcounter.com/13190784/0/f36de4b9/1/" alt="Web Analytics"
 referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
 
 <script>
-// نمایش تعداد کاربران آنلاین از Statcounter در منو
+// بروزرسانی شمارنده آنلاین با چک هوشمند (تا وقتی لود بشه صبر می‌کنه)
+function updateOnlineFromStatcounter() {
+  if (typeof sc_online !== 'undefined' && sc_online >= 0) {
+    document.getElementById('online-counter').textContent = `آنلاین: ${sc_online} نفر`;
+  } else {
+    // اگر هنوز آماده نبود، ۲ ثانیه دیگه دوباره چک کن
+    setTimeout(updateOnlineFromStatcounter, 2000);
+  }
+}
+
+// شروع چک
+updateOnlineFromStatcounter();
+
+// بروزرسانی مداوم هر ۱۰ ثانیه بعد از لود شدن
 setInterval(() => {
   if (typeof sc_online !== 'undefined') {
     document.getElementById('online-counter').textContent = `آنلاین: ${sc_online} نفر`;
   }
-}, 10000); // هر ۱۰ ثانیه چک می‌کنه (Statcounter سریع آپدیت می‌کنه)
+}, 10000);
 
 // لودر
 const overlay = document.getElementById('loading-overlay');
@@ -470,16 +460,16 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   init();
   frame();
 })();
-// کد نصب اپ - حالا روی آیکون داخل منو
+// کد نصب اپ
 let deferredPrompt;
 const installBtn = document.getElementById('install-button');
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installBtn.style.display = 'flex'; // نمایش آیکون وقتی قابل نصب باشه
+  installBtn.style.display = 'flex';
 });
 installBtn.addEventListener('click', async (e) => {
-  e.stopPropagation(); // جلوگیری از بسته شدن منو
+  e.stopPropagation();
   if (!deferredPrompt) return;
   deferredPrompt.prompt();
   const { outcome } = await deferredPrompt.userChoice;
@@ -494,26 +484,26 @@ if ('serviceWorker' in navigator) {
   const swCode = `
     const CACHE = 'softshiraz-web-v1';
     const files = ['/web/', '/web/index.html'];
-   
+    
     self.addEventListener('install', e => {
       e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(files)));
       self.skipWaiting();
     });
-   
+    
     self.addEventListener('activate', e => {
       e.waitUntil(self.clients.claim());
     });
-   
+    
     self.addEventListener('fetch', e => {
       e.respondWith(
         caches.match(e.request).then(res => res || fetch(e.request))
       );
     });
   `;
- 
+  
   const blob = new Blob([swCode], {type: 'application/javascript'});
   const swUrl = URL.createObjectURL(blob);
- 
+  
   window.addEventListener('load', () => {
     navigator.serviceWorker.register(swUrl, {scope: '/web/'})
       .then(reg => console.log('Service Worker ثبت شد'))
