@@ -287,31 +287,29 @@ header {
 </main>
 
 <script>
-// تولید ID منحصر به فرد برای هر مرورگر/دستگاه
-let userId = localStorage.getItem('softshiraz_user_id');
+// ID خیلی منحصر به فرد با crypto.randomUUID()
+let userId = localStorage.getItem('softshiraz_user_id_v2');
 if (!userId) {
-  userId = 'user_' + crypto.randomUUID(); // UUID واقعی و منحصر به فرد
-  localStorage.setItem('softshiraz_user_id', userId);
+  userId = crypto.randomUUID();
+  localStorage.setItem('softshiraz_user_id_v2', userId);
 }
 
-// لینک Worker با ID
-const ONLINE_API = `https://online.softshiraz.workers.dev/?id=${encodeURIComponent(userId)}`;
+const ONLINE_API = `https://online.softshiraz.workers.dev/?id=${userId}`;
 
 function updateOnlineCount() {
-  fetch(ONLINE_API + '&cachebust=' + Date.now())
-    .then(response => response.json())
+  fetch(ONLINE_API + '&t=' + Date.now())
+    .then(r => r.json())
     .then(data => {
-      document.getElementById('online-counter').textContent = `آنلاین: ${data.online || 0} نفر`;
+      document.getElementById('online-counter').textContent = `آنلاین: ${data.online || 1} نفر`;
     })
     .catch(() => {
       document.getElementById('online-counter').textContent = 'آنلاین: —';
     });
 }
 
-// اولین بار و هر ۳۰ ثانیه
 updateOnlineCount();
 setInterval(updateOnlineCount, 30000);
-
+  
 // لودر — دقیقاً ۵ ثانیه کامل نمایش داده میشه
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 5000;
