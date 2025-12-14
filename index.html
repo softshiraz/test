@@ -126,25 +126,24 @@ header {
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* عنوان اکران‌های آینده - حالا دقیقاً هم‌عرض و هم‌تراز با گرید کارت‌ها */
+/* عنوان اکران‌های آینده - حالا دقیقاً اندازه یک کارت (280px عرض) */
 .section-title-wrapper {
     max-width: 1200px;
     margin: 40px auto 50px auto;
-    padding: 0 20px; /* همون padding که گرید داره */
-    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center; /* وسط چین در دسکتاپ */
 }
 .section-title-box {
-    width: 100%;
+    width: 280px; /* دقیقاً همون عرض کارت‌ها */
     background: rgb(255 215 0 / 0%);
     backdrop-filter: blur(10px);
     border: 2px solid rgb(255 215 0);
     border-radius: 18px;
-    padding: 16px 20px; /* padding افقی کمتر برای کشیده شدن کامل */
+    padding: 16px 20px;
     box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1);
     animation: glowPulse 4s ease-in-out infinite alternate;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
 }
 .section-title-box h2 {
     color: #ffd700;
@@ -167,7 +166,7 @@ header {
     justify-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px; /* دقیقاً همون padding عنوان */
+    padding: 0 20px;
 }
 .movie-card { perspective:1000px; position:relative; }
 .card-inner {
@@ -238,7 +237,7 @@ header {
     100% { transform:rotate(945deg); opacity: 0; }
 }
 
-/* ریسپانسیو */
+/* ریسپانسیو - در موبایل هم عنوان اندازه یک کارت می‌مونه */
 @media (max-width:1200px) {
     .movies-grid { grid-template-columns:repeat(3,1fr); }
 }
@@ -247,7 +246,10 @@ header {
 }
 @media (max-width:480px) {
     .movies-grid { grid-template-columns:1fr; }
-    .section-title-box { padding: 16px 20px; }
+    .section-title-box { 
+        width: 280px; 
+        padding: 16px 20px; 
+    }
     .section-title-box h2 { font-size: 28px; }
 }
 </style>
