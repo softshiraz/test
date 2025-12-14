@@ -11,36 +11,38 @@
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
 <!-- آیکون‌ها با نسخه‌گذاری -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
-<!-- PWA Manifest -->
-<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNvZnQgU2hpcmF6IiwKICAic2hvcnRfbmFtZSI6ICJTT1JUIiwKICAiZGVzY3JpcHRpb24iOiAiU29mdCBTaGlyYXogQ2luZW1hIEV4cGVyaWVuY2UiLAogICJzdGFydF91cmwiOiAiLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzBlMGUwZiIsCiAgInRoZW1lX2NvbG9yIjogIiNmZmQ3MDAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXpReU1EazJOVFUzTXpNPQ==",
-KICAgICAgInNpemVzIjogIjE5MiMyMTAiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ==">
-<!-- Service Worker for PWA and Offline -->
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
-const CACHE_NAME = 'soft-shiraz-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  // Add more resources as needed
-];
 
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
-});
+<!-- PWA: Manifest Inline (همه چیز داخل یک فایل) -->
+<link rel="manifest" href="data:application/manifest+json,{
+  %22name%22:%22سافت%20شیراز%20-%20اکران‌های%20آینده%22,
+  %22short_name%22:%22سافت%20شیراز%22,
+  %22description%22:%22ایونت‌های%20طلایی%20سافت%20شیراز%20-%20اکران%20فیلم%20و%20کتابخوانی%22,
+  %22start_url%22:%22/web/%22,
+  %22scope%22:%22/web/%22,
+  %22display%22:%22standalone%22,
+  %22background_color%22:%22%230e0e0f%22,
+  %22theme_color%22:%22%23ffd700%22,
+  %22orientation%22:%22portrait-primary%22,
+  %22icons%22:[
+    {
+      %22src%22:%22https://img.freepik.com/free-vector/vintage-golden-cinema-tickets-movie-pass-template_1017-23457.jpg?semt=ais_hybrid%22,
+      %22sizes%22:%22192x192%22,
+      %22type%22:%22image/jpg%22,
+      %22purpose%22:%22any%20maskable%22
+    },
+    {
+      %22src%22:%22https://png.pngtree.com/thumb_back/fh260/background/20240103/pngtree-exquisite-vip-golden-ticket-embraced-by-black-background-with-intriguing-texture-image_13925143.png%22,
+      %22sizes%22:%22512x512%22,
+      %22type%22:%22image/png%22,
+      %22purpose%22:%22any%20maskable%22
+    }
+  ]
+}">
 
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
-  );
-});
-`)).catch(err => console.log('SW registration failed'));
-}
-</script>
+<!-- آیکون‌های اضافی برای PWA و اپل -->
+<link rel="apple-touch-icon" href="https://img.freepik.com/free-vector/vintage-golden-cinema-tickets-movie-pass-template_1017-23457.jpg?semt=ais_hybrid">
+<meta name="theme-color" content="#ffd700">
+
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 body {
@@ -48,63 +50,7 @@ body {
     background:#0e0e0f;
     color:#fff;
     overflow-x:hidden;
-    position: relative;
 }
-/* هویت طلایی Soft Shiraz - Golden Identity */
-:root {
-    --gold-primary: #ffd700;
-    --gold-secondary: #ffb300;
-    --dark-bg: #0e0e0f;
-    --minimal-bg: #ffffff;
-    --luxury-bg: #000000;
-    --glass-bg: rgba(255,255,255,0.1);
-    --blur-radius: 10px;
-}
-/* Glassmorphism (66) */
-.glass { background: var(--glass-bg); backdrop-filter: blur(var(--blur-radius)); border: 1px solid rgba(255,255,255,0.18); }
-/* Grain سینمایی (58) */
-body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcnVzc3VtbWF0aW9uIiBiYXNlRnJlcXVlbmN5PSIyMCIgc3RpdGNoVGlibGVzPSIxIDEgMSAxIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9Imh1ZSIgdmFsdWVzPSIwIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI25vaXNlKSIgb3BhY2l0eT0iMC4xIi8+PC9zdmc+'); pointer-events: none; z-index: 9999; }
-/* VHS Mode (67) - Toggle class */
-.vhs::after { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent 98%, rgba(255,0,0,0.03) 99%, transparent 100%), linear-gradient(0deg, transparent 98%, rgba(0,255,0,0.03) 99%, transparent 100%); pointer-events: none; z-index: 10000; animation: vhs-scan 0.1s linear infinite; }
-@keyframes vhs-scan { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-/* حالت مینیمال (68) و لوکس (69) */
-body.minimal { background: var(--minimal-bg); color: #000; --gold-primary: #333; }
-body.luxury { background: var(--luxury-bg); --blur-radius: 20px; }
-/* تایپوگرافی سینمایی (72) */
-.cinematic-font { font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
-/* سایه‌های پویا (73) */
-.dynamic-shadow { box-shadow: 0 0 20px rgba(255,215,0,0.3); transition: box-shadow 0.3s; }
-.dynamic-shadow:hover { box-shadow: 0 0 40px rgba(255,215,0,0.6); }
-/* Blur هوشمند (74) */
-.smart-blur { filter: blur(0); transition: filter 0.3s; }
-.smart-blur:hover { filter: blur(2px); }
-/* هدر پرده سینما (63) و باز شدن پرده (64) */
-header.curtain { background: linear-gradient(180deg, #000 0%, rgba(255,215,0,0.1) 100%); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); animation: curtain-open 2s ease-out forwards; }
-@keyframes curtain-open { to { clip-path: polygon(0 0, 100% 0, 100% 30%, 0 30%); } }
-/* افکت نور پروژکتور (57) */
-.projector-light { position: fixed; top: 0; left: 50%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, transparent 70%); transform: translateX(-50%) rotate(45deg); pointer-events: none; z-index: 10; opacity: 0.5; animation: projector-flicker 3s infinite; }
-@keyframes projector-flicker { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.8; } }
-/* Parallax پوستر (65) */
-.parallax { perspective: 1000px; }
-.parallax img { transition: transform 0.5s; }
-.parallax:hover img { transform: translateZ(20px) rotateY(5deg); }
-/* انیمیشن لوگو (75) */
-.logo-fa { animation: logo-glow 2s ease-in-out infinite alternate; }
-@keyframes logo-glow { from { text-shadow: 0 0 10px rgba(255,215,0,0.25); } to { text-shadow: 0 0 20px rgba(255,215,0,0.5); } }
-/* Preload تصاویر (79) - Inline styles for demo */
-img { content-visibility: auto; contain-intrinsic-size: 420px; }
-/* حالت VIP (88) */
-.vip-badge { position: absolute; top: -10px; right: -10px; background: #ffd700; color: #000; padding: 5px 10px; border-radius: 50%; font-size: 12px; font-weight: bold; }
-/* دیوار نظرات استاتیک (97) و امتیازدهی دستی (98) */
-.comments-wall { margin-top: 50px; padding: 20px; background: rgba(0,0,0,0.5); border-radius: 10px; }
-.rating-manual { display: flex; gap: 10px; margin-bottom: 10px; }
-.rating-manual i { cursor: pointer; color: #ffd700; transition: color 0.3s; }
-.rating-manual i:hover, .rating-manual i.active { color: #ffeb3b; }
-/* داستان‌محور (99) - Narrative elements */
-.narrative { position: fixed; bottom: 20px; left: 20px; background: var(--glass-bg); padding: 15px; border-radius: 10px; max-width: 300px; opacity: 0; transition: opacity 0.5s; }
-.narrative.show { opacity: 1; }
-/* تجربه سینمایی کامل (100) - Full Cinema Experience */
-body.cinema-mode { filter: sepia(0.1) contrast(1.1); }
 /* هدر */
 header {
     background: rgba(0,0,0,0.5);
@@ -114,7 +60,6 @@ header {
     border-bottom:1px solid rgba(48,48,48,0.5);
     position:sticky; top:0; z-index:20;
     text-shadow:0 0 10px rgba(255,215,0,0.25);
-    transition: all 0.3s;
 }
 .logo-link {
     text-decoration: none;
@@ -181,12 +126,6 @@ header {
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* سوییچ تم (38) */
-#theme-switch { position: absolute; top: 20px; left: 20px; z-index: 25; background: var(--glass-bg); padding: 10px; border-radius: 50%; cursor: pointer; }
-#theme-switch button { background: none; border: none; color: var(--gold-primary); font-size: 18px; }
-/* نوار پیشرفت اسکرول (47) */
-#scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: var(--gold-primary); z-index: 30; transition: width 0.1s; }
-
 /* عنوان اکران‌های آینده */
 .section-title-wrapper {
     text-align: center; margin: 40px 0 50px; position: relative; z-index: 2;
@@ -206,19 +145,11 @@ header {
     to { box-shadow: 0 0 30px rgba(255,215,0,0.5), inset 0 0 20px rgba(255,215,0,0.2); }
 }
 
-/* کارت‌ها - انیمیشن ورود (43) */
-@keyframes card-enter { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-.movie-card { animation: card-enter 0.6s ease-out forwards; opacity: 0; animation-delay: calc(var(--order) * 0.1s); }
+/* کارت‌ها */
 .movies-grid {
     display:grid; grid-template-columns:repeat(4,1fr); gap:20px; justify-items:center;
     max-width:1200px; margin:0 auto;
-    scroll-snap-type: x mandatory; /* اسکرول اسنپ (44) موبایل */
-    overflow-x: auto; /* برای موبایل */
-    scrollbar-width: none; /* پنهان کردن اسکرولبار */
 }
-.movies-grid::-webkit-scrollbar { display: none; }
-/* کارت افقی / عمودی خودکار (60) */
-@media (max-width: 768px) { .movies-grid { grid-template-columns: repeat(1, 1fr); scroll-snap-type: y mandatory; } }
 .movie-card { perspective:1000px; position:relative; }
 .card-inner {
     position:relative; width:280px; height:420px; cursor:pointer;
@@ -290,19 +221,9 @@ header {
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
 @media (max-width:768px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:480px) { .movies-grid{grid-template-columns:1fr;} }
-
-/* کش هوشمند (86) - Via meta and SW above */
 </style>
 </head>
-<body class="cinema-mode">
-
-<!-- افکت نور پروژکتور -->
-<div class="projector-light"></div>
-
-<!-- پیام خوش‌آمدگویی هوشمند (42) -->
-<div id="welcome-msg" class="narrative">
-    <p>خوش آمدید به سافت شیراز! 🌟 آماده اکران‌های طلایی؟</p>
-</div>
+<body>
 
 <div id="loading-overlay">
   <div class="loader">
@@ -314,20 +235,14 @@ header {
   </div>
 </div>
 
-<header class="curtain">
+<header>
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
         <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
     <!-- لوگو حالا قابل کلیک و لینک داره -->
     <a href="index.html" target="_blank" rel="noopener" class="logo-link">
-        <div class="logo-fa cinematic-font">Soft Shiraz</div>
+        <div class="logo-fa">Soft Shiraz</div>
     </a>
-    <!-- سوییچ تم -->
-    <div id="theme-switch">
-        <button onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
-        <button onclick="toggleVHS()"><i class="fas fa-video"></i></button>
-        <button onclick="toggleVIP()"><i class="fas fa-crown"></i></button>
-    </div>
 </header>
 
 <div id="menu-backdrop" tabindex="-1"></div>
@@ -364,35 +279,20 @@ header {
 </nav>
 
 <main style="padding-top:0px;">
-    <section class="section parallax">
+    <section class="section">
         <div class="section-title-wrapper" style="
     margin-bottom: 30px;
     margin-top: 30px;
 ">
-            <div class="section-title-box dynamic-shadow">
-                <h2 class="cinematic-font">اکران‌های آینده</h2>
+            <div class="section-title-box">
+                <h2>اکران‌های آینده</h2>
             </div>
         </div>
         <div class="movies-grid" id="cards-container" style="
     margin-bottom: 30px;
 "></div>
-        <!-- دیوار نظرات استاتیک -->
-        <div class="comments-wall">
-            <h3>نظرهای شما</h3>
-            <div class="rating-manual">
-                <i class="fas fa-star" onclick="rate(1)"></i>
-                <i class="fas fa-star" onclick="rate(2)"></i>
-                <i class="fas fa-star" onclick="rate(3)"></i>
-                <i class="fas fa-star" onclick="rate(4)"></i>
-                <i class="fas fa-star" onclick="rate(5)"></i>
-            </div>
-            <p>نظر نمونه: "عالی بود!" - کاربر ۱</p>
-        </div>
     </section>
 </main>
-
-<!-- نوار پیشرفت اسکرول -->
-<div id="scroll-progress"></div>
 
 <script>
 // لودر — دقیقاً ۵ ثانیه کامل نمایش داده میشه
@@ -406,12 +306,10 @@ window.addEventListener('load', () => {
 
     setTimeout(() => {
         overlay.classList.add('hidden');
-        // پیام خوش‌آمدگویی
-        setTimeout(() => document.getElementById('welcome-msg').classList.add('show'), 500);
     }, delay);
 });
 
-// لود کارت‌ها - با انیمیشن ورود
+// لود کارت‌ها
 const container = document.getElementById("cards-container");
 let openCard = null;
 async function loadCardsStrictly() {
@@ -421,16 +319,8 @@ async function loadCardsStrictly() {
             if (!response.ok) continue;
             const html = await response.text();
             const card = document.createElement("div");
-            card.className = "movie-card dynamic-shadow smart-blur";
-            card.style.setProperty('--order', num);
+            card.className = "movie-card";
             card.innerHTML = html;
-            // VIP badge sample
-            if (num % 10 === 0) {
-                const vip = document.createElement('div');
-                vip.className = 'vip-badge';
-                vip.textContent = 'VIP';
-                card.appendChild(vip);
-            }
             container.appendChild(card);
         } catch (e) {
             console.log("خطا در لود کارت", num);
@@ -562,49 +452,37 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   frame();
 })();
 
-// نوار پیشرفت اسکرول
-window.addEventListener('scroll', () => {
-    const progress = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-    document.getElementById('scroll-progress').style.width = progress + '%';
-});
-
-// سوییچ تم، VHS، VIP
-function toggleTheme() {
-    document.body.classList.toggle('minimal');
-    document.body.classList.toggle('luxury');
-}
-function toggleVHS() {
-    document.body.classList.toggle('vhs');
-}
-function toggleVIP() {
-    document.body.classList.toggle('vip'); // Adds VIP styles if defined
-}
-
-// امتیازدهی
-function rate(stars) {
-    const icons = document.querySelectorAll('.rating-manual i');
-    icons.forEach((icon, idx) => {
-        if (idx < stars) icon.classList.add('active');
-        else icon.classList.remove('active');
+// PWA: Service Worker بدون فایل جدا (همه داخل همین اسکریپت)
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    const CACHE = 'softshiraz-web-v1';
+    const files = ['/web/', '/web/index.html'];
+    
+    self.addEventListener('install', e => {
+      e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(files)));
+      self.skipWaiting();
     });
+    
+    self.addEventListener('activate', e => {
+      e.waitUntil(self.clients.claim());
+    });
+    
+    self.addEventListener('fetch', e => {
+      e.respondWith(
+        caches.match(e.request).then(res => res || fetch(e.request))
+      );
+    });
+  `;
+  
+  const blob = new Blob([swCode], {type: 'application/javascript'});
+  const swUrl = URL.createObjectURL(blob);
+  
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register(swUrl, {scope: '/web/'})
+      .then(reg => console.log('Service Worker ثبت شد'))
+      .catch(err => console.log('خطا در ثبت SW:', err));
+  });
 }
-
-// PWA Install Prompt (85)
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-    deferredPrompt = e;
-});
-document.getElementById('install-btn')?.addEventListener('click', async () => {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        deferredPrompt = null;
-    }
-});
-
-// نسخه آفلاین (84) - Handled by SW
-
-// کش هوشمند - Via fetch with cache: 'force-cache' in loads if needed
 </script>
 </body>
 </html>
