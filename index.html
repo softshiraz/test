@@ -287,12 +287,18 @@ header {
 </main>
 
 <script>
-// لینک Cloudflare Worker شما
-const ONLINE_API = 'https://online.softshiraz.workers.dev/';
+// تولید یا گرفتن ID منحصر به فرد برای هر دستگاه/مرورگر
+let userId = localStorage.getItem('softshiraz_online_id');
+if (!userId) {
+  userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+  localStorage.setItem('softshiraz_online_id', userId);
+}
 
-// بروزرسانی تعداد آنلاین
+// لینک Worker + ID کاربر
+const ONLINE_API = 'https://online.softshiraz.workers.dev/?id=' + encodeURIComponent(userId);
+
 function updateOnlineCount() {
-  fetch(ONLINE_API + '?t=' + Date.now()) // برای جلوگیری از کش
+  fetch(ONLINE_API + '&t=' + Date.now())
     .then(r => r.json())
     .then(data => {
       if (data && typeof data.online !== 'undefined') {
@@ -301,8 +307,7 @@ function updateOnlineCount() {
         document.getElementById('online-counter').textContent = 'آنلاین: —';
       }
     })
-    .catch(err => {
-      console.error('خطا در دریافت تعداد آنلاین:', err);
+    .catch(() => {
       document.getElementById('online-counter').textContent = 'آنلاین: —';
     });
 }
