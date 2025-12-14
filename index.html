@@ -95,52 +95,79 @@ header {
     direction: rtl; border-right: 2px solid rgba(255,215,0,0.12);
 }
 #side-menu.open { transform: translateX(0); }
-#menu-close { align-self:flex-start; background:transparent; border:none; color:#ffd700; font-size:20px; cursor:pointer; }
-.side-brand { 
-    font-weight:800; color:#ffd700; font-size:20px; text-align:center; width:100%; 
+
+/* دکمه بستن جدید - کادر دار با آیکون ضربدر بزرگ‌تر */
+#menu-close {
+    align-self: flex-end;
+    width: 44px;
+    height: 44px;
+    background: rgba(26,26,26,0.8);
+    border: 2px solid rgba(255,215,0,0.3);
+    border-radius: 12px;
+    color: #ffd700;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
 }
-.side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
+#menu-close:hover {
+    background: #ffd700;
+    color: #000;
+    border-color: #ffd700;
+}
+
+/* عنوان و فوتر منو وسط چین شوند */
+.side-brand,
+.side-footer-text {
+    text-align: center;
+    width: 100%;
+}
+.side-brand {
+    font-weight:800;
+    color:#ffd700;
+    font-size:20px;
+    margin: 20px 0 10px 0;
+}
+.side-links { 
+    margin-top:6px; 
+    display:flex; 
+    flex-direction:column; 
+    gap:8px; 
+}
 .side-links a {
     display:flex; align-items:center; justify-content:space-between; gap:10px;
     padding:12px 14px; border-radius:10px; text-decoration:none; color:#fff; font-weight:600;
     background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03);
-    position: relative;
 }
 .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
-/* آیکون مربعی لبه‌گرد سمت چپ هر گزینه */
-.side-links a::after {
-    content: "\f0c8"; /* font-awesome square */
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    font-size: 18px;
-    color: #ffd700;
-    width: 36px;
-    height: 36px;
-    background: rgba(255,215,0,0.15);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.menu-social-row { 
+    display: flex; 
+    justify-content: center; 
+    gap: 18px; 
+    margin-top: 12px; 
 }
-.menu-social-row { display: flex; justify-content: center; gap: 18px; margin-top: 12px; }
-/* آیکون نصب اپ - حالا داخل منو، کنار آیکون پشتیبانی */
+/* آیکون نصب اپ - کادر دار */
 .menu-install-icon {
     width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
     backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
     color: #ffd700; font-size: 22px; text-decoration: none; transition: all 0.3s;
-    cursor: pointer;
+    cursor: pointer; border: 2px solid rgba(255,215,0,0.3);
 }
-.menu-install-icon:hover { background: #ffd700; color: #000; }
+.menu-install-icon:hover { background: #ffd700; color: #000; border-color: #ffd700; }
 .menu-social-icon {
     width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
     backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
     color: #ffd700; font-size: 22px; text-decoration: none; transition: all 0.3s;
+    border: 2px solid rgba(255,215,0,0.3);
 }
-.menu-social-icon:hover { background: #ffd700; color: #000; }
+.menu-social-icon:hover { background: #ffd700; color: #000; border-color: #ffd700; }
 .side-footer-text { 
-    margin-top: auto; font-size: 13px; color: rgba(255,255,255,0.7); text-align: center; 
-    padding-top: 20px; width:100%;
+    margin-top: auto; 
+    font-size: 13px; 
+    color: rgba(255,255,255,0.7); 
+    padding-top: 20px; 
 }
 /* بک‌دراپ */
 #menu-backdrop {
@@ -289,15 +316,17 @@ header {
 </header>
 <div id="menu-backdrop" tabindex="-1"></div>
 <nav id="side-menu" aria-hidden="true">
-    <button id="menu-close" aria-label="بستن منو" style="padding-bottom: 5px;padding-top: 5px;padding-right: 5px;padding-left: 5px;">×</button>
+    <button id="menu-close" aria-label="بستن منو">
+        <i class="fas fa-times"></i>
+    </button>
     <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
-    <div class="side-links" role="menu" style="margin-top: 0px;">
+    <div class="side-links" role="menu">
         <a href="events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
         <a href="pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
         <a href="pages/about.html" role="menuitem">درباره ما</a>
     </div>
-    <div class="menu-social-row" style="margin-top: 0px;padding-top: 0px;">
-        <!-- آیکون نصب اپ - کنار آیکون پشتیبانی -->
+    <div class="menu-social-row">
+        <!-- آیکون نصب اپ - حالا کادر دار -->
         <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز">
             <i class="fas fa-download"></i>
         </div>
@@ -455,16 +484,16 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   init();
   frame();
 })();
-// کد نصب اپ - حالا روی آیکون داخل منو
+// کد نصب اپ
 let deferredPrompt;
 const installBtn = document.getElementById('install-button');
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installBtn.style.display = 'flex'; // نمایش آیکون وقتی قابل نصب باشه
+  installBtn.style.display = 'flex';
 });
 installBtn.addEventListener('click', async (e) => {
-  e.stopPropagation(); // جلوگیری از بسته شدن منو
+  e.stopPropagation();
   if (!deferredPrompt) return;
   deferredPrompt.prompt();
   const { outcome } = await deferredPrompt.userChoice;
