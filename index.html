@@ -126,19 +126,35 @@ header {
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* عنوان اکران‌های آینده */
+/* عنوان اکران‌های آینده - تغییرات برای هم‌اندازه شدن با کارت‌ها */
 .section-title-wrapper {
-    text-align: center; margin: 40px 0 50px; position: relative; z-index: 2;
+    text-align: center; 
+    margin: 40px auto 50px auto;  /* وسط چین کردن و حاشیه بالا/پایین */
+    position: relative; 
+    z-index: 2;
+    max-width: 1200px;  /* دقیقاً همون max-width که movies-grid داره */
+    padding: 0 20px;   /* برای موبایل کمی فاصله از لبه */
 }
 .section-title-box {
-    display: inline-flex; background: rgb(255 215 0 / 0%); backdrop-filter: blur(10px);
-    border: 2px solid rgb(255 215 0); border-radius: 18px; padding: 16px 50px;
+    display: inline-flex; 
+    background: rgb(255 215 0 / 0%); 
+    backdrop-filter: blur(10px);
+    border: 2px solid rgb(255 215 0); 
+    border-radius: 18px; 
+    padding: 16px 50px;
     box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1);
     animation: glowPulse 4s ease-in-out infinite alternate;
+    width: 100%;              /* مهم: عرض کامل ظرف والد */
+    max-width: 1160px;        /* تقریباً برابر با 4 کارت × 280px + gap */
+    justify-content: center;  /* متن رو دقیقاً وسط نگه می‌داره */
 }
 .section-title-box h2 {
-    color: #ffd700; font-size: 32px; font-weight: 900; margin: 0;
-    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4); letter-spacing: 2px;
+    color: #ffd700; 
+    font-size: 32px; 
+    font-weight: 900; 
+    margin: 0;
+    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4); 
+    letter-spacing: 2px;
 }
 @keyframes glowPulse {
     from { box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1); }
@@ -147,8 +163,13 @@ header {
 
 /* کارت‌ها */
 .movies-grid {
-    display:grid; grid-template-columns:repeat(4,1fr); gap:20px; justify-items:center;
-    max-width:1200px; margin:0 auto;
+    display:grid; 
+    grid-template-columns:repeat(4,1fr); 
+    gap:20px; 
+    justify-items:center;
+    max-width:1200px; 
+    margin:0 auto;
+    padding: 0 20px;  /* برای موبایل فاصله از لبه */
 }
 .movie-card { perspective:1000px; position:relative; }
 .card-inner {
@@ -218,9 +239,18 @@ header {
     76% { transform:rotate(945deg); opacity: 0; }
     100% { transform:rotate(945deg); opacity: 0; }
 }
-@media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:768px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px) { .movies-grid{grid-template-columns:1fr;} }
+@media (max-width:1200px) { 
+    .movies-grid { grid-template-columns:repeat(3,1fr); }
+    .section-title-box { max-width: 880px; }  /* تقریباً 3 کارت × 280px + gap */
+}
+@media (max-width:768px) { 
+    .movies-grid { grid-template-columns:repeat(2,1fr); }
+    .section-title-box { max-width: 600px; }  /* تقریباً 2 کارت × 280px + gap */
+}
+@media (max-width:480px) { 
+    .movies-grid { grid-template-columns:1fr; }
+    .section-title-box { max-width: 300px; padding: 16px 30px; }  /* یک کارت */
+}
 </style>
 </head>
 <body>
