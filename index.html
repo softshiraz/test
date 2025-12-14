@@ -126,34 +126,32 @@ header {
 }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-/* عنوان اکران‌های آینده - تغییرات برای هم‌اندازه شدن با کارت‌ها */
+/* عنوان اکران‌های آینده - حالا دقیقاً هم‌عرض و هم‌تراز با گرید کارت‌ها */
 .section-title-wrapper {
-    text-align: center; 
-    margin: 40px auto 50px auto;  /* وسط چین کردن و حاشیه بالا/پایین */
-    position: relative; 
-    z-index: 2;
-    max-width: 1200px;  /* دقیقاً همون max-width که movies-grid داره */
-    padding: 0 20px;   /* برای موبایل کمی فاصله از لبه */
+    max-width: 1200px;
+    margin: 40px auto 50px auto;
+    padding: 0 20px; /* همون padding که گرید داره */
+    width: 100%;
 }
 .section-title-box {
-    display: inline-flex; 
-    background: rgb(255 215 0 / 0%); 
+    width: 100%;
+    background: rgb(255 215 0 / 0%);
     backdrop-filter: blur(10px);
-    border: 2px solid rgb(255 215 0); 
-    border-radius: 18px; 
-    padding: 16px 50px;
+    border: 2px solid rgb(255 215 0);
+    border-radius: 18px;
+    padding: 16px 20px; /* padding افقی کمتر برای کشیده شدن کامل */
     box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1);
     animation: glowPulse 4s ease-in-out infinite alternate;
-    width: 100%;              /* مهم: عرض کامل ظرف والد */
-    max-width: 1160px;        /* تقریباً برابر با 4 کارت × 280px + gap */
-    justify-content: center;  /* متن رو دقیقاً وسط نگه می‌داره */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .section-title-box h2 {
-    color: #ffd700; 
-    font-size: 32px; 
-    font-weight: 900; 
+    color: #ffd700;
+    font-size: 32px;
+    font-weight: 900;
     margin: 0;
-    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4); 
+    text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4);
     letter-spacing: 2px;
 }
 @keyframes glowPulse {
@@ -163,13 +161,13 @@ header {
 
 /* کارت‌ها */
 .movies-grid {
-    display:grid; 
-    grid-template-columns:repeat(4,1fr); 
-    gap:20px; 
-    justify-items:center;
-    max-width:1200px; 
-    margin:0 auto;
-    padding: 0 20px;  /* برای موبایل فاصله از لبه */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* دقیقاً همون padding عنوان */
 }
 .movie-card { perspective:1000px; position:relative; }
 .card-inner {
@@ -239,17 +237,18 @@ header {
     76% { transform:rotate(945deg); opacity: 0; }
     100% { transform:rotate(945deg); opacity: 0; }
 }
-@media (max-width:1200px) { 
+
+/* ریسپانسیو */
+@media (max-width:1200px) {
     .movies-grid { grid-template-columns:repeat(3,1fr); }
-    .section-title-box { max-width: 880px; }  /* تقریباً 3 کارت × 280px + gap */
 }
-@media (max-width:768px) { 
+@media (max-width:768px) {
     .movies-grid { grid-template-columns:repeat(2,1fr); }
-    .section-title-box { max-width: 600px; }  /* تقریباً 2 کارت × 280px + gap */
 }
-@media (max-width:480px) { 
+@media (max-width:480px) {
     .movies-grid { grid-template-columns:1fr; }
-    .section-title-box { max-width: 300px; padding: 16px 30px; }  /* یک کارت */
+    .section-title-box { padding: 16px 20px; }
+    .section-title-box h2 { font-size: 28px; }
 }
 </style>
 </head>
@@ -269,7 +268,6 @@ header {
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
         <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
-    <!-- لوگو حالا قابل کلیک و لینک داره -->
     <a href="index.html" target="_blank" rel="noopener" class="logo-link">
         <div class="logo-fa">Soft Shiraz</div>
     </a>
@@ -278,49 +276,29 @@ header {
 <div id="menu-backdrop" tabindex="-1"></div>
 
 <nav id="side-menu" aria-hidden="true">
-    <button id="menu-close" aria-label="بستن منو" style="
-    padding-bottom: 5px;
-    padding-top: 5px;
-    padding-right: 5px;
-    padding-left: 5px;
-">×</button>
-    <div class="side-brand" style="
-    padding-right: 20px;
-">ایونت‌های طلایی سافت شیراز</div>
-    <div class="side-links" role="menu" style="
-    margin-top: 0px;
-">
+    <button id="menu-close" aria-label="بستن منو" style="padding-bottom: 5px;padding-top: 5px;padding-right: 5px;padding-left: 5px;">×</button>
+    <div class="side-brand" style="padding-right: 20px;">ایونت‌های طلایی سافت شیراز</div>
+    <div class="side-links" role="menu" style="margin-top: 0px;">
         <a href="events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
         <a href="pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
         <a href="pages/about.html" role="menuitem">درباره ما</a>
     </div>
-    <div class="menu-social-row" style="
-    margin-top: 0px;
-    padding-top: 0px;
-">
+    <div class="menu-social-row" style="margin-top: 0px;padding-top: 0px;">
         <a class="menu-social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
         <a class="menu-social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
         <a class="menu-social-icon" href="https://t.me/FLOKI000" target="_blank"><i class="fas fa-headset"></i></a>
     </div>
-    <div class="side-footer-text" style="
-    padding-top: 0px;
-    padding-right: 50px;
-">ساخته شده توسط فلوکی</div>
+    <div class="side-footer-text" style="padding-top: 0px;padding-right: 50px;">ساخته شده توسط فلوکی</div>
 </nav>
 
 <main style="padding-top:0px;">
     <section class="section">
-        <div class="section-title-wrapper" style="
-    margin-bottom: 30px;
-    margin-top: 30px;
-">
+        <div class="section-title-wrapper">
             <div class="section-title-box">
                 <h2>اکران‌های آینده</h2>
             </div>
         </div>
-        <div class="movies-grid" id="cards-container" style="
-    margin-bottom: 30px;
-"></div>
+        <div class="movies-grid" id="cards-container" style="margin-bottom: 30px;"></div>
     </section>
 </main>
 
@@ -365,13 +343,11 @@ document.addEventListener("click", function(e) {
     if (!reserveBtn) return;
     e.stopPropagation();
 
-    // بررسی متن دکمه
     if (reserveBtn.textContent.trim() !== "تهیه بلیط") return;
 
     const cardFront = reserveBtn.closest(".card-front");
     if (!cardFront) return;
 
-    // گرفتن آیدی ادمین از data-admin-id (یا پیش‌فرض)
     const adminId = cardFront.dataset.adminId || "softshirazadmin";
 
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
@@ -482,7 +458,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   frame();
 })();
 
-// PWA: Service Worker بدون فایل جدا (همه داخل همین اسکریپت)
+// PWA: Service Worker بدون فایل جدا
 if ('serviceWorker' in navigator) {
   const swCode = `
     const CACHE = 'softshiraz-web-v1';
