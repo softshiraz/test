@@ -287,25 +287,21 @@ header {
 </main>
 
 <script>
-// تولید یا گرفتن ID منحصر به فرد برای هر دستگاه/مرورگر
-let userId = localStorage.getItem('softshiraz_online_id');
+// تولید ID منحصر به فرد برای هر مرورگر/دستگاه
+let userId = localStorage.getItem('softshiraz_user_id');
 if (!userId) {
-  userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
-  localStorage.setItem('softshiraz_online_id', userId);
+  userId = 'user_' + crypto.randomUUID(); // UUID واقعی و منحصر به فرد
+  localStorage.setItem('softshiraz_user_id', userId);
 }
 
-// لینک Worker + ID کاربر
-const ONLINE_API = 'https://online.softshiraz.workers.dev/?id=' + encodeURIComponent(userId);
+// لینک Worker با ID
+const ONLINE_API = `https://online.softshiraz.workers.dev/?id=${encodeURIComponent(userId)}`;
 
 function updateOnlineCount() {
-  fetch(ONLINE_API + '&t=' + Date.now())
-    .then(r => r.json())
+  fetch(ONLINE_API + '&cachebust=' + Date.now())
+    .then(response => response.json())
     .then(data => {
-      if (data && typeof data.online !== 'undefined') {
-        document.getElementById('online-counter').textContent = `آنلاین: ${data.online} نفر`;
-      } else {
-        document.getElementById('online-counter').textContent = 'آنلاین: —';
-      }
+      document.getElementById('online-counter').textContent = `آنلاین: ${data.online || 0} نفر`;
     })
     .catch(() => {
       document.getElementById('online-counter').textContent = 'آنلاین: —';
