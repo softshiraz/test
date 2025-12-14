@@ -294,7 +294,18 @@ header {
     </section>
 </main>
 
+<!-- شمارنده آنلاین Whos.Amung.Us با ID شما -->
+<script id="_wau3pv">var _wau = _wau || []; _wau.push(["small", "r7pk4merfu", "3pv"]);</script>
+<script async src="//waust.at/s.js"></script>
+
 <script>
+// نمایش تعداد آنلاین از Whos.Amung.Us در منو
+setInterval(() => {
+  if (typeof _wau !== 'undefined' && _wau.length > 0 && typeof _wau[0][3] !== 'undefined') {
+    document.getElementById('online-counter').textContent = `آنلاین: ${_wau[0][3]} نفر`;
+  }
+}, 5000);
+
 // لودر — دقیقاً ۵ ثانیه کامل نمایش داده میشه
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 5000;
