@@ -10,7 +10,7 @@
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
 
-<!-- PWA Manifest با لوگوی خودت -->
+<!-- PWA Manifest -->
 <link rel="manifest" href="data:application/manifest+json,{
   %22name%22:%22سافت%20شیراز%20-%20اکران‌های%20آینده%22,
   %22short_name%22:%22سافت%20شیراز%22,
@@ -32,39 +32,12 @@
 
 <style>
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body {
-    font-family: "Vazirmatn", sans-serif;
-    background:#0e0e0f;
-    color:#fff;
-    overflow-x:hidden;
-}
-header {
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(10px);
-    padding:15px 25px;
-    display:flex; justify-content:space-between; align-items:center;
-    border-bottom:1px solid rgba(48,48,48,0.5);
-    position:sticky; top:0; z-index:20;
-    text-shadow:0 0 10px rgba(255,215,0,0.25);
-}
+body { font-family: "Vazirmatn", sans-serif; background:#0e0e0f; color:#fff; overflow-x:hidden; }
+header { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); padding:15px 25px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(48,48,48,0.5); position:sticky; top:0; z-index:20; text-shadow:0 0 10px rgba(255,215,0,0.25); }
 .logo-link { text-decoration: none; cursor: pointer; }
-.logo-fa {
-    font-weight:700;
-    font-size:26px;
-    background:linear-gradient(45deg,#ffd700,#ffb300);
-    -webkit-background-clip:text;
-    color:transparent;
-    transition: all 0.3s ease;
-}
-.logo-link:hover .logo-fa {
-    text-shadow: 0 0 20px rgba(255,215,0,0.8);
-    transform: scale(1.05);
-}
-.hamburger-btn {
-    width:48px; height:42px; display:flex; align-items:center; justify-content:center;
-    background: rgba(26,26,26,0.6); border-radius:10px; border:2px solid rgba(255,215,0,0.25);
-    cursor:pointer; transition:transform .18s, background .18s; color:#ffd700;
-}
+.logo-fa { font-weight:700; font-size:26px; background:linear-gradient(45deg,#ffd700,#ffb300); -webkit-background-clip:text; color:transparent; transition: all 0.3s ease; }
+.logo-link:hover .logo-fa { text-shadow: 0 0 20px rgba(255,215,0,0.8); transform: scale(1.05); }
+.hamburger-btn { width:48px; height:42px; display:flex; align-items:center; justify-content:center; background: rgba(26,26,26,0.6); border-radius:10px; border:2px solid rgba(255,215,0,0.25); cursor:pointer; transition:transform .18s, background .18s; color:#ffd700; }
 .hamburger-btn:active { transform:scale(.97); }
 .hamburger-inner { width:22px; height:16px; position:relative; }
 .hamburger-inner span { position:absolute; left:0; right:0; height:2px; background:#ffd700; display:block; border-radius:2px; }
@@ -72,64 +45,36 @@ header {
 .hamburger-inner span:nth-child(2){ top:7px; }
 .hamburger-inner span:nth-child(3){ top:14px; }
 
-#side-menu {
-    position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
-    background: linear-gradient(180deg, rgba(12,12,12,0.98), rgba(20,20,20,0.98));
-    box-shadow: 4px 0 30px rgba(0,0,0,0.6);
-    transform: translateX(100%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
-    z-index: 30; padding: 28px; display: flex; flex-direction: column; gap: 18px;
-    direction: rtl; border-right: 2px solid rgba(255,215,0,0.12);
-}
+#side-menu { position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%; background: linear-gradient(180deg, rgba(12,12,12,0.98), rgba(20,20,20,0.98)); box-shadow: 4px 0 30px rgba(0,0,0,0.6); transform: translateX(100%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1); z-index: 30; padding: 28px; display: flex; flex-direction: column; gap: 18px; direction: rtl; border-right: 2px solid rgba(255,215,0,0.12); }
 #side-menu.open { transform: translateX(0); }
 
-/* هدر منو با شمارنده آنلاین روبه‌روی دکمه × */
-#menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 20px;
-}
-#menu-close {
-    background:transparent; border:none; color:#ffd700; font-size:28px; cursor:pointer; line-height:1;
-}
-#online-counter {
-    color: #ffd700;
-    font-size: 16px;
-    font-weight: bold;
-}
+/* هدر منو با شمارنده آنلاین روبه‌روی × */
+#menu-header { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 20px; }
+#menu-close { background:transparent; border:none; color:#ffd700; font-size:28px; cursor:pointer; line-height:1; }
+#online-counter { color: #ffd700; font-size: 16px; font-weight: bold; }
 
 .side-brand { font-weight:800; color:#ffd700; font-size:20px; text-align:right; padding-right: 20px; }
 .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
-.side-links a {
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-    padding:12px 14px; border-radius:10px; text-decoration:none; color:#fff; font-weight:600;
-    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03);
-}
+.side-links a { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; border-radius:10px; text-decoration:none; color:#fff; font-weight:600; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03); }
 .side-links a:hover { background:rgba(255,215,0,0.06); color:#ffd700; }
 .menu-social-row { display: flex; justify-content: center; gap: 18px; margin-top: 12px; }
-.menu-install-icon, .menu-social-icon {
-    width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
-    backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
-    color: #ffd700; font-size: 22px; text-decoration: none; transition: all 0.3s;
-    cursor: pointer;
-}
+.menu-install-icon, .menu-social-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; color: #ffd700; font-size: 22px; transition: all 0.3s; cursor: pointer; }
 .menu-install-icon:hover, .menu-social-icon:hover { background: #ffd700; color: #000; }
 .side-footer-text { margin-top: auto; font-size: 13px; color: rgba(255,255,255,0.7); text-align: right; padding-top: 20px; padding-right: 50px; }
 
 #menu-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25; }
 #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-.section-title-wrapper { text-align: center; margin: 40px auto 50px; max-width: 1200px; padding: 0 20px; }
-.section-title-box { width: 280px; display: inline-flex; background: rgb(255 215 0 / 0%); backdrop-filter: blur(10px); border: 2px solid rgb(255 215 0); border-radius: 18px; padding: 16px 20px; box-shadow: 0 0 20px rgba(255,215,0,0.3); animation: glowPulse 4s ease-in-out infinite alternate; justify-content: center; }
-.section-title-box h2 { color: #ffd700; font-size: 32px; font-weight: 900; margin: 0; text-shadow: 0 0 10px rgba(255,215,0,0.6); letter-spacing: 2px; }
-@keyframes glowPulse { from { box-shadow: 0 0 20px rgba(255,215,0,0.3); } to { box-shadow: 0 0 30px rgba(255,215,0,0.5); } }
+.section-title-wrapper { text-align: center; margin: 40px 0 50px; position: relative; z-index: 2; max-width:1200px; margin:0 auto; }
+.section-title-box { display: inline-flex; background: rgb(255 215 0 / 0%); backdrop-filter: blur(10px); border: 2px solid rgb(255 215 0); border-radius: 18px; padding: 16px 50px; box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1); animation: glowPulse 4s ease-in-out infinite alternate; width: 280px; }
+.section-title-box h2 { color: #ffd700; font-size: 32px; font-weight: 900; margin: 0; text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4); letter-spacing: 2px; }
+@keyframes glowPulse { from { box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1); } to { box-shadow: 0 0 30px rgba(255,215,0,0.5), inset 0 0 20px rgba(255,215,0,0.2); } }
 
-.movies-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; justify-items:center; max-width:1200px; margin:0 auto; padding: 0 20px; }
+.movies-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; justify-items:center; max-width:1200px; margin:0 auto; }
 .movie-card { perspective:1000px; position:relative; }
 .card-inner { position:relative; width:280px; height:420px; cursor:pointer; transition:transform 0.35s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d; }
 .card-inner.flipped { transform:rotateY(180deg); }
-.card-front, .card-back { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden; backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65); box-shadow:0 0 8px rgba(255,215,0,0.25); background:rgba(19,19,20,0.75); backdrop-filter:blur(10px); }
+.card-front, .card-back { position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden; backface-visibility:hidden; border:2px solid rgba(255,215,0,0.65); box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2); background:rgba(19,19,20,0.75); backdrop-filter:blur(10px); }
 .card-front { display:flex; flex-direction:column; }
 .img-bar { flex:1; overflow:hidden; }
 .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
@@ -151,11 +96,11 @@ header {
 .loader .circle:nth-child(3) { animation-delay: 480ms; }
 .loader .circle:nth-child(4) { animation-delay: 720ms; }
 .loader .circle:nth-child(5) { animation-delay: 960ms; }
-@keyframes orbit { 0% { transform:rotate(225deg); opacity: 1; } 7% { transform:rotate(345deg); } 30% { transform:rotate(455deg); } 39% { transform:rotate(690deg); } 70% { transform:rotate(815deg); opacity: 1; } 75% { transform:rotate(945deg); } 76% { transform:rotate(945deg); opacity: 0; } 100% { transform:rotate(945deg); opacity: 0; } }
+@keyframes orbit { 0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; } 7% { transform:rotate(345deg); animation-timing-function: linear; } 30% { transform:rotate(455deg); animation-timing-function: ease-in-out; } 39% { transform:rotate(690deg); animation-timing-function: linear; } 70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; } 75% { transform:rotate(945deg); animation-timing-function: ease-out; } 76% { transform:rotate(945deg); opacity: 0; } 100% { transform:rotate(945deg); opacity: 0; } }
 
 @media (max-width:1200px) { .movies-grid{grid-template-columns:repeat(3,1fr);} }
 @media (max-width:768px) { .movies-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px) { .movies-grid{grid-template-columns:1fr;} .section-title-box h2 { font-size:28px; } }
+@media (max-width:480px) { .movies-grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
@@ -184,7 +129,7 @@ header {
 <nav id="side-menu" aria-hidden="true">
     <div id="menu-header">
         <button id="menu-close" aria-label="بستن منو">×</button>
-        <div id="online-counter">آنلاین: در حال بارگذاری...</div>
+        <div id="online-counter">آنلاین: ۰ نفر</div>
     </div>
     <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
     <div class="side-links" role="menu">
@@ -212,23 +157,11 @@ header {
     </section>
 </main>
 
+<!-- شمارنده آنلاین Whos.Amung.Us (ID خودت رو جایگزین کن) -->
+<script id="_wauslp">var _wau = _wau || []; _wau.push(["classic", "YOUR_ID_HERE", "lsp"]);</script>
+<script async src="//waust.at/j.js"></script>
+
 <script>
-// URL Worker خودت رو اینجا جایگزین کن
-const ONLINE_API = 'https://online.softshiraz.workers.dev/api/online'; // ← این رو تغییر بده
-
-function updateOnlineCount() {
-  fetch(ONLINE_API + '?t=' + Date.now())
-    .then(r => r.json())
-    .then(data => {
-      document.getElementById('online-counter').textContent = `آنلاین: ${data.online} نفر`;
-    })
-    .catch(() => {
-      document.getElementById('online-counter').textContent = 'آنلاین: —';
-    });
-}
-updateOnlineCount();
-setInterval(updateOnlineCount, 30000);
-
 // لودر
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 5000;
@@ -239,7 +172,7 @@ window.addEventListener('load', () => {
     setTimeout(() => overlay.classList.add('hidden'), delay);
 });
 
-// لود کارت‌ها
+// لود کارت‌ها (کامل)
 const container = document.getElementById("cards-container");
 let openCard = null;
 async function loadCardsStrictly() {
@@ -259,7 +192,7 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
-// رزرو
+// رزرو (کامل)
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
     if (!reserveBtn) return;
@@ -310,7 +243,7 @@ backdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
 sideMenu.addEventListener('click', e => e.stopPropagation());
 
-// انیمیشن بک‌گراند
+// انیمیشن بک‌گراند (کامل)
 (() => {
   const canvas = document.createElement('canvas');
   document.body.appendChild(canvas);
@@ -379,7 +312,7 @@ installBtn.addEventListener('click', (e) => {
   }
 });
 
-// Service Worker inline
+// Service Worker
 if ('serviceWorker' in navigator) {
   const swCode = `
     const CACHE = 'softshiraz-web-v1';
