@@ -129,11 +129,11 @@
         text-shadow: 0 0 20px rgba(255,215,0,0.8);
         transform: scale(1.05);
     }
-    /* دکمه همبرگر - آیکون باحال‌تر و جذاب‌تر (با انیمیشن نرم) */
+    /* دکمه همبرگر - آیکون جدید و باحال (fa-bolt - رعد و برق طلایی، جذاب و پرانرژی) */
     .hamburger-btn {
         width:48px; height:48px; display:flex; align-items:center; justify-content:center;
         background: rgba(26,26,26,0.7); border-radius:14px; border:2px solid rgba(255,215,0,0.35);
-        cursor:pointer; transition:all .3s ease; color:#ffd700; font-size:26px;
+        cursor:pointer; transition:all .3s ease; color:#ffd700; font-size:28px;
         box-shadow: 0 0 15px rgba(255,215,0,0.2);
     }
     .hamburger-btn:hover {
@@ -366,12 +366,12 @@
   </div>
 </div>
 <header>
-    <!-- تغییر آیکون همبرگر به آیکون باحال‌تر (fa-dragon از Font Awesome - خیلی جذاب و مرتبط با انیمه) -->
-    <!-- اگر دوست داشتی آیکون دیگه‌ای، مثلاً fa-fire، fa-star، fa-bolt یا fa-gamepad بذار -->
+    <!-- آیکون همبرگر عوض شد به fa-bolt (رعد و برق طلایی - پرانرژی و باحال) -->
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
-        <i class="fas fa-dragon"></i>
+        <i class="fas fa-bolt"></i>
     </button>
-    <a href="index.html" target="_blank" rel="noopener" class="logo-link">
+    <!-- لینک لوگو به صفحه اصلی (همان صفحه فعلی) بدون target="_blank" و rel="noopener" -->
+    <a href="./index.html" class="logo-link">
         <div class="logo-fa">Soft Shiraz</div>
     </a>
 </header>
@@ -382,9 +382,10 @@
     </button>
     <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
     <div class="side-links" role="menu">
-        <a href="events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
-        <a href="pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
-        <a href="pages/about.html" role="menuitem">درباره ما</a>
+        <!-- لینک ایونت‌های کتابخوانی بدون target="_blank" و با مسیر نسبی -->
+        <a href="../events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
+        <a href="../pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
+        <a href="../pages/about.html" role="menuitem">درباره ما</a>
     </div>
     <div class="menu-social-row">
         <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز">
