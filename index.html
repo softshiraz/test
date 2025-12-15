@@ -10,7 +10,7 @@
     <!-- متا تگ تایید گوگل سرچ کنسول -->
     <meta name="google-site-verification" content="fK12FesLb14L29h1lu9QVGq_JaWn68Bd-LFlawjNwPU" />
    
-    <!-- سئوی قوی و طولانی - فقط بخش‌های خواسته‌شده تغییر کرد (لوگو تصویری حذف شد + متاها برای نمایش ID در نتایج گوگل بهینه شد) -->
+    <!-- سئوی قوی و طولانی -->
     <title>سافت شیراز | @soft_shiraz | قدیمی ترین پخش کننده فیلم انیمه و انیمیشن روی پرده سینما در شیراز</title>
     <meta name="description" content="@soft_shiraz - سافت شیراز، قدیمی ترین و معتبرترین برگزارکننده اکران فیلم انیمه، انیمیشن و ایونت های کتابخوانی در شیراز. رزرو بلیط اکران های آینده انیمه روی پرده سینما با @soft_shiraz. ایونت های طلایی سافت شیراز با کیفیت بالا!">
     <meta name="keywords" content="سافت شیراز, @soft_shiraz, soft_shiraz, اکران انیمه شیراز, انیمیشن سینما شیراز, قدیمی ترین پخش کننده انیمه شیراز, ایونت انیمه شیراز, رزرو بلیط انیمه شیراز, فیلم انیمه روی پرده شیراز, انیمه در سینما شیراز">
@@ -18,7 +18,7 @@
     <meta name="author" content="@soft_shiraz - سافت شیراز">
     <meta name="theme-color" content="#ffd700">
    
-    <!-- Open Graph - برای نمایش @soft_shiraz در شبکه‌های اجتماعی و نتایج گوگل -->
+    <!-- Open Graph -->
     <meta property="og:title" content="سافت شیراز | @soft_shiraz | اکران انیمه و انیمیشن در شیراز">
     <meta property="og:description" content="@soft_shiraz - قدیمی ترین برگزارکننده اکران انیمه روی پرده سینما در شیراز. اکران های آینده و رزرو بلیط را از دست ندهید!">
     <meta property="og:image" content="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
@@ -37,7 +37,7 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://softshiraz.github.io/web/">
    
-    <!-- Structured Data - Schema برای Organization با mention @soft_shiraz -->
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -120,7 +120,7 @@
         text-shadow: 0 0 20px rgba(255,215,0,0.8);
         transform: scale(1.05);
     }
-    /* دکمه همبرگر - آیکون کلاسیک سه خط با انیمیشن X */
+    /* دکمه همبرگر */
     .hamburger-btn {
         width:48px; height:48px; display:flex; align-items:center; justify-content:center;
         background: rgba(26,26,26,0.7); border-radius:14px; border:2px solid rgba(255,215,0,0.35);
@@ -372,6 +372,13 @@
         76% { transform:rotate(945deg); opacity: 0; }
         100% { transform:rotate(945deg); opacity: 0; }
     }
+    /* پیام نتیجه پیدا نشد */
+    #no-results {
+        text-align: center;
+        padding: 60px 20px;
+        font-size: 20px;
+        color: #aaa;
+    }
     /* ریسپانسیو */
     @media (max-width:1200px) {
         .movies-grid { grid-template-columns:repeat(3,1fr); }
@@ -401,18 +408,15 @@
   </div>
 </div>
 <header>
-    <!-- دکمه همبرگر (سه خط با انیمیشن X) -->
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
         <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
     
-    <!-- جستجو -->
     <div class="search-container">
         <i class="fas fa-search search-icon"></i>
-        <input type="text" id="search-input" placeholder="جستجو در نام فیلم، کتاب یا ایونت..." autocomplete="off">
+        <input type="text" id="search-input" placeholder="جستجو در تمام فیلم‌ها، کتاب‌ها و ایونت‌ها..." autocomplete="off">
     </div>
     
-    <!-- لوگو فقط متن (لوگو تصویری کاملاً حذف شد) -->
     <a href="/web/index.html" class="logo-link">
         <div class="logo-fa">Soft Shiraz</div>
     </a>
@@ -442,23 +446,101 @@
     <section class="section">
         <div class="section-title-wrapper">
             <div class="section-title-box">
-                <h1>اکران‌های آینده</h1>
+                <h1>تمام ایونت‌ها و اکران‌ها</h1>
             </div>
         </div>
         <div class="movies-grid" id="cards-container" style="margin-bottom: 30px;"></div>
+        <div id="no-results" style="display:none;">
+            هیچ نتیجه‌ای برای جستجوی شما پیدا نشد 🙁
+        </div>
     </section>
 </main>
 <script>
-// تشخیص base path به صورت مطلق برای GitHub Pages
+// مسیر پایه ثابت برای GitHub Pages
 const basePath = '/web/';
 
-// لودر (بهبود یافته)
+// آرایه پوشه‌های کارت‌ها (اینجا همه پوشه‌هایی که کارت داری رو اضافه کن)
+const cardFolders = [
+    'cards/',         // اکران‌های آینده (پوشه اصلی)
+    'past-cards/',    // اکران‌های گذشته — اگر نداری، این خط رو حذف کن یا پوشه بساز
+    'events/cards/'   // ایونت‌های کتابخوانی — اگر نداری، این خط رو حذف کن یا پوشه بساز
+];
+
+let allCards = [];
+const container = document.getElementById("cards-container");
+const noResultsMsg = document.getElementById("no-results");
+
+async function loadAllCards() {
+    allCards = [];
+    container.innerHTML = '';
+    noResultsMsg.style.display = 'none';
+
+    for (const folder of cardFolders) {
+        for (let num = 1; num <= 150; num++) {
+            try {
+                const url = `${basePath}${folder}${num}.html?v=${Date.now()}`;
+                const response = await fetch(url, { cache: "no-store" });
+                if (!response.ok) continue; // اگر فایل نبود، رد شو
+
+                const html = await response.text();
+
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = html;
+
+                const cardFront = tempDiv.querySelector(".card-front");
+                if (!cardFront) continue;
+
+                const movieName = (cardFront.querySelector(".date-bar")?.textContent || "").trim();
+                const eventTitle = (cardFront.querySelector(".title-bar")?.textContent || "").trim();
+                const searchableText = `${movieName} ${eventTitle}`.toLowerCase();
+
+                const cardWrapper = document.createElement("div");
+                cardWrapper.className = "movie-card";
+                cardWrapper.innerHTML = html;
+                cardWrapper.dataset.search = searchableText;
+
+                container.appendChild(cardWrapper);
+                allCards.push(cardWrapper);
+            } catch (e) {
+                // خطای شبکه یا فایل — ادامه بده
+            }
+        }
+    }
+
+    // اگر هیچ کارتی لود نشد
+    if (allCards.length === 0) {
+        noResultsMsg.style.display = "block";
+    }
+}
+
+loadAllCards();
+
+// جستجوی سراسری
+const searchInput = document.getElementById("search-input");
+if (searchInput) {
+    searchInput.addEventListener("input", function(e) {
+        const query = e.target.value.trim().toLowerCase();
+        let hasVisible = false;
+
+        allCards.forEach(card => {
+            const searchText = card.dataset.search || "";
+            if (query === "" || searchText.includes(query)) {
+                card.style.display = "";
+                hasVisible = true;
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        noResultsMsg.style.display = (query !== "" && !hasVisible) ? "block" : "none";
+    });
+}
+
+// لودر
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 1500;
 const startTime = Date.now();
-const maxTimeout = setTimeout(() => {
-    overlay.classList.add('hidden');
-}, 12000);
+const maxTimeout = setTimeout(() => overlay.classList.add('hidden'), 12000);
 window.addEventListener('load', () => {
     const elapsed = Date.now() - startTime;
     const delay = Math.max(0, minDuration - elapsed);
@@ -467,71 +549,6 @@ window.addEventListener('load', () => {
         clearTimeout(maxTimeout);
     }, delay);
 });
-
-// ذخیره تمام کارت‌ها برای جستجو (در تمام صفحات یکسان)
-let allCards = [];
-
-// لود کارت‌ها + ذخیره در آرایه برای جستجو
-const container = document.getElementById("cards-container");
-let openCard = null;
-
-async function loadCardsStrictly() {
-    allCards = []; // ریست آرایه
-    container.innerHTML = ''; // پاک کردن قبلی‌ها (در صورت رفرش)
-    for (let num = 1; num <= 150; num++) {
-        try {
-            const response = await fetch(`${basePath}cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
-            if (!response.ok) continue;
-            const html = await response.text();
-            
-            const tempDiv = document.createElement("div");
-            tempDiv.innerHTML = html;
-            
-            const cardFront = tempDiv.querySelector(".card-front");
-            if (!cardFront) continue;
-            
-            // استخراج متن قابل جستجو (نام فیلم از date-bar و عنوان از title-bar)
-            const movieName = (cardFront.querySelector(".date-bar")?.textContent || "").trim();
-            const eventTitle = (cardFront.querySelector(".title-bar")?.textContent || "").trim();
-            const searchableText = `${movieName} ${eventTitle}`.toLowerCase();
-            
-            const cardWrapper = document.createElement("div");
-            cardWrapper.className = "movie-card";
-            cardWrapper.innerHTML = html;
-            cardWrapper.dataset.search = searchableText;
-            
-            container.appendChild(cardWrapper);
-            allCards.push(cardWrapper);
-        } catch (e) {
-            console.log("خطا در لود کارت", num);
-        }
-    }
-}
-loadCardsStrictly();
-
-// تابع جستجو (در تمام صفحات یکسان کار می‌کند)
-const searchInput = document.getElementById("search-input");
-if (searchInput) {
-    searchInput.addEventListener("input", function(e) {
-        const query = e.target.value.trim().toLowerCase();
-        
-        if (query === "") {
-            allCards.forEach(card => {
-                card.style.display = "";
-            });
-            return;
-        }
-        
-        allCards.forEach(card => {
-            const searchText = card.dataset.search || "";
-            if (searchText.includes(query)) {
-                card.style.display = "";
-            } else {
-                card.style.display = "none";
-            }
-        });
-    });
-}
 
 // رزرو
 document.addEventListener("click", function(e) {
@@ -550,6 +567,7 @@ document.addEventListener("click", function(e) {
 });
 
 // فلیپ کارت
+let openCard = null;
 document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar")) return;
     const cardInner = e.target.closest(".card-inner");
