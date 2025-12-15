@@ -86,9 +86,6 @@
     }">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
 
-    <!-- اضافه کردن <base> برای حل مشکل مسیرها در صفحات دیگر (مثل events/events.html) -->
-    <base href="/web/">
-
     <style>
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
     body {
@@ -416,7 +413,7 @@
     </div>
     
     <!-- لوگو فقط متن (لوگو تصویری کاملاً حذف شد) -->
-    <a href="./index.html" class="logo-link">
+    <a href="/web/index.html" class="logo-link">
         <div class="logo-fa">Soft Shiraz</div>
     </a>
 </header>
@@ -427,9 +424,9 @@
     </button>
     <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
     <div class="side-links" role="menu">
-        <a href="events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
-        <a href="pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
-        <a href="pages/about.html" role="menuitem">درباره ما</a>
+        <a href="/web/events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
+        <a href="/web/pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
+        <a href="/web/pages/about.html" role="menuitem">درباره ما</a>
     </div>
     <div class="menu-social-row">
         <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز">
@@ -452,8 +449,8 @@
     </section>
 </main>
 <script>
-// تشخیص base path به صورت دینامیک
-const basePath = location.pathname.substring(0, location.pathname.lastIndexOf('/')) + '/';
+// تشخیص base path به صورت مطلق برای GitHub Pages
+const basePath = '/web/';
 
 // لودر (بهبود یافته)
 const overlay = document.getElementById('loading-overlay');
@@ -471,7 +468,7 @@ window.addEventListener('load', () => {
     }, delay);
 });
 
-// ذخیره تمام کارت‌ها برای جستجو
+// ذخیره تمام کارت‌ها برای جستجو (در تمام صفحات یکسان)
 let allCards = [];
 
 // لود کارت‌ها + ذخیره در آرایه برای جستجو
@@ -480,6 +477,7 @@ let openCard = null;
 
 async function loadCardsStrictly() {
     allCards = []; // ریست آرایه
+    container.innerHTML = ''; // پاک کردن قبلی‌ها (در صورت رفرش)
     for (let num = 1; num <= 150; num++) {
         try {
             const response = await fetch(`${basePath}cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
@@ -500,7 +498,7 @@ async function loadCardsStrictly() {
             const cardWrapper = document.createElement("div");
             cardWrapper.className = "movie-card";
             cardWrapper.innerHTML = html;
-            cardWrapper.dataset.search = searchableText; // ذخیره متن جستجو در data attribute
+            cardWrapper.dataset.search = searchableText;
             
             container.appendChild(cardWrapper);
             allCards.push(cardWrapper);
@@ -511,28 +509,29 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
-// تابع جستجو
+// تابع جستجو (در تمام صفحات یکسان کار می‌کند)
 const searchInput = document.getElementById("search-input");
-searchInput.addEventListener("input", function(e) {
-    const query = e.target.value.trim().toLowerCase();
-    
-    if (query === "") {
-        // نمایش همه کارت‌ها
-        allCards.forEach(card => {
-            card.style.display = "";
-        });
-        return;
-    }
-    
-    allCards.forEach(card => {
-        const searchText = card.dataset.search || "";
-        if (searchText.includes(query)) {
-            card.style.display = "";
-        } else {
-            card.style.display = "none";
+if (searchInput) {
+    searchInput.addEventListener("input", function(e) {
+        const query = e.target.value.trim().toLowerCase();
+        
+        if (query === "") {
+            allCards.forEach(card => {
+                card.style.display = "";
+            });
+            return;
         }
+        
+        allCards.forEach(card => {
+            const searchText = card.dataset.search || "";
+            if (searchText.includes(query)) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        });
     });
-});
+}
 
 // رزرو
 document.addEventListener("click", function(e) {
