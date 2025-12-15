@@ -129,11 +129,11 @@
         text-shadow: 0 0 20px rgba(255,215,0,0.8);
         transform: scale(1.05);
     }
-    /* دکمه همبرگر - آیکون جدید و باحال (fa-bolt - رعد و برق طلایی، جذاب و پرانرژی) */
+    /* دکمه همبرگر - بازگشت به آیکون کلاسیک سه خط (همبرگری واقعی) با استایل باحال‌تر و طلایی */
     .hamburger-btn {
         width:48px; height:48px; display:flex; align-items:center; justify-content:center;
         background: rgba(26,26,26,0.7); border-radius:14px; border:2px solid rgba(255,215,0,0.35);
-        cursor:pointer; transition:all .3s ease; color:#ffd700; font-size:28px;
+        cursor:pointer; transition:all .3s ease; color:#ffd700;
         box-shadow: 0 0 15px rgba(255,215,0,0.2);
     }
     .hamburger-btn:hover {
@@ -143,11 +143,20 @@
         box-shadow: 0 0 25px rgba(255,215,0,0.4);
     }
     .hamburger-btn:active { transform:scale(.95); }
-    .hamburger-btn i {
-        transition: transform 0.3s ease;
+    .hamburger-inner { width:24px; height:18px; position:relative; }
+    .hamburger-inner span { position:absolute; left:0; right:0; height:3px; background:#ffd700; display:block; border-radius:3px; transition:all .3s; }
+    .hamburger-inner span:nth-child(1){ top:0; }
+    .hamburger-inner span:nth-child(2){ top:7.5px; }
+    .hamburger-inner span:nth-child(3){ top:15px; }
+    /* انیمیشن تبدیل به X وقتی منو بازه */
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(1) {
+        transform: rotate(45deg); top:7.5px;
     }
-    .hamburger-btn[aria-expanded="true"] i {
-        transform: rotate(90deg);
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(2) {
+        opacity:0;
+    }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(3) {
+        transform: rotate(-45deg); top:7.5px;
     }
     /* منوی کشویی */
     #side-menu {
@@ -366,11 +375,11 @@
   </div>
 </div>
 <header>
-    <!-- آیکون همبرگر عوض شد به fa-bolt (رعد و برق طلایی - پرانرژی و باحال) -->
+    <!-- بازگشت به آیکون کلاسیک همبرگری (سه خط) با انیمیشن تبدیل به X -->
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
-        <i class="fas fa-bolt"></i>
+        <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
-    <!-- لینک لوگو به صفحه اصلی (همان صفحه فعلی) بدون target="_blank" و rel="noopener" -->
+    <!-- لینک لوگو به صفحه اصلی فعلی -->
     <a href="./index.html" class="logo-link">
         <div class="logo-fa">Soft Shiraz</div>
     </a>
@@ -382,7 +391,6 @@
     </button>
     <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
     <div class="side-links" role="menu">
-        <!-- لینک ایونت‌های کتابخوانی بدون target="_blank" و با مسیر نسبی -->
         <a href="../events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
         <a href="../pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
         <a href="../pages/about.html" role="menuitem">درباره ما</a>
