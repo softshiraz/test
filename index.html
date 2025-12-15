@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0">
     
-    <!-- متا تگ تایید گوگل سرچ کنسول (جدید اضافه شده) -->
+    <!-- متا تگ تایید گوگل سرچ کنسول -->
     <meta name="google-site-verification" content="fK12FesLb14L29h1lu9QVGq_JaWn68Bd-LFlawjNwPU" />
     
     <!-- سئوی قوی و طولانی -->
@@ -256,6 +256,48 @@
         from { box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1); }
         to { box-shadow: 0 0 30px rgba(255,215,0,0.5), inset 0 0 20px rgba(255,215,0,0.2); }
     }
+
+    /* ==== بخش جدید متنی سئو - استایل زیبا و هماهنگ با تم سایت ==== */
+    .seo-text-section {
+        max-width: 1200px;
+        margin: 0 auto 60px auto;
+        padding: 0 20px;
+        text-align: right;
+        line-height: 1.9;
+        font-size: 15px;
+        color: #ddd;
+        background: rgba(19,19,20,0.6);
+        backdrop-filter: blur(8px);
+        border-radius: 18px;
+        padding: 30px 35px;
+        border: 1px solid rgba(255,215,0,0.2);
+        box-shadow: 0 0 15px rgba(255,215,0,0.15);
+    }
+    .seo-text-section h2 {
+        color: #ffd700;
+        font-size: 24px;
+        font-weight: 900;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px rgba(255,215,0,0.4);
+        text-align: center;
+    }
+    .seo-text-section p {
+        margin-bottom: 18px;
+    }
+    .seo-text-section strong {
+        color: #ffd700;
+    }
+    /* ریسپانسیو برای بخش متنی */
+    @media (max-width: 768px) {
+        .seo-text-section {
+            padding: 25px 20px;
+            font-size: 14px;
+        }
+        .seo-text-section h2 {
+            font-size: 22px;
+        }
+    }
+
     /* کارت‌ها */
     .movies-grid {
         display: grid;
@@ -394,8 +436,8 @@
             </div>
         </div>
 
-        <!-- بخش متنی طولانی برای سئو -->
-        <div style="max-width:1200px; margin:0 auto 50px; padding:0 20px; text-align:right; line-height:1.9; font-size:15px; color:#eee;">
+        <!-- بخش متنی سئو با استایل زیبا (بدون به‌هم‌ریختگی) -->
+        <div class="seo-text-section">
             <h2>سافت شیراز: قدیمی ترین پخش کننده فیلم انیمه و انیمیشن روی پرده سینما در شیراز</h2>
             <p>سافت شیراز از سال‌های دور به عنوان <strong>قدیمی ترین و معتبرترین برگزارکننده اکران انیمه و انیمیشن در شیراز</strong> شناخته می‌شود. ما اولین گروهی هستیم که تجربه تماشای فیلم‌های انیمه ژاپنی محبوب را روی پرده بزرگ سینما به علاقه‌مندان شیرازی هدیه دادیم. از انیمه‌های کلاسیک مانند آثار استودیو جیبلی تا جدیدترین انیمه‌های روز دنیا، همه را با کیفیت بالا و جو طلایی اکران می‌کنیم.</p>
             <p>اگر به دنبال <strong>اکران انیمه در شیراز</strong>، <strong>رزرو بلیط انیمیشن روی پرده</strong>، یا شرکت در ایونت‌های کتابخوانی و فرهنگی هستید، سافت شیراز بهترین و قدیمی‌ترین انتخاب شماست. ما جامعه‌ای بزرگ از علاقه‌مندان به انیمه ایجاد کرده‌ایم که هر هفته دور هم جمع می‌شویم و از دنیای شگفت‌انگیز انیمه لذت می‌بریم.</p>
@@ -502,7 +544,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   addEventListener('resize', resize);
   resize();
   function rand(a, b) { return Math.random() * (b - a) + a; }
-  function init() {
+  function init, init() {
     particles = [];
     for (let i = 0; i < N; i++) {
       particles.push({
