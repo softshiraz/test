@@ -73,6 +73,34 @@ header {
     text-shadow: 0 0 20px rgba(255,215,0,0.8);
     transform: scale(1.05);
 }
+/* جستجو در هدر */
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(26,26,26,0.6);
+    border-radius: 12px;
+    padding: 8px 14px;
+    border: 2px solid rgba(255,215,0,0.25);
+    gap: 10px;
+    max-width: 320px;
+    width: 100%;
+}
+#search-input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    font-family: "Vazirmatn", sans-serif;
+}
+#search-input::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+.search-icon {
+    color: #ffd700;
+    font-size: 20px;
+}
 /* دکمه همبرگر */
 .hamburger-btn {
     width:48px; height:42px; display:flex; align-items:center; justify-content:center;
@@ -215,7 +243,8 @@ header {
     margin: 0 auto;
     padding: 0 20px;
 }
-.movie-card { perspective:1000px; position:relative; }
+.movie-card { perspective:1000px; position:relative; opacity:1; transition: opacity 0.4s ease; }
+.movie-card.hidden { opacity:0.15; pointer-events:none; }
 .card-inner {
     position:relative; width:280px; height:420px; cursor:pointer;
     transition:transform 0.35s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d;
@@ -285,9 +314,12 @@ header {
 /* ریسپانسیو */
 @media (max-width:1200px) {
     .movies-grid { grid-template-columns:repeat(3,1fr); }
+    .search-wrapper { max-width: 250px; }
 }
 @media (max-width:768px) {
     .movies-grid { grid-template-columns:repeat(2,1fr); }
+    header { flex-direction: column; gap: 15px; }
+    .search-wrapper { max-width: 100%; }
 }
 @media (max-width:480px) {
     .movies-grid { grid-template-columns:1fr; }
@@ -310,6 +342,10 @@ header {
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
         <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
+    <div class="search-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="search-input" placeholder="جستجو در تمام ایونت‌ها و اکران‌ها...">
+    </div>
     <a href="index.html" target="_blank" rel="noopener" class="logo-link">
         <div class="logo-fa">Soft Shiraz</div>
     </a>
@@ -358,25 +394,67 @@ window.addEventListener('load', () => {
         overlay.classList.add('hidden');
     }, delay);
 });
-// لود کارت‌ها
+
+// تعریف تمام مسیرهای ممکن برای کارت‌ها (می‌تونی بیشتر اضافه کنی اگر پوشه‌های دیگه‌ای داری)
+const folders = [
+    'cards/',              // اکران‌های آینده (اصلی)
+    'events/cards/',       // فرض بر ایونت‌های کتابخوانی
+    'pages/cards/',        // اگر در pages هم کارت باشه
+    'past/cards/'          // اگر اکران‌های گذشته هم کارت جدا داشته باشه
+];
+
+// حداکثر شماره کارت (می‌تونی افزایش بدی اگر بیشتر داری)
+const maxCards = 150;
+
 const container = document.getElementById("cards-container");
+let allCards = []; // آرایه‌ای برای نگهداری تمام کارت‌ها و متن جستجوشون
 let openCard = null;
-async function loadCardsStrictly() {
-    for (let num = 1; num <= 150; num++) {
-        try {
-            const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
-            if (!response.ok) continue;
-            const html = await response.text();
-            const card = document.createElement("div");
-            card.className = "movie-card";
-            card.innerHTML = html;
-            container.appendChild(card);
-        } catch (e) {
-            console.log("خطا در لود کارت", num);
+
+async function loadAllCards() {
+    for (const folder of folders) {
+        for (let num = 1; num <= maxCards; num++) {
+            const path = `${folder}${num}.html?v=${Date.now()}`;
+            try {
+                const response = await fetch(path, { cache: "no-store" });
+                if (!response.ok) continue;
+                const html = await response.text();
+
+                const cardWrapper = document.createElement("div");
+                cardWrapper.className = "movie-card";
+                cardWrapper.innerHTML = html;
+
+                // استخراج متن برای جستجو (عنوان، تاریخ، توضیحات پشت کارت)
+                const titleText = cardWrapper.querySelector('.title-bar')?.textContent || '';
+                const dateText = cardWrapper.querySelector('.date-bar')?.textContent || '';
+                const backText = cardWrapper.querySelector('.card-back')?.textContent || '';
+
+                const searchableText = `${titleText} ${dateText} ${backText}`.toLowerCase();
+
+                allCards.push({ element: cardWrapper, text: searchableText });
+
+                container.appendChild(cardWrapper);
+            } catch (e) {
+                // اگر خطا باشه (فایل وجود نداشته باشه) ادامه بده
+            }
         }
     }
 }
-loadCardsStrictly();
+
+loadAllCards();
+
+// جستجو
+const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    allCards.forEach(({ element, text }) => {
+        if (query === '' || text.includes(query)) {
+            element.classList.remove('hidden');
+        } else {
+            element.classList.add('hidden');
+        }
+    });
+});
+
 // رزرو
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
@@ -392,6 +470,7 @@ document.addEventListener("click", function(e) {
     const encoded = encodeURIComponent(message);
     window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
+
 // فلیپ کارت
 document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar")) return;
@@ -402,6 +481,7 @@ document.addEventListener("click", function(e) {
         openCard = cardInner.classList.contains("flipped") ? cardInner : null;
     }
 });
+
 // منوی همبرگری
 const hamburger = document.getElementById('hamburger');
 const sideMenu = document.getElementById('side-menu');
@@ -426,6 +506,7 @@ menuClose.addEventListener('click', e => { e.stopPropagation(); closeMenu(); });
 backdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
 sideMenu.addEventListener('click', e => e.stopPropagation());
+
 // انیمیشن بک‌گراند
 (() => {
   const canvas = document.createElement('canvas');
@@ -484,6 +565,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   init();
   frame();
 })();
+
 // کد نصب اپ
 let deferredPrompt;
 const installBtn = document.getElementById('install-button');
@@ -503,6 +585,7 @@ installBtn.addEventListener('click', async (e) => {
   deferredPrompt = null;
   installBtn.style.display = 'none';
 });
+
 // Service Worker
 if ('serviceWorker' in navigator) {
   const swCode = `
@@ -524,10 +607,10 @@ if ('serviceWorker' in navigator) {
       );
     });
   `;
- 
+
   const blob = new Blob([swCode], {type: 'application/javascript'});
   const swUrl = URL.createObjectURL(blob);
- 
+
   window.addEventListener('load', () => {
     navigator.serviceWorker.register(swUrl, {scope: '/web/'})
       .then(reg => console.log('Service Worker ثبت شد'))
