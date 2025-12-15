@@ -129,18 +129,26 @@
         text-shadow: 0 0 20px rgba(255,215,0,0.8);
         transform: scale(1.05);
     }
-    /* دکمه همبرگر */
+    /* دکمه همبرگر - آیکون باحال‌تر و جذاب‌تر (با انیمیشن نرم) */
     .hamburger-btn {
-        width:48px; height:42px; display:flex; align-items:center; justify-content:center;
-        background: rgba(26,26,26,0.6); border-radius:10px; border:2px solid rgba(255,215,0,0.25);
-        cursor:pointer; transition:transform .18s, background .18s; color:#ffd700;
+        width:48px; height:48px; display:flex; align-items:center; justify-content:center;
+        background: rgba(26,26,26,0.7); border-radius:14px; border:2px solid rgba(255,215,0,0.35);
+        cursor:pointer; transition:all .3s ease; color:#ffd700; font-size:26px;
+        box-shadow: 0 0 15px rgba(255,215,0,0.2);
     }
-    .hamburger-btn:active { transform:scale(.97); }
-    .hamburger-inner { width:22px; height:16px; position:relative; }
-    .hamburger-inner span { position:absolute; left:0; right:0; height:2px; background:#ffd700; display:block; border-radius:2px; }
-    .hamburger-inner span:nth-child(1){ top:0; }
-    .hamburger-inner span:nth circonst(2){ top:7px; }
-    .hamburger-inner span:nth-child(3){ top:14px; }
+    .hamburger-btn:hover {
+        background: rgba(255,215,0,0.15);
+        border-color:#ffd700;
+        transform: scale(1.08);
+        box-shadow: 0 0 25px rgba(255,215,0,0.4);
+    }
+    .hamburger-btn:active { transform:scale(.95); }
+    .hamburger-btn i {
+        transition: transform 0.3s ease;
+    }
+    .hamburger-btn[aria-expanded="true"] i {
+        transform: rotate(90deg);
+    }
     /* منوی کشویی */
     #side-menu {
         position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
@@ -358,8 +366,10 @@
   </div>
 </div>
 <header>
+    <!-- تغییر آیکون همبرگر به آیکون باحال‌تر (fa-dragon از Font Awesome - خیلی جذاب و مرتبط با انیمه) -->
+    <!-- اگر دوست داشتی آیکون دیگه‌ای، مثلاً fa-fire، fa-star، fa-bolt یا fa-gamepad بذار -->
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
-        <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
+        <i class="fas fa-dragon"></i>
     </button>
     <a href="index.html" target="_blank" rel="noopener" class="logo-link">
         <div class="logo-fa">Soft Shiraz</div>
@@ -399,12 +409,10 @@
 </main>
 
 <script>
-// لودر (بهبود یافته برای جلوگیری از گیر کردن)
+// لودر (بهبود یافته)
 const overlay = document.getElementById('loading-overlay');
-const minDuration = 1500; // ۱.۵ ثانیه حداقل
+const minDuration = 1500;
 const startTime = Date.now();
-
-// حداکثر ۱۲ ثانیه لودینگ
 const maxTimeout = setTimeout(() => {
     overlay.classList.add('hidden');
 }, 12000);
