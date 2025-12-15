@@ -378,6 +378,14 @@
         padding: 60px 20px;
         font-size: 20px;
         color: #aaa;
+        display: none;
+    }
+    /* وضعیت لودینگ کارت‌ها */
+    #loading-cards {
+        text-align: center;
+        padding: 60px 20px;
+        font-size: 18px;
+        color: #ffd700;
     }
     /* ریسپانسیو */
     @media (max-width:1200px) {
@@ -449,73 +457,83 @@
                 <h1>تمام ایونت‌ها و اکران‌ها</h1>
             </div>
         </div>
+        <div id="loading-cards">در حال بارگذاری کارت‌ها...</div>
         <div class="movies-grid" id="cards-container" style="margin-bottom: 30px;"></div>
-        <div id="no-results" style="display:none;">
+        <div id="no-results">
             هیچ نتیجه‌ای برای جستجوی شما پیدا نشد 🙁
         </div>
     </section>
 </main>
 <script>
-// مسیر پایه ثابت برای GitHub Pages
+// مسیر پایه ثابت
 const basePath = '/web/';
 
-// آرایه پوشه‌های کارت‌ها (اینجا همه پوشه‌هایی که کارت داری رو اضافه کن)
+// فقط پوشه‌هایی که واقعاً وجود دارند رو اینجا بگذار (اگر past-cards یا events-cards نداری، حذفشون کن)
 const cardFolders = [
-    'cards/',         // اکران‌های آینده (پوشه اصلی)
-    'past-cards/',    // اکران‌های گذشته — اگر نداری، این خط رو حذف کن یا پوشه بساز
-    'events/cards/'   // ایونت‌های کتابخوانی — اگر نداری، این خط رو حذف کن یا پوشه بساز
+    'cards/',         // حتماً این وجود داره
+    // 'past-cards/',  // اگر این پوشه رو ساختی و فایل داخلش گذاشتی، کامنت رو بردار
+    'events/cards/', // 'events-cards/' // اگر این پوشه رو ساختی و فایل داخلش گذاشتی، کامنت رو بردار
 ];
 
 let allCards = [];
 const container = document.getElementById("cards-container");
 const noResultsMsg = document.getElementById("no-results");
+const loadingCardsMsg = document.getElementById("loading-cards");
 
 async function loadAllCards() {
     allCards = [];
     container.innerHTML = '';
     noResultsMsg.style.display = 'none';
+    loadingCardsMsg.style.display = 'block';
+
+    let loadedCount = 0;
+    let totalAttempts = 0;
 
     for (const folder of cardFolders) {
         for (let num = 1; num <= 150; num++) {
+            totalAttempts++;
             try {
-                const url = `${basePath}${folder}${num}.html?v=${Date.now()}`;
+                const url = `${basePath}${folder}${num}.html?t=${Date.now()}`;
                 const response = await fetch(url, { cache: "no-store" });
-                if (!response.ok) continue; // اگر فایل نبود، رد شو
+                if (response.ok) {
+                    const html = await response.text();
 
-                const html = await response.text();
+                    const tempDiv = document.createElement("div");
+                    tempDiv.innerHTML = html;
 
-                const tempDiv = document.createElement("div");
-                tempDiv.innerHTML = html;
+                    const cardFront = tempDiv.querySelector(".card-front");
+                    if (!cardFront) continue;
 
-                const cardFront = tempDiv.querySelector(".card-front");
-                if (!cardFront) continue;
+                    const movieName = (cardFront.querySelector(".date-bar")?.textContent || "").trim();
+                    const eventTitle = (cardFront.querySelector(".title-bar")?.textContent || "").trim();
+                    const searchableText = `${movieName} ${eventTitle}`.toLowerCase();
 
-                const movieName = (cardFront.querySelector(".date-bar")?.textContent || "").trim();
-                const eventTitle = (cardFront.querySelector(".title-bar")?.textContent || "").trim();
-                const searchableText = `${movieName} ${eventTitle}`.toLowerCase();
+                    const cardWrapper = document.createElement("div");
+                    cardWrapper.className = "movie-card";
+                    cardWrapper.innerHTML = html;
+                    cardWrapper.dataset.search = searchableText;
 
-                const cardWrapper = document.createElement("div");
-                cardWrapper.className = "movie-card";
-                cardWrapper.innerHTML = html;
-                cardWrapper.dataset.search = searchableText;
-
-                container.appendChild(cardWrapper);
-                allCards.push(cardWrapper);
+                    container.appendChild(cardWrapper);
+                    allCards.push(cardWrapper);
+                    loadedCount++;
+                }
             } catch (e) {
-                // خطای شبکه یا فایل — ادامه بده
+                // فایل وجود ندارد یا خطا — ادامه بده
             }
         }
     }
 
-    // اگر هیچ کارتی لود نشد
-    if (allCards.length === 0) {
+    loadingCardsMsg.style.display = 'none';
+
+    if (loadedCount === 0) {
+        noResultsMsg.textContent = "هیچ کارتی پیدا نشد. لطفاً مطمئن شوید فایل‌ها در پوشه درست قرار دارند.";
         noResultsMsg.style.display = "block";
     }
 }
 
 loadAllCards();
 
-// جستجوی سراسری
+// جستجو
 const searchInput = document.getElementById("search-input");
 if (searchInput) {
     searchInput.addEventListener("input", function(e) {
@@ -533,10 +551,11 @@ if (searchInput) {
         });
 
         noResultsMsg.style.display = (query !== "" && !hasVisible) ? "block" : "none";
+        if (query === "") noResultsMsg.style.display = "none";
     });
 }
 
-// لودر
+// لودر صفحه
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 1500;
 const startTime = Date.now();
@@ -550,7 +569,7 @@ window.addEventListener('load', () => {
     }, delay);
 });
 
-// رزرو
+// رزرو، فلیپ، منو، انیمیشن و بقیه اسکریپت‌ها دقیقاً مثل قبل
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
     if (!reserveBtn) return;
@@ -566,7 +585,6 @@ document.addEventListener("click", function(e) {
     window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
 
-// فلیپ کارت
 let openCard = null;
 document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar")) return;
@@ -578,7 +596,6 @@ document.addEventListener("click", function(e) {
     }
 });
 
-// منوی همبرگری
 const hamburger = document.getElementById('hamburger');
 const sideMenu = document.getElementById('side-menu');
 const backdrop = document.getElementById('menu-backdrop');
@@ -603,7 +620,6 @@ backdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
 sideMenu.addEventListener('click', e => e.stopPropagation());
 
-// انیمیشن بک‌گراند
 (() => {
   const canvas = document.createElement('canvas');
   document.body.appendChild(canvas);
@@ -662,7 +678,6 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   frame();
 })();
 
-// کد نصب اپ
 let deferredPrompt;
 const installBtn = document.getElementById('install-button');
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -682,7 +697,6 @@ installBtn.addEventListener('click', async (e) => {
   installBtn.style.display = 'none';
 });
 
-// Service Worker
 if ('serviceWorker' in navigator) {
   const swCode = `
     const CACHE = 'softshiraz-web-v1';
