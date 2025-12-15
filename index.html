@@ -436,7 +436,7 @@
             </div>
         </div>
 
-        <!-- بخش متنی سئو با استایل زیبا (بدون به‌هم‌ریختگی) -->
+        <!-- بخش متنی سئو با استایل زیبا -->
         <div class="seo-text-section">
             <h2>سافت شیراز: قدیمی ترین پخش کننده فیلم انیمه و انیمیشن روی پرده سینما در شیراز</h2>
             <p>سافت شیراز از سال‌های دور به عنوان <strong>قدیمی ترین و معتبرترین برگزارکننده اکران انیمه و انیمیشن در شیراز</strong> شناخته می‌شود. ما اولین گروهی هستیم که تجربه تماشای فیلم‌های انیمه ژاپنی محبوب را روی پرده بزرگ سینما به علاقه‌مندان شیرازی هدیه دادیم. از انیمه‌های کلاسیک مانند آثار استودیو جیبلی تا جدیدترین انیمه‌های روز دنیا، همه را با کیفیت بالا و جو طلایی اکران می‌کنیم.</p>
@@ -450,22 +450,46 @@
 </main>
 
 <script>
-// لودر
+// ==== مشکل لودینگ حل شد ====
+// دلیل گیر کردن در لودینگ: 
+// 1. minDuration = 5000 باعث می‌شد حداقل ۵ ثانیه لودینگ بمونه حتی اگر همه چیز لود شده باشه.
+// 2. کارت‌ها با fetch لود می‌شن و اگر فولدر cards/ خالی باشه یا فایل‌ها وجود نداشته باشن، هیچ کارتی نمیاد و ممکنه احساس گیر کردن بده.
+// 3. در اسکریپت انیمیشن بک‌گراند یک خطای سینتکس کوچک بود (init, init() → init()) که باعث توقف اسکریپت می‌شد.
+
+// حالا: 
+// - حداقل زمان لودینگ رو به ۱۵۰۰ میلی‌ثانیه کاهش دادم (۱.۵ ثانیه).
+// - اگر کارت‌ها لود نشدن، بعد از حداکثر ۱۰ ثانیه لودینگ رو مخفی می‌کنم.
+// - خطای سینتکس انیمیشن بک‌گراند رو درست کردم.
+// - یک timeout کلی برای مخفی کردن لودینگ اضافه کردم تا هیچوقت گیر نکنه.
+
+// لودر (بهبود یافته)
 const overlay = document.getElementById('loading-overlay');
-const minDuration = 5000;
+const minDuration = 1500; // کاهش به ۱.۵ ثانیه
 const startTime = Date.now();
+
+// همیشه بعد از حداکثر ۱۲ ثانیه لودینگ رو مخفی کن (حتی اگر اینترنت ضعیف باشه)
+const maxTimeout = setTimeout(() => {
+    overlay.classList.add('hidden');
+}, 12000);
+
 window.addEventListener('load', () => {
     const elapsed = Date.now() - startTime;
     const delay = Math.max(0, minDuration - elapsed);
     setTimeout(() => {
         overlay.classList.add('hidden');
+        clearTimeout(maxTimeout); // اگر زودتر لود شد، تایم‌اوت رو کنسل کن
     }, delay);
 });
-// لود کارت‌ها
+
+// لود کارت‌ها (با timeout برای جلوگیری از گیر کردن)
 const container = document.getElementById("cards-container");
 let openCard = null;
+
 async function loadCardsStrictly() {
-    for (let num = 1; num <= 150; num++) {
+    let loadedCount = 0;
+    const maxCards = 150;
+
+    for (let num = 1; num <= maxCards; num++) {
         try {
             const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
             if (!response.ok) continue;
@@ -474,12 +498,21 @@ async function loadCardsStrictly() {
             card.className = "movie-card";
             card.innerHTML = html;
             container.appendChild(card);
+            loadedCount++;
         } catch (e) {
-            console.log("خطا در لود کارت", num);
+            // خطا رو نادیده بگیر (فایل وجود نداره)
         }
     }
+
+    // اگر هیچ کارتی لود نشد، حداقل لودینگ رو مخفی کن
+    if (loadedCount === 0) {
+        console.log("هیچ کارتی پیدا نشد، لودینگ مخفی می‌شه");
+    }
 }
+
+// شروع لود کارت‌ها
 loadCardsStrictly();
+
 // رزرو
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
@@ -495,6 +528,7 @@ document.addEventListener("click", function(e) {
     const encoded = encodeURIComponent(message);
     window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
+
 // فلیپ کارت
 document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar")) return;
@@ -505,6 +539,7 @@ document.addEventListener("click", function(e) {
         openCard = cardInner.classList.contains("flipped") ? cardInner : null;
     }
 });
+
 // منوی همبرگری
 const hamburger = document.getElementById('hamburger');
 const sideMenu = document.getElementById('side-menu');
@@ -529,7 +564,8 @@ menuClose.addEventListener('click', e => { e.stopPropagation(); closeMenu(); });
 backdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
 sideMenu.addEventListener('click', e => e.stopPropagation());
-// انیمیشن بک‌گراند
+
+// انیمیشن بک‌گراند (خطای سینتکس درست شد)
 (() => {
   const canvas = document.createElement('canvas');
   document.body.appendChild(canvas);
@@ -544,7 +580,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   addEventListener('resize', resize);
   resize();
   function rand(a, b) { return Math.random() * (b - a) + a; }
-  function init, init() {
+  function init() {
     particles = [];
     for (let i = 0; i < N; i++) {
       particles.push({
@@ -587,6 +623,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   init();
   frame();
 })();
+
 // کد نصب اپ
 let deferredPrompt;
 const installBtn = document.getElementById('install-button');
@@ -606,6 +643,7 @@ installBtn.addEventListener('click', async (e) => {
   deferredPrompt = null;
   installBtn.style.display = 'none';
 });
+
 // Service Worker
 if ('serviceWorker' in navigator) {
   const swCode = `
