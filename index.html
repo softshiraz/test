@@ -1,391 +1,536 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0">
-
-    <!-- گوگل سرچ کنسول -->
-    <meta name="google-site-verification" content="fK12FesLb14L29h1lu9QVGq_JaWn68Bd-LFlawjNwPU" />
-
-    <title>سافت شیراز | @soft_shiraz | قدیمی ترین پخش کننده فیلم انیمه و انیمیشن روی پرده سینما در شیراز</title>
-    <meta name="description" content="@soft_shiraz - سافت شیراز، قدیمی ترین و معتبرترین برگزارکننده اکران فیلم انیمه، انیمیشن و ایونت های کتابخوانی در شیراز. رزرو بلیط اکران های آینده انیمه روی پرده سینما با @soft_shiraz.">
-    <meta name="keywords" content="سافت شیراز, @soft_shiraz, soft_shiraz, اکران انیمه شیراز, انیمیشن سینما شیراز, قدیمی ترین پخش کننده انیمه شیراز, ایونت انیمه شیراز, رزرو بلیط انیمه شیراز">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="@soft_shiraz - سافت شیراز">
-    <meta name="theme-color" content="#ffd700">
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="سافت شیراز | @soft_shiraz | اکران انیمه و انیمیشن در شیراز">
-    <meta property="og:description" content="@soft_shiraz - قدیمی ترین برگزارکننده اکران انیمه روی پرده سینما در شیراز.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
-    <meta property="og:url" content="https://softshiraz.github.io/web/">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="fa_IR">
-    <meta property="og:site_name" content="@soft_shiraz">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="سافت شیراز | @soft_shiraz | اکران انیمه در شیراز">
-    <meta name="twitter:description" content="@soft_shiraz - قدیمی ترین پخش کننده انیمه روی پرده در شیراز">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
-    <meta name="twitter:site" content="@soft_shiraz">
-
-    <link rel="canonical" href="https://softshiraz.github.io/web/">
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>سافت شیراز</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
+<link rel="manifest" href="data:application/manifest+json,{
+  %22name%22:%22سافت%20شیراز%20-%20اکران‌های%20آینده%22,
+  %22short_name%22:%22سافت%20شیراز%22,
+  %22description%22:%22ایونت‌های%20طلایی%20سافت%20شیراز%20-%20اکران%20فیلم%20و%20کتابخوانی%22,
+  %22start_url%22:%22/web/%22,
+  %22scope%22:%22/web/%22,
+  %22display%22:%22standalone%22,
+  %22background_color%22:%22%230e0e0f%22,
+  %22theme_color%22:%22%23ffd700%22,
+  %22orientation%22:%22portrait-primary%22,
+  %22icons%22:[
     {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "سافت شیراز",
-      "alternateName": "@soft_shiraz",
-      "url": "https://softshiraz.github.io/web/",
-      "logo": "https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png",
-      "sameAs": ["https://t.me/softshiraz","https://instagram.com/soft_shiraz"],
-      "description": "@soft_shiraz - قدیمی ترین برگزارکننده اکران انیمه و انیمیشن روی پرده سینما در شیراز"
+      %22src%22:%22https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png%22,
+      %22sizes%22:%22192x192%22,
+      %22type%22:%22image/png%22,
+      %22purpose%22:%22any%20maskable%22
+    },
+    {
+      %22src%22:%22https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png%22,
+      %22sizes%22:%22512x512%22,
+      %22type%22:%22image/png%22,
+      %22purpose%22:%22any%20maskable%22
     }
-    </script>
+  ]
+}">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
+<meta name="theme-color" content="#ffd700">
+<style>
+/* -------------------------------------- */
+/* --- تغییرات با الهام از انیمه/UI --- */
+/* -------------------------------------- */
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body {
+    font-family: "Vazirmatn", sans-serif;
+    background:#0e0e0f;
+    color:#fff;
+    overflow-x:hidden;
+}
+/* هدر */
+header {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    padding:15px 25px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-bottom:1px solid rgba(48,48,48,0.5);
+    position:sticky; top:0; z-index:20;
+    /* تغییر: سایه قوی‌تر برای حس عمق */
+    text-shadow:0 0 10px rgba(255,215,0,0.4); 
+}
+.logo-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+.logo-fa {
+    font-weight:700;
+    font-size:26px;
+    background:linear-gradient(45deg,#ffd700,#ffb300);
+    -webkit-background-clip:text;
+    color:transparent;
+    transition: all 0.3s ease;
+    /* تغییر: سایه متن برای حس 3D انیمه */
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5); 
+}
+.logo-link:hover .logo-fa {
+    text-shadow: 0 0 20px rgba(255,215,0,0.8), 2px 2px 0px rgba(0,0,0,0.5);
+    transform: scale(1.05);
+}
+/* جستجو در هدر */
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(26,26,26,0.6);
+    border-radius: 12px;
+    padding: 8px 14px;
+    border: 2px solid rgba(255,215,0,0.25);
+    gap: 10px;
+    max-width: 320px;
+    width: 100%;
+}
+#search-input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    font-family: "Vazirmatn", sans-serif;
+}
+#search-input::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+.search-icon {
+    color: #ffd700;
+    font-size: 20px;
+}
+/* دکمه همبرگر */
+.hamburger-btn {
+    width:48px; height:42px; display:flex; align-items:center; justify-content:center;
+    background: rgba(26,26,26,0.6); border-radius:10px; 
+    /* تغییر: مرز آبی نئونی */
+    border:2px solid rgba(0,204,255,0.3); 
+    cursor:pointer; transition:transform .18s, background .18s; 
+    color:#00ccff; /* آیکون آبی نئونی */
+}
+.hamburger-btn:active { transform:scale(.97); }
+.hamburger-inner { width:22px; height:16px; position:relative; }
+.hamburger-inner span { position:absolute; left:0; right:0; height:2px; 
+    /* تغییر: رنگ آبی نئونی برای خطوط */
+    background:#00ccff; 
+    display:block; border-radius:2px; }
+.hamburger-inner span:nth-child(1){ top:0; }
+.hamburger-inner span:nth-child(2){ top:7px; }
+.hamburger-inner span:nth-child(3){ top:14px; }
+/* منوی کشویی */
+#side-menu {
+    position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
+    /* تغییر: گرادیان کمی تیره تر */
+    background: linear-gradient(180deg, rgba(12,12,12,0.95), rgba(26,26,28,0.95));
+    box-shadow: 4px 0 30px rgba(0,0,0,0.6);
+    transform: translateX(100%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
+    z-index: 30; padding: 28px; display: flex; flex-direction: column; gap: 18px;
+    direction: rtl; 
+    /* تغییر: مرز نئونی آبی */
+    border-right: 2px solid rgba(0,204,255,0.2);
+}
+#side-menu.open { transform: translateX(0); }
 
-    <!-- فونت و آیکون -->
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
+/* دکمه بستن جدید - کادر دار با آیکون ضربدر بزرگ‌تر */
+#menu-close {
+    align-self: flex-end;
+    width: 44px;
+    height: 44px;
+    background: rgba(26,26,26,0.8);
+    /* تغییر: مرز نئونی آبی */
+    border: 2px solid rgba(0,204,255,0.3);
+    border-radius: 12px;
+    /* تغییر: رنگ نئونی آبی */
+    color: #00ccff;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+#menu-close:hover {
+    background: #00ccff; /* رنگ پس‌زمینه در هاور */
+    color: #000;
+    border-color: #00ccff;
+}
 
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/manifest+json,{
-      \"name\":\"سافت شیراز - اکران‌های آینده\",
-      \"short_name\":\"سافت شیراز\",
-      \"description\":\"ایونت‌های طلایی سافت شیراز - اکران فیلم و کتابخوانی\",
-      \"start_url\":\"/web/\",
-      \"scope\":\"/web/\",
-      \"display\":\"standalone\",
-      \"background_color\":\"#0e0e0f\",
-      \"theme_color\":\"#ffd700\",
-      \"icons\":[
-        {\"src\":\"https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png\",\"sizes\":\"192x192\",\"type\":\"image/png\",\"purpose\":\"any maskable\"},
-        {\"src\":\"https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png\",\"sizes\":\"512x512\",\"type\":\"image/png\",\"purpose\":\"any maskable\"}
-      ]
-    }">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
-
-    <style>
-    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-    body {
-        font-family: "Vazirmatn", sans-serif;
-        background: linear-gradient(135deg, #0e0e0f 0%, #1a1a1e 100%);
-        color:#fff;
-        overflow-x:hidden;
-        min-height: 100vh;
-    }
-
-    /* هدر */
-    header {
-        background: rgba(0,0,0,0.6);
-        backdrop-filter: blur(12px);
-        padding:15px 25px;
-        display:flex; justify-content:space-between; align-items:center;
-        border-bottom:1px solid rgba(255,215,0,0.3);
-        position:sticky; top:0; z-index:20;
-    }
-    .logo-link {
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    .logo-icon { font-size: 34px; color: #ffd700; text-shadow: 0 0 15px rgba(255,215,0,0.6); }
-    .logo-fa {
-        font-weight:900;
-        font-size:30px;
-        background:linear-gradient(45deg,#ffd700,#ffea00,#b8860b);
-        -webkit-background-clip:text;
-        color:transparent;
-        text-shadow: 0 0 20px rgba(255,215,0,0.6);
-        transition: all 0.4s ease;
-    }
-    .logo-link:hover .logo-fa {
-        transform: scale(1.1);
-        text-shadow: 0 0 35px rgba(255,215,0,0.9);
-    }
-
-    /* همبرگر */
-    .hamburger-btn {
-        width:48px; height:48px; display:flex; align-items:center; justify-content:center;
-        background: rgba(26,26,26,0.7); border-radius:14px; border:2px solid rgba(255,215,0,0.35);
-        cursor:pointer; transition:all .3s ease; color:#ffd700;
-        box-shadow: 0 0 15px rgba(255,215,0,0.2);
-    }
-    .hamburger-btn:hover {
-        background: rgba(255,215,0,0.15);
-        border-color:#ffd700;
-        transform: scale(1.08);
-        box-shadow: 0 0 25px rgba(255,215,0,0.4);
-    }
-    .hamburger-inner { width:24px; height:18px; position:relative; }
-    .hamburger-inner span { position:absolute; left:0; right:0; height:3px; background:#ffd700; border-radius:3px; transition:all .3s; }
-    .hamburger-inner span:nth-child(1){ top:0; }
-    .hamburger-inner span:nth-child(2){ top:7.5px; }
-    .hamburger-inner span:nth-child(3){ top:15px; }
-    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(1) { transform: rotate(45deg); top:7.5px; }
-    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(2) { opacity:0; }
-    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(3) { transform: rotate(-45deg); top:7.5px; }
-
-    /* منوی کشویی */
-    #side-menu {
-        position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
-        background: linear-gradient(180deg, rgba(12,12,12,0.98), rgba(20,20,20,0.98));
-        box-shadow: -4px 0 30px rgba(0,0,0,0.6);
-        transform: translateX(100%); transition: transform 0.35s cubic-bezier(.2,.9,.2,1);
-        z-index: 30; padding: 28px; display: flex; flex-direction: column; gap: 18px;
-        border-left: 2px solid rgba(255,215,0,0.12);
-    }
-    #side-menu.open { transform: translateX(0); }
-    #menu-close { /* همان قبلی */ }
-    .side-links a:hover { background:rgba(255,215,0,0.1); color:#ffd700; transform:translateX(-8px); transition:all 0.3s; }
-
-    /* عنوان */
-    .section-title-box {
-        width: 320px;
-        background: rgba(255,215,0,0.05);
-        backdrop-filter: blur(12px);
-        border: 3px solid #ffd700;
-        border-radius: 24px;
-        padding: 20px 30px;
-        box-shadow: 0 0 30px rgba(255,215,0,0.4), inset 0 0 20px rgba(255,215,0,0.1);
-        animation: glowPulse 5s ease-in-out infinite alternate;
-    }
-    .section-title-box h1 {
-        color: #ffd700;
-        font-size: 38px;
-        font-weight: 900;
-        text-shadow: 0 0 15px rgba(255,215,0,0.8);
-        letter-spacing: 3px;
-    }
-    @keyframes glowPulse {
-        from { box-shadow: 0 0 30px rgba(255,215,0,0.4), inset 0 0 20px rgba(255,215,0,0.1); }
-        to { box-shadow: 0 0 40px rgba(255,215,0,0.6), inset 0 0 25px rgba(255,215,0,0.2); }
-    }
-
-    /* کارت‌ها */
-    .movies-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 30px;
-        max-width: 1350px;
-        margin: 0 auto 100px;
-        padding: 0 20px;
-    }
-    .movie-card {
-        perspective:1000px;
-        opacity:0;
-        animation: cardFadeIn 0.9s ease forwards;
-    }
-    @keyframes cardFadeIn {
-        to { opacity:1; transform:translateY(0); }
-    }
-    .card-inner {
-        position:relative; width:300px; height:460px; cursor:pointer;
-        transition:all 0.5s cubic-bezier(0.2,0.8,0.2,1); transform-style:preserve-3d;
-        border-radius:22px;
-        box-shadow:0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(255,215,0,0.3);
-    }
-    .movie-card:hover .card-inner {
-        transform: translateY(-15px) scale(1.05);
-        box-shadow:0 25px 50px rgba(0,0,0,0.8), 0 0 35px rgba(255,215,0,0.6);
-    }
-    .card-front, .card-back {
-        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:22px; overflow:hidden;
-        backface-visibility:hidden; border:3px solid rgba(255,215,0,0.75);
-        background:rgba(19,19,20,0.85); backdrop-filter:blur(12px);
-    }
-    .card-inner.flipped { transform:rotateY(180deg); }
-    .card-back { transform:rotateY(180deg); padding:20px; text-align:right; }
-
-    .img-bar { position:relative; flex:1; overflow:hidden; }
-    .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.7s ease; }
-    .movie-card:hover .img-bar img { transform:scale(1.15); }
-    .img-overlay {
-        position:absolute; inset:0; background:rgba(0,0,0,0);
-        display:flex; align-items:center; justify-content:center; opacity:0;
-        transition:all 0.5s ease;
-    }
-    .movie-card:hover .img-overlay {
-        background:rgba(0,0,0,0.65); opacity:1;
-    }
-    .img-overlay i { font-size:60px; color:#ffd700; text-shadow:0 0 20px rgba(255,215,0,0.8); }
-
-    /* badge */
-    .badge {
-        position:absolute; top:15px; left:15px; z-index:2;
-        background:#ff3b30; color:#fff; padding:8px 16px; border-radius:14px;
-        font-size:14px; font-weight:900; box-shadow:0 0 15px rgba(255,59,48,0.7);
-        animation: pulse 2s infinite;
-    }
-    .badge.soon { background:#ff9500; }
-    @keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.08); } }
-
-    .date-bar { height:56px; line-height:56px; background:rgba(0,0,0,0.5); color:#ffd700; font-size:20px; font-weight:900; text-shadow:0 0 15px rgba(255,215,0,0.9); }
-    .title-bar { height:40px; line-height:40px; background:rgba(0,0,0,0.4); font-size:16px; }
-    .reserve-bar {
-        height:48px; line-height:48px; background:linear-gradient(45deg,#ffd700,#ffea00);
-        color:#000; font-weight:900; font-size:17px; cursor:pointer;
-        box-shadow:0 0 20px rgba(255,215,0,0.7); transition:all 0.4s;
-    }
-    .reserve-bar:hover {
-        background:#ffea00; box-shadow:0 0 30px rgba(255,215,0,1); transform:scale(1.05);
-    }
-
-    /* فوتر */
-    footer {
-        background: rgba(0,0,0,0.7);
-        backdrop-filter: blur(12px);
-        padding:50px 20px 30px;
-        text-align:center;
-        border-top:2px solid rgba(255,215,0,0.3);
-    }
-    .footer-social {
-        display:flex; justify-content:center; gap:25px; margin:25px 0;
-    }
-    .footer-social a {
-        width:56px; height:56px; border-radius:50%; background:rgba(26,26,26,0.9);
-        display:flex; align-items:center; justify-content:center; color:#ffd700;
-        font-size:28px; transition:all 0.4s; border:3px solid rgba(255,215,0,0.3);
-    }
-    .footer-social a:hover {
-        background:#ffd700; color:#000; transform:scale(1.2) rotate(15deg);
-        box-shadow:0 0 25px rgba(255,215,0,0.8);
-    }
-
-    /* لودر */
-    #loading-overlay {
-        position:fixed; top:0; left:0; width:100%; height:100%; background:#0e0e0f;
-        display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:10000;
-        transition:opacity 1s ease; opacity:1;
-    }
-    #loading-overlay.hidden { opacity:0; pointer-events:none; }
-    #loading-overlay::after {
-        content:"در حال بارگذاری اکران‌های طلایی سافت شیراز...";
-        margin-top:40px; font-size:20px; color:#ffd700; font-weight:600;
-        animation: textGlow 2s infinite;
-    }
-    @keyframes textGlow { 0%,100% { opacity:0.7; } 50% { opacity:1; text-shadow:0 0 20px rgba(255,215,0,0.8); } }
-
-    /* ریسپانسیو */
-    @media (max-width:1200px) { .movies-grid { grid-template-columns:repeat(3,1fr); } }
-    @media (max-width:768px) { .movies-grid { grid-template-columns:repeat(2,1fr); } }
-    @media (max-width:480px) {
-        .movies-grid { grid-template-columns:1fr; }
-        .card-inner { width:100%; max-width:340px; margin:0 auto; }
-        .section-title-box { width:90%; }
-        .section-title-box h1 { font-size:32px; }
-    }
-    </style>
+/* عنوان و فوتر منو وسط چین شوند */
+.side-brand,
+.side-footer-text {
+    text-align: center;
+    width: 100%;
+}
+.side-brand {
+    font-weight:800;
+    color:#ffd700;
+    font-size:20px;
+    margin: 20px 0 10px 0;
+}
+.side-links { 
+    margin-top:6px; 
+    display:flex; 
+    flex-direction:column; 
+    gap:8px; 
+}
+.side-links a {
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:12px 14px; border-radius:10px; text-decoration:none; color:#fff; font-weight:600;
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.03);
+    /* تغییر: ترانزیشن نرم‌تر برای حرکت */
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+}
+.side-links a:hover { 
+    /* تغییر: رنگ پس‌زمینه و متن نئونی */
+    background:rgba(0,204,255,0.1); 
+    color:#00ccff; 
+    /* تغییر: حرکت کوچک به سمت داخل برای پویایی */
+    transform: translateX(-5px);
+}
+.menu-social-row { 
+    display: flex; 
+    justify-content: center; 
+    gap: 18px; 
+    margin-top: 12px; 
+}
+/* آیکون نصب اپ - کادر دار */
+.menu-install-icon {
+    width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
+    backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
+    /* تغییر: رنگ نئونی آبی */
+    color: #00ccff; 
+    font-size: 22px; text-decoration: none; transition: all 0.3s;
+    cursor: pointer; 
+    /* تغییر: مرز نئونی آبی */
+    border: 2px solid rgba(0,204,255,0.3);
+}
+.menu-install-icon:hover { 
+    background: #00ccff; 
+    color: #000; 
+    border-color: #00ccff; 
+}
+.menu-social-icon {
+    width: 48px; height: 48px; border-radius: 12px; background: rgba(26,26,26,1);
+    backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
+    color: #ffd700; font-size: 22px; text-decoration: none; transition: all 0.3s;
+    border: 2px solid rgba(255,215,0,0.3);
+}
+.menu-social-icon:hover { background: #ffd700; color: #000; border-color: #ffd700; }
+.side-footer-text { 
+    margin-top: auto; 
+    font-size: 13px; 
+    color: rgba(255,255,255,0.7); 
+    padding-top: 20px; 
+}
+/* بک‌دراپ */
+#menu-backdrop {
+    position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
+}
+#menu-backdrop.visible { opacity:1; pointer-events:auto; }
+/* عنوان اکران‌های آینده - اندازه یک کارت */
+.section-title-wrapper {
+    max-width: 1200px;
+    margin: 40px auto 50px auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+}
+.section-title-box {
+    width: 280px;
+    background: rgb(255 215 0 / 0%);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgb(255 215 0);
+    border-radius: 18px;
+    padding: 16px 20px;
+    box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1);
+    animation: glowPulse 4s ease-in-out infinite alternate;
+    text-align: center;
+}
+.section-title-box h2 {
+    color: #ffd700;
+    font-size: 32px;
+    font-weight: 900;
+    margin: 0;
+    /* تغییر: اضافه کردن استروک مشکی برای وضوح و حس مانگا */
+    -webkit-text-stroke: 1.5px #000;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5), 0 0 20px rgba(255,215,0,0.6), 0 0 30px rgba(255,215,0,0.4);
+    letter-spacing: 2px;
+}
+@keyframes glowPulse {
+    from { box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1); }
+    to { box-shadow: 0 0 30px rgba(255,215,0,0.5), inset 0 0 20px rgba(255,215,0,0.2); }
+}
+/* کارت‌ها */
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.movie-card { perspective:1000px; position:relative; opacity:1; transition: opacity 0.4s ease; }
+/* تغییر: اضافه کردن برچسب "جدید" برای کارت‌های انیمه‌ای */
+.movie-card:nth-child(even)::before { /* فقط برای کارت‌های زوج به عنوان مثال */
+    content: "جدید 🔥";
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff00cc; /* رنگ نئونی فوشیا */
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    z-index: 10;
+    transform: rotate(10deg); 
+    box-shadow: 0 0 8px #ff00cc;
+}
+.movie-card.hidden { opacity:0.15; pointer-events:none; }
+.card-inner {
+    position:relative; width:280px; height:420px; cursor:pointer;
+    transition:transform 0.35s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d;
+}
+.card-inner.flipped { transform:rotateY(180deg); }
+.card-front, .card-back {
+    position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
+    backface-visibility:hidden; 
+    border:2px solid rgba(255,215,0,0.65);
+    box-shadow:0 0 8px rgba(255,215,0,0.25), inset 0 0 6px rgba(255,215,0,0.2);
+    background:rgba(19,19,20,0.75); backdrop-filter:blur(10px);
+    transition: border-color 0.3s, box-shadow 0.3s; /* اضافه شدن ترانزیشن */
+}
+/* تغییر: افکت هاور نئونی برای کارت */
+.movie-card:hover .card-front, 
+.movie-card:hover .card-back { 
+    border-color: #00ccff; 
+    box-shadow: 0 0 15px rgba(0,204,255,0.6), inset 0 0 10px rgba(0,204,255,0.3);
+}
+.card-front { display:flex; flex-direction:column; }
+.img-bar { flex:1; overflow:hidden; }
+.img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
+.movie-card:hover .img-bar img { transform:scale(1.08); }
+.date-bar {
+    height:52px !important; line-height:52px !important; padding:0 10px; text-align:center;
+    background:rgba(0,0,0,0.45); color:#ffd700; font-size:19px !important; font-weight:900 !important;
+    letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
+}
+.date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
+.title-bar {
+    height:36px; line-height:36px; padding:0 10px; text-align:center;
+    background:rgba(0,0,0,0.3); border-top:1px solid rgba(255,255,255,0.1);
+    color:#fff; font-weight:600; font-size:15px;
+}
+/* تغییر: دکمه رزرو با گرادیان نئونی و حس اکشن */
+.reserve-bar {
+    height:36px; line-height:36px; padding:0 10px; text-align:center;
+    background: linear-gradient(90deg, #ff3355 0%, #a033ff 100%); /* گرادیان قرمز به بنفش */
+    color:#fff; /* متن سفید برای کنتراست */
+    font-weight:bold; cursor:pointer; transition:background 0.3s, box-shadow 0.3s;
+    text-shadow: 0 0 5px #000;
+}
+.reserve-bar:hover { 
+    background: linear-gradient(90deg, #ff5577 0%, #b055ff 100%);
+    box-shadow: 0 0 10px rgba(255,51,85,0.8); /* افکت نئونی */
+}
+.card-back {
+    transform:rotateY(180deg); padding:15px; color:#fff; text-align:right;
+    font-size:14px; display:flex; flex-direction:column;
+}
+.card-back h3, .card-back p strong { color:#ffd700; }
+/* لودر */
+#loading-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background:#111;
+    display: flex; justify-content: center; align-items: center; z-index: 10000;
+    opacity: 1; transition: opacity 0.9s ease;
+}
+#loading-overlay.hidden { opacity: 0; pointer-events: none; }
+.loader { position: relative; width: 40px; height: 40px; }
+.loader .circle {
+    position: absolute; width: 38px; height: 38px; opacity: 0;
+    transform: rotate(225deg); animation: orbit 5.5s infinite;
+}
+.loader .circle:after {
+    content: ''; position: absolute; width: 5px; height: 5px;
+    border-radius: 50%; background: yellow;
+}
+.loader .circle:nth-child(2) { animation-delay: 240ms; }
+.loader .circle:nth-child(3) { animation-delay: 480ms; }
+.loader .circle:nth-child(4) { animation-delay: 720ms; }
+.loader .circle:nth-child(5) { animation-delay: 960ms; }
+@keyframes orbit {
+    0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
+    7% { transform:rotate(345deg); animation-timing-function: linear; }
+    30% { transform:rotate(455deg); animation-timing-function: ease-in-out; }
+    39% { transform:rotate(690deg); animation-timing-function: linear; }
+    70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+    75% { transform:rotate(945deg); animation-timing-function: ease-out; }
+    76% { transform:rotate(945deg); opacity: 0; }
+    100% { transform:rotate(945deg); opacity: 0; }
+}
+/* ریسپانسیو */
+@media (max-width:1200px) {
+    .movies-grid { grid-template-columns:repeat(3,1fr); }
+    .search-wrapper { max-width: 250px; }
+}
+@media (max-width:768px) {
+    .movies-grid { grid-template-columns:repeat(2,1fr); }
+    header { flex-direction: column; gap: 15px; }
+    .search-wrapper { max-width: 100%; }
+}
+@media (max-width:480px) {
+    .movies-grid { grid-template-columns:1fr; }
+    .section-title-box { width: 280px; padding: 16px 20px; }
+    .section-title-box h2 { font-size: 28px; }
+}
+</style>
 </head>
 <body>
-
 <div id="loading-overlay">
-    <div class="loader">
-        <div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div>
-    </div>
+  <div class="loader">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+  </div>
 </div>
-
 <header>
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
         <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
-    <a href="./index.html" class="logo-link">
-        <i class="fas fa-film logo-icon"></i>
+    <div class="search-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="search-input" placeholder="جستجو در تمام ایونت‌ها و اکران‌ها...">
+    </div>
+    <a href="index.html" target="_blank" rel="noopener" class="logo-link">
         <div class="logo-fa">Soft Shiraz</div>
     </a>
 </header>
-
 <div id="menu-backdrop" tabindex="-1"></div>
 <nav id="side-menu" aria-hidden="true">
-    <button id="menu-close" aria-label="بستن منو"><i class="fas fa-times"></i></button>
+    <button id="menu-close" aria-label="بستن منو">
+        <i class="fas fa-times"></i>
+    </button>
     <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
     <div class="side-links" role="menu">
-        <a href="../web/events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
-        <a href="../pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
-        <a href="../web/pages/about.html" role="menuitem">درباره ما</a>
+        <a href="events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
+        <a href="pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
+        <a href="pages/about.html" role="menuitem">درباره ما</a>
     </div>
     <div class="menu-social-row">
-        <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز"><i class="fas fa-download"></i></div>
+        <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز">
+            <i class="fas fa-download"></i>
+        </div>
         <a class="menu-social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
         <a class="menu-social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
         <a class="menu-social-icon" href="https://t.me/FLOKI000" target="_blank"><i class="fas fa-headset"></i></a>
     </div>
     <div class="side-footer-text">ساخته شده توسط فلوکی</div>
 </nav>
-
-<main>
+<main style="padding-top:0px;">
     <section class="section">
         <div class="section-title-wrapper">
             <div class="section-title-box">
-                <h1>اکران‌های آینده</h1>
+                <h2>اکران‌های آینده</h2>
             </div>
         </div>
-        <div class="movies-grid" id="cards-container"></div>
+        <div class="movies-grid" id="cards-container" style="margin-bottom: 30px;"></div>
     </section>
 </main>
-
-<footer>
-    <div style="font-size:24px; font-weight:900; color:#ffd700; margin-bottom:10px;">سافت شیراز</div>
-    <p style="margin:15px 0; color:rgba(255,255,255,0.8); font-size:16px;">قدیمی‌ترین برگزارکننده اکران انیمه و انیمیشن روی پرده سینما در شیراز</p>
-    <div class="footer-social">
-        <a href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
-        <a href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://t.me/FLOKI000" target="_blank"><i class="fas fa-headset"></i></a>
-    </div>
-    <p style="margin-top:30px; font-size:14px; color:rgba(255,255,255,0.6);">ساخته شده با ✨ توسط فلوکی © 2025</p>
-</footer>
-
 <script>
 // لودر
 const overlay = document.getElementById('loading-overlay');
+const minDuration = 5000;
 const startTime = Date.now();
-const minDuration = 1800;
 window.addEventListener('load', () => {
     const elapsed = Date.now() - startTime;
     const delay = Math.max(0, minDuration - elapsed);
-    setTimeout(() => overlay.classList.add('hidden'), delay);
+    setTimeout(() => {
+        overlay.classList.add('hidden');
+    }, delay);
 });
 
-// لود کارت‌ها با انیمیشن ورود
-const container = document.getElementById("cards-container");
-let openCard = null;
-let cardIndex = 0;
+// تعریف تمام مسیرهای ممکن برای کارت‌ها (می‌تونی بیشتر اضافه کنی اگر پوشه‌های دیگه‌ای داری)
+const folders = [
+    'cards/',              // اکران‌های آینده (اصلی)
+    'events/cards/',       // فرض بر ایونت‌های کتابخوانی
+    'pages/cards/',        // اگر در pages هم کارت باشه
+    'past/cards/'          // اگر اکران‌های گذشته هم کارت جدا داشته باشه
+];
 
-async function loadCardsStrictly() {
-    for (let num = 1; num <= 150; num++) {
-        try {
-            const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
-            if (!response.ok) continue;
-            const html = await response.text();
-            const card = document.createElement("div");
-            card.className = "movie-card";
-            card.style.animationDelay = `${cardIndex * 0.12}s`;
-            card.innerHTML = html;
-            container.appendChild(card);
-            cardIndex++;
-        } catch (e) {}
+// حداکثر شماره کارت (می‌تونی افزایش بدی اگر بیشتر داری)
+const maxCards = 150;
+
+const container = document.getElementById("cards-container");
+let allCards = []; // آرایه‌ای برای نگهداری تمام کارت‌ها و متن جستجوشون
+let openCard = null;
+
+async function loadAllCards() {
+    for (const folder of folders) {
+        for (let num = 1; num <= maxCards; num++) {
+            const path = `${folder}${num}.html?v=${Date.now()}`;
+            try {
+                const response = await fetch(path, { cache: "no-store" });
+                if (!response.ok) continue;
+                const html = await response.text();
+
+                const cardWrapper = document.createElement("div");
+                cardWrapper.className = "movie-card";
+                cardWrapper.innerHTML = html;
+
+                // استخراج متن برای جستجو (عنوان، تاریخ، توضیحات پشت کارت)
+                const titleText = cardWrapper.querySelector('.title-bar')?.textContent || '';
+                const dateText = cardWrapper.querySelector('.date-bar')?.textContent || '';
+                const backText = cardWrapper.querySelector('.card-back')?.textContent || '';
+
+                const searchableText = `${titleText} ${dateText} ${backText}`.toLowerCase();
+
+                allCards.push({ element: cardWrapper, text: searchableText });
+
+                container.appendChild(cardWrapper);
+            } catch (e) {
+                // اگر خطا باشه (فایل وجود نداشته باشه) ادامه بده
+            }
+        }
     }
 }
-loadCardsStrictly();
 
-// رزرو بلیط
+loadAllCards();
+
+// جستجو
+const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    allCards.forEach(({ element, text }) => {
+        if (query === '' || text.includes(query)) {
+            element.classList.remove('hidden');
+        } else {
+            element.classList.add('hidden');
+        }
+    });
+});
+
+// رزرو
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
-    if (!reserveBtn || reserveBtn.textContent.trim() !== "تهیه بلیط") return;
+    if (!reserveBtn) return;
     e.stopPropagation();
+    if (reserveBtn.textContent.trim() !== "تهیه بلیط") return;
     const cardFront = reserveBtn.closest(".card-front");
     if (!cardFront) return;
     const adminId = cardFront.dataset.adminId || "softshirazadmin";
-    const movieName = cardFront.querySelector(".date-bar")?.textContent.trim() || "نامشخص";
-    const dateTime = cardFront.querySelector(".title-bar")?.textContent.trim() || "نامشخص";
+    const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
+    const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
     const message = `💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\n🌟 مرسی ازتون 🌟`;
-    window.open(`https://t.me/${adminId}?text=${encodeURIComponent(message)}`, "_blank");
+    const encoded = encodeURIComponent(message);
+    window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
 
 // فلیپ کارت
@@ -405,83 +550,137 @@ const sideMenu = document.getElementById('side-menu');
 const backdrop = document.getElementById('menu-backdrop');
 const menuClose = document.getElementById('menu-close');
 function openMenu() {
-    sideMenu.classList.add('open'); backdrop.classList.add('visible');
-    hamburger.setAttribute('aria-expanded', 'true'); sideMenu.setAttribute('aria-hidden', 'false');
+    sideMenu.classList.add('open');
+    backdrop.classList.add('visible');
+    hamburger.setAttribute('aria-expanded', 'true');
+    sideMenu.setAttribute('aria-hidden', 'false');
+    sideMenu.querySelector('.side-links a')?.focus();
 }
 function closeMenu() {
-    sideMenu.classList.remove('open'); backdrop.classList.remove('visible');
-    hamburger.setAttribute('aria-expanded', 'false'); sideMenu.setAttribute('aria-hidden', 'true');
+    sideMenu.classList.remove('open');
+    backdrop.classList.remove('visible');
+    hamburger.setAttribute('aria-expanded', 'false');
+    sideMenu.setAttribute('aria-hidden', 'true');
+    hamburger.focus();
 }
 hamburger.addEventListener('click', e => { e.stopPropagation(); hamburger.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
-menuClose.addEventListener('click', closeMenu);
+menuClose.addEventListener('click', e => { e.stopPropagation(); closeMenu(); });
 backdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
+sideMenu.addEventListener('click', e => e.stopPropagation());
 
-// Particle Background (بیشتر و درخشان‌تر)
+// انیمیشن بک‌گراند
 (() => {
-    const canvas = document.createElement('canvas');
-    document.body.appendChild(canvas);
-    canvas.style.position = 'fixed'; canvas.style.top = '0'; canvas.style.left = '0';
-    canvas.style.pointerEvents = 'none'; canvas.style.zIndex = '-1';
-    const ctx = canvas.getContext('2d');
-    let w, h, particles = [], N = 180, maxDist = 150;
-    function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
-    addEventListener('resize', resize); resize();
-    function rand(a, b) { return Math.random() * (b - a) + a; }
-    function init() {
-        particles = [];
-        for (let i = 0; i < N; i++) {
-            particles.push({ x: rand(0, w), y: rand(0, h), vx: rand(-0.5, 0.5), vy: rand(-0.5, 0.5), r: rand(1, 2.8), a: rand(0.5, 1) });
-        }
+  const canvas = document.createElement('canvas');
+  document.body.appendChild(canvas);
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = '-1';
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [], N = 120, maxDist = 120;
+  function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
+  addEventListener('resize', resize);
+  resize();
+  function rand(a, b) { return Math.random() * (b - a) + a; }
+  function init() {
+    particles = [];
+    for (let i = 0; i < N; i++) {
+      particles.push({
+        x: rand(0, w),
+        y: rand(0, h),
+        vx: rand(-0.45, 0.45),
+        vy: rand(-0.45, 0.45),
+        r: rand(0.8, 2.2),
+        /* تغییر: رنگ ذرات کمی متمایل به نئونی */
+        a: rand(0.4, 0.95)
+      });
     }
-    function frame() {
-        ctx.clearRect(0, 0, w, h);
-        for (let p of particles) {
-            p.x += p.vx; p.y += p.vy;
-            if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
-            if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
-            ctx.beginPath();
-            ctx.fillStyle = `rgba(255,215,0,${p.a})`;
-            ctx.arc(p.x, p.y, p.r, 0, 6.28);
-            ctx.fill();
-        }
-        ctx.lineWidth = 0.9;
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const p = particles[i], q = particles[j];
-                const d = Math.hypot(p.x - q.x, p.y - q.y);
-                if (d < maxDist) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = `rgba(255,215,0,${(1 - d / maxDist) * 0.3})`;
-                    ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
-                    ctx.stroke();
-                }
-            }
-        }
-        requestAnimationFrame(frame);
+  }
+  function frame() {
+    ctx.clearRect(0, 0, w, h);
+    for (let p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath();
+      /* تغییر: رنگ ذرات نئونی طلایی */
+      ctx.fillStyle = `rgba(255,215,0,${p.a * 0.9})`; 
+      ctx.arc(p.x, p.y, p.r, 0, 6.28);
+      ctx.fill();
     }
-    init(); frame();
+    ctx.lineWidth = 0.7;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const p = particles[i], q = particles[j];
+        const d = Math.hypot(p.x - q.x, p.y - q.y);
+        if (d < maxDist) {
+          ctx.beginPath();
+          /* تغییر: رنگ خطوط نئونی طلایی/آبی کم‌رنگ */
+          ctx.strokeStyle = `rgba(255,215,0,${(1 - d / maxDist) * 0.22})`; 
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  init();
+  frame();
 })();
 
-// PWA Install
+// کد نصب اپ
 let deferredPrompt;
 const installBtn = document.getElementById('install-button');
 window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'flex';
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'flex';
 });
-installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    deferredPrompt = null; installBtn.style.display = 'none';
+installBtn.addEventListener('click', async (e) => {
+  e.stopPropagation();
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    console.log('کاربر اپ رو نصب کرد');
+  }
+  deferredPrompt = null;
+  installBtn.style.display = 'none';
 });
 
-// Service Worker (همان قبلی)
+// Service Worker
 if ('serviceWorker' in navigator) {
-    const swCode = `/* کد قبلی شما */`;
-    const blob = new Blob([swCode], {type: 'application/javascript'});
-    const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl, {scope: '/web/'});
+  const swCode = `
+    const CACHE = 'softshiraz-web-v1';
+    const files = ['/web/', '/web/index.html'];
+   
+    self.addEventListener('install', e => {
+      e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(files)));
+      self.skipWaiting();
+    });
+   
+    self.addEventListener('activate', e => {
+      e.waitUntil(self.clients.claim());
+    });
+   
+    self.addEventListener('fetch', e => {
+      e.respondWith(
+        caches.match(e.request).then(res => res || fetch(e.request))
+      );
+    });
+  `;
+
+  const blob = new Blob([swCode], {type: 'application/javascript'});
+  const swUrl = URL.createObjectURL(blob);
+
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register(swUrl, {scope: '/web/'})
+      .then(reg => console.log('Service Worker ثبت شد'))
+      .catch(err => console.log('خطا در ثبت SW:', err));
+  });
 }
 </script>
 </body>
