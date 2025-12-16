@@ -81,9 +81,11 @@
     <style>
     /* --- متغیرهای تم و حالت شب/روز --- */
     :root {
-        /* Dark Mode (Default) */
+        /* رنگ طلایی ثابت برای هر دو تم */
         --color-primary: #ffd700;
-        --color-secondary: #ffb300;
+        --color-secondary: #ffb300; 
+
+        /* Dark Mode (Default) */
         --bg-color: #0e0e0f;
         --text-color: #fff;
         --header-bg: rgba(0,0,0,0.5);
@@ -91,43 +93,39 @@
         --menu-bg-start: rgba(12,12,12,0.98);
         --menu-bg-end: rgba(20,20,20,0.98);
         --menu-border-right: rgba(255,215,0,0.12);
-        --link-bg: rgba(255,255,255,0.03);
+        --link-bg: rgba(255,255,255,0.03); /* پس‌زمینه آیکون‌ها و لینک‌ها */
         --link-border: rgba(255,255,255,0.03);
         --link-hover-bg: rgba(255,215,0,0.06);
-        --icon-bg: rgba(26,26,26,0.8);
-        --icon-border: rgba(255,215,0,0.3);
+        --icon-bg: var(--link-bg); /* آیکون‌های کنترلی منو = لینک‌ها */
+        --icon-border: var(--link-border);
         --card-bg: rgba(19,19,20,0.75);
         --card-border: rgba(255,215,0,0.65);
         --card-shadow-color: rgba(255,215,0,0.25);
-        --card-title-bar-bg: rgba(0,0,0,0.3);
+        --card-title-bar-bg: var(--link-bg); /* پس‌زمینه عنوان کارت = لینک‌ها */
     }
     /* Light Mode */
     .light-mode {
-        --color-primary: #8a7700; /* Darker Gold for visibility */
-        --color-secondary: #a89433;
-        --bg-color: #f8f8f8; /* Light, gentle background - Less harsh than #ffffff */
+        --bg-color: #f8f8f8; 
         --text-color: #1a1a1a;
         --header-bg: rgba(255,255,255,0.8);
         --border-color: rgba(200,200,200,0.5);
         --menu-bg-start: rgba(245,245,245,0.98);
         --menu-bg-end: rgba(255,255,255,0.98);
-        --menu-border-right: rgba(138,119,0,0.25);
-        --link-bg: rgba(138,119,0,0.06);
-        --link-border: rgba(138,119,0,0.1);
-        --link-hover-bg: rgba(138,119,0,0.15);
-        --icon-bg: rgba(255,255,255,0.9);
-        --icon-border: rgba(138,119,0,0.4);
+        --menu-border-right: rgba(255,215,0,0.25);
+        --link-bg: rgba(255,215,0,0.1);
+        --link-border: rgba(255,215,0,0.2);
+        --link-hover-bg: rgba(255,215,0,0.2);
+        --icon-bg: var(--link-bg);
+        --icon-border: var(--link-border);
         --card-bg: rgba(255,255,255,0.9);
-        --card-border: rgba(138,119,0,0.65);
-        --card-shadow-color: rgba(138,119,0,0.25);
-        --card-title-bar-bg: rgba(0,0,0,0.08);
+        --card-border: rgba(255,215,0,0.65);
+        --card-shadow-color: rgba(255,215,0,0.25);
+        --card-title-bar-bg: var(--link-bg);
     }
     /* Fallback for pre-theme logic - ensures system dark mode is respected */
     @media (prefers-color-scheme: dark) {
         body:not(.light-mode) {
              /* Enforce dark mode variables on system preference to prevent color shift */
-             --color-primary: #ffd700;
-             --color-secondary: #ffb300;
              --bg-color: #0e0e0f;
              --text-color: #fff;
              --header-bg: rgba(0,0,0,0.5);
@@ -138,12 +136,12 @@
              --link-bg: rgba(255,255,255,0.03);
              --link-border: rgba(255,255,255,0.03);
              --link-hover-bg: rgba(255,215,0,0.06);
-             --icon-bg: rgba(26,26,26,0.8);
-             --icon-border: rgba(255,215,0,0.3);
+             --icon-bg: var(--link-bg);
+             --icon-border: var(--link-border);
              --card-bg: rgba(19,19,20,0.75);
              --card-border: rgba(255,215,0,0.65);
              --card-shadow-color: rgba(255,215,0,0.25);
-             --card-title-bar-bg: rgba(0,0,0,0.3);
+             --card-title-bar-bg: var(--link-bg);
         }
     }
 
@@ -238,8 +236,8 @@
     /* دکمه بستن و تغییر تم */
     #menu-close, #theme-toggle {
         width: 44px; height: 44px;
-        background: var(--icon-bg);
-        border: 2px solid var(--icon-border);
+        background: var(--icon-bg); /* یکسان‌سازی پس‌زمینه */
+        border: 2px solid var(--icon-border); /* یکسان‌سازی حاشیه */
         border-radius: 12px;
         color: var(--color-primary);
         font-size: 24px;
@@ -252,6 +250,13 @@
         color: var(--bg-color);
         border-color: var(--color-primary);
     }
+    /* جابجایی دکمه close به سمت چپ theme-toggle */
+    .menu-controls {
+        flex-direction: row-reverse; 
+        justify-content: flex-end; /* یا space-between برای اطمینان از قرارگیری در یک خط */
+    }
+
+
     .side-brand,
     .side-footer-text {
         text-align: center;
@@ -261,7 +266,7 @@
         font-weight:800;
         color:var(--color-primary);
         font-size:20px;
-        margin: -10px 0 10px 0; /* جابجایی به مکان قبلی */
+        margin: -10px 0 10px 0; 
     }
     .side-links {
         margin-top:6px;
@@ -285,11 +290,11 @@
     /* استایل دکمه‌های اجتماعی/نصب (اعمال استایل شبیه دکمه‌های منو) */
     .menu-install-icon, .menu-social-icon {
         width: 48px; height: 48px; border-radius: 12px; 
-        background:var(--link-bg); 
+        background:var(--link-bg); /* یکسان‌سازی پس‌زمینه */
         backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
         color: var(--color-primary); font-size: 22px; text-decoration: none; transition: all 0.3s;
         cursor: pointer; 
-        border: 2px solid var(--icon-border);
+        border: 2px solid var(--icon-border); /* یکسان‌سازی حاشیه */
     }
     .menu-install-icon:hover, .menu-social-icon:hover { 
         background: var(--link-hover-bg); 
@@ -355,10 +360,14 @@
         margin: 0 auto;
         padding: 0 20px;
     }
-    .movie-card { perspective:1000px; position:relative; }
+    .movie-card { 
+        perspective:1000px; 
+        position:relative; 
+    }
     .card-inner {
         position:relative; width:280px; height:420px; cursor:pointer;
-        transition:transform 0.35s cubic-bezier(0.3,0,0.2,1); transform-style:preserve-3d;
+        transition:transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* انتقال نرم‌تر */
+        transform-style:preserve-3d;
     }
     .card-inner.flipped { transform:rotateY(180deg); }
     .card-front, .card-back {
@@ -380,10 +389,10 @@
     .date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
     .title-bar {
         height:36px; line-height:36px; padding:0 10px; text-align:center;
-        background:var(--card-title-bar-bg); border-top:1px solid rgba(255,255,255,0.1);
+        background:var(--card-title-bar-bg); /* استفاده از متغیر جدید یکسان */
+        border-top:1px solid var(--link-border);
         color:var(--text-color); font-weight:600; font-size:15px;
     }
-    .light-mode .title-bar { border-top:1px solid rgba(0,0,0,0.1); }
 
     .reserve-bar {
         height:36px; line-height:36px; padding:0 10px; text-align:center;
@@ -463,13 +472,14 @@
 <nav id="side-menu" aria-hidden="true">
     <div class="menu-header">
         <div class="menu-controls">
-            <button id="theme-toggle" aria-label="تغییر تم">
-                <i class="fas fa-sun"></i> </button>
             <button id="menu-close" aria-label="بستن منو">
                 <i class="fas fa-times"></i>
             </button>
+            <button id="theme-toggle" aria-label="تغییر تم">
+                <i class="fas fa-sun"></i> 
+            </button>
         </div>
-        </div>
+    </div>
     <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
     
     <div class="side-links" role="menu">
@@ -520,7 +530,7 @@ function applyTheme(theme) {
         currentTheme = 'dark';
     }
     // تغییر تم-کالر برای آندروید (بدون نیاز به انتقال برای رفع لگ)
-    document.querySelector('meta[name="theme-color"]').setAttribute('content', currentTheme === 'dark' ? '#ffd700' : '#8a7700');
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', currentTheme === 'dark' ? '#ffd700' : '#ffd700'); // استفاده از رنگ طلایی یکسان
 }
 
 // 2. هندل کردن تنظیمات Dark Mode سیستم عامل و اعمال تم اولیه
@@ -531,7 +541,6 @@ function initializeTheme() {
             applyTheme('dark'); 
         } else {
             applyTheme('dark'); // پیش‌فرض خود سایت را روی شب بگذارید
-            // برای تست تم روز می‌توانید اینجا applyTheme('light'); را بگذارید
         }
     } else {
         // اگر تم انتخاب شده، آن را اعمال کن
@@ -613,7 +622,7 @@ document.addEventListener("click", function(e) {
     window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
 
-// فلیپ کارت
+// فلیپ کارت (فعال کردن 3D)
 document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar")) return;
     const cardInner = e.target.closest(".card-inner");
@@ -684,7 +693,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
       if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
       if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
       ctx.beginPath();
-      // استفاده از رنگ طلایی ثابت برای ذرات برای اطمینان از دیده شدن در Light Mode
+      // استفاده از رنگ طلایی ثابت برای ذرات
       ctx.fillStyle = `rgba(255,215,0,${p.a * 0.9})`; 
       ctx.arc(p.x, p.y, p.r, 0, 6.28);
       ctx.fill();
@@ -696,7 +705,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
         const d = Math.hypot(p.x - q.x, p.y - q.y);
         if (d < maxDist) {
           ctx.beginPath();
-          // استفاده از رنگ طلایی ثابت برای خطوط برای اطمینان از دیده شدن در Light Mode
+          // استفاده از رنگ طلایی ثابت برای خطوط
           ctx.strokeStyle = `rgba(255,215,0,${(1 - d / maxDist) * 0.22})`; 
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(q.x, q.y);
