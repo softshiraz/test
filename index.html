@@ -142,7 +142,6 @@
         background:var(--bg-color);
         color:var(--text-color);
         overflow-x:hidden;
-        /* انتقال فقط برای رنگ متن و پس‌زمینه اصلی که فیلتر بک‌دراپ را خراب نکند */
         transition: background-color 0.3s, color 0.3s;
     }
     /* هدر */
@@ -221,11 +220,9 @@
     .menu-controls {
         display: flex;
         gap: 8px;
-        /* چیدمان: تم (راست)، بستن (چپ) */
         justify-content: space-between;
         width: 100%;
     }
-    /* دکمه بستن و تغییر تم */
     #menu-close, #theme-toggle {
         width: 44px; height: 44px;
         background: var(--icon-bg);
@@ -242,7 +239,6 @@
         color: var(--bg-color);
         border-color: var(--color-primary);
     }
-    /* چیدمان دکمه‌ها در منو (تم راست، بستن چپ) */
     .menu-controls #theme-toggle { order: 2; }
     .menu-controls #menu-close { order: 1; }
     .side-brand,
@@ -250,7 +246,7 @@
         text-align: center;
         width: 100%;
     }
-    .side-brand { /* مکان قبلی (زیر دکمه‌ها) */
+    .side-brand {
         font-weight:800;
         color:var(--color-primary);
         font-size:20px;
@@ -275,7 +271,6 @@
         gap: 18px;
         margin-top: 12px;
     }
-    /* استایل دکمه‌های اجتماعی/نصب (اعمال استایل شبیه دکمه‌های منو) */
     .menu-install-icon, .menu-social-icon {
         width: 48px; height: 48px; border-radius: 12px;
         background:var(--link-bg);
@@ -306,7 +301,7 @@
         position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
     }
     #menu-backdrop.visible { opacity:1; pointer-events:auto; }
-    /* عنوان اکران‌های آینده */
+    /* عنوان اکران‌های آینده – انیمیشن پیشرفته glow + pulse + float */
     .section-title-wrapper {
         max-width: 1200px;
         margin: 40px auto 50px auto;
@@ -322,12 +317,12 @@
         border-radius: 18px;
         padding: 16px 20px;
         box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1);
-        animation: glowPulse 4s ease-in-out infinite alternate;
+        animation: glowPulse 4s ease-in-out infinite alternate, float 6s ease-in-out infinite, titleBounce 8s infinite;
         text-align: center;
     }
     .section-title-box h1 {
         color: var(--color-primary);
-        font-size: 32px;
+        font-size: clamp(28px, 8vw, 36px);
         font-weight: 900;
         margin: 0;
         text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4);
@@ -335,128 +330,182 @@
     }
     @keyframes glowPulse {
         from { box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1); }
-        to { box-shadow: 0 0 30px rgba(255,215,0,0.5), inset 0 0 20px rgba(255,215,0,0.2); }
+        to { box-shadow: 0 0 40px rgba(255,215,0,0.6), inset 0 0 25px rgba(255,215,0,0.2); }
     }
-    /* کارت‌ها */
+    @keyframes float {
+        0%,100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    @keyframes titleBounce {
+        0%,100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    /* ---- طراحی ریسپانسیو پیشرفته با CSS Grid + Container Queries ---- */
     .movies-grid {
+        container-type: inline-size;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
         justify-items: center;
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
         padding: 0 20px;
     }
+
+    /* کارت‌ها – انیمیشن پیشرفته ورود + hover بسیار پیشرفته */
     .movie-card {
-        perspective:1000px;
-        position:relative;
+        perspective: 1400px;
+        position: relative;
+        width: 100%;
+        max-width: 340px;
+        animation: cardEnter 0.9s ease-out forwards;
+        opacity: 0;
+    }
+    @keyframes cardEnter {
+        from { opacity: 0; transform: translateY(60px) rotateY(-10deg) scale(0.9); }
+        to { opacity: 1; transform: translateY(0) rotateY(0) scale(1); }
     }
     .card-inner {
-        position:relative; width:280px; height:420px; cursor:pointer;
-        /* انتقال واقعی‌تر: کمی کشدار و سریع در شروع */
-        transition:transform 0.65s cubic-bezier(0.5, 1.25, 0.5, 1.25);
-        transform-style:preserve-3d;
+        position: relative; width: 100%; height: 460px; cursor: pointer;
+        transition: transform 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        transform-style: preserve-3d;
     }
-    .card-inner.flipped { transform:rotateY(180deg); }
+    .movie-card:hover .card-inner {
+        transform: rotateY(12deg) rotateX(8deg) translateZ(40px) scale(1.05);
+        box-shadow: 0 30px 60px rgba(255,215,0,0.4);
+    }
+    .card-inner.flipped { transform: rotateY(180deg); }
     .card-front, .card-back {
-        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
-        backface-visibility:hidden; border:2px solid var(--card-border);
-        box-shadow:0 0 8px var(--card-shadow-color), inset 0 0 6px var(--card-shadow-color);
-        background:var(--card-bg); backdrop-filter:blur(10px);
-        transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 20px; overflow: hidden;
+        backface-visibility: hidden; border: 2px solid var(--card-border);
+        box-shadow: 0 0 12px var(--card-shadow-color), inset 0 0 8px var(--card-shadow-color);
+        background: var(--card-bg); backdrop-filter: blur(12px);
+        transition: all 0.5s ease;
     }
-    .card-front { display:flex; flex-direction:column; }
-    .img-bar { flex:1; overflow:hidden; }
-    .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
-    .movie-card:hover .img-bar img { transform:scale(1.08); }
+    .card-front { display: flex; flex-direction: column; }
+    .img-bar { flex: 1; overflow: hidden; position: relative; }
+    .img-bar::before {
+        content: ''; position: absolute; inset: 0; z-index: 1;
+        background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.6) 100%);
+        opacity: 0; transition: opacity 0.5s;
+    }
+    .movie-card:hover .img-bar::before { opacity: 1; }
+    .img-bar::after {
+        content: ''; position: absolute; inset: 0; z-index: 2;
+        background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        opacity: 0; transition: opacity 0.5s;
+    }
+    .movie-card:hover .img-bar::after { opacity: 1; }
+    .img-bar img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+    .movie-card:hover .img-bar img { transform: scale(1.18) rotate(2deg); }
+
     .date-bar {
-        height:52px !important; line-height:52px !important; padding:0 10px; text-align:center;
-        background:rgba(138, 119, 0, 0.06); color:var(--color-primary); font-size:19px !important; font-weight:900 !important;
-        letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
+        height: 58px; line-height: 58px; padding: 0 14px; text-align: center;
+        background: rgba(138, 119, 0, 0.12); color: var(--color-primary); font-size: 20px; font-weight: 900;
+        letter-spacing: 1.6px; text-shadow: 0 0 18px rgba(255,215,0,0.9);
+        transition: background 0.4s, transform 0.3s;
     }
-    .date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
+    .movie-card:hover .date-bar { background: rgba(255,215,0,0.2); transform: translateY(-4px); }
+    .date-bar strong { font-size: 23px; display: block; transform: translateY(2px); }
     .title-bar {
-        height:36px; line-height:36px; padding:0 10px; text-align:center;
-        background:var(--card-title-bar-bg);
-        border-top:1px solid var(--link-border);
-        color:var(--text-color); font-weight:600; font-size:15px;
+        height: 42px; line-height: 42px; padding: 0 14px; text-align: center;
+        background: var(--card-title-bar-bg);
+        border-top: 1px solid var(--link-border);
+        color: var(--text-color); font-weight: 600; font-size: 16px;
+        transition: background 0.4s;
     }
     .reserve-bar {
-        height:36px; line-height:36px; padding:0 10px; text-align:center;
-        background:var(--color-primary); color:var(--bg-color); font-weight:bold; cursor:pointer; transition:background 0.3s;
+        height: 42px; line-height: 42px; padding: 0 14px; text-align: center;
+        background: var(--color-primary); color: var(--bg-color); font-weight: bold; cursor: pointer;
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        position: relative; overflow: hidden;
     }
-    .reserve-bar:hover { background:#ffea00; }
-    /* در لایت مود، رنگ متن در دکمه رزرو باید تیره باشد چون پس‌زمینه طلایی است */
+    .reserve-bar::before {
+        content: ''; position: absolute; inset: 0; background: #ffea00;
+        transform: translateX(-100%); transition: transform 0.6s;
+    }
+    .reserve-bar:hover::before { transform: translateX(0); }
+    .reserve-bar span { position: relative; z-index: 1; }
+    .reserve-bar:hover { transform: translateY(-4px) scale(1.08); box-shadow: 0 10px 20px rgba(255,215,0,0.4); }
     .light-mode .reserve-bar { color: #000; }
+
     .card-back {
-        transform:rotateY(180deg); padding:15px; color:var(--text-color); text-align:right;
-        font-size:14px; display:flex; flex-direction:column;
+        transform: rotateY(180deg); padding: 22px; color: var(--text-color); text-align: right;
+        font-size: 15px; display: flex; flex-direction: column; justify-content: center;
     }
-    .card-back h3, .card-back p strong { color:var(--color-primary); }
-    /* لودر */
+    .card-back h3, .card-back p strong { color: var(--color-primary); }
+
+    /* Container Queries برای تغییر layout داخل کارت */
+    @container (max-width: 350px) {
+        .card-front { height: 500px; }
+        .date-bar { font-size: 18px; height: 52px; line-height: 52px; }
+        .title-bar, .reserve-bar { font-size: 14px; height: 38px; line-height: 38px; }
+    }
+
+    /* لودر پیشرفته – مایع درخشان + pulse + orbit */
     #loading-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background:var(--bg-color);
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color);
         display: flex; justify-content: center; align-items: center; z-index: 10000;
         opacity: 1; transition: opacity 0.9s ease, background 0.3s;
     }
     #loading-overlay.hidden { opacity: 0; pointer-events: none; }
-    .loader { position: relative; width: 40px; height: 40px; }
-    .loader .circle {
-        position: absolute; width: 38px; height: 38px; opacity: 0;
-        transform: rotate(225deg); animation: orbit 5.5s infinite;
+    .loader {
+        width: 200px; height: 200px; position: relative;
+        filter: drop-shadow(0 0 40px var(--color-primary));
+        animation: loaderPulse 3s infinite ease-in-out;
     }
-    .loader .circle:after {
-        content: ''; position: absolute; width: 5px; height: 5px;
-        border-radius: 50%; background: var(--color-primary);
+    @keyframes loaderPulse {
+        0%,100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
     }
-    .loader .circle:nth-child(2) { animation-delay: 240ms; }
-    .loader .circle:nth-child(3) { animation-delay: 480ms; }
-    .loader .circle:nth-child(4) { animation-delay: 720ms; }
-    .loader .circle:nth-child(5) { animation-delay: 960ms; }
-    @keyframes orbit {
-        0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
-        7% { transform:rotate(345deg); animation-timing-function: linear; }
-        30% { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-        39% { transform:rotate(690deg); animation-timing-function: linear; }
-        70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-        75% { transform:rotate(945deg); animation-timing-function: ease-out; }
-        76% { transform:rotate(945deg); opacity: 0; }
-        100% { transform:rotate(945deg); opacity: 0; }
+    .liquid {
+        position: absolute; bottom: 0; left: 0; width: 100%; height: 70%;
+        background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+        border-radius: 50%; animation: wave 4s infinite ease-in-out;
     }
-    /* مخفی کردن محتوای اصلی تا وقتی لودر تمام شود */
+    .liquid::before, .liquid::after {
+        content: ''; position: absolute; width: 200%; height: 200%;
+        top: -50%; left: -50%; background: inherit;
+        border-radius: 45%; animation: rotate 12s infinite linear;
+    }
+    .liquid::after { animation-duration: 16s; animation-direction: reverse; }
+    @keyframes wave {
+        0%,100% { transform: translateY(0) scaleY(1); }
+        50% { transform: translateY(-20px) scaleY(1.2); }
+    }
+    @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* مخفی کردن محتوا تا پایان لودر */
     main, header, #menu-backdrop, #side-menu {
         visibility: hidden;
     }
-    /* وقتی لودر تمام شد، محتوای اصلی نمایش داده شود */
     #loading-overlay.hidden ~ header,
     #loading-overlay.hidden ~ #menu-backdrop,
     #loading-overlay.hidden ~ #side-menu,
     #loading-overlay.hidden ~ main {
         visibility: visible;
     }
-    /* ریسپانسیو */
-    @media (max-width:1200px) {
-        .movies-grid { grid-template-columns:repeat(3,1fr); }
+
+    /* ریسپانسیو کلی */
+    @media (max-width: 1200px) {
+        .movies-grid { gap: 25px; }
     }
-    @media (max-width:768px) {
-        .movies-grid { grid-template-columns:repeat(2,1fr); }
+    @media (max-width: 768px) {
+        .movies-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
     }
-    @media (max-width:480px) {
-        .movies-grid { grid-template-columns:1fr; }
-        .section-title-box { width: 280px; padding: 16px 20px; }
+    @media (max-width: 480px) {
+        .section-title-box { width: 260px; padding: 14px 18px; }
         .section-title-box h1 { font-size: 28px; }
+        .movies-grid { padding: 0 10px; }
     }
     </style>
 </head>
 <body>
 <div id="loading-overlay">
-  <div class="loader">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-  </div>
+    <div class="loader">
+        <div class="liquid"></div>
+    </div>
 </div>
 <header>
     <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
@@ -509,11 +558,9 @@
 // --- منطق تغییر تم (Theme Toggle Logic) ---
 const body = document.body;
 const themeToggle = document.getElementById('theme-toggle');
-let currentTheme = localStorage.getItem('theme'); // تمی که کاربر قبلا انتخاب کرده
+let currentTheme = localStorage.getItem('theme');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-// 1. تابع اعمال تم
 function applyTheme(theme) {
-    // تنها کاری که JS انجام می‌دهد تغییر کلاس و آیکون است
     if (theme === 'light') {
         body.classList.add('light-mode');
         themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
@@ -528,46 +575,37 @@ function applyTheme(theme) {
         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffd700');
     }
 }
-// 2. هندل کردن تنظیمات Dark Mode سیستم عامل و اعمال تم اولیه
 function initializeTheme() {
     if (currentTheme === null) {
-        // اگر کاربر قبلاً تمی انتخاب نکرده باشد، از سیستم تبعیت کن
         if (prefersDark.matches) {
             applyTheme('dark');
         } else {
-            applyTheme('dark'); // پیش‌فرض خود سایت را روی شب بگذارید
+            applyTheme('dark');
         }
     } else {
-        // اگر تم انتخاب شده، آن را اعمال کن
         applyTheme(currentTheme);
     }
 }
-// 3. رخدادها برای تغییرات تم
 function toggleTheme() {
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     localStorage.setItem('theme', newTheme);
-    // اعمال تم جدید بدون لگ، زیرا تمام تغییرات رنگ در CSS انجام می‌شود
     applyTheme(newTheme);
 }
-// گوش دادن به تغییرات سیستم عامل در زمان اجرا
 prefersDark.addEventListener('change', (e) => {
     if (localStorage.getItem('theme') === null) {
         initializeTheme();
     }
 });
-// اعمال تم در زمان بارگذاری صفحه
 initializeTheme();
 themeToggle.addEventListener('click', toggleTheme);
 // ------------------------------------------
-// لودر (حداقل ۵ ثانیه + مخفی کردن محتوای اصلی تا پایان لودر)
+// لودر پیشرفته – حداقل ۵ ثانیه
 const overlay = document.getElementById('loading-overlay');
-const minDuration = 5000; // دقیقاً ۵ ثانیه
+const minDuration = 5000;
 const startTime = Date.now();
-
 const maxTimeout = setTimeout(() => {
     overlay.classList.add('hidden');
-}, 15000); // حداکثر ۱۵ ثانیه
-
+}, 15000);
 window.addEventListener('load', () => {
     const elapsed = Date.now() - startTime;
     const delay = Math.max(0, minDuration - elapsed);
@@ -576,7 +614,7 @@ window.addEventListener('load', () => {
         clearTimeout(maxTimeout);
     }, delay);
 });
-// لود کارت‌ها
+// لود کارت‌ها + انیمیشن ورود با تاخیر stagger
 const container = document.getElementById("cards-container");
 let openCard = null;
 async function loadCardsStrictly() {
@@ -588,6 +626,7 @@ async function loadCardsStrictly() {
             const card = document.createElement("div");
             card.className = "movie-card";
             card.innerHTML = html;
+            card.style.animationDelay = `${num * 0.09}s`;
             container.appendChild(card);
         } catch (e) {
             console.log("خطا در لود کارت", num);
@@ -610,7 +649,7 @@ document.addEventListener("click", function(e) {
     const encoded = encodeURIComponent(message);
     window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
-// فلیپ کارت (فعال کردن 3D)
+// فلیپ کارت
 document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar")) return;
     const cardInner = e.target.closest(".card-inner");
@@ -644,7 +683,7 @@ menuClose.addEventListener('click', e => { e.stopPropagation(); closeMenu(); });
 backdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
 sideMenu.addEventListener('click', e => e.stopPropagation());
-// انیمیشن بک‌گراند
+// انیمیشن بک‌گراند ذرات طلایی
 (() => {
   const canvas = document.createElement('canvas');
   document.body.appendChild(canvas);
@@ -679,7 +718,6 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
       if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
       if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
       ctx.beginPath();
-      // استفاده از رنگ طلایی ثابت برای ذرات
       ctx.fillStyle = `rgba(255,215,0,${p.a * 0.9})`;
       ctx.arc(p.x, p.y, p.r, 0, 6.28);
       ctx.fill();
@@ -691,7 +729,6 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
         const d = Math.hypot(p.x - q.x, p.y - q.y);
         if (d < maxDist) {
           ctx.beginPath();
-          // استفاده از رنگ طلایی ثابت برای خطوط
           ctx.strokeStyle = `rgba(255,215,0,${(1 - d / maxDist) * 0.22})`;
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(q.x, q.y);
