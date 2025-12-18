@@ -2,14 +2,12 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>تماشای مشترک</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Watch Party</title>
 <style>
 body{margin:0;background:#000;color:#fff;font-family:sans-serif}
-#lock{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9}
-video{width:100%;max-height:60vh}
-.chat{background:#111;padding:10px}
-.msg{background:#222;margin:4px;padding:6px;border-radius:6px}
+#lock{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:10}
+#users div{display:flex;justify-content:space-between;background:#111;margin:4px;padding:6px}
+.msg{background:#222;margin:4px;padding:6px}
 .hidden{display:none}
 </style>
 </head>
@@ -18,9 +16,8 @@ video{width:100%;max-height:60vh}
 
 <div id="lock">
   <div>
-    <h3>🔐 ورود</h3>
     <input id="name" placeholder="نام"><br><br>
-    <input id="code" placeholder="کد اتاق"><br><br>
+    <input id="code" placeholder="رمز اتاق"><br><br>
     <button onclick="login()">ورود</button>
   </div>
 </div>
@@ -29,94 +26,110 @@ video{width:100%;max-height:60vh}
   <source src="https://s1.dlserfes.info/dl6/2022/Top.Gun.Maverick.2022/Top.Gun.Maverick.2022.720p.BluRay.Dubbed.FilmKio.mkv?md5=QrowAG4GcVBaXqoq9UI32A&u=288589&expires=1766117902">
 </video>
 
-<div id="controls" class="hidden">
-  <button onclick="play()">▶️</button>
-  <button onclick="pause()">⏸</button>
-  <button onclick="startVoice()">🎙 ویس</button>
+<div id="panel" class="hidden">
+  <button onclick="startVoice()">🎙</button>
+  <button onclick="setTempCode()">🔐 رمز موقت</button>
 </div>
 
-<div class="chat hidden" id="chatBox">
-  <div id="chat"></div>
-  <input id="msg" placeholder="پیام..." onkeydown="if(event.key==='Enter')send()">
-</div>
+<h4>👥 کاربران آنلاین</h4>
+<div id="users"></div>
+
+<h4>💬 چت</h4>
+<div id="chat"></div>
+<input id="msg" onkeydown="if(event.key==='Enter')send()">
 
 <script>
 const room = new URLSearchParams(location.search).get("room") || "public";
 const ws = new WebSocket("wss://videochat.softshiraz.workers.dev/" + room);
 const id = crypto.randomUUID();
-let isLeader = false;
-let pc;
+let isLeader=false;
 
-ws.onmessage = e => {
+ws.onmessage = e=>{
   const d = JSON.parse(e.data);
 
-  if (d.t === "auth") {
-    if (!d.ok) return alert("❌ کد اشتباه");
+  if(d.t==="auth"){
+    if(!d.ok) return alert("رمز اشتباه");
     lock.remove();
     video.classList.remove("hidden");
-    controls.classList.remove("hidden");
-    chatBox.classList.remove("hidden");
-
-    isLeader = d.leader;
-    d.messages.forEach(m => add(m.name + ": " + m.text));
-    video.currentTime = d.time;
-    if (d.playing) video.play();
+    panel.classList.remove("hidden");
+    isLeader=d.leader;
+    d.messages.forEach(m=>add(m.name+": "+m.text));
+    video.currentTime=d.time;
+    if(d.playing) video.play();
+    setInterval(()=>{ if(isLeader)
+      ws.send(JSON.stringify({t:"sync",time:video.currentTime,playing:!video.paused}));
+    },2000);
   }
 
-  if (d.t === "chat") add(d.msg.name + ": " + d.msg.text);
-  if (d.t === "play") { video.currentTime=d.time; video.play(); }
-  if (d.t === "pause") { video.currentTime=d.time; video.pause(); }
+  if(d.t==="users"){
+    users.innerHTML="";
+    d.users.forEach(u=>{
+      const div=document.createElement("div");
+      div.textContent=u.name;
+      if(isLeader){
+        const b=document.createElement("button");
+        b.textContent="Kick";
+        b.onclick=()=>ws.send(JSON.stringify({t:"kick",id:u.id}));
+        div.appendChild(b);
+      }
+      users.appendChild(div);
+    });
+  }
 
-  if (d.t === "signal") handleSignal(d.data);
+  if(d.t==="chat") add(d.msg.name+": "+d.msg.text);
+
+  if(d.t==="sync"){
+    if(!isLeader){
+      if(Math.abs(video.currentTime-d.time)>1)
+        video.currentTime=d.time;
+      d.playing?video.play():video.pause();
+    }
+  }
+
+  if(d.t==="signal") handleSignal(d.data);
 };
 
 function login(){
-  ws.send(JSON.stringify({
-    t:"auth",
-    id,
-    name:name.value,
-    code:code.value
-  }));
+  ws.send(JSON.stringify({t:"auth",id,name:name.value,code:code.value}));
 }
-
 function send(){
   ws.send(JSON.stringify({t:"chat",text:msg.value}));
   msg.value="";
 }
 function add(t){
   const d=document.createElement("div");
-  d.className="msg";
-  d.textContent=t;
+  d.className="msg";d.textContent=t;
   chat.appendChild(d);
 }
+function setTempCode(){
+  const c=prompt("رمز جدید:");
+  ws.send(JSON.stringify({t:"setCode",code:c}));
+}
 
-function play(){ if(isLeader) ws.send(JSON.stringify({t:"play",time:video.currentTime})); }
-function pause(){ if(isLeader) ws.send(JSON.stringify({t:"pause",time:video.currentTime})); }
-
-/* ---------- Voice ---------- */
+/* ---- Voice ---- */
+let pc;
 async function startVoice(){
   pc=new RTCPeerConnection();
   const s=await navigator.mediaDevices.getUserMedia({audio:true});
   s.getTracks().forEach(t=>pc.addTrack(t,s));
   pc.ontrack=e=>{
     const a=document.createElement("audio");
-    a.srcObject=e.streams[0]; a.autoplay=true;
+    a.srcObject=e.streams[0];a.autoplay=true;
   };
   pc.onicecandidate=e=>{
-    if(e.candidate)
-      ws.send(JSON.stringify({t:"signal",data:{c:e.candidate}}));
+    if(e.candidate) ws.send(JSON.stringify({t:"signal",data:{c:e.candidate}}));
   };
-  const offer=await pc.createOffer();
-  await pc.setLocalDescription(offer);
-  ws.send(JSON.stringify({t:"signal",data:{o:offer}}));
+  const o=await pc.createOffer();
+  await pc.setLocalDescription(o);
+  ws.send(JSON.stringify({t:"signal",data:{o}}));
 }
 async function handleSignal(d){
   if(d.o){
     if(!pc) await startVoice();
     await pc.setRemoteDescription(d.o);
-    const ans=await pc.createAnswer();
-    await pc.setLocalDescription(ans);
-    ws.send(JSON.stringify({t:"signal",data:{a:ans}}));
+    const a=await pc.createAnswer();
+    await pc.setLocalDescription(a);
+    ws.send(JSON.stringify({t:"signal",data:{a}}));
   }
   if(d.a) await pc.setRemoteDescription(d.a);
   if(d.c) await pc.addIceCandidate(d.c);
