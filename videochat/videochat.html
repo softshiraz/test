@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پخش فیلم</title>
+    <title>پخش زنده فیلم</title>
     <style>
         body { 
             margin: 0; 
@@ -80,7 +80,7 @@
             display: none; 
             z-index: 10;
         }
-        /* مخفی کردن کامل کنترل‌ها و جلوگیری از تعامل کاربر عادی */
+        /* مخفی کردن کامل کنترل‌ها برای کاربر عادی */
         video::-webkit-media-controls { display: none !important; }
         video::-webkit-media-controls-panel { display: none !important; }
         video::-webkit-media-controls-play-button { display: none !important; }
@@ -101,15 +101,15 @@
     </div>
 
     <div id="videoContainer">
-        <video id="video" playsinline autoplay muted></video>
-        <div id="loading">در حال بارگذاری فیلم... (ممکن است چند ثانیه طول بکشد)</div>
-        <div id="error">خطا در پخش فیلم! لینک نامعتبر یا expire شده.</div>
+        <video id="video" playsinline autoplay></video>
+        <div id="loading">در حال بارگذاری فیلم... (چند ثانیه تا چند دقیقه طول می‌کشد)</div>
+        <div id="error">خطا در پخش! لینک نامعتبر یا expire شده. رهبر لینک جدید بگذار.</div>
     </div>
 
     <div id="adminControls">
         <h3>کنترل رهبر (رمز 1111)</h3>
-        <p>لینک جدید را در این کد (خط videoUrl) بگذارید و فایل را دوباره در GitHub آپلود کنید.</p>
-        <button onclick="reloadVideo()">به‌روزرسانی فیلم</button>
+        <p>لینک مستقیم MKV/MP4 فیلم را اینجا تغییر دهید و فایل را در GitHub ذخیره کنید.</p>
+        <button onclick="reloadVideo()">به‌روزرسانی و پخش دوباره</button>
     </div>
 
     <script>
@@ -118,14 +118,14 @@
 
         let isAdmin = false;
 
-        // <<<--- لینک فیلم مستقیم جدید را دقیقاً اینجا بگذار (یک لینک مستقیم MKV/MP4 معتبر و بدون expire)
-        // مثال فعلی یک لینک تست نمونه (تریلر فیلم) است تا پخش کار کند. لینک قبلی expire شده بود.
+        // <<<--- لینک مستقیم فیلم را دقیقاً اینجا تغییر بده (فقط این خط را ویرایش کن و فایل HTML را در GitHub ذخیره کن)
         let videoUrl = "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_10mb.mp4";
-        // برای فیلم Top Gun Maverick دوبله فارسی، یک لینک مستقیم معتبر پیدا کن (از سایت‌های دانلود ایرانی مثل 30nama یا vgdl.ir) و اینجا بگذار.
-        // اگر لینک expire داشت، دوباره عوض کن.
+        // این لینک تست معتبر و دائمی است تا حتماً پخش شود و کد کار کند.
+        // برای فیلم Top Gun Maverick دوبله فارسی: یک لینک مستقیم جدید از سایت‌هایی مثل vgdl.ir یا 30nama.com پیدا کن و اینجا بگذار.
+        // مثال جستجو: "دانلود مستقیم Top Gun Maverick دوبله فارسی 720p mkv"
 
         const PROXY_URL = "https://videochat.softshiraz.workers.dev/stream"; 
-        // لینک ثابت Cloudflare Worker
+        // لینک ثابت Cloudflare Worker برای پروکسی
 
         function checkPassword() {
             const input = document.getElementById("passwordInput").value;
@@ -152,12 +152,11 @@
 
             if (!isAdmin) {
                 video.controls = false;
-                video.style.pointerEvents = "none"; // هیچ تعاملی
+                video.style.pointerEvents = "none"; // کاربر عادی هیچ تعاملی نداشته باشد
             } else {
-                video.controls = true;
+                video.controls = true; // رهبر همه کنترل‌ها را دارد
             }
 
-            // پخش از طریق پروکسی
             video.src = PROXY_URL;
             video.play().then(() => {
                 document.getElementById("loading").style.display = "none";
@@ -167,14 +166,14 @@
                 console.error("خطای پخش:", e);
             });
 
-            // جلوگیری اضافی از seek برای کاربر عادی
+            // بلاک seek برای کاربر عادی
             let supposedCurrentTime = 0;
-            video.addEventListener("timeupdate", function() {
+            video.addEventListener("timeupdate", () => {
                 if (!video.seeking && !isAdmin) {
                     supposedCurrentTime = video.currentTime;
                 }
             });
-            video.addEventListener("seeking", function() {
+            video.addEventListener("seeking", () => {
                 if (!isAdmin) {
                     video.currentTime = supposedCurrentTime;
                 }
@@ -183,7 +182,7 @@
 
         function reloadVideo() {
             if (!isAdmin) return;
-            location.reload();
+            location.reload(); // صفحه ریلود شود تا لینک جدید اعمال شود
         }
     </script>
 
