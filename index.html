@@ -70,7 +70,7 @@
     }">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
     <style>
-    /* --- تمام استایل‌های قبلی شما بدون تغییر --- */
+    /* --- متغیرهای تم و حالت شب/روز --- */
     :root {
         --color-primary: #ffd700;
         --color-secondary: #ffb300;
@@ -141,17 +141,186 @@
         overflow-x:hidden;
         transition: background-color 0.3s, color 0.3s;
     }
-    header { /* همان استایل قبلی */ }
-    /* ... تمام استایل‌های قبلی شما تا آخر ... */
+    header {
+        background: var(--header-bg);
+        backdrop-filter: blur(10px);
+        padding:15px 25px;
+        display:flex; justify-content:space-between; align-items:center;
+        border-bottom:1px solid var(--border-color);
+        position:sticky; top:0; z-index:20;
+        text-shadow:0 0 10px rgba(255,215,0,0.25);
+    }
+    .logo-link { text-decoration: none; cursor: pointer; }
+    .logo-fa {
+        font-weight:700;
+        font-size:26px;
+        background:linear-gradient(45deg,var(--color-primary),var(--color-secondary));
+        -webkit-background-clip:text;
+        color:transparent;
+        transition: all 0.3s ease;
+    }
+    .logo-link:hover .logo-fa {
+        text-shadow: 0 0 20px rgba(255,215,0,0.8);
+        transform: scale(1.05);
+    }
+    .hamburger-btn {
+        width:48px; height:48px; display:flex; align-items:center; justify-content:center;
+        background: var(--icon-bg); border-radius:14px; border:2px solid var(--icon-border);
+        cursor:pointer; transition:all .3s ease; color:var(--color-primary);
+        box-shadow: 0 0 15px rgba(255,215,0,0.2);
+    }
+    .light-mode .hamburger-btn { background: var(--icon-bg); box-shadow: none; }
+    .hamburger-btn:hover {
+        background: rgba(255,215,0,0.15);
+        border-color:var(--color-primary);
+        transform: scale(1.08);
+        box-shadow: 0 0 25px rgba(255,215,0,0.4);
+    }
+    .hamburger-btn:active { transform:scale(.95); }
+    .hamburger-inner { width:24px; height:18px; position:relative; }
+    .hamburger-inner span { position:absolute; left:0; right:0; height:3px; background:var(--color-primary); display:block; border-radius:3px; transition:all .3s; }
+    .hamburger-inner span:nth-child(1){ top:0; }
+    .hamburger-inner span:nth-child(2){ top:7.5px; }
+    .hamburger-inner span:nth-child(3){ top:15px; }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(1) { transform: rotate(45deg); top:7.5px; }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(2) { opacity:0; }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(3) { transform: rotate(-45deg); top:7.5px; }
+    #side-menu {
+        position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
+        background: linear-gradient(180deg, var(--menu-bg-start), var(--menu-bg-end));
+        box-shadow: 4px 0 30px rgba(0,0,0,0.6);
+        transform: translateX(100%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
+        z-index: 30; padding: 28px; display: flex; flex-direction: column; gap: 18px;
+        direction: rtl; border-right: 2px solid var(--menu-border-right);
+    }
+    #side-menu.open { transform: translateX(0); }
+    .menu-header { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 20px; }
+    .menu-controls { display: flex; gap: 8px; justify-content: space-between; width: 100%; }
+    #menu-close, #theme-toggle {
+        width: 44px; height: 44px; background: var(--icon-bg); border: 2px solid var(--icon-border);
+        border-radius: 12px; color: var(--color-primary); font-size: 24px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; transition: all 0.3s;
+    }
+    #menu-close:hover, #theme-toggle:hover {
+        background: var(--color-primary); color: var(--bg-color); border-color: var(--color-primary);
+    }
+    .menu-controls #theme-toggle { order: 2; }
+    .menu-controls #menu-close { order: 1; }
+    .side-brand { font-weight:800; color:var(--color-primary); font-size:20px; margin: -10px 0 10px 0; text-align:center; width:100%; }
+    .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
+    .side-links a {
+        display:flex; align-items:center; justify-content:space-between; gap:10px;
+        padding:12px 14px; border-radius:10px; text-decoration:none; color:var(--text-color); font-weight:600;
+        background:var(--link-bg); border:1px solid var(--link-border); transition: all 0.3s;
+    }
+    .side-links a:hover { background:var(--link-hover-bg); color:var(--color-primary); }
+    .menu-social-row { display: flex; justify-content: center; gap: 18px; margin-top: 12px; }
+    .menu-install-icon, .menu-social-icon {
+        width: 48px; height: 48px; border-radius: 12px; background:var(--link-bg);
+        backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center;
+        color: var(--color-primary); font-size: 22px; text-decoration: none; transition: all 0.3s;
+        cursor: pointer; border: 2px solid var(--icon-border);
+    }
+    .menu-install-icon:hover, .menu-social-icon:hover {
+        background: var(--link-hover-bg); color: var(--color-primary); border-color: var(--color-primary);
+    }
+    .side-footer-text { margin-top: auto; font-size: 13px; color: rgba(255,255,255,0.7); padding-top: 20px; text-align:center; width:100%; }
+    .light-mode .side-footer-text { color: rgba(0,0,0,0.6); }
+    #menu-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25; }
+    #menu-backdrop.visible { opacity:1; pointer-events:auto; }
+    .section-title-wrapper { max-width: 1200px; margin: 40px auto 50px auto; padding: 0 20px; display: flex; justify-content: center; }
+    .section-title-box {
+        width: 280px; background: rgb(255 215 0 / 0%); backdrop-filter: blur(10px);
+        border: 2px solid var(--color-primary); border-radius: 18px; padding: 16px 20px;
+        box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1);
+        animation: glowPulse 4s ease-in-out infinite alternate; text-align: center;
+    }
+    .section-title-box h1 {
+        color: var(--color-primary); font-size: 32px; font-weight: 900; margin: 0;
+        text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.4); letter-spacing: 2px;
+    }
+    @keyframes glowPulse {
+        from { box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 15px rgba(255,215,0,0.1); }
+        to { box-shadow: 0 0 30px rgba(255,215,0,0.5), inset 0 0 20px rgba(255,215,0,0.2); }
+    }
+    .movies-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; justify-items: center;
+        max-width: 1200px; margin: 0 auto; padding: 0 20px;
+    }
+    .movie-card { perspective:1000px; position:relative; }
+    .card-inner {
+        position:relative; width:280px; height:420px; cursor:pointer;
+        transition:transform 0.65s cubic-bezier(0.5, 1.25, 0.5, 1.25); transform-style:preserve-3d;
+    }
+    .card-inner.flipped { transform:rotateY(180deg); }
+    .card-front, .card-back {
+        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
+        backface-visibility:hidden; border:2px solid var(--card-border);
+        box-shadow:0 0 8px var(--card-shadow-color), inset 0 0 6px var(--card-shadow-color);
+        background:var(--card-bg); backdrop-filter:blur(10px);
+        transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .card-front { display:flex; flex-direction:column; }
+    .img-bar { flex:1; overflow:hidden; }
+    .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
+    .movie-card:hover .img-bar img { transform:scale(1.08); }
+    .date-bar {
+        height:52px !important; line-height:52px !important; padding:0 10px; text-align:center;
+        background:rgba(138, 119, 0, 0.06); color:var(--color-primary); font-size:19px !important; font-weight:900 !important;
+        letter-spacing:1.2px; text-shadow:0 0 14px rgba(255,215,0,0.8);
+    }
+    .date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
+    .title-bar {
+        height:36px; line-height:36px; padding:0 10px; text-align:center;
+        background:var(--card-title-bar-bg); border-top:1px solid var(--link-border);
+        color:var(--text-color); font-weight:600; font-size:15px;
+    }
+    .reserve-bar {
+        height:36px; line-height:36px; padding:0 10px; text-align:center;
+        background:var(--color-primary); color:var(--bg-color); font-weight:bold; cursor:pointer; transition:background 0.3s;
+    }
+    .reserve-bar:hover { background:#ffea00; }
+    .light-mode .reserve-bar { color: #000; }
+    .card-back { transform:rotateY(180deg); padding:15px; color:var(--text-color); text-align:right; font-size:14px; display:flex; flex-direction:column; }
+    .card-back h3, .card-back p strong { color:var(--color-primary); }
+    #loading-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background:var(--bg-color);
+        display: flex; justify-content: center; align-items: center; z-index: 10000;
+        opacity: 1; transition: opacity 0.9s ease, background 0.3s;
+    }
+    #loading-overlay.hidden { opacity: 0; pointer-events: none; }
+    .loader { position: relative; width: 40px; height: 40px; }
+    .loader .circle { position: absolute; width: 38px; height: 38px; opacity: 0; transform: rotate(225deg); animation: orbit 5.5s infinite; }
+    .loader .circle:after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--color-primary); }
+    .loader .circle:nth-child(2) { animation-delay: 240ms; }
+    .loader .circle:nth-child(3) { animation-delay: 480ms; }
+    .loader .circle:nth-child(4) { animation-delay: 720ms; }
+    .loader .circle:nth-child(5) { animation-delay: 960ms; }
+    @keyframes orbit {
+        0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
+        7% { transform:rotate(345deg); animation-timing-function: linear; }
+        30% { transform:rotate(455deg); animation-timing-function: ease-in-out; }
+        39% { transform:rotate(690deg); animation-timing-function: linear; }
+        70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+        75% { transform:rotate(945deg); animation-timing-function: ease-out; }
+        76% { transform:rotate(945deg); opacity: 0; }
+        100% { transform:rotate(945deg); opacity: 0; }
+    }
+    main, header, #menu-backdrop, #side-menu { visibility: hidden; }
+    #loading-overlay.hidden ~ header,
+    #loading-overlay.hidden ~ #menu-backdrop,
+    #loading-overlay.hidden ~ #side-menu,
+    #loading-overlay.hidden ~ main { visibility: visible; }
 
-    /* ==================== نوار اتوماتیک حرکتی جدید ==================== */
-    .auto-carousel-section {
-        margin: 50px auto 40px auto;
+    /* ==================== نوار اتوماتیک حرکتی (Marquee Carousel) ==================== */
+    .marquee-carousel {
+        margin: 40px auto 60px auto;
         max-width: 1200px;
         padding: 0 20px;
         overflow: hidden;
+        position: relative;
     }
-    .auto-carousel-title {
+    .marquee-title {
         text-align: center;
         color: var(--color-primary);
         font-size: 28px;
@@ -159,16 +328,15 @@
         margin-bottom: 20px;
         text-shadow: 0 0 12px rgba(255,215,0,0.6);
     }
-    .auto-carousel-wrapper {
+    .marquee-wrapper {
         overflow: hidden;
-        position: relative;
     }
-    .auto-carousel-track {
+    .marquee-track {
         display: flex;
-        animation: carouselMove var(--carousel-duration, 30s) linear infinite;
+        animation: marqueeMove var(--marquee-duration, 40s) linear infinite;
     }
-    .auto-carousel-item {
-        flex: 0 0 250px;
+    .marquee-item {
+        flex: 0 0 260px;
         margin: 0 15px;
         border-radius: 16px;
         overflow: hidden;
@@ -177,43 +345,94 @@
         background: var(--card-bg);
         backdrop-filter: blur(10px);
     }
-    .auto-carousel-item img {
+    .marquee-item img {
         width: 100%;
-        height: 375px;
+        height: 390px;
         object-fit: cover;
     }
-    .auto-carousel-item .info {
+    .marquee-item .info {
         padding: 12px;
         text-align: center;
         background: var(--card-title-bar-bg);
         color: var(--text-color);
     }
-    .auto-carousel-item .info strong {
+    .marquee-item .info strong {
         color: var(--color-primary);
-        font-size: 16px;
+        font-size: 17px;
         display: block;
+        margin-bottom: 4px;
     }
-    @keyframes carouselMove {
+    @keyframes marqueeMove {
         0% { transform: translateX(0); }
         100% { transform: translateX(-50%); }
     }
+    @media (max-width: 992px) {
+        .marquee-item { flex: 0 0 220px; margin: 0 12px; }
+        .marquee-item img { height: 330px; }
+    }
     @media (max-width: 768px) {
-        .auto-carousel-item { flex: 0 0 200px; margin: 0 10px; }
-        .auto-carousel-item img { height: 300px; }
+        .marquee-item { flex: 0 0 180px; margin: 0 10px; }
+        .marquee-item img { height: 270px; }
     }
     @media (max-width: 480px) {
-        .auto-carousel-item { flex: 0 0 160px; margin: 0 8px; }
-        .auto-carousel-item img { height: 240px; }
+        .marquee-item { flex: 0 0 150px; margin: 0 8px; }
+        .marquee-item img { height: 225px; }
     }
-    /* ریسپانسیو قبلی */
     @media (max-width:1200px) { .movies-grid { grid-template-columns:repeat(3,1fr); } }
     @media (max-width:768px) { .movies-grid { grid-template-columns:repeat(2,1fr); } }
-    @media (max-width:480px) { .movies-grid { grid-template-columns:1fr; } .section-title-box h1 { font-size: 28px; } }
+    @media (max-width:480px) {
+        .movies-grid { grid-template-columns:1fr; }
+        .section-title-box { width: 280px; padding: 16px 20px; }
+        .section-title-box h1 { font-size: 28px; }
+    }
     </style>
 </head>
 <body>
-<!-- لودر، هدر و منو همان قبلی -->
-
+<div id="loading-overlay">
+  <div class="loader">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+  </div>
+</div>
+<header>
+    <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
+        <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
+    </button>
+    <a href="./index.html" class="logo-link">
+        <div class="logo-fa">Soft Shiraz</div>
+    </a>
+</header>
+<div id="menu-backdrop" tabindex="-1"></div>
+<nav id="side-menu" aria-hidden="true">
+    <div class="menu-header">
+        <div class="menu-controls">
+            <button id="menu-close" aria-label="بستن منو">
+                <i class="fas fa-times"></i>
+            </button>
+            <button id="theme-toggle" aria-label="تغییر تم">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+    </div>
+    <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
+    <div class="side-links" role="menu">
+        <a href="../web/events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
+        <a href="../pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
+        <a href="../web/pages/about.html" role="menuitem">درباره ما</a>
+    </div>
+    <div class="menu-social-row">
+        <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز">
+            <i class="fas fa-download"></i>
+        </div>
+        <a class="menu-social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a class="menu-social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a class="menu-social-icon" href="https://t.me/FLOKI000" target="_blank"><i class="fas fa-headset"></i></a>
+    </div>
+    <div class="side-footer-text">ساخته شده توسط فلوکی</div>
+</nav>
 <main style="padding-top:0px;">
     <section class="section">
         <div class="section-title-wrapper">
@@ -222,27 +441,69 @@
             </div>
         </div>
 
-        <!-- نوار اتوماتیک حرکتی جدید (بالای کارت‌ها) -->
-        <div class="auto-carousel-section">
-            <div class="auto-carousel-title">پیش‌نمایش اکران‌ها</div>
-            <div class="auto-carousel-wrapper">
-                <div class="auto-carousel-track" id="auto-carousel-track">
-                    <!-- آیتم‌ها به صورت داینامیک اضافه می‌شوند -->
-                </div>
+        <!-- نوار اتوماتیک حرکتی بالای کارت‌ها -->
+        <div class="marquee-carousel">
+            <div class="marquee-title">پیش‌نمایش اکران‌های آینده</div>
+            <div class="marquee-wrapper">
+                <div class="marquee-track" id="marquee-track"></div>
             </div>
         </div>
 
         <div class="movies-grid" id="cards-container" style="margin-bottom: 45px;"></div>
     </section>
 </main>
-
 <script>
-// تمام اسکریپت‌های قبلی (تم، لودر، منو، انیمیشن بک‌گراند، نصب اپ و ...) بدون تغییر
+// --- تغییر تم ---
+const body = document.body;
+const themeToggle = document.getElementById('theme-toggle');
+let currentTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-// لود کارت‌های اصلی
+function applyTheme(theme) {
+    if (theme === 'light') {
+        body.classList.add('light-mode');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        themeToggle.setAttribute('aria-label', 'تغییر به تم شب');
+        currentTheme = 'light';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#8a7700');
+    } else {
+        body.classList.remove('light-mode');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        themeToggle.setAttribute('aria-label', 'تغییر به تم روز');
+        currentTheme = 'dark';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffd700');
+    }
+}
+function initializeTheme() {
+    if (currentTheme === null) {
+        applyTheme(prefersDark.matches ? 'dark' : 'dark');
+    } else {
+        applyTheme(currentTheme);
+    }
+}
+function toggleTheme() {
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    applyTheme(newTheme);
+}
+prefersDark.addEventListener('change', () => { if (!localStorage.getItem('theme')) initializeTheme(); });
+initializeTheme();
+themeToggle.addEventListener('click', toggleTheme);
+
+// --- لودر ---
+const overlay = document.getElementById('loading-overlay');
+const minDuration = 5000;
+const startTime = Date.now();
+const maxTimeout = setTimeout(() => overlay.classList.add('hidden'), 15000);
+window.addEventListener('load', () => {
+    const elapsed = Date.now() - startTime;
+    const delay = Math.max(0, minDuration - elapsed);
+    setTimeout(() => { overlay.classList.add('hidden'); clearTimeout(maxTimeout); }, delay);
+});
+
+// --- لود کارت‌های اصلی ---
 const container = document.getElementById("cards-container");
 let openCard = null;
-
 async function loadCardsStrictly() {
     for (let num = 1; num <= 150; num++) {
         try {
@@ -253,18 +514,15 @@ async function loadCardsStrictly() {
             card.className = "movie-card";
             card.innerHTML = html;
             container.appendChild(card);
-        } catch (e) {
-            console.log("خطا در لود کارت", num);
-        }
+        } catch (e) { console.log("خطا در لود کارت", num); }
     }
 }
 
-// ==== نوار اتوماتیک حرکتی ====
-const carouselTrack = document.getElementById('auto-carousel-track');
-let carouselItems = [];
-
-async function loadAutoCarousel() {
-    carouselItems = [];
+// --- نوار اتوماتیک حرکتی ---
+const marqueeTrack = document.getElementById('marquee-track');
+let marqueeData = [];
+async function loadMarqueeCarousel() {
+    marqueeData = [];
     for (let num = 1; num <= 150; num++) {
         try {
             const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
@@ -272,25 +530,19 @@ async function loadAutoCarousel() {
             const html = await response.text();
             const temp = document.createElement('div');
             temp.innerHTML = html;
-
             const imgSrc = temp.querySelector('.img-bar img')?.src || '';
             const movieName = temp.querySelector('.date-bar')?.textContent.trim() || 'نامشخص';
             const dateTime = temp.querySelector('.title-bar')?.textContent.trim() || '';
-
-            if (imgSrc) {
-                carouselItems.push({ imgSrc, movieName, dateTime });
-            }
+            if (imgSrc) marqueeData.push({ imgSrc, movieName, dateTime });
         } catch (e) {}
     }
+    if (marqueeData.length === 0) return;
 
-    if (carouselItems.length === 0) return;
-
-    // دوبل کردن برای لوپ بی‌نهایت بدون پرش
-    const allItems = [...carouselItems, ...carouselItems];
-
+    // دوبل کردن برای لوپ بی‌نهایت
+    const allItems = [...marqueeData, ...marqueeData];
     allItems.forEach(item => {
         const el = document.createElement('div');
-        el.className = 'auto-carousel-item';
+        el.className = 'marquee-item';
         el.innerHTML = `
             <img src="${item.imgSrc}" alt="${item.movieName}">
             <div class="info">
@@ -298,26 +550,133 @@ async function loadAutoCarousel() {
                 ${item.dateTime}
             </div>
         `;
-        carouselTrack.appendChild(el);
+        marqueeTrack.appendChild(el);
     });
 
-    // هر کارت ۱ ثانیه مکث + زمان حرکت نرم
-    const itemCount = carouselItems.length;
-    const durationPerItem = 3; // ۱ ثانیه مکث + ۲ ثانیه حرکت نرم
+    // هر کارت ۱ ثانیه مکث + زمان حرکت نرم (کل حدود ۴ ثانیه برای هر کارت)
+    const itemCount = marqueeData.length;
+    const durationPerItem = 4; // ثانیه
     const totalDuration = itemCount * durationPerItem;
-
-    carouselTrack.style.setProperty('--carousel-duration', `${totalDuration}s`);
+    marqueeTrack.style.setProperty('--marquee-duration', `${totalDuration}s`);
 }
 
-// فراخوانی بعد از لود کارت‌ها
-loadCardsStrictly().then(() => {
-    loadAutoCarousel();
+// فراخوانی
+loadCardsStrictly().then(loadMarqueeCarousel);
+
+// --- رزرو بلیط ---
+document.addEventListener("click", function(e) {
+    const reserveBtn = e.target.closest(".reserve-bar a");
+    if (!reserveBtn || reserveBtn.textContent.trim() !== "تهیه بلیط") return;
+    e.stopPropagation();
+    const cardFront = reserveBtn.closest(".card-front");
+    if (!cardFront) return;
+    const adminId = cardFront.dataset.adminId || "softshirazadmin";
+    const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
+    const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
+    const message = `💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\n🌟 مرسی ازتون 🌟`;
+    const encoded = encodeURIComponent(message);
+    window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
 
-// بقیه اسکریپت‌ها (رزرو، فلیپ، منو، بک‌گراند و ...) دقیقاً همان قبلی
-// ... (همان کدهای قبلی شما بدون هیچ تغییری)
+// --- فلیپ کارت ---
+document.addEventListener("click", function(e) {
+    if (e.target.closest(".reserve-bar")) return;
+    const cardInner = e.target.closest(".card-inner");
+    if (cardInner) {
+        if (openCard && openCard !== cardInner) openCard.classList.remove("flipped");
+        cardInner.classList.toggle("flipped");
+        openCard = cardInner.classList.contains("flipped") ? cardInner : null;
+    }
+});
 
-// Service Worker و بقیه همان قبلی
+// --- منوی همبرگری ---
+const hamburger = document.getElementById('hamburger');
+const sideMenu = document.getElementById('side-menu');
+const backdrop = document.getElementById('menu-backdrop');
+const menuClose = document.getElementById('menu-close');
+function openMenu() {
+    sideMenu.classList.add('open'); backdrop.classList.add('visible');
+    hamburger.setAttribute('aria-expanded', 'true'); sideMenu.setAttribute('aria-hidden', 'false');
+}
+function closeMenu() {
+    sideMenu.classList.remove('open'); backdrop.classList.remove('visible');
+    hamburger.setAttribute('aria-expanded', 'false'); sideMenu.setAttribute('aria-hidden', 'true');
+}
+hamburger.addEventListener('click', e => { e.stopPropagation(); hamburger.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
+menuClose.addEventListener('click', e => { e.stopPropagation(); closeMenu(); });
+backdrop.addEventListener('click', closeMenu);
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
+sideMenu.addEventListener('click', e => e.stopPropagation());
+
+// --- انیمیشن بک‌گراند ---
+(() => {
+  const canvas = document.createElement('canvas');
+  document.body.appendChild(canvas);
+  canvas.style.position = 'fixed'; canvas.style.top = '0'; canvas.style.left = '0';
+  canvas.style.pointerEvents = 'none'; canvas.style.zIndex = '-1';
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [], N = 120, maxDist = 120;
+  function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
+  addEventListener('resize', resize); resize();
+  function rand(a, b) { return Math.random() * (b - a) + a; }
+  function init() {
+    particles = [];
+    for (let i = 0; i < N; i++) {
+      particles.push({ x: rand(0, w), y: rand(0, h), vx: rand(-0.45, 0.45), vy: rand(-0.45, 0.45), r: rand(0.8, 2.2), a: rand(0.4, 0.95) });
+    }
+  }
+  function frame() {
+    ctx.clearRect(0, 0, w, h);
+    for (let p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+      ctx.beginPath(); ctx.fillStyle = `rgba(255,215,0,${p.a * 0.9})`;
+      ctx.arc(p.x, p.y, p.r, 0, 6.28); ctx.fill();
+    }
+    ctx.lineWidth = 0.7;
+    for (let i = 0; i < particles.length; i++) for (let j = i + 1; j < particles.length; j++) {
+      const p = particles[i], q = particles[j];
+      const d = Math.hypot(p.x - q.x, p.y - q.y);
+      if (d < maxDist) {
+        ctx.beginPath(); ctx.strokeStyle = `rgba(255,215,0,${(1 - d / maxDist) * 0.22})`;
+        ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  init(); frame();
+})();
+
+// --- نصب اپ ---
+let deferredPrompt;
+const installBtn = document.getElementById('install-button');
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'flex'; });
+installBtn.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null; installBtn.style.display = 'none';
+});
+
+// --- Service Worker ---
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    const CACHE = 'softshiraz-web-v1';
+    const files = ['/web/', '/web/index.html'];
+    self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(files))); self.skipWaiting(); });
+    self.addEventListener('activate', e => { e.waitUntil(self.clients.claim()); });
+    self.addEventListener('fetch', e => { e.respondWith(caches.match(e.request).then(res => res || fetch(e.request))); });
+  `;
+  const blob = new Blob([swCode], {type: 'application/javascript'});
+  const swUrl = URL.createObjectURL(blob);
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register(swUrl, {scope: '/web/'})
+      .then(() => console.log('Service Worker ثبت شد'))
+      .catch(err => console.log('خطا در ثبت SW:', err));
+  });
+}
 </script>
 </body>
 </html>
