@@ -1,190 +1,154 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پخش زنده فیلم</title>
-    <style>
-        body { 
-            margin: 0; 
-            padding: 0; 
-            background: #000; 
-            color: #fff; 
-            font-family: Tahoma, sans-serif; 
-            text-align: center;
-        }
-        #videoContainer { 
-            width: 100vw; 
-            height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            position: relative;
-        }
-        video { 
-            max-width: 100%; 
-            max-height: 100%; 
-        }
-        #passwordOverlay { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.9); 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            z-index: 1000;
-        }
-        #passwordOverlay input { 
-            padding: 10px; 
-            font-size: 18px; 
-            margin-bottom: 20px; 
-            width: 200px;
-        }
-        #passwordOverlay button { 
-            padding: 10px 20px; 
-            font-size: 18px; 
-            cursor: pointer;
-        }
-        #adminControls { 
-            position: absolute; 
-            bottom: 20px; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            background: rgba(0,0,0,0.7); 
-            padding: 10px; 
-            border-radius: 8px; 
-            display: none;
-            z-index: 10;
-        }
-        #loading { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            color: yellow; 
-            font-size: 24px; 
-            display: none; 
-            z-index: 10;
-        }
-        #error { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            color: red; 
-            font-size: 24px; 
-            display: none; 
-            z-index: 10;
-        }
-        /* مخفی کردن کامل کنترل‌ها برای کاربر عادی */
-        video::-webkit-media-controls { display: none !important; }
-        video::-webkit-media-controls-panel { display: none !important; }
-        video::-webkit-media-controls-play-button { display: none !important; }
-        video::-webkit-media-controls-timeline { display: none !important; }
-        video::-webkit-media-controls-current-time-display { display: none !important; }
-        video::-webkit-media-controls-time-remaining-display { display: none !important; }
-        video::-webkit-media-controls-volume-slider { display: none !important; }
-        video::-webkit-media-controls-fullscreen-button { display: none !important; }
-    </style>
+<meta charset="UTF-8">
+<title>تماشای مشترک</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{background:#0e0e0f;color:#fff;font-family:sans-serif}
+video{width:100%;border-radius:12px;border:2px solid gold}
+.chat{background:#111;padding:10px;border-radius:10px;margin-top:10px}
+.msg{background:#222;margin:6px;padding:6px;border-radius:6px}
+button{background:gold;border:none;padding:8px;border-radius:6px;font-weight:bold}
+.hidden{display:none}
+</style>
 </head>
+
 <body>
 
-    <div id="passwordOverlay">
-        <h2>برای ورود رمز عبور را وارد کنید</h2>
-        <input type="password" id="passwordInput" placeholder="رمز عبور">
-        <button onclick="checkPassword()">ورود</button>
-        <p id="errorMsg" style="color:red; display:none;">رمز عبور اشتباه است!</p>
-    </div>
+<h2>🎬 تماشای مشترک</h2>
 
-    <div id="videoContainer">
-        <video id="video" playsinline autoplay></video>
-        <div id="loading">در حال بارگذاری فیلم... (چند ثانیه تا چند دقیقه طول می‌کشد)</div>
-        <div id="error">خطا در پخش! لینک نامعتبر یا expire شده. رهبر لینک جدید بگذار.</div>
-    </div>
+<div id="login">
+  <p>🔐 رمز ورود را وارد کنید</p>
+  <input id="pass" type="password" placeholder="رمز">
+  <button onclick="login()">ورود</button>
+</div>
 
-    <div id="adminControls">
-        <h3>کنترل رهبر (رمز 1111)</h3>
-        <p>لینک مستقیم MKV/MP4 فیلم را اینجا تغییر دهید و فایل را در GitHub ذخیره کنید.</p>
-        <button onclick="reloadVideo()">به‌روزرسانی و پخش دوباره</button>
-    </div>
+<div id="room" class="hidden">
 
-    <script>
-        const USER_PASSWORD = "1234";   // رمز کاربر عادی
-        const ADMIN_PASSWORD = "1111";  // رمز رهبر
+<video id="video" controls></video>
 
-        let isAdmin = false;
+<div id="leaderControls" class="hidden">
+  <button onclick="play()">▶️ پخش</button>
+  <button onclick="pause()">⏸ توقف</button>
+</div>
 
-        // <<<--- لینک مستقیم فیلم را دقیقاً اینجا تغییر بده (فقط این خط را ویرایش کن و فایل HTML را در GitHub ذخیره کن)
-        let videoUrl = "https://s1.dlserfes.info/dl6/2022/Top.Gun.Maverick.2022/Top.Gun.Maverick.2022.720p.BluRay.Dubbed.FilmKio.mkv?md5=QrowAG4GcVBaXqoq9UI32A&u=288589&expires=1766117902";
-        // این لینک تست معتبر و دائمی است تا حتماً پخش شود و کد کار کند.
-        // برای فیلم Top Gun Maverick دوبله فارسی: یک لینک مستقیم جدید از سایت‌هایی مثل vgdl.ir یا 30nama.com پیدا کن و اینجا بگذار.
-        // مثال جستجو: "دانلود مستقیم Top Gun Maverick دوبله فارسی 720p mkv"
+<button onclick="startVoice()">🎙 ویس‌کال</button>
 
-        const PROXY_URL = "https://videochat.softshiraz.workers.dev/stream"; 
-        // لینک ثابت Cloudflare Worker برای پروکسی
+<div class="chat">
+  <div id="chat"></div>
+  <input id="msg" placeholder="پیام..." onkeydown="if(event.key==='Enter')send()">
+</div>
 
-        function checkPassword() {
-            const input = document.getElementById("passwordInput").value;
-            const errorMsg = document.getElementById("errorMsg");
+</div>
 
-            if (input === USER_PASSWORD) {
-                isAdmin = false;
-                startPlayback();
-            } else if (input === ADMIN_PASSWORD) {
-                isAdmin = true;
-                startPlayback();
-                document.getElementById("adminControls").style.display = "block";
-            } else {
-                errorMsg.style.display = "block";
-            }
-        }
+<script>
+const LEADER_PASS = "1111";
+const USER_PASS   = "1234";
 
-        function startPlayback() {
-            document.getElementById("passwordOverlay").style.display = "none";
-            document.getElementById("loading").style.display = "block";
-            document.getElementById("error").style.display = "none";
+const roomName = new URLSearchParams(location.search).get("room") || "public";
+const ws = new WebSocket("wss://softshiraz-room.YOURNAME.workers.dev/" + roomName);
 
-            const video = document.getElementById("video");
+let role = null;
+const video = document.getElementById("video");
 
-            if (!isAdmin) {
-                video.controls = false;
-                video.style.pointerEvents = "none"; // کاربر عادی هیچ تعاملی نداشته باشد
-            } else {
-                video.controls = true; // رهبر همه کنترل‌ها را دارد
-            }
+ws.onmessage = e => {
+  const d = JSON.parse(e.data);
 
-            video.src = PROXY_URL;
-            video.play().then(() => {
-                document.getElementById("loading").style.display = "none";
-            }).catch(e => {
-                document.getElementById("loading").style.display = "none";
-                document.getElementById("error").style.display = "block";
-                console.error("خطای پخش:", e);
-            });
+  if (d.t === "chat") add(d.m);
 
-            // بلاک seek برای کاربر عادی
-            let supposedCurrentTime = 0;
-            video.addEventListener("timeupdate", () => {
-                if (!video.seeking && !isAdmin) {
-                    supposedCurrentTime = video.currentTime;
-                }
-            });
-            video.addEventListener("seeking", () => {
-                if (!isAdmin) {
-                    video.currentTime = supposedCurrentTime;
-                }
-            });
-        }
+  if (d.t === "play") {
+    video.currentTime = d.time;
+    video.play();
+  }
 
-        function reloadVideo() {
-            if (!isAdmin) return;
-            location.reload(); // صفحه ریلود شود تا لینک جدید اعمال شود
-        }
-    </script>
+  if (d.t === "pause") {
+    video.currentTime = d.time;
+    video.pause();
+  }
+
+  if (d.t === "signal") handleSignal(d.data);
+};
+
+function login(){
+  const p = pass.value;
+  if (p === LEADER_PASS) role = "leader";
+  else if (p === USER_PASS) role = "user";
+  else return alert("❌ رمز اشتباه است");
+
+  loginDiv.style.display="none";
+  roomDiv.classList.remove("hidden");
+
+  if (role === "leader") {
+    leaderControls.classList.remove("hidden");
+    video.controls = true;
+  } else {
+    video.controls = false;
+  }
+
+  video.src = "https://example.com/movie.mp4";
+}
+
+function send(){
+  ws.send(JSON.stringify({t:"chat",m:msg.value}));
+  add(msg.value);
+  msg.value="";
+}
+function add(t){
+  const d=document.createElement("div");
+  d.className="msg"; d.textContent=t;
+  chat.appendChild(d);
+}
+
+function play(){
+  if(role!=="leader") return;
+  ws.send(JSON.stringify({t:"play",time:video.currentTime}));
+}
+function pause(){
+  if(role!=="leader") return;
+  ws.send(JSON.stringify({t:"pause",time:video.currentTime}));
+}
+
+/* 🎙 Voice */
+let pc;
+async function startVoice(){
+  pc = new RTCPeerConnection();
+  const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+  stream.getTracks().forEach(t=>pc.addTrack(t,stream));
+
+  pc.ontrack = e=>{
+    const a=document.createElement("audio");
+    a.srcObject=e.streams[0];
+    a.autoplay=true;
+  };
+
+  pc.onicecandidate = e=>{
+    if(e.candidate)
+      ws.send(JSON.stringify({t:"signal",data:{c:e.candidate}}));
+  };
+
+  const offer = await pc.createOffer();
+  await pc.setLocalDescription(offer);
+  ws.send(JSON.stringify({t:"signal",data:{o:offer}}));
+}
+
+async function handleSignal(d){
+  if(d.o){
+    if(!pc) await startVoice();
+    await pc.setRemoteDescription(d.o);
+    const ans = await pc.createAnswer();
+    await pc.setLocalDescription(ans);
+    ws.send(JSON.stringify({t:"signal",data:{a:ans}}));
+  }
+  if(d.a) await pc.setRemoteDescription(d.a);
+  if(d.c) await pc.addIceCandidate(d.c);
+}
+
+/* DOM refs */
+const loginDiv = document.getElementById("login");
+const roomDiv = document.getElementById("room");
+const leaderControls = document.getElementById("leaderControls");
+</script>
 
 </body>
 </html>
