@@ -1,139 +1,184 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>Watch Party</title>
-<style>
-body{margin:0;background:#000;color:#fff;font-family:sans-serif}
-#lock{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:10}
-#users div{display:flex;justify-content:space-between;background:#111;margin:4px;padding:6px}
-.msg{background:#222;margin:4px;padding:6px}
-.hidden{display:none}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پخش زنده فیلم</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background: #000; 
+            color: #fff; 
+            font-family: Tahoma, sans-serif; 
+            text-align: center;
+        }
+        #videoContainer { 
+            width: 100vw; 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        video { 
+            max-width: 100%; 
+            max-height: 100%; 
+        }
+        #passwordOverlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.9); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 1000;
+        }
+        #passwordOverlay input { 
+            padding: 10px; 
+            font-size: 18px; 
+            margin-bottom: 20px; 
+            width: 200px;
+        }
+        #passwordOverlay button { 
+            padding: 10px 20px; 
+            font-size: 18px; 
+            cursor: pointer;
+        }
+        #adminControls { 
+            position: absolute; 
+            bottom: 20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: rgba(0,0,0,0.7); 
+            padding: 10px; 
+            border-radius: 8px; 
+            display: none;
+        }
+        #adminControls input { 
+            width: 80%; 
+            padding: 8px; 
+            margin-bottom: 10px;
+        }
+        #adminControls button { 
+            padding: 8px 16px; 
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="lock">
-  <div>
-    <input id="name" placeholder="نام"><br><br>
-    <input id="code" placeholder="رمز اتاق"><br><br>
-    <button onclick="login()">ورود</button>
-  </div>
-</div>
+    <div id="passwordOverlay">
+        <h2>برای ورود رمز عبور را وارد کنید</h2>
+        <input type="password" id="passwordInput" placeholder="رمز عبور">
+        <button onclick="checkPassword()">ورود</button>
+        <p id="errorMsg" style="color:red; display:none;">رمز عبور اشتباه است!</p>
+    </div>
 
-<video id="video" controls class="hidden">
-  <source src="https://s1.dlserfes.info/dl6/2022/Top.Gun.Maverick.2022/Top.Gun.Maverick.2022.720p.BluRay.Dubbed.FilmKio.mkv?md5=QrowAG4GcVBaXqoq9UI32A&u=288589&expires=1766117902">
-</video>
+    <div id="videoContainer">
+        <video id="video" controls autoplay playsinline></video>
+    </div>
 
-<div id="panel" class="hidden">
-  <button onclick="startVoice()">🎙</button>
-  <button onclick="setTempCode()">🔐 رمز موقت</button>
-</div>
+    <div id="adminControls">
+        <h3>کنترل رهبر (فقط برای تغییر لینک)</h3>
+        <input type="text" id="hlsUrlInput" placeholder="لینک m3u8 پخش زنده را وارد کنید">
+        <button onclick="updateStream()">به‌روزرسانی پخش</button>
+    </div>
 
-<h4>👥 کاربران آنلاین</h4>
-<div id="users"></div>
+    <script>
+        const USER_PASSWORD = "1234";   // رمز کاربر عادی
+        const ADMIN_PASSWORD = "1111";  // رمز رهبر (برای تغییر لینک)
 
-<h4>💬 چت</h4>
-<div id="chat"></div>
-<input id="msg" onkeydown="if(event.key==='Enter')send()">
+        let isAdmin = false;
+        let currentHlsUrl = "";  // لینک اولیه خالی - رهبر باید وارد کند
 
-<script>
-const room = new URLSearchParams(location.search).get("room") || "public";
-const ws = new WebSocket("wss://videochat.softshiraz.workers.dev/" + room);
-const id = crypto.randomUUID();
-let isLeader=false;
+        function checkPassword() {
+            const input = document.getElementById("passwordInput").value;
+            const errorMsg = document.getElementById("errorMsg");
 
-ws.onmessage = e=>{
-  const d = JSON.parse(e.data);
+            if (input === USER_PASSWORD) {
+                isAdmin = false;
+                hideOverlayAndStart();
+            } else if (input === ADMIN_PASSWORD) {
+                isAdmin = true;
+                hideOverlayAndStart();
+                document.getElementById("adminControls").style.display = "block";
+            } else {
+                errorMsg.style.display = "block";
+            }
+        }
 
-  if(d.t==="auth"){
-    if(!d.ok) return alert("رمز اشتباه");
-    lock.remove();
-    video.classList.remove("hidden");
-    panel.classList.remove("hidden");
-    isLeader=d.leader;
-    d.messages.forEach(m=>add(m.name+": "+m.text));
-    video.currentTime=d.time;
-    if(d.playing) video.play();
-    setInterval(()=>{ if(isLeader)
-      ws.send(JSON.stringify({t:"sync",time:video.currentTime,playing:!video.paused}));
-    },2000);
-  }
+        function hideOverlayAndStart() {
+            document.getElementById("passwordOverlay").style.display = "none";
+            initPlayer();
+        }
 
-  if(d.t==="users"){
-    users.innerHTML="";
-    d.users.forEach(u=>{
-      const div=document.createElement("div");
-      div.textContent=u.name;
-      if(isLeader){
-        const b=document.createElement("button");
-        b.textContent="Kick";
-        b.onclick=()=>ws.send(JSON.stringify({t:"kick",id:u.id}));
-        div.appendChild(b);
-      }
-      users.appendChild(div);
-    });
-  }
+        let hls;
 
-  if(d.t==="chat") add(d.msg.name+": "+d.msg.text);
+        function initPlayer() {
+            const video = document.getElementById("video");
 
-  if(d.t==="sync"){
-    if(!isLeader){
-      if(Math.abs(video.currentTime-d.time)>1)
-        video.currentTime=d.time;
-      d.playing?video.play():video.pause();
-    }
-  }
+            // غیرفعال کردن کنترل‌های seek (جلو/عقب) برای کاربر عادی
+            if (!isAdmin) {
+                video.controls = true; // کنترل‌ها نمایش داده شوند اما seek غیرفعال
+                video.onloadedmetadata = () => {
+                    video.controlsList = "nodownload"; // اختیاری: غیرفعال کردن دانلود
+                };
+                // مخفی کردن progress bar با CSS
+                video.style.setProperty('--seek-disabled', 'none');
+            } else {
+                video.controls = true;
+            }
 
-  if(d.t==="signal") handleSignal(d.data);
-};
+            if (currentHlsUrl && Hls.isSupported()) {
+                hls = new Hls({
+                    enableWorker: true,
+                    lowLatencyMode: true,
+                    backBufferLength: 0  // برای لایو واقعی، بافر عقب کم
+                });
+                hls.loadSource(currentHlsUrl);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    video.play();
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                // پشتیبانی native در Safari
+                video.src = currentHlsUrl;
+                video.play();
+            }
+        }
 
-function login(){
-  ws.send(JSON.stringify({t:"auth",id,name:name.value,code:code.value}));
-}
-function send(){
-  ws.send(JSON.stringify({t:"chat",text:msg.value}));
-  msg.value="";
-}
-function add(t){
-  const d=document.createElement("div");
-  d.className="msg";d.textContent=t;
-  chat.appendChild(d);
-}
-function setTempCode(){
-  const c=prompt("رمز جدید:");
-  ws.send(JSON.stringify({t:"setCode",code:c}));
-}
+        function updateStream() {
+            if (!isAdmin) return;
 
-/* ---- Voice ---- */
-let pc;
-async function startVoice(){
-  pc=new RTCPeerConnection();
-  const s=await navigator.mediaDevices.getUserMedia({audio:true});
-  s.getTracks().forEach(t=>pc.addTrack(t,s));
-  pc.ontrack=e=>{
-    const a=document.createElement("audio");
-    a.srcObject=e.streams[0];a.autoplay=true;
-  };
-  pc.onicecandidate=e=>{
-    if(e.candidate) ws.send(JSON.stringify({t:"signal",data:{c:e.candidate}}));
-  };
-  const o=await pc.createOffer();
-  await pc.setLocalDescription(o);
-  ws.send(JSON.stringify({t:"signal",data:{o}}));
-}
-async function handleSignal(d){
-  if(d.o){
-    if(!pc) await startVoice();
-    await pc.setRemoteDescription(d.o);
-    const a=await pc.createAnswer();
-    await pc.setLocalDescription(a);
-    ws.send(JSON.stringify({t:"signal",data:{a}}));
-  }
-  if(d.a) await pc.setRemoteDescription(d.a);
-  if(d.c) await pc.addIceCandidate(d.c);
-}
-</script>
+            const newUrl = document.getElementById("hlsUrlInput").value.trim();
+            if (newUrl && newUrl.endsWith('.m3u8')) {
+                currentHlsUrl = newUrl;
+
+                if (hls) {
+                    hls.destroy();
+                }
+                initPlayer();
+                alert("لینک پخش به‌روزرسانی شد!");
+            } else {
+                alert("لینک معتبر m3u8 وارد کنید!");
+            }
+        }
+
+        // CSS برای غیرفعال کردن seek در مرورگرهای مختلف (برای کاربر عادی)
+        const style = document.createElement('style');
+        style.innerHTML = `
+            video::-webkit-media-controls-timeline { display: none !important; }
+            video::-webkit-media-controls-current-time-display { display: none !important; }
+            video::-webkit-media-controls-time-remaining-display { display: none !important; }
+            /* برای Firefox و دیگران */
+            video { pointer-events: ${isAdmin ? 'auto' : 'none'}; } /* کاربر نتواند کلیک کند */
+        `;
+        document.head.appendChild(style);
+    </script>
+
 </body>
 </html>
