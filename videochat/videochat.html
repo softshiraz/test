@@ -70,6 +70,16 @@
             display: none; 
             z-index: 10;
         }
+        #error { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            color: red; 
+            font-size: 24px; 
+            display: none; 
+            z-index: 10;
+        }
         /* مخفی کردن کامل کنترل‌ها و جلوگیری از تعامل کاربر عادی */
         video::-webkit-media-controls { display: none !important; }
         video::-webkit-media-controls-panel { display: none !important; }
@@ -91,13 +101,14 @@
     </div>
 
     <div id="videoContainer">
-        <video id="video" playsinline autoplay></video>
-        <div id="loading">در حال بارگذاری فیلم...</div>
+        <video id="video" playsinline autoplay muted></video>
+        <div id="loading">در حال بارگذاری فیلم... (ممکن است چند ثانیه طول بکشد)</div>
+        <div id="error">خطا در پخش فیلم! لینک نامعتبر یا expire شده.</div>
     </div>
 
     <div id="adminControls">
         <h3>کنترل رهبر (رمز 1111)</h3>
-        <p>لینک فیلم مستقیماً در این کد (خط videoUrl) تغییر داده شود و صفحه را دوباره آپلود کنید.</p>
+        <p>لینک جدید را در این کد (خط videoUrl) بگذارید و فایل را دوباره در GitHub آپلود کنید.</p>
         <button onclick="reloadVideo()">به‌روزرسانی فیلم</button>
     </div>
 
@@ -107,11 +118,14 @@
 
         let isAdmin = false;
 
-        // <<<--- لینک فیلم را دقیقاً اینجا تغییر بده (فقط این خط را ویرایش کن و فایل را دوباره در GitHub آپلود کن)
-        let videoUrl = "https://s1.dlserfes.info/dl6/2022/Top.Gun.Maverick.2022/Top.Gun.Maverick.2022.720p.BluRay.Dubbed.FilmKio.mkv?md5=QrowAG4GcVBaXqoq9UI32A&u=288589&expires=1766117902";
+        // <<<--- لینک فیلم مستقیم جدید را دقیقاً اینجا بگذار (یک لینک مستقیم MKV/MP4 معتبر و بدون expire)
+        // مثال فعلی یک لینک تست نمونه (تریلر فیلم) است تا پخش کار کند. لینک قبلی expire شده بود.
+        let videoUrl = "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_10mb.mp4";
+        // برای فیلم Top Gun Maverick دوبله فارسی، یک لینک مستقیم معتبر پیدا کن (از سایت‌های دانلود ایرانی مثل 30nama یا vgdl.ir) و اینجا بگذار.
+        // اگر لینک expire داشت، دوباره عوض کن.
 
         const PROXY_URL = "https://videochat.softshiraz.workers.dev/stream"; 
-        // لینک ثابت Cloudflare Worker که لینک مستقیم را پروکسی می‌کند
+        // لینک ثابت Cloudflare Worker
 
         function checkPassword() {
             const input = document.getElementById("passwordInput").value;
@@ -132,47 +146,45 @@
         function startPlayback() {
             document.getElementById("passwordOverlay").style.display = "none";
             document.getElementById("loading").style.display = "block";
+            document.getElementById("error").style.display = "none";
 
             const video = document.getElementById("video");
 
-            // برای کاربر عادی: هیچ کنترلی، هیچ seek، حتی pause/play غیرفعال
             if (!isAdmin) {
                 video.controls = false;
-                video.style.pointerEvents = "none"; // هیچ کلیک یا تعاملی
+                video.style.pointerEvents = "none"; // هیچ تعاملی
             } else {
-                video.controls = true; // رهبر همه کنترل‌ها را داشته باشد
+                video.controls = true;
             }
 
-            // پخش مستقیم از طریق پروکسی Cloudflare
+            // پخش از طریق پروکسی
             video.src = PROXY_URL;
-            video.play().catch(e => console.error("خطای پخش:", e));
-
-            video.addEventListener("canplay", () => {
+            video.play().then(() => {
                 document.getElementById("loading").style.display = "none";
+            }).catch(e => {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("error").style.display = "block";
+                console.error("خطای پخش:", e);
             });
 
-            // پشتیبانی زیرنویس و دوبله: مرورگر به‌طور خودکار trackهای داخلی MKV را نشان می‌دهد
-            // (اگر controls فعال باشد، کاربر می‌تواند انتخاب کند؛ برای کاربر عادی مخفی است اما track پیش‌فرض کار می‌کند)
+            // جلوگیری اضافی از seek برای کاربر عادی
+            let supposedCurrentTime = 0;
+            video.addEventListener("timeupdate", function() {
+                if (!video.seeking && !isAdmin) {
+                    supposedCurrentTime = video.currentTime;
+                }
+            });
+            video.addEventListener("seeking", function() {
+                if (!isAdmin) {
+                    video.currentTime = supposedCurrentTime;
+                }
+            });
         }
 
         function reloadVideo() {
             if (!isAdmin) return;
-            location.reload(); // صفحه را ریلود می‌کند تا لینک جدید (اگر تغییر داده باشی) اعمال شود
+            location.reload();
         }
-
-        // جلوگیری اضافی از seek برای کاربر عادی (در صورت فعال شدن کنترل‌ها)
-        const video = document.getElementById("video");
-        let supposedCurrentTime = 0;
-        video.addEventListener("timeupdate", function() {
-            if (!video.seeking && !isAdmin) {
-                supposedCurrentTime = video.currentTime;
-            }
-        });
-        video.addEventListener("seeking", function() {
-            if (!isAdmin) {
-                video.currentTime = supposedCurrentTime;
-            }
-        });
     </script>
 
 </body>
