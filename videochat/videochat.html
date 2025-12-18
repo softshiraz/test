@@ -5,15 +5,15 @@
 <title>تماشای مشترک</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-body{background:#0e0e0f;color:#fff;font-family:sans-serif}
+body{background:#0e0e0f;color:#fff;font-family:sans-serif;padding:10px}
 video{width:100%;border-radius:12px;border:2px solid gold}
-.chat{background:#111;padding:10px;border-radius:10px;margin-top:10px}
+.chat{background:#111;padding:10px;border-radius:10px;margin-top:10px;height:200px;overflow-y:auto}
 .msg{background:#222;margin:6px;padding:6px;border-radius:6px}
-button{background:gold;border:none;padding:8px;border-radius:6px;font-weight:bold}
+button{background:gold;border:none;padding:8px;border-radius:6px;font-weight:bold;cursor:pointer}
 .hidden{display:none}
+input{width:80%;padding:6px;border-radius:6px;border:none;margin-right:6px}
 </style>
 </head>
-
 <body>
 
 <h2>🎬 تماشای مشترک</h2>
@@ -26,105 +26,95 @@ button{background:gold;border:none;padding:8px;border-radius:6px;font-weight:bol
 
 <div id="room" class="hidden">
 
-<video id="video" controls></video>
+<video id="video"></video>
 
-<div id="leaderControls" class="hidden">
-  <button onclick="play()">▶️ پخش</button>
-  <button onclick="pause()">⏸ توقف</button>
+<div id="leaderControls" class="hidden" style="margin-top:10px">
+  <button onclick="playVideo()">▶️ پخش</button>
+  <button onclick="pauseVideo()">⏸ توقف</button>
 </div>
 
-<button onclick="startVoice()">🎙 ویس‌کال</button>
+<button onclick="startVoice()" style="margin-top:10px">🎙 ویس‌کال</button>
 
 <div class="chat">
   <div id="chat"></div>
-  <input id="msg" placeholder="پیام..." onkeydown="if(event.key==='Enter')send()">
+  <input id="msg" placeholder="پیام..." onkeydown="if(event.key==='Enter') sendMsg()">
+  <button onclick="sendMsg()">ارسال</button>
 </div>
 
 </div>
 
 <script>
-const LEADER_PASS = "1111";
-const USER_PASS   = "1234";
+const LEADER_PASS="1111";
+const USER_PASS="1234";
+let role = null;
+
+const video = document.getElementById("video");
+const loginDiv = document.getElementById("login");
+const roomDiv = document.getElementById("room");
+const leaderControls = document.getElementById("leaderControls");
+const chatDiv = document.getElementById("chat");
+const msgInput = document.getElementById("msg");
 
 const roomName = new URLSearchParams(location.search).get("room") || "public";
-const ws = new WebSocket("wss://softshiraz-room.YOURNAME.workers.dev/" + roomName);
+const ws = new WebSocket("wss://softshiraz-room.YOURDOMAIN.workers.dev/"+roomName);
 
-let role = null;
-const video = document.getElementById("video");
-
+// --- WebSocket ---
 ws.onmessage = e => {
   const d = JSON.parse(e.data);
-
-  if (d.t === "chat") add(d.m);
-
-  if (d.t === "play") {
-    video.currentTime = d.time;
-    video.play();
-  }
-
-  if (d.t === "pause") {
-    video.currentTime = d.time;
-    video.pause();
-  }
-
-  if (d.t === "signal") handleSignal(d.data);
+  if(d.t==="chat") addMsg(d.m);
+  if(d.t==="play") { video.currentTime=d.time; video.play(); }
+  if(d.t==="pause") { video.currentTime=d.time; video.pause(); }
+  if(d.t==="sync") { video.currentTime=d.time; if(d.playing) video.play(); else video.pause(); }
+  if(d.t==="signal") handleSignal(d.data);
 };
 
+// --- Login ---
 function login(){
-  const p = pass.value;
-  if (p === LEADER_PASS) role = "leader";
-  else if (p === USER_PASS) role = "user";
+  const p = document.getElementById("pass").value;
+  if(p===LEADER_PASS) role="leader";
+  else if(p===USER_PASS) role="user";
   else return alert("❌ رمز اشتباه است");
 
-  loginDiv.style.display="none";
+  loginDiv.classList.add("hidden");
   roomDiv.classList.remove("hidden");
 
-  if (role === "leader") {
-    leaderControls.classList.remove("hidden");
-    video.controls = true;
-  } else {
-    video.controls = false;
-  }
+  if(role==="leader"){ leaderControls.classList.remove("hidden"); video.controls=true; }
+  else video.controls=false;
 
-  video.src = "https://s1.dlserfes.info/dl6/2022/Top.Gun.Maverick.2022/Top.Gun.Maverick.2022.720p.BluRay.Dubbed.FilmKio.mkv?md5=QrowAG4GcVBaXqoq9UI32A&u=288589&expires=1766117902";
+  video.src="https://s1.dlserfes.info/dl6/2022/Top.Gun.Maverick.2022/Top.Gun.Maverick.2022.720p.BluRay.Dubbed.FilmKio.mkv?md5=QrowAG4GcVBaXqoq9UI32A&u=288589&expires=1766117902"; // لینک ویدیو رو قرار بده
 }
 
-function send(){
-  ws.send(JSON.stringify({t:"chat",m:msg.value}));
-  add(msg.value);
-  msg.value="";
+// --- Chat ---
+function sendMsg(){
+  if(!msgInput.value) return;
+  ws.send(JSON.stringify({t:"chat",m:msgInput.value}));
+  addMsg(msgInput.value + (role==="leader"?" 👑":" 👤"));
+  msgInput.value="";
 }
-function add(t){
+function addMsg(t){
   const d=document.createElement("div");
   d.className="msg"; d.textContent=t;
-  chat.appendChild(d);
+  chatDiv.appendChild(d);
+  chatDiv.scrollTop = chatDiv.scrollHeight;
 }
 
-function play(){
-  if(role!=="leader") return;
-  ws.send(JSON.stringify({t:"play",time:video.currentTime}));
-}
-function pause(){
-  if(role!=="leader") return;
-  ws.send(JSON.stringify({t:"pause",time:video.currentTime}));
-}
+// --- Leader controls ---
+function playVideo(){ if(role!=="leader") return; ws.send(JSON.stringify({t:"play",time:video.currentTime})); }
+function pauseVideo(){ if(role!=="leader") return; ws.send(JSON.stringify({t:"pause",time:video.currentTime})); }
 
-/* 🎙 Voice */
+// --- Voice ---
 let pc;
 async function startVoice(){
   pc = new RTCPeerConnection();
   const stream = await navigator.mediaDevices.getUserMedia({audio:true});
   stream.getTracks().forEach(t=>pc.addTrack(t,stream));
 
-  pc.ontrack = e=>{
-    const a=document.createElement("audio");
-    a.srcObject=e.streams[0];
-    a.autoplay=true;
+  pc.ontrack=e=>{
+    const a=document.createElement("audio"); a.srcObject=e.streams[0]; a.autoplay=true;
   };
 
-  pc.onicecandidate = e=>{
-    if(e.candidate)
-      ws.send(JSON.stringify({t:"signal",data:{c:e.candidate}}));
+  pc.onicecandidate=e=>{
+    if(e.candidate) ws.send(JSON.stringify({t:"signal",data:{c:e.candidate}}));
   };
 
   const offer = await pc.createOffer();
@@ -143,11 +133,6 @@ async function handleSignal(d){
   if(d.a) await pc.setRemoteDescription(d.a);
   if(d.c) await pc.addIceCandidate(d.c);
 }
-
-/* DOM refs */
-const loginDiv = document.getElementById("login");
-const roomDiv = document.getElementById("room");
-const leaderControls = document.getElementById("leaderControls");
 </script>
 
 </body>
