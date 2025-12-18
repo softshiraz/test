@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پخش زنده فیلم</title>
+    <title>پخش فیلم</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         body { 
@@ -59,14 +59,7 @@
             border-radius: 8px; 
             display: none;
         }
-        #adminControls input { 
-            width: 80%; 
-            padding: 8px; 
-            margin-bottom: 10px;
-        }
-        #adminControls button { 
-            padding: 8px 16px; 
-        }
+        #loading { display: none; color: yellow; font-size: 20px; }
     </style>
 </head>
 <body>
@@ -79,103 +72,108 @@
     </div>
 
     <div id="videoContainer">
-        <video id="video" controls autoplay playsinline></video>
+        <video id="video" playsinline></video>
+        <div id="loading">در حال بارگذاری فیلم...</div>
     </div>
 
     <div id="adminControls">
-        <h3>کنترل رهبر (فقط برای تغییر لینک)</h3>
-        <input type="text" id="hlsUrlInput" placeholder="لینک m3u8 پخش زنده را وارد کنید">
-        <button onclick="updateStream()">به‌روزرسانی پخش</button>
+        <h3>کنترل رهبر</h3>
+        <p>لینک فیلم در فایل config.json در GitHub تغییر کند و ذخیره شود.</p>
+        <button onclick="reloadConfig()">به‌روزرسانی لینک از GitHub</button>
     </div>
 
     <script>
         const USER_PASSWORD = "1234";   // رمز کاربر عادی
-        const ADMIN_PASSWORD = "1111";  // رمز رهبر (برای تغییر لینک)
+        const ADMIN_PASSWORD = "1111";  // رمز رهبر
 
         let isAdmin = false;
-        let currentHlsUrl = "";  // لینک اولیه خالی - رهبر باید وارد کند
+        let hlsUrl = "";  // لینک m3u8 از worker
 
-        function checkPassword() {
+        const CONFIG_URL = "https://raw.githubusercontent.com/USERNAME/REPO/main/config.json"; 
+        // <<<--- اینجا USERNAME و REPO را با نام کاربری و ریپازیتوری GitHub خودت عوض کن
+        // مثال: https://raw.githubusercontent.com/softshiraz/mysite/main/config.json
+
+        const PROXY_HLS_URL = "https://videochat.softshiraz.workers.dev/stream"; 
+        // لینک ثابت پخش از Cloudflare Worker (پروکسی ساده به لینک مستقیم MKV)
+
+        async function fetchConfig() {
+            try {
+                const response = await fetch(CONFIG_URL + "?t=" + Date.now()); // کش مرورگر را دور بزن
+                const data = await response.json();
+                return data.videoUrl; // لینک مستقیم MKV که در config.json گذاشتی
+            } catch (e) {
+                alert("خطا در دریافت لینک از GitHub! فایل config.json را چک کن.");
+                return null;
+            }
+        }
+
+        async function checkPassword() {
             const input = document.getElementById("passwordInput").value;
             const errorMsg = document.getElementById("errorMsg");
 
-            if (input === USER_PASSWORD) {
-                isAdmin = false;
-                hideOverlayAndStart();
-            } else if (input === ADMIN_PASSWORD) {
-                isAdmin = true;
-                hideOverlayAndStart();
-                document.getElementById("adminControls").style.display = "block";
+            if (input === USER_PASSWORD || input === ADMIN_PASSWORD) {
+                if (input === ADMIN_PASSWORD) {
+                    isAdmin = true;
+                    document.getElementById("adminControls").style.display = "block";
+                }
+                document.getElementById("passwordOverlay").style.display = "none";
+                document.getElementById("loading").style.display = "block";
+                await loadVideo();
             } else {
                 errorMsg.style.display = "block";
             }
         }
 
-        function hideOverlayAndStart() {
-            document.getElementById("passwordOverlay").style.display = "none";
-            initPlayer();
-        }
+        async function loadVideo() {
+            const directUrl = await fetchConfig();
+            if (!directUrl) return;
 
-        let hls;
+            // لینک پخش ثابت: worker همیشه به آخرین لینک از config اشاره می‌کند
+            hlsUrl = PROXY_HLS_URL;
 
-        function initPlayer() {
             const video = document.getElementById("video");
 
-            // غیرفعال کردن کنترل‌های seek (جلو/عقب) برای کاربر عادی
+            // غیرفعال کردن کنترل‌ها برای کاربر عادی (seek کاملاً غیرفعال)
             if (!isAdmin) {
-                video.controls = true; // کنترل‌ها نمایش داده شوند اما seek غیرفعال
-                video.onloadedmetadata = () => {
-                    video.controlsList = "nodownload"; // اختیاری: غیرفعال کردن دانلود
-                };
-                // مخفی کردن progress bar با CSS
-                video.style.setProperty('--seek-disabled', 'none');
+                video.controls = false;
+                video.style.pointerEvents = "none"; // هیچ کلیک یا کنترلی
             } else {
                 video.controls = true;
             }
 
-            if (currentHlsUrl && Hls.isSupported()) {
-                hls = new Hls({
-                    enableWorker: true,
+            if (Hls.isSupported()) {
+                const hls = new Hls({
                     lowLatencyMode: true,
-                    backBufferLength: 0  // برای لایو واقعی، بافر عقب کم
+                    backBufferLength: 0
                 });
-                hls.loadSource(currentHlsUrl);
+                hls.loadSource(hlsUrl);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
                     video.play();
+                    document.getElementById("loading").style.display = "none";
+                });
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    console.error(data);
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                // پشتیبانی native در Safari
-                video.src = currentHlsUrl;
+                video.src = hlsUrl;
                 video.play();
+                document.getElementById("loading").style.display = "none";
             }
         }
 
-        function updateStream() {
+        async function reloadConfig() {
             if (!isAdmin) return;
-
-            const newUrl = document.getElementById("hlsUrlInput").value.trim();
-            if (newUrl && newUrl.endsWith('.m3u8')) {
-                currentHlsUrl = newUrl;
-
-                if (hls) {
-                    hls.destroy();
-                }
-                initPlayer();
-                alert("لینک پخش به‌روزرسانی شد!");
-            } else {
-                alert("لینک معتبر m3u8 وارد کنید!");
-            }
+            document.getElementById("loading").style.display = "block";
+            await loadVideo();
         }
 
-        // CSS برای غیرفعال کردن seek در مرورگرهای مختلف (برای کاربر عادی)
+        // CSS برای مخفی کردن کامل seek bar
         const style = document.createElement('style');
         style.innerHTML = `
             video::-webkit-media-controls-timeline { display: none !important; }
             video::-webkit-media-controls-current-time-display { display: none !important; }
             video::-webkit-media-controls-time-remaining-display { display: none !important; }
-            /* برای Firefox و دیگران */
-            video { pointer-events: ${isAdmin ? 'auto' : 'none'}; } /* کاربر نتواند کلیک کند */
         `;
         document.head.appendChild(style);
     </script>
