@@ -33,7 +33,7 @@ button{background:gold;border:none;padding:8px;border-radius:6px}
 
 <script>
 const room = new URLSearchParams(location.search).get("room") || "public";
-const ws = new WebSocket("wss://YOUR-WORKER.workers.dev/" + room);
+const ws = new WebSocket("wss://videochat.softshiraz.workers.dev/" + room);
 const video = document.getElementById("video");
 let isLeader = false;
 
