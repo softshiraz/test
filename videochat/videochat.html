@@ -5,37 +5,37 @@
 <title>تماشای مشترک</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-body{background:#0e0e0f;color:#fff;font-family:sans-serif}
-video{width:100%;border-radius:12px;border:2px solid gold}
-.chat{background:#111;padding:10px;border-radius:10px}
-.msg{background:#222;margin:6px;padding:6px;border-radius:6px}
-button,input{padding:8px;border-radius:6px}
-#login{position:fixed;inset:0;background:#000d;display:flex;align-items:center;justify-content:center}
+body{margin:0;background:#000;color:#fff;font-family:sans-serif}
+#lock{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9}
+video{width:100%;max-height:60vh}
+.chat{background:#111;padding:10px}
+.msg{background:#222;margin:4px;padding:6px;border-radius:6px}
+.hidden{display:none}
 </style>
 </head>
 
 <body>
 
-<div id="login">
+<div id="lock">
   <div>
-    <h3>🔐 ورود به اتاق</h3>
-    <input id="code" placeholder="کد ورود">
-    <button onclick="auth()">ورود</button>
+    <h3>🔐 ورود</h3>
+    <input id="name" placeholder="نام"><br><br>
+    <input id="code" placeholder="کد اتاق"><br><br>
+    <button onclick="login()">ورود</button>
   </div>
 </div>
 
-<h2>🎬 تماشای مشترک</h2>
-
-<video id="video" controls>
+<video id="video" controls class="hidden">
   <source src="https://s1.dlserfes.info/dl6/2022/Top.Gun.Maverick.2022/Top.Gun.Maverick.2022.720p.BluRay.Dubbed.FilmKio.mkv?md5=QrowAG4GcVBaXqoq9UI32A&u=288589&expires=1766117902">
 </video>
 
-<div>
-<button onclick="play()">▶️</button>
-<button onclick="pause()">⏸</button>
+<div id="controls" class="hidden">
+  <button onclick="play()">▶️</button>
+  <button onclick="pause()">⏸</button>
+  <button onclick="startVoice()">🎙 ویس</button>
 </div>
 
-<div class="chat">
+<div class="chat hidden" id="chatBox">
   <div id="chat"></div>
   <input id="msg" placeholder="پیام..." onkeydown="if(event.key==='Enter')send()">
 </div>
@@ -43,48 +43,83 @@ button,input{padding:8px;border-radius:6px}
 <script>
 const room = new URLSearchParams(location.search).get("room") || "public";
 const ws = new WebSocket("wss://videochat.softshiraz.workers.dev/" + room);
-const video = document.getElementById("video");
+const id = crypto.randomUUID();
 let isLeader = false;
+let pc;
 
 ws.onmessage = e => {
   const d = JSON.parse(e.data);
 
   if (d.t === "auth") {
-    if (!d.ok) return alert("❌ کد اشتباه است");
-    login.style.display="none";
-    isLeader = d.leader;
+    if (!d.ok) return alert("❌ کد اشتباه");
+    lock.remove();
+    video.classList.remove("hidden");
+    controls.classList.remove("hidden");
+    chatBox.classList.remove("hidden");
 
-    d.messages.forEach(add);
+    isLeader = d.leader;
+    d.messages.forEach(m => add(m.name + ": " + m.text));
     video.currentTime = d.time;
     if (d.playing) video.play();
   }
 
-  if (d.t === "chat") add(d.m);
+  if (d.t === "chat") add(d.msg.name + ": " + d.msg.text);
   if (d.t === "play") { video.currentTime=d.time; video.play(); }
   if (d.t === "pause") { video.currentTime=d.time; video.pause(); }
+
+  if (d.t === "signal") handleSignal(d.data);
 };
 
-function auth(){
-  ws.send(JSON.stringify({t:"auth",code:code.value}));
+function login(){
+  ws.send(JSON.stringify({
+    t:"auth",
+    id,
+    name:name.value,
+    code:code.value
+  }));
 }
 
 function send(){
-  ws.send(JSON.stringify({t:"chat",m:msg.value}));
+  ws.send(JSON.stringify({t:"chat",text:msg.value}));
   msg.value="";
 }
 function add(t){
   const d=document.createElement("div");
-  d.className="msg"; d.textContent=t;
+  d.className="msg";
+  d.textContent=t;
   chat.appendChild(d);
 }
 
-function play(){
-  if(!isLeader) return;
-  ws.send(JSON.stringify({t:"play",time:video.currentTime}));
+function play(){ if(isLeader) ws.send(JSON.stringify({t:"play",time:video.currentTime})); }
+function pause(){ if(isLeader) ws.send(JSON.stringify({t:"pause",time:video.currentTime})); }
+
+/* ---------- Voice ---------- */
+async function startVoice(){
+  pc=new RTCPeerConnection();
+  const s=await navigator.mediaDevices.getUserMedia({audio:true});
+  s.getTracks().forEach(t=>pc.addTrack(t,s));
+  pc.ontrack=e=>{
+    const a=document.createElement("audio");
+    a.srcObject=e.streams[0]; a.autoplay=true;
+  };
+  pc.onicecandidate=e=>{
+    if(e.candidate)
+      ws.send(JSON.stringify({t:"signal",data:{c:e.candidate}}));
+  };
+  const offer=await pc.createOffer();
+  await pc.setLocalDescription(offer);
+  ws.send(JSON.stringify({t:"signal",data:{o:offer}}));
 }
-function pause(){
-  if(!isLeader) return;
-  ws.send(JSON.stringify({t:"pause",time:video.currentTime}));
+async function handleSignal(d){
+  if(d.o){
+    if(!pc) await startVoice();
+    await pc.setRemoteDescription(d.o);
+    const ans=await pc.createAnswer();
+    await pc.setLocalDescription(ans);
+    ws.send(JSON.stringify({t:"signal",data:{a:ans}}));
+  }
+  if(d.a) await pc.setRemoteDescription(d.a);
+  if(d.c) await pc.addIceCandidate(d.c);
 }
 </script>
 </body>
