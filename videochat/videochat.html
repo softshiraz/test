@@ -2,162 +2,106 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>تماشای مشترک</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پخش همزمان ویدیو</title>
 <style>
-body{background:#0e0e0f;color:#fff;font-family:sans-serif;padding:10px}
-video{width:100%;border-radius:12px;border:2px solid gold}
-.chat{background:#111;padding:10px;border-radius:10px;margin-top:10px;height:200px;overflow-y:auto}
-.msg{background:#222;margin:6px;padding:6px;border-radius:6px}
-button{background:gold;border:none;padding:8px;border-radius:6px;font-weight:bold;cursor:pointer}
-.hidden{display:none}
-input{width:80%;padding:6px;border-radius:6px;border:none;margin-right:6px}
+body { font-family: Arial, sans-serif; text-align:center; background:#111; color:#fff; }
+input, button { padding:8px; margin:5px; font-size:16px; }
+#video-container { margin-top:20px; display:none; }
+video { width:80%; max-width:800px; border:2px solid #ffd700; border-radius:10px; }
 </style>
 </head>
 <body>
 
-<h2>🎬 تماشای مشترک</h2>
+<h2>وارد شوید</h2>
+<input type="password" id="password" placeholder="رمز خود را وارد کنید">
+<button id="loginBtn">ورود</button>
 
-<div id="login">
-  <p>🔐 رمز ورود را وارد کنید</p>
-  <input id="pass" type="password" placeholder="رمز">
-  <button onclick="login()">ورود</button>
-</div>
-
-<div id="room" class="hidden">
-
-<video id="video"></video>
-
-<div id="leaderControls" class="hidden" style="margin-top:10px">
-  <button onclick="playVideo()">▶️ پخش</button>
-  <button onclick="pauseVideo()">⏸ توقف</button>
-</div>
-
-<button onclick="startVoice()" style="margin-top:10px">🎙 ویس‌کال</button>
-
-<div class="chat">
-  <div id="chat"></div>
-  <input id="msg" placeholder="پیام..." onkeydown="if(event.key==='Enter') sendMsg()">
-  <button onclick="sendMsg()">ارسال</button>
-</div>
-
+<div id="video-container">
+    <h3 id="roleTitle"></h3>
+    <video id="mainVideo" controls></video>
+    <div id="leaderControls" style="margin-top:10px; display:none;">
+        <button id="playBtn">پخش</button>
+        <button id="pauseBtn">توقف</button>
+        <input type="number" id="seekInput" placeholder="ثانیه" min="0">
+        <button id="seekBtn">رفتن به زمان</button>
+    </div>
 </div>
 
 <script>
-const LEADER_PASS="1111";
-const USER_PASS="1234";
+const passwordInput = document.getElementById('password');
+const loginBtn = document.getElementById('loginBtn');
+const videoContainer = document.getElementById('video-container');
+const mainVideo = document.getElementById('mainVideo');
+const leaderControls = document.getElementById('leaderControls');
+const roleTitle = document.getElementById('roleTitle');
 let role = null;
 
-const video = document.getElementById("video");
-const loginDiv = document.getElementById("login");
-const roomDiv = document.getElementById("room");
-const leaderControls = document.getElementById("leaderControls");
-const chatDiv = document.getElementById("chat");
-const msgInput = document.getElementById("msg");
+// لینک ویدیوی نمونه (می‌توانید لینک CDN خودتان را قرار دهید)
+mainVideo.src = "https://s1.dlserfes.info/dl6/2022/Top.Gun.Maverick.2022/Top.Gun.Maverick.2022.720p.BluRay.Dubbed.FilmKio.mkv?md5=QrowAG4GcVBaXqoq9UI32A&u=288589&expires=1766117902";
 
-const roomName = new URLSearchParams(location.search).get("room") || "public";
-const ws = new WebSocket("wss://softshiraz-room.YOURDOMAIN.workers.dev/"+roomName);
+loginBtn.addEventListener('click', () => {
+    const pass = passwordInput.value;
+    if(pass === '1111') {
+        role = 'leader';
+        roleTitle.textContent = 'شما لیدر هستید';
+        leaderControls.style.display = 'block';
+    } else if(pass === '1234') {
+        role = 'viewer';
+        roleTitle.textContent = 'شما کاربر هستید';
+    } else {
+        alert('رمز اشتباه است!');
+        return;
+    }
+    passwordInput.style.display = 'none';
+    loginBtn.style.display = 'none';
+    videoContainer.style.display = 'block';
+    connectWebSocket();
+});
 
-// --- WebSocket ---
-ws.onmessage = async e => {
-  const d = JSON.parse(e.data);
-
-  if(d.t==="sync"){
-    await videoLoaded();
-    video.currentTime = d.time;
-    if(d.playing) video.play();
-    else video.pause();
-  }
-
-  if(d.t==="play"){
-    await videoLoaded();
-    video.currentTime=d.time;
-    video.play();
-  }
-
-  if(d.t==="pause"){
-    await videoLoaded();
-    video.currentTime=d.time;
-    video.pause();
-  }
-
-  if(d.t==="chat") addMsg(d.m);
-  if(d.t==="signal") handleSignal(d.data);
-};
-
-// --- Login ---
-function login(){
-  const p = document.getElementById("pass").value;
-  if(p===LEADER_PASS) role="leader";
-  else if(p===USER_PASS) role="user";
-  else return alert("❌ رمز اشتباه است");
-
-  loginDiv.classList.add("hidden");
-  roomDiv.classList.remove("hidden");
-
-  if(role==="leader"){ leaderControls.classList.remove("hidden"); video.controls=true; }
-  else video.controls=false;
-
-  video.src="https://s1.dlserfes.info/dl6/2022/Top.Gun.Maverick.2022/Top.Gun.Maverick.2022.720p.BluRay.Dubbed.FilmKio.mkv?md5=QrowAG4GcVBaXqoq9UI32A&u=288589&expires=1766117902"; // لینک ویدیو رو قرار بده
+// --------------- WebSocket ----------------
+let ws;
+function connectWebSocket() {
+    ws = new WebSocket("wss://videochat.softshiraz.workers.dev"); // آدرس Worker خودت
+    ws.onopen = () => {
+        console.log('WebSocket connected');
+        ws.send(JSON.stringify({type:'join', role}));
+    };
+    ws.onmessage = (msg) => {
+        const data = JSON.parse(msg.data);
+        if(role === 'viewer') {
+            if(data.type === 'play') mainVideo.currentTime = data.time, mainVideo.play();
+            if(data.type === 'pause') mainVideo.currentTime = data.time, mainVideo.pause();
+            if(data.type === 'seek') mainVideo.currentTime = data.time;
+        }
+    };
 }
 
-// --- Chat ---
-function sendMsg(){
-  if(!msgInput.value) return;
-  ws.send(JSON.stringify({t:"chat",m: msgInput.value + (role==="leader"?" 👑":" 👤")}));
-  msgInput.value="";
-}
-function addMsg(t){
-  const d=document.createElement("div");
-  d.className="msg"; d.textContent=t;
-  chatDiv.appendChild(d);
-  chatDiv.scrollTop = chatDiv.scrollHeight;
-}
-
-// --- Leader controls ---
-function playVideo(){ if(role!=="leader") return; ws.send(JSON.stringify({t:"play",time:video.currentTime})); }
-function pauseVideo(){ if(role!=="leader") return; ws.send(JSON.stringify({t:"pause",time:video.currentTime})); }
-
-// --- Voice ---
-let pc;
-async function startVoice(){
-  pc = new RTCPeerConnection();
-  const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-  stream.getTracks().forEach(t=>pc.addTrack(t,stream));
-
-  pc.ontrack=e=>{
-    const a=document.createElement("audio"); a.srcObject=e.streams[0]; a.autoplay=true;
-  };
-
-  pc.onicecandidate=e=>{
-    if(e.candidate) ws.send(JSON.stringify({t:"signal",data:{c:e.candidate}}));
-  };
-
-  const offer = await pc.createOffer();
-  await pc.setLocalDescription(offer);
-  ws.send(JSON.stringify({t:"signal",data:{o:offer}}));
+// --------------- کنترل لیدر ----------------
+if(role === 'leader') {
+    document.getElementById('playBtn').addEventListener('click', () => {
+        mainVideo.play();
+        ws.send(JSON.stringify({type:'play', time: mainVideo.currentTime}));
+    });
+    document.getElementById('pauseBtn').addEventListener('click', () => {
+        mainVideo.pause();
+        ws.send(JSON.stringify({type:'pause', time: mainVideo.currentTime}));
+    });
+    document.getElementById('seekBtn').addEventListener('click', () => {
+        const t = parseFloat(document.getElementById('seekInput').value);
+        if(!isNaN(t)) {
+            mainVideo.currentTime = t;
+            ws.send(JSON.stringify({type:'seek', time: t}));
+        }
+    });
 }
 
-async function handleSignal(d){
-  if(d.o){
-    if(!pc) await startVoice();
-    await pc.setRemoteDescription(d.o);
-    const ans = await pc.createAnswer();
-    await pc.setLocalDescription(ans);
-    ws.send(JSON.stringify({t:"signal",data:{a:ans}}));
-  }
-  if(d.a) await pc.setRemoteDescription(d.a);
-  if(d.c) await pc.addIceCandidate(d.c);
-}
-
-// --- تضمین لود شدن ویدیو قبل اعمال currentTime ---
-function videoLoaded(){
-  return new Promise(res => {
-    if(video.readyState >= 2) res();
-    else video.onloadedmetadata = () => res();
-  });
+// sync زمان لیدر به محض تغییر
+if(role === 'leader') {
+    mainVideo.addEventListener('timeupdate', () => {
+        ws.send(JSON.stringify({type:'timeupdate', time: mainVideo.currentTime}));
+    });
 }
 </script>
-
 </body>
 </html>
