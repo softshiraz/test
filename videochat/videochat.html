@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>تماشای مشترک</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{background:#0e0e0f;color:#fff;font-family:sans-serif}
+video{width:100%;border-radius:12px;border:2px solid gold}
+.chat{background:#111;padding:10px;border-radius:10px}
+.msg{background:#222;margin:6px;padding:6px;border-radius:6px}
+button{background:gold;border:none;padding:8px;border-radius:6px}
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+<h2>🎬 تماشای مشترک</h2>
+
+<video id="video" controls></video>
+
+<div>
+<button id="playBtn" onclick="play()">▶️ پخش</button>
+<button id="pauseBtn" onclick="pause()">⏸ توقف</button>
+<button id="kickBtn" onclick="kick()">🚫 حذف همه</button>
+<button onclick="startVoice()">🎙 ویس‌کال</button>
+</div>
+
+<div class="chat">
+  <div id="chat"></div>
+  <input id="msg" placeholder="پیام..." onkeydown="if(event.key==='Enter')send()">
+</div>
+
+<script>
+const room = new URLSearchParams(location.search).get("room") || "public";
+const ws = new WebSocket("wss://YOUR-WORKER.workers.dev/" + room);
+const video = document.getElementById("video");
+let isLeader = false;
+
+ws.onmessage = e => {
+  const d = JSON.parse(e.data);
+
+  if (d.t === "history")
+    d.messages.forEach(add);
+
+  if (d.t === "role") {
+    isLeader = d.leader;
+    document.getElementById("kickBtn").classList.toggle("hidden", !isLeader);
+  }
+
+  if (d.t === "chat") add(d.m);
+  if (d.t === "play") { video.currentTime=d.time; video.play(); }
+  if (d.t === "pause") { video.currentTime=d.time; video.pause(); }
+  if (d.t === "signal") handleSignal(d.data);
+};
+
+function send(){
+  ws.send(JSON.stringify({t:"chat",m:msg.value}));
+  msg.value="";
+}
+function add(t){
+  const d=document.createElement("div");
+  d.className="msg"; d.textContent=t;
+  chat.appendChild(d);
+}
+
+function play(){
+  if(!isLeader) return;
+  ws.send(JSON.stringify({t:"play",time:video.currentTime}));
+}
+function pause(){
+  if(!isLeader) return;
+  ws.send(JSON.stringify({t:"pause",time:video.currentTime}));
+}
+function kick(){
+  if(confirm("همه کاربران حذف شوند؟"))
+    ws.send(JSON.stringify({t:"kick"}));
+}
+
+/* ---- Voice Call (همان قبلی) ---- */
+let pc;
+async function startVoice(){
+  pc=new RTCPeerConnection();
+  const s=await navigator.mediaDevices.getUserMedia({audio:true});
+  s.getTracks().forEach(t=>pc.addTrack(t,s));
+  pc.ontrack=e=>{
+    const a=document.createElement("audio");
+    a.srcObject=e.streams[0]; a.autoplay=true;
+  };
+  pc.onicecandidate=e=>{
+    if(e.candidate) ws.send(JSON.stringify({t:"signal",data:{c:e.candidate}}));
+  };
+  const offer=await pc.createOffer();
+  await pc.setLocalDescription(offer);
+  ws.send(JSON.stringify({t:"signal",data:{o:offer}}));
+}
+async function handleSignal(d){
+  if(d.o){
+    if(!pc) await startVoice();
+    await pc.setRemoteDescription(d.o);
+    const ans=await pc.createAnswer();
+    await pc.setLocalDescription(ans);
+    ws.send(JSON.stringify({t:"signal",data:{a:ans}}));
+  }
+  if(d.a) await pc.setRemoteDescription(d.a);
+  if(d.c) await pc.addIceCandidate(d.c);
+}
+</script>
+</body>
+</html>
