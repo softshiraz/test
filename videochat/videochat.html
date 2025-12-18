@@ -59,12 +59,29 @@ const roomName = new URLSearchParams(location.search).get("room") || "public";
 const ws = new WebSocket("wss://softshiraz-room.YOURDOMAIN.workers.dev/"+roomName);
 
 // --- WebSocket ---
-ws.onmessage = e => {
+ws.onmessage = async e => {
   const d = JSON.parse(e.data);
+
+  if(d.t==="sync"){
+    await videoLoaded();
+    video.currentTime = d.time;
+    if(d.playing) video.play();
+    else video.pause();
+  }
+
+  if(d.t==="play"){
+    await videoLoaded();
+    video.currentTime=d.time;
+    video.play();
+  }
+
+  if(d.t==="pause"){
+    await videoLoaded();
+    video.currentTime=d.time;
+    video.pause();
+  }
+
   if(d.t==="chat") addMsg(d.m);
-  if(d.t==="play") { video.currentTime=d.time; video.play(); }
-  if(d.t==="pause") { video.currentTime=d.time; video.pause(); }
-  if(d.t==="sync") { video.currentTime=d.time; if(d.playing) video.play(); else video.pause(); }
   if(d.t==="signal") handleSignal(d.data);
 };
 
@@ -87,8 +104,7 @@ function login(){
 // --- Chat ---
 function sendMsg(){
   if(!msgInput.value) return;
-  ws.send(JSON.stringify({t:"chat",m:msgInput.value}));
-  addMsg(msgInput.value + (role==="leader"?" 👑":" 👤"));
+  ws.send(JSON.stringify({t:"chat",m: msgInput.value + (role==="leader"?" 👑":" 👤")}));
   msgInput.value="";
 }
 function addMsg(t){
@@ -132,6 +148,14 @@ async function handleSignal(d){
   }
   if(d.a) await pc.setRemoteDescription(d.a);
   if(d.c) await pc.addIceCandidate(d.c);
+}
+
+// --- تضمین لود شدن ویدیو قبل اعمال currentTime ---
+function videoLoaded(){
+  return new Promise(res => {
+    if(video.readyState >= 2) res();
+    else video.onloadedmetadata = () => res();
+  });
 }
 </script>
 
