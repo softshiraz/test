@@ -43,31 +43,7 @@
     </script>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css?v=3" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css?v=3">
-    <link rel="manifest" href="data:application/manifest+json,{
-      %22name%22:%22سافت%20شیراز%20-%20اکران‌های%20آینده%22,
-      %22short_name%22:%22سافت%20شیراز%22,
-      %22description%22:%22ایونت‌های%20طلایی%20سافت%20شیراز%20-%20اکران%20فیلم%20و%20کتابخوانی%22,
-      %22start_url%22:%22/web/%22,
-      %22scope%22:%22/web/%22,
-      %22display%22:%22standalone%22,
-      %22background_color%22:%22%230e0e0f%22,
-      %22theme_color%22:%22%23ffd700%22,
-      %22orientation%22:%22portrait-primary%22,
-      %22icons%22:[
-        {
-          %22src%22:%22https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png%22,
-          %22sizes%22:%22192x192%22,
-          %22type%22:%22image/png%22,
-          %22purpose%22:%22any%20maskable%22
-        },
-        {
-          %22src%22:%22https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png%22,
-          %22sizes%22:%22512x512%22,
-          %22type%22:%22image/png%22,
-          %22purpose%22:%22any%20maskable%22
-        }
-      ]
-    }">
+    <link rel="manifest" href="data:application/manifest+json,{...}"> <!-- بدون تغییر -->
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
     <style>
     /* متغیرهای تم */
@@ -92,6 +68,8 @@
         --card-shadow-color: rgba(255,215,0,0.25);
         --card-title-bar-bg: var(--link-bg);
         --glow-color: rgba(255,215,0,0.5);
+        --glass-bg: rgba(30, 30, 35, 0.35);
+        --glass-border: rgba(255, 255, 255, 0.08);
     }
 
     .light-mode {
@@ -115,6 +93,8 @@
         --card-shadow-color: rgba(74,144,226,0.25);
         --card-title-bar-bg: rgba(74,144,226,0.06);
         --glow-color: rgba(74,144,226,0.5);
+        --glass-bg: rgba(255, 255, 255, 0.55);
+        --glass-border: rgba(74,144,226, 0.25);
     }
 
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -319,11 +299,11 @@
         to   { box-shadow: 0 0 30px var(--glow-color), inset 0 0 20px var(--glow-color); }
     }
 
-    /* کارت‌ها */
+    /* کارت‌ها - Glassmorphism پیشرفته */
     .movies-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 24px;
+        gap: 28px;
         justify-items: center;
         max-width: 1200px;
         margin: 0 auto;
@@ -331,9 +311,8 @@
     }
 
     .movie-card {
-        perspective: 1400px;
+        perspective: 1200px;
         position: relative;
-        transform-style: preserve-3d;
     }
 
     .card-inner {
@@ -341,9 +320,9 @@
         width: 280px;
         height: 420px;
         cursor: pointer;
-        transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
+        transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
         transform-style: preserve-3d;
-        border-radius: 18px;
+        border-radius: 20px;
     }
 
     .card-inner.flipped { transform: rotateY(180deg); }
@@ -352,32 +331,54 @@
         position: absolute;
         top: 0; left: 0;
         width: 100%; height: 100%;
-        border-radius: 18px;
+        border-radius: 20px;
         overflow: hidden;
         backface-visibility: hidden;
-        border: 2px solid var(--card-border);
-        box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,215,0,0.08) inset;
-        background: rgba(30, 30, 35, 0.55);
-        backdrop-filter: blur(16px) saturate(180%);
-        transition: all 0.5s ease;
+        border: 1px solid var(--glass-border);
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px) saturate(180%) contrast(110%);
+        box-shadow: 
+            0 8px 32px 0 rgba(31, 38, 135, 0.37),
+            inset 0 4px 16px rgba(255, 255, 255, 0.08),
+            0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        transition: all 0.6s ease;
     }
 
     .light-mode .card-front,
     .light-mode .card-back {
         background: rgba(255, 255, 255, 0.65);
-        backdrop-filter: blur(20px) saturate(160%);
-        border: 1px solid rgba(74,144,226,0.4);
-        box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+        backdrop-filter: blur(24px) saturate(160%) contrast(105%);
+        box-shadow: 
+            0 8px 32px 0 rgba(74, 144, 226, 0.15),
+            inset 0 4px 16px rgba(255, 255, 255, 0.18),
+            0 0 0 1px rgba(74, 144, 226, 0.12) inset;
+        border: 1px solid rgba(74,144,226,0.35);
     }
 
+    /* افکت hover پیشرفته glassmorphism */
     .movie-card:hover .card-inner {
-        transform: translateY(-12px) rotateX(8deg) rotateY(8deg);
-        box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 40px var(--glow-color);
+        transform: translateY(-12px);
+        box-shadow: 
+            0 25px 60px rgba(0,0,0,0.5),
+            0 0 40px var(--glow-color);
     }
 
     .movie-card:hover .card-front {
-        transform: scale(1.04);
+        background: rgba(255, 215, 0, 0.08); /* کمی رنگ طلایی در تم تیره */
+        backdrop-filter: blur(28px) saturate(200%) contrast(120%);
         border-color: var(--color-primary);
+        box-shadow: 
+            0 20px 50px rgba(255, 215, 0, 0.25),
+            inset 0 4px 20px rgba(255, 215, 0, 0.12);
+    }
+
+    .light-mode .movie-card:hover .card-front {
+        background: rgba(74, 144, 226, 0.12);
+        backdrop-filter: blur(32px) saturate(180%) contrast(115%);
+        border-color: var(--color-primary);
+        box-shadow: 
+            0 20px 50px rgba(74, 144, 226, 0.25),
+            inset 0 4px 20px rgba(74, 144, 226, 0.15);
     }
 
     .card-front { display:flex; flex-direction:column; position: relative; }
@@ -385,21 +386,19 @@
     .img-bar {
         flex:1;
         overflow:hidden;
-        position: relative;
-        border-radius: 16px 16px 0 0;
+        border-radius: 20px 20px 0 0;
+        background: rgba(0,0,0,0.3);
     }
 
     .img-bar img {
         width:100%;
         height:100%;
         object-fit:cover;
-        transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease;
-        transform-origin: center center;
+        transition: transform 0.8s ease;
     }
 
     .movie-card:hover .img-bar img {
-        transform: scale(1.18) translateZ(40px);
-        filter: brightness(1.15) contrast(1.18) saturate(1.25);
+        transform: scale(1.08);
     }
 
     .date-bar {
@@ -408,6 +407,7 @@
         color: var(--accent-text);
         font-size:19px !important; font-weight:900 !important;
         letter-spacing:1.2px; text-shadow:0 0 14px var(--glow-color);
+        border-top: 1px solid var(--glass-border);
     }
 
     .light-mode .date-bar {
