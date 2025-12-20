@@ -395,8 +395,8 @@
 
     .card-back h3, .card-back p strong { color:var(--color-primary); }
 
-    /* برچسب تخفیف ویژه - روی لبه کارت، گوشه بالا سمت راست، چرخش 45 درجه */
-    .discount-label {
+    /* برچسب تخفیف ویژه - فقط وقتی دستی اضافه شده باشد نمایش داده می‌شود */
+    .card-front .discount-label {
         position: absolute;
         top: 10px;
         right: 10px;
@@ -594,7 +594,7 @@ window.addEventListener('load', () => {
     }, delay);
 });
 
-// لود کارت‌ها - برچسب رو به صورت جداگانه اضافه می‌کنیم تا فلیپ نشه
+// لود کارت‌ها - بدون اضافه کردن خودکار برچسب
 const container = document.getElementById("cards-container");
 let openCard = null;
 async function loadCardsStrictly() {
@@ -603,23 +603,9 @@ async function loadCardsStrictly() {
             const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
             if (!response.ok) continue;
             const html = await response.text();
-
             const card = document.createElement("div");
             card.className = "movie-card";
-
-            // اضافه کردن برچسب تخفیف به صورت جداگانه (خارج از card-inner)
-            card.innerHTML = `
-                <div class="discount-label hidden">تخفیف ویژه!</div>
-                ${html}
-            `;
-
-            // چک کردن وجود برچسب در HTML کارت
-            const discountLabel = card.querySelector(".discount-label");
-            if (discountLabel) {
-                // اگر کارت برچسب داشته باشد، مخفی بودن رو برداریم
-                discountLabel.classList.remove('hidden');
-            }
-
+            card.innerHTML = html;
             container.appendChild(card);
         } catch (e) {
             console.log("خطا در لود کارت", num);
@@ -628,7 +614,7 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
-// رزرو بلیط با چک کردن تخفیف ویژه
+// رزرو بلیط با چک کردن تخفیف ویژه (اگر برچسب دستی وجود داشته باشد)
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
     if (!reserveBtn) return;
@@ -643,9 +629,8 @@ document.addEventListener("click", function(e) {
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
     const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
 
-    // چک کردن وجود برچسب تخفیف در کارت (نه فقط card-inner)
-    const card = reserveBtn.closest(".movie-card");
-    const hasDiscount = card && card.querySelector('.discount-label:not(.hidden)');
+    const cardInner = reserveBtn.closest(".card-inner");
+    const hasDiscount = cardInner && cardInner.querySelector('.discount-label');
 
     let discountMessage = "";
     if (hasDiscount) {
