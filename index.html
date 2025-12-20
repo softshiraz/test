@@ -70,7 +70,6 @@
     }">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
     <style>
-    /* متغیرهای تم */
     :root {
         --color-primary: #ffd700;
         --color-secondary: #ffb300;
@@ -283,7 +282,6 @@
     }
     #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-    /* عنوان اکران‌ها */
     .section-title-wrapper {
         max-width: 1200px;
         margin: 40px auto 50px auto;
@@ -322,7 +320,6 @@
         to   { box-shadow: 0 0 30px var(--glow-color), inset 0 0 20px var(--glow-color); }
     }
 
-    /* کارت‌ها */
     .movies-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -398,19 +395,21 @@
 
     .card-back h3, .card-back p strong { color:var(--color-primary); }
 
-    /* برچسب تخفیف ویژه - روی کارت، گوشه بالا سمت راست */
+    /* برچسب تخفیف ویژه - روی لبه کارت، گوشه بالا سمت راست، با چرخش 45 درجه */
     .card-front .discount-label {
         position: absolute;
-        top: 8px;
-        right: 8px;
+        top: 10px;
+        right: 10px;
         background: linear-gradient(135deg, #c084fc, #f472b6);
         color: white;
         font-weight: bold;
         font-size: 13px;
         padding: 4px 10px;
-        border-radius: 12px;
+        border-radius: 8px;
         box-shadow: 0 4px 12px rgba(192, 132, 252, 0.5);
-        z-index: 10;
+        z-index: 15;
+        transform: rotate(45deg);
+        transform-origin: top right;
         letter-spacing: 0.5px;
         text-shadow: 0 1px 2px rgba(0,0,0,0.4);
         animation: pulse 2s infinite;
@@ -418,9 +417,9 @@
     }
 
     @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-        100% { transform: scale(1); }
+        0% { transform: rotate(45deg) scale(1); }
+        50% { transform: rotate(45deg) scale(1.05); }
+        100% { transform: rotate(45deg) scale(1); }
     }
 
     .discount-label.hidden { display: none; }
