@@ -70,6 +70,7 @@
     }">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
     <style>
+    /* متغیرهای تم */
     :root {
         --color-primary: #ffd700;
         --color-secondary: #ffb300;
@@ -178,9 +179,15 @@
     .hamburger-inner span:nth-child(2){ top:7.5px; }
     .hamburger-inner span:nth-child(3){ top:15px; }
 
-    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(1) { transform: rotate(45deg); top:7.5px; }
-    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(2) { opacity:0; }
-    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(3) { transform: rotate(-45deg); top:7.5px; }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(1) {
+        transform: rotate(45deg); top:7.5px;
+    }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(2) {
+        opacity:0;
+    }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(3) {
+        transform: rotate(-45deg); top:7.5px;
+    }
 
     #side-menu {
         position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
@@ -193,8 +200,20 @@
 
     #side-menu.open { transform: translateX(0); }
 
-    .menu-header { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 20px; }
-    .menu-controls { display: flex; gap: 8px; justify-content: space-between; width: 100%; }
+    .menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .menu-controls {
+        display: flex;
+        gap: 8px;
+        justify-content: space-between;
+        width: 100%;
+    }
 
     #menu-close, #theme-toggle {
         width: 44px; height: 44px;
@@ -214,22 +233,36 @@
         border-color: var(--color-primary);
     }
 
+    .menu-controls #theme-toggle { order: 2; }
+    .menu-controls #menu-close { order: 1; }
+
+    .side-brand,
+    .side-footer-text {
+        text-align: center;
+        width: 100%;
+    }
+
     .side-brand {
         font-weight:800;
         color:var(--color-primary);
         font-size:20px;
         margin: -10px 0 10px 0;
-        text-align: center;
-        width: 100%;
     }
 
-    .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
+    .side-links {
+        margin-top:6px;
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+    }
+
     .side-links a {
         display:flex; align-items:center; justify-content:space-between; gap:10px;
         padding:12px 14px; border-radius:10px; text-decoration:none; color:var(--text-color); font-weight:600;
         background:var(--link-bg); border:1px solid var(--link-border);
         transition: all 0.3s;
     }
+
     .side-links a:hover { background:var(--link-hover-bg); color:var(--color-primary); }
 
     .menu-social-row {
@@ -250,6 +283,7 @@
 
     .menu-install-icon:hover, .menu-social-icon:hover {
         background: var(--link-hover-bg);
+        color: var(--color-primary);
         border-color: var(--color-primary);
     }
 
@@ -263,16 +297,19 @@
         font-size: 13px;
         color: rgba(255,255,255,0.7);
         padding-top: 20px;
-        text-align: center;
-        width: 100%;
     }
-    .light-mode .side-footer-text { color: rgba(26,43,75,0.65); }
+
+    .light-mode .side-footer-text {
+        color: rgba(26,43,75,0.65);
+    }
 
     #menu-backdrop {
         position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
     }
+
     #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
+    /* عنوان اکران‌ها */
     .section-title-wrapper {
         max-width: 1200px;
         margin: 40px auto 50px auto;
@@ -311,6 +348,7 @@
         to   { box-shadow: 0 0 30px var(--glow-color), inset 0 0 20px var(--glow-color); }
     }
 
+    /* کارت‌ها */
     .movies-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -342,7 +380,7 @@
         transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
 
-    .card-front { display:flex; flex-direction:column; }
+    .card-front { display:flex; flex-direction:column; position: relative; }
 
     .img-bar { flex:1; overflow:hidden; }
     .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
@@ -386,29 +424,29 @@
 
     .card-back h3, .card-back p strong { color:var(--color-primary); }
 
-    /* برچسب تخفیف */
+    /* برچسب تخفیف ویژه - سمت راست بالا، لبه گرد، گرادیانت بنفش-صورتی */
     .discount-label {
         position: absolute;
         top: 12px;
-        left: 12px;
-        background: linear-gradient(135deg, #ff3b30, #ff6b6b);
+        right: 12px; /* سمت راست بالا */
+        background: linear-gradient(135deg, #c084fc, #f472b6);
         color: white;
         font-weight: bold;
         font-size: 13px;
         padding: 6px 12px;
-        border-radius: 0 12px 12px 0;
-        box-shadow: 0 4px 12px rgba(255, 59, 48, 0.5);
+        border-radius: 12px; /* لبه کاملاً گرد */
+        box-shadow: 0 4px 12px rgba(192, 132, 252, 0.5);
         z-index: 10;
-        transform: rotate(-5deg);
+        transform: rotate(5deg);
         letter-spacing: 0.5px;
         text-shadow: 0 1px 2px rgba(0,0,0,0.4);
         animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-        0% { transform: scale(1) rotate(-5deg); }
-        50% { transform: scale(1.05) rotate(-5deg); }
-        100% { transform: scale(1) rotate(-5deg); }
+        0% { transform: scale(1) rotate(5deg); }
+        50% { transform: scale(1.05) rotate(5deg); }
+        100% { transform: scale(1) rotate(5deg); }
     }
 
     .discount-label.hidden { display: none; }
@@ -429,10 +467,23 @@
     .loader .circle:nth-child(3) { animation-delay: 480ms; }
     .loader .circle:nth-child(4) { animation-delay: 720ms; }
     .loader .circle:nth-child(5) { animation-delay: 960ms; }
-    @keyframes orbit { /* بدون تغییر */ }
+
+    @keyframes orbit {
+        0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
+        7% { transform:rotate(345deg); animation-timing-function: linear; }
+        30% { transform:rotate(455deg); animation-timing-function: ease-in-out; }
+        39% { transform:rotate(690deg); animation-timing-function: linear; }
+        70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+        75% { transform:rotate(945deg); animation-timing-function: ease-out; }
+        76% { transform:rotate(945deg); opacity: 0; }
+        100% { transform:rotate(945deg); opacity: 0; }
+    }
 
     main, header, #menu-backdrop, #side-menu { visibility: hidden; }
-    #loading-overlay.hidden ~ * { visibility: visible; }
+    #loading-overlay.hidden ~ header,
+    #loading-overlay.hidden ~ #menu-backdrop,
+    #loading-overlay.hidden ~ #side-menu,
+    #loading-overlay.hidden ~ main { visibility: visible; }
 
     @media (max-width:1200px) { .movies-grid { grid-template-columns:repeat(3,1fr); } }
     @media (max-width:768px) { .movies-grid { grid-template-columns:repeat(2,1fr); } }
@@ -553,7 +604,7 @@ prefersDark.addEventListener('change', (e) => {
 initializeTheme();
 themeToggle.addEventListener('click', toggleTheme);
 
-// لودر
+// لودر (دوباره فعال شد)
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 5000;
 const startTime = Date.now();
@@ -590,7 +641,7 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
-// رزرو بلیط با چک کردن تخفیف ویژه
+// رزرو بلیط با تخفیف ویژه
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
     if (!reserveBtn) return;
@@ -605,7 +656,6 @@ document.addEventListener("click", function(e) {
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
     const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
 
-    // چک کردن وجود برچسب تخفیف ویژه در کارت
     const cardInner = reserveBtn.closest(".card-inner");
     const hasDiscount = cardInner && cardInner.querySelector('.discount-label:not(.hidden)');
 
