@@ -323,7 +323,7 @@
     .movies-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
+        gap: 24px;
         justify-items: center;
         max-width: 1200px;
         margin: 0 auto;
@@ -331,31 +331,76 @@
     }
 
     .movie-card {
-        perspective:1000px;
+        perspective: 1400px;
         position: relative;
+        transform-style: preserve-3d;
     }
 
     .card-inner {
-        position:relative; width:280px; height:420px; cursor:pointer;
-        transition:transform 0.65s cubic-bezier(0.5, 1.25, 0.5, 1.25);
-        transform-style:preserve-3d;
+        position: relative;
+        width: 280px;
+        height: 420px;
+        cursor: pointer;
+        transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
+        transform-style: preserve-3d;
+        border-radius: 18px;
     }
 
-    .card-inner.flipped { transform:rotateY(180deg); }
+    .card-inner.flipped { transform: rotateY(180deg); }
 
     .card-front, .card-back {
-        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
-        backface-visibility:hidden; border:2px solid var(--card-border);
-        box-shadow:0 0 8px var(--card-shadow-color), inset 0 0 6px var(--card-shadow-color);
-        background:var(--card-bg); backdrop-filter:blur(10px);
-        transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        border-radius: 18px;
+        overflow: hidden;
+        backface-visibility: hidden;
+        border: 2px solid var(--card-border);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,215,0,0.08) inset;
+        background: rgba(30, 30, 35, 0.55);
+        backdrop-filter: blur(16px) saturate(180%);
+        transition: all 0.5s ease;
+    }
+
+    .light-mode .card-front,
+    .light-mode .card-back {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(20px) saturate(160%);
+        border: 1px solid rgba(74,144,226,0.4);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    }
+
+    .movie-card:hover .card-inner {
+        transform: translateY(-12px) rotateX(8deg) rotateY(8deg);
+        box-shadow: 0 30px 70px rgba(0,0,0,0.6), 0 0 40px var(--glow-color);
+    }
+
+    .movie-card:hover .card-front {
+        transform: scale(1.04);
+        border-color: var(--color-primary);
     }
 
     .card-front { display:flex; flex-direction:column; position: relative; }
 
-    .img-bar { flex:1; overflow:hidden; }
-    .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
-    .movie-card:hover .img-bar img { transform:scale(1.08); }
+    .img-bar {
+        flex:1;
+        overflow:hidden;
+        position: relative;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .img-bar img {
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease;
+        transform-origin: center center;
+    }
+
+    .movie-card:hover .img-bar img {
+        transform: scale(1.18) translateZ(40px);
+        filter: brightness(1.15) contrast(1.18) saturate(1.25);
+    }
 
     .date-bar {
         height:52px !important; line-height:52px !important; padding:0 10px; text-align:center;
@@ -389,13 +434,13 @@
     .light-mode .reserve-bar:hover { background: #5a9ef0; }
 
     .card-back {
-        transform:rotateY(180deg); padding:15px; color:var(--text-color); text-align:right;
-        font-size:14px; display:flex; flex-direction:column;
+        transform:rotateY(180deg); padding:18px; color:var(--text-color); text-align:right;
+        font-size:14px; display:flex; flex-direction:column; justify-content: space-between;
     }
 
     .card-back h3, .card-back p strong { color:var(--color-primary); }
 
-    /* برچسب تخفیف ویژه - لبه کارت، گوشه بالا سمت راست */
+    /* برچسب تخفیف ویژه */
     .card-front .discount-label {
         position: absolute;
         top: 0;
@@ -405,7 +450,7 @@
         font-weight: bold;
         font-size: 13px;
         padding: 6px 12px;
-        border-radius: 0 0 0 12px; /* فقط گوشه پایین چپ گرد */
+        border-radius: 0 0 0 12px;
         box-shadow: 0 4px 12px rgba(192, 132, 252, 0.5);
         z-index: 10;
         letter-spacing: 0.5px;
@@ -494,7 +539,7 @@
         </div>
     </div>
     <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
-  
+
     <div class="side-links" role="menu">
         <a href="../web/events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
         <a href="../pages/past-releases.html" role="menuitem">اکران‌های شده‌ها</a>
@@ -595,7 +640,7 @@ window.addEventListener('load', () => {
 const container = document.getElementById("cards-container");
 let openCard = null;
 async function loadCardsStrictly() {
-    for (let num = 1; num <= 150; num++) {
+    for (let num = 1; num <= 50; num++) {
         try {
             const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
             if (!response.ok) continue;
