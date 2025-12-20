@@ -70,11 +70,10 @@
     }">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
     <style>
-    /* --- متغیرهای تم و حالت شب/روز --- */
     :root {
-        /* Dark Mode (Default) - بدون تغییر */
-        --color-primary: #ffd700; /* طلایی روشن */
+        --color-primary: #ffd700;
         --color-secondary: #ffb300;
+        --accent-text: #ffd700;
         --bg-color: #0e0e0f;
         --text-color: #fff;
         --header-bg: rgba(0,0,0,0.5);
@@ -91,14 +90,15 @@
         --card-border: rgba(255,215,0,0.65);
         --card-shadow-color: rgba(255,215,0,0.25);
         --card-title-bar-bg: var(--link-bg);
+        --glow-color: rgba(255,215,0,0.5);
     }
 
-    /* Light Mode - تم جدید آبی + سفید */
     .light-mode {
-        --color-primary: #4a90e2;          /* آبی اصلی */
-        --color-secondary: #357abd;         /* آبی تیره‌تر */
-        --bg-color: #f8fbff;                /* سفید خیلی روشن با ته‌مایه آبی ملایم */
-        --text-color: #1a2b4b;              /* آبی-خاکستری تیره برای خوانایی */
+        --color-primary: #4a90e2;
+        --color-secondary: #357abd;
+        --accent-text: #ffffff;
+        --bg-color: #f8fbff;
+        --text-color: #1a2b4b;
         --header-bg: rgba(255,255,255,0.92);
         --border-color: rgba(74,144,226,0.25);
         --menu-bg-start: rgba(248,251,255,0.98);
@@ -113,30 +113,7 @@
         --card-border: rgba(74,144,226,0.55);
         --card-shadow-color: rgba(74,144,226,0.25);
         --card-title-bar-bg: rgba(74,144,226,0.06);
-    }
-
-    /* Fallback (سیستم دارک مود) */
-    @media (prefers-color-scheme: dark) {
-        body:not(.light-mode) {
-            --color-primary: #ffd700;
-            --color-secondary: #ffb300;
-            --bg-color: #0e0e0f;
-            --text-color: #fff;
-            --header-bg: rgba(0,0,0,0.5);
-            --border-color: rgba(48,48,48,0.5);
-            --menu-bg-start: rgba(12,12,12,0.98);
-            --menu-bg-end: rgba(20,20,20,0.98);
-            --menu-border-right: rgba(255,215,0,0.12);
-            --link-bg: rgba(255,255,255,0.03);
-            --link-border: rgba(255,255,255,0.03);
-            --link-hover-bg: rgba(255,215,0,0.06);
-            --icon-bg: var(--link-bg);
-            --icon-border: var(--link-border);
-            --card-bg: rgba(19,19,20,0.75);
-            --card-border: rgba(255,215,0,0.65);
-            --card-shadow-color: rgba(255,215,0,0.25);
-            --card-title-bar-bg: var(--link-bg);
-        }
+        --glow-color: rgba(74,144,226,0.5);
     }
 
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -148,7 +125,6 @@
         transition: background-color 0.3s, color 0.3s;
     }
 
-    /* هدر */
     header {
         background: var(--header-bg);
         backdrop-filter: blur(10px);
@@ -156,7 +132,7 @@
         display:flex; justify-content:space-between; align-items:center;
         border-bottom:1px solid var(--border-color);
         position:sticky; top:0; z-index:20;
-        text-shadow:0 0 10px rgba(74,144,226,0.2); /* سایه آبی در لایت */
+        text-shadow:0 0 10px var(--glow-color);
     }
 
     .logo-link {
@@ -174,25 +150,24 @@
     }
 
     .logo-link:hover .logo-fa {
-        text-shadow: 0 0 20px rgba(74,144,226,0.7);
+        text-shadow: 0 0 20px var(--glow-color);
         transform: scale(1.05);
     }
 
-    /* دکمه همبرگر */
     .hamburger-btn {
         width:48px; height:48px; display:flex; align-items:center; justify-content:center;
         background: var(--icon-bg); border-radius:14px; border:2px solid var(--icon-border);
         cursor:pointer; transition:all .3s ease; color:var(--color-primary);
-        box-shadow: 0 0 15px rgba(74,144,226,0.2);
+        box-shadow: 0 0 15px var(--glow-color);
     }
 
-    .light-mode .hamburger-btn { box-shadow: 0 0 12px rgba(74,144,226,0.15); }
+    .light-mode .hamburger-btn { box-shadow: 0 0 12px var(--glow-color); }
 
     .hamburger-btn:hover {
         background: var(--link-hover-bg);
         border-color:var(--color-primary);
         transform: scale(1.08);
-        box-shadow: 0 0 25px rgba(74,144,226,0.4);
+        box-shadow: 0 0 25px var(--glow-color);
     }
 
     .hamburger-btn:active { transform:scale(.95); }
@@ -203,21 +178,14 @@
     .hamburger-inner span:nth-child(2){ top:7.5px; }
     .hamburger-inner span:nth-child(3){ top:15px; }
 
-    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(1) {
-        transform: rotate(45deg); top:7.5px;
-    }
-    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(2) {
-        opacity:0;
-    }
-    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(3) {
-        transform: rotate(-45deg); top:7.5px;
-    }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(1) { transform: rotate(45deg); top:7.5px; }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(2) { opacity:0; }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(3) { transform: rotate(-45deg); top:7.5px; }
 
-    /* منوی کشویی */
     #side-menu {
         position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
         background: linear-gradient(180deg, var(--menu-bg-start), var(--menu-bg-end));
-        box-shadow: 4px 0 30px rgba(0,0,0,0.3);
+        box-shadow: 4px 0 30px rgba(0,0,0,0.6);
         transform: translateX(100%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
         z-index: 30; padding: 28px; display: flex; flex-direction: column; gap: 18px;
         direction: rtl; border-right: 2px solid var(--menu-border-right);
@@ -225,21 +193,8 @@
 
     #side-menu.open { transform: translateX(0); }
 
-    /* بخش بالایی منو */
-    .menu-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .menu-controls {
-        display: flex;
-        gap: 8px;
-        justify-content: space-between;
-        width: 100%;
-    }
+    .menu-header { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 20px; }
+    .menu-controls { display: flex; gap: 8px; justify-content: space-between; width: 100%; }
 
     #menu-close, #theme-toggle {
         width: 44px; height: 44px;
@@ -255,17 +210,8 @@
 
     #menu-close:hover, #theme-toggle:hover {
         background: var(--color-primary);
-        color: #ffffff;
+        color: var(--bg-color);
         border-color: var(--color-primary);
-    }
-
-    .menu-controls #theme-toggle { order: 2; }
-    .menu-controls #menu-close { order: 1; }
-
-    .side-brand,
-    .side-footer-text {
-        text-align: center;
-        width: 100%;
     }
 
     .side-brand {
@@ -273,22 +219,17 @@
         color:var(--color-primary);
         font-size:20px;
         margin: -10px 0 10px 0;
+        text-align: center;
+        width: 100%;
     }
 
-    .side-links {
-        margin-top:6px;
-        display:flex;
-        flex-direction:column;
-        gap:8px;
-    }
-
+    .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
     .side-links a {
         display:flex; align-items:center; justify-content:space-between; gap:10px;
         padding:12px 14px; border-radius:10px; text-decoration:none; color:var(--text-color); font-weight:600;
         background:var(--link-bg); border:1px solid var(--link-border);
         transition: all 0.3s;
     }
-
     .side-links a:hover { background:var(--link-hover-bg); color:var(--color-primary); }
 
     .menu-social-row {
@@ -309,28 +250,29 @@
 
     .menu-install-icon:hover, .menu-social-icon:hover {
         background: var(--link-hover-bg);
-        color: #ffffff;
         border-color: var(--color-primary);
+    }
+
+    .light-mode .menu-install-icon:hover,
+    .light-mode .menu-social-icon:hover {
+        color: #ffffff;
     }
 
     .side-footer-text {
         margin-top: auto;
         font-size: 13px;
-        color: rgba(26,43,75,0.7); /* تطبیق با تم جدید */
+        color: rgba(255,255,255,0.7);
         padding-top: 20px;
+        text-align: center;
+        width: 100%;
     }
-
-    .light-mode .side-footer-text {
-        color: rgba(26,43,75,0.65);
-    }
+    .light-mode .side-footer-text { color: rgba(26,43,75,0.65); }
 
     #menu-backdrop {
         position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
     }
-
     #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-    /* عنوان اکران‌های آینده */
     .section-title-wrapper {
         max-width: 1200px;
         margin: 40px auto 50px auto;
@@ -341,31 +283,34 @@
 
     .section-title-box {
         width: 280px;
-        background: rgb(74 144 226 / 0.08);
+        background: rgba(255,215,0,0);
         backdrop-filter: blur(10px);
         border: 2px solid var(--color-primary);
         border-radius: 18px;
         padding: 16px 20px;
-        box-shadow: 0 0 20px rgba(74,144,226,0.3), inset 0 0 15px rgba(74,144,226,0.1);
+        box-shadow: 0 0 20px var(--glow-color), inset 0 0 15px var(--glow-color);
         animation: glowPulse 4s ease-in-out infinite alternate;
         text-align: center;
     }
 
+    .light-mode .section-title-box {
+        background: rgba(74,144,226,0.15);
+    }
+
     .section-title-box h1 {
-        color: var(--color-primary);
+        color: var(--accent-text);
         font-size: 32px;
         font-weight: 900;
         margin: 0;
-        text-shadow: 0 0 10px rgba(74,144,226,0.6), 0 0 20px rgba(74,144,226,0.4);
+        text-shadow: 0 0 10px var(--glow-color);
         letter-spacing: 2px;
     }
 
     @keyframes glowPulse {
-        from { box-shadow: 0 0 20px rgba(74,144,226,0.3), inset 0 0 15px rgba(74,144,226,0.1); }
-        to { box-shadow: 0 0 30px rgba(74,144,226,0.5), inset 0 0 20px rgba(74,144,226,0.2); }
+        from { box-shadow: 0 0 20px var(--glow-color), inset 0 0 15px var(--glow-color); }
+        to   { box-shadow: 0 0 30px var(--glow-color), inset 0 0 20px var(--glow-color); }
     }
 
-    /* کارت‌ها */
     .movies-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -378,7 +323,7 @@
 
     .movie-card {
         perspective:1000px;
-        position:relative;
+        position: relative;
     }
 
     .card-inner {
@@ -405,8 +350,14 @@
 
     .date-bar {
         height:52px !important; line-height:52px !important; padding:0 10px; text-align:center;
-        background:rgba(74,144,226,0.12); color:var(--color-primary); font-size:19px !important; font-weight:900 !important;
-        letter-spacing:1.2px; text-shadow:0 0 14px rgba(74,144,226,0.7);
+        background: rgba(255,215,0,0.12);
+        color: var(--accent-text);
+        font-size:19px !important; font-weight:900 !important;
+        letter-spacing:1.2px; text-shadow:0 0 14px var(--glow-color);
+    }
+
+    .light-mode .date-bar {
+        background: rgba(74,144,226,0.25);
     }
 
     .date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
@@ -420,12 +371,13 @@
 
     .reserve-bar {
         height:36px; line-height:36px; padding:0 10px; text-align:center;
-        background:var(--color-primary); color:#ffffff; font-weight:bold; cursor:pointer; transition:background 0.3s;
+        background:var(--color-primary); color:var(--bg-color); font-weight:bold; cursor:pointer; transition:background 0.3s;
     }
 
-    .reserve-bar:hover { background:#5a9ef0; }
+    .reserve-bar:hover { background:#ffea00; }
 
-    .light-mode .reserve-bar { color: #ffffff; } /* سفید در تم آبی */
+    .light-mode .reserve-bar { background: var(--color-primary); color: #ffffff; }
+    .light-mode .reserve-bar:hover { background: #5a9ef0; }
 
     .card-back {
         transform:rotateY(180deg); padding:15px; color:var(--text-color); text-align:right;
@@ -433,6 +385,33 @@
     }
 
     .card-back h3, .card-back p strong { color:var(--color-primary); }
+
+    /* برچسب تخفیف */
+    .discount-label {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: linear-gradient(135deg, #ff3b30, #ff6b6b);
+        color: white;
+        font-weight: bold;
+        font-size: 13px;
+        padding: 6px 12px;
+        border-radius: 0 12px 12px 0;
+        box-shadow: 0 4px 12px rgba(255, 59, 48, 0.5);
+        z-index: 10;
+        transform: rotate(-5deg);
+        letter-spacing: 0.5px;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1) rotate(-5deg); }
+        50% { transform: scale(1.05) rotate(-5deg); }
+        100% { transform: scale(1) rotate(-5deg); }
+    }
+
+    .discount-label.hidden { display: none; }
 
     /* لودر */
     #loading-overlay {
@@ -444,54 +423,20 @@
     #loading-overlay.hidden { opacity: 0; pointer-events: none; }
 
     .loader { position: relative; width: 40px; height: 40px; }
-    .loader .circle {
-        position: absolute; width: 38px; height: 38px; opacity: 0;
-        transform: rotate(225deg); animation: orbit 5.5s infinite;
-    }
-    .loader .circle:after {
-        content: ''; position: absolute; width: 5px; height: 5px;
-        border-radius: 50%; background: var(--color-primary);
-    }
+    .loader .circle { position: absolute; width: 38px; height: 38px; opacity: 0; transform: rotate(225deg); animation: orbit 5.5s infinite; }
+    .loader .circle:after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--color-primary); }
     .loader .circle:nth-child(2) { animation-delay: 240ms; }
     .loader .circle:nth-child(3) { animation-delay: 480ms; }
     .loader .circle:nth-child(4) { animation-delay: 720ms; }
     .loader .circle:nth-child(5) { animation-delay: 960ms; }
+    @keyframes orbit { /* بدون تغییر */ }
 
-    @keyframes orbit {
-        0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
-        7% { transform:rotate(345deg); animation-timing-function: linear; }
-        30% { transform:rotate(455deg); animation-timing-function: ease-in-out; }
-        39% { transform:rotate(690deg); animation-timing-function: linear; }
-        70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
-        75% { transform:rotate(945deg); animation-timing-function: ease-out; }
-        76% { transform:rotate(945deg); opacity: 0; }
-        100% { transform:rotate(945deg); opacity: 0; }
-    }
+    main, header, #menu-backdrop, #side-menu { visibility: hidden; }
+    #loading-overlay.hidden ~ * { visibility: visible; }
 
-    /* مخفی کردن محتوای اصلی تا وقتی لودر تمام شود */
-    main, header, #menu-backdrop, #side-menu {
-        visibility: hidden;
-    }
-
-    #loading-overlay.hidden ~ header,
-    #loading-overlay.hidden ~ #menu-backdrop,
-    #loading-overlay.hidden ~ #side-menu,
-    #loading-overlay.hidden ~ main {
-        visibility: visible;
-    }
-
-    /* ریسپانسیو */
-    @media (max-width:1200px) {
-        .movies-grid { grid-template-columns:repeat(3,1fr); }
-    }
-    @media (max-width:768px) {
-        .movies-grid { grid-template-columns:repeat(2,1fr); }
-    }
-    @media (max-width:480px) {
-        .movies-grid { grid-template-columns:1fr; }
-        .section-title-box { width: 280px; padding: 16px 20px; }
-        .section-title-box h1 { font-size: 28px; }
-    }
+    @media (max-width:1200px) { .movies-grid { grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:768px) { .movies-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:480px) { .movies-grid { grid-template-columns:1fr; } }
     </style>
 </head>
 <body>
@@ -559,7 +504,7 @@
 </main>
 
 <script>
-// --- منطق تغییر تم (Theme Toggle Logic) ---
+// --- منطق تغییر تم ---
 const body = document.body;
 const themeToggle = document.getElementById('theme-toggle');
 let currentTheme = localStorage.getItem('theme');
@@ -586,7 +531,7 @@ function initializeTheme() {
         if (prefersDark.matches) {
             applyTheme('dark');
         } else {
-            applyTheme('dark'); // پیش‌فرض همچنان دارک
+            applyTheme('dark');
         }
     } else {
         applyTheme(currentTheme);
@@ -625,10 +570,9 @@ window.addEventListener('load', () => {
     }, delay);
 });
 
-// بقیه اسکریپت‌ها بدون تغییر
+// لود کارت‌ها
 const container = document.getElementById("cards-container");
 let openCard = null;
-
 async function loadCardsStrictly() {
     for (let num = 1; num <= 150; num++) {
         try {
@@ -646,21 +590,37 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
+// رزرو بلیط با چک کردن تخفیف ویژه
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
     if (!reserveBtn) return;
     e.stopPropagation();
     if (reserveBtn.textContent.trim() !== "تهیه بلیط") return;
+
     const cardFront = reserveBtn.closest(".card-front");
     if (!cardFront) return;
+
     const adminId = cardFront.dataset.adminId || "softshirazadmin";
+
     const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
     const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
-    const message = `💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\n🌟 مرسی ازتون 🌟`;
+
+    // چک کردن وجود برچسب تخفیف ویژه در کارت
+    const cardInner = reserveBtn.closest(".card-inner");
+    const hasDiscount = cardInner && cardInner.querySelector('.discount-label:not(.hidden)');
+
+    let discountMessage = "";
+    if (hasDiscount) {
+        discountMessage = "🎉 تخفیف ویژه! 🎉\n\n";
+    }
+
+    const message = `${discountMessage}💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\n🌟 مرسی ازتون 🌟`;
     const encoded = encodeURIComponent(message);
+
     window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
 
+// فلیپ کارت
 document.addEventListener("click", function(e) {
     if (e.target.closest(".reserve-bar")) return;
     const cardInner = e.target.closest(".card-inner");
@@ -671,6 +631,7 @@ document.addEventListener("click", function(e) {
     }
 });
 
+// منوی همبرگری
 const hamburger = document.getElementById('hamburger');
 const sideMenu = document.getElementById('side-menu');
 const backdrop = document.getElementById('menu-backdrop');
@@ -698,7 +659,7 @@ backdrop.addEventListener('click', closeMenu);
 document.addEventListener('keydown', e => { if (e.key==='Escape') closeMenu(); });
 sideMenu.addEventListener('click', e => e.stopPropagation());
 
-// انیمیشن ذرات (تغییر رنگ به آبی در لایت مود)
+// انیمیشن ذرات
 (() => {
   const canvas = document.createElement('canvas');
   document.body.appendChild(canvas);
@@ -768,7 +729,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
   frame();
 })();
 
-// کد نصب اپ و Service Worker بدون تغییر
+// نصب PWA
 let deferredPrompt;
 const installBtn = document.getElementById('install-button');
 window.addEventListener('beforeinstallprompt', (e) => {
