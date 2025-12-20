@@ -70,6 +70,7 @@
     }">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
     <style>
+    /* متغیرهای تم */
     :root {
         --color-primary: #ffd700;
         --color-secondary: #ffb300;
@@ -232,20 +233,13 @@
         width: 100%;
     }
 
-    .side-links {
-        margin-top:6px;
-        display:flex;
-        flex-direction:column;
-        gap:8px;
-    }
-
+    .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
     .side-links a {
         display:flex; align-items:center; justify-content:space-between; gap:10px;
         padding:12px 14px; border-radius:10px; text-decoration:none; color:var(--text-color); font-weight:600;
         background:var(--link-bg); border:1px solid var(--link-border);
         transition: all 0.3s;
     }
-
     .side-links a:hover { background:var(--link-hover-bg); color:var(--color-primary); }
 
     .menu-social-row {
@@ -282,18 +276,14 @@
         text-align: center;
         width: 100%;
     }
-
-    .light-mode .side-footer-text {
-        color: rgba(26,43,75,0.65);
-    }
+    .light-mode .side-footer-text { color: rgba(26,43,75,0.65); }
 
     #menu-backdrop {
         position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
     }
-
     #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
-    /* عنوان اکران‌های آینده */
+    /* عنوان اکران‌ها */
     .section-title-wrapper {
         max-width: 1200px;
         margin: 40px auto 50px auto;
@@ -398,14 +388,8 @@
 
     .reserve-bar:hover { background:#ffea00; }
 
-    .light-mode .reserve-bar { 
-        background: var(--color-primary);
-        color: #ffffff; 
-    }
-
-    .light-mode .reserve-bar:hover {
-        background: #5a9ef0;
-    }
+    .light-mode .reserve-bar { background: var(--color-primary); color: #ffffff; }
+    .light-mode .reserve-bar:hover { background: #5a9ef0; }
 
     .card-back {
         transform:rotateY(180deg); padding:15px; color:var(--text-color); text-align:right;
@@ -414,21 +398,19 @@
 
     .card-back h3, .card-back p strong { color:var(--color-primary); }
 
-    /* برچسب تخفیف ویژه - فقط وقتی دستی اضافه شده باشد */
+    /* برچسب تخفیف ویژه - روی کارت، گوشه بالا سمت راست */
     .card-front .discount-label {
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 8px;
+        right: 8px;
         background: linear-gradient(135deg, #c084fc, #f472b6);
         color: white;
         font-weight: bold;
         font-size: 13px;
         padding: 4px 10px;
-        border-radius: 8px;
+        border-radius: 12px;
         box-shadow: 0 4px 12px rgba(192, 132, 252, 0.5);
-        z-index: 15;
-        transform: rotate(45deg);
-        transform-origin: top right;
+        z-index: 10;
         letter-spacing: 0.5px;
         text-shadow: 0 1px 2px rgba(0,0,0,0.4);
         animation: pulse 2s infinite;
@@ -436,9 +418,9 @@
     }
 
     @keyframes pulse {
-        0% { transform: rotate(45deg) scale(1); }
-        50% { transform: rotate(45deg) scale(1.05); }
-        100% { transform: rotate(45deg) scale(1); }
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
     }
 
     .discount-label.hidden { display: none; }
@@ -453,14 +435,8 @@
     #loading-overlay.hidden { opacity: 0; pointer-events: none; }
 
     .loader { position: relative; width: 40px; height: 40px; }
-    .loader .circle {
-        position: absolute; width: 38px; height: 38px; opacity: 0;
-        transform: rotate(225deg); animation: orbit 5.5s infinite;
-    }
-    .loader .circle:after {
-        content: ''; position: absolute; width: 5px; height: 5px;
-        border-radius: 50%; background: var(--color-primary);
-    }
+    .loader .circle { position: absolute; width: 38px; height: 38px; opacity: 0; transform: rotate(225deg); animation: orbit 5.5s infinite; }
+    .loader .circle:after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--color-primary); }
     .loader .circle:nth-child(2) { animation-delay: 240ms; }
     .loader .circle:nth-child(3) { animation-delay: 480ms; }
     .loader .circle:nth-child(4) { animation-delay: 720ms; }
@@ -477,28 +453,15 @@
         100% { transform:rotate(945deg); opacity: 0; }
     }
 
-    main, header, #menu-backdrop, #side-menu {
-        visibility: hidden;
-    }
-
+    main, header, #menu-backdrop, #side-menu { visibility: hidden; }
     #loading-overlay.hidden ~ header,
     #loading-overlay.hidden ~ #menu-backdrop,
     #loading-overlay.hidden ~ #side-menu,
-    #loading-overlay.hidden ~ main {
-        visibility: visible;
-    }
+    #loading-overlay.hidden ~ main { visibility: visible; }
 
-    @media (max-width:1200px) {
-        .movies-grid { grid-template-columns:repeat(3,1fr); }
-    }
-    @media (max-width:768px) {
-        .movies-grid { grid-template-columns:repeat(2,1fr); }
-    }
-    @media (max-width:480px) {
-        .movies-grid { grid-template-columns:1fr; }
-        .section-title-box { width: 280px; padding: 16px 20px; }
-        .section-title-box h1 { font-size: 28px; }
-    }
+    @media (max-width:1200px) { .movies-grid { grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:768px) { .movies-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:480px) { .movies-grid { grid-template-columns:1fr; } }
     </style>
 </head>
 <body>
@@ -632,7 +595,7 @@ window.addEventListener('load', () => {
     }, delay);
 });
 
-// لود کارت‌ها - بدون اضافه کردن خودکار برچسب
+// لود کارت‌ها
 const container = document.getElementById("cards-container");
 let openCard = null;
 async function loadCardsStrictly() {
@@ -652,7 +615,7 @@ async function loadCardsStrictly() {
 }
 loadCardsStrictly();
 
-// رزرو بلیط با چک کردن تخفیف ویژه
+// رزرو بلیط با تخفیف ویژه
 document.addEventListener("click", function(e) {
     const reserveBtn = e.target.closest(".reserve-bar a");
     if (!reserveBtn) return;
@@ -668,7 +631,7 @@ document.addEventListener("click", function(e) {
     const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
 
     const cardInner = reserveBtn.closest(".card-inner");
-    const hasDiscount = cardInner && cardInner.querySelector('.discount-label');
+    const hasDiscount = cardInner && cardInner.querySelector('.discount-label:not(.hidden)');
 
     let discountMessage = "";
     if (hasDiscount) {
