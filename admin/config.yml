@@ -1,0 +1,33 @@
+backend:
+ backend:
+  name: github
+  repo: softshiraz/web
+  branch: main
+  auth_endpoint: https://admin.softshiraz.workers.dev/  # آدرس Worker خودت
+  auth_type: implicit
+
+
+
+media_folder: "cards/images"    # پوشه‌ای که عکس‌ها ذخیره می‌شن (نسبت به ریشه)
+public_folder: "/cards/images"  # آدرس عمومی برای نمایش
+
+# برای احراز هویت با Proxy (Cloudflare Worker)
+auth_type: implicit             # یا pkce اگر پشتیبانی بشه (در 2025 هنوز برای GitHub Pages بهتر implicit هست)
+
+collections:
+  - name: "movies"
+    label: "اکران‌های آینده"
+    folder: "cards"             # پوشه کارت‌ها
+    create: true                # اجازه ساخت کارت جدید
+    format: "frontmatter"       # فرمت frontmatter (markdown + yaml)
+    extension: "md"             # بهتره md باشه تا html
+    fields:
+      - {label: "تاریخ و زمان", name: "datetime", widget: "datetime", required: true, date_format: "YYYY/MM/DD", time_format: "HH:mm"}
+      - {label: "نام فیلم", name: "title", widget: "string", required: true}
+      - {label: "پوستر فیلم", name: "poster", widget: "image", required: true}
+      - {label: "تخفیف ویژه", name: "has_discount", widget: "boolean", default: false}
+      - {label: "توضیحات", name: "body", widget: "markdown"}
+
+# اگر می‌خوای فقط ادمین بتونه ویرایش کنه
+# editor:
+#   preview: false
