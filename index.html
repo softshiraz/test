@@ -200,20 +200,8 @@
 
     #side-menu.open { transform: translateX(0); }
 
-    .menu-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .menu-controls {
-        display: flex;
-        gap: 8px;
-        justify-content: space-between;
-        width: 100%;
-    }
+    .menu-header { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 20px; }
+    .menu-controls { display: flex; gap: 8px; justify-content: space-between; width: 100%; }
 
     #menu-close, #theme-toggle {
         width: 44px; height: 44px;
@@ -233,36 +221,22 @@
         border-color: var(--color-primary);
     }
 
-    .menu-controls #theme-toggle { order: 2; }
-    .menu-controls #menu-close { order: 1; }
-
-    .side-brand,
-    .side-footer-text {
-        text-align: center;
-        width: 100%;
-    }
-
     .side-brand {
         font-weight:800;
         color:var(--color-primary);
         font-size:20px;
         margin: -10px 0 10px 0;
+        text-align: center;
+        width: 100%;
     }
 
-    .side-links {
-        margin-top:6px;
-        display:flex;
-        flex-direction:column;
-        gap:8px;
-    }
-
+    .side-links { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
     .side-links a {
         display:flex; align-items:center; justify-content:space-between; gap:10px;
         padding:12px 14px; border-radius:10px; text-decoration:none; color:var(--text-color); font-weight:600;
         background:var(--link-bg); border:1px solid var(--link-border);
         transition: all 0.3s;
     }
-
     .side-links a:hover { background:var(--link-hover-bg); color:var(--color-primary); }
 
     .menu-social-row {
@@ -283,7 +257,6 @@
 
     .menu-install-icon:hover, .menu-social-icon:hover {
         background: var(--link-hover-bg);
-        color: var(--color-primary);
         border-color: var(--color-primary);
     }
 
@@ -297,16 +270,14 @@
         font-size: 13px;
         color: rgba(255,255,255,0.7);
         padding-top: 20px;
+        text-align: center;
+        width: 100%;
     }
-
-    .light-mode .side-footer-text {
-        color: rgba(26,43,75,0.65);
-    }
+    .light-mode .side-footer-text { color: rgba(26,43,75,0.65); }
 
     #menu-backdrop {
         position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
     }
-
     #menu-backdrop.visible { opacity:1; pointer-events:auto; }
 
     /* عنوان اکران‌ها */
@@ -424,29 +395,28 @@
 
     .card-back h3, .card-back p strong { color:var(--color-primary); }
 
-    /* برچسب تخفیف ویژه - سمت راست بالا، لبه گرد، گرادیانت بنفش-صورتی */
-    .discount-label {
+    /* برچسب تخفیف ویژه - لبه کارت، گوشه بالا سمت راست */
+    .card-front .discount-label {
         position: absolute;
-        top: 12px;
-        right: 12px; /* سمت راست بالا */
+        top: 0;
+        right: 0;
         background: linear-gradient(135deg, #c084fc, #f472b6);
         color: white;
         font-weight: bold;
         font-size: 13px;
         padding: 6px 12px;
-        border-radius: 12px; /* لبه کاملاً گرد */
+        border-radius: 0 0 0 12px; /* فقط گوشه پایین چپ گرد */
         box-shadow: 0 4px 12px rgba(192, 132, 252, 0.5);
         z-index: 10;
-        transform: rotate(5deg);
         letter-spacing: 0.5px;
         text-shadow: 0 1px 2px rgba(0,0,0,0.4);
         animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-        0% { transform: scale(1) rotate(5deg); }
-        50% { transform: scale(1.05) rotate(5deg); }
-        100% { transform: scale(1) rotate(5deg); }
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
     }
 
     .discount-label.hidden { display: none; }
@@ -604,7 +574,7 @@ prefersDark.addEventListener('change', (e) => {
 initializeTheme();
 themeToggle.addEventListener('click', toggleTheme);
 
-// لودر (دوباره فعال شد)
+// لودر
 const overlay = document.getElementById('loading-overlay');
 const minDuration = 5000;
 const startTime = Date.now();
