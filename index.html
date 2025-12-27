@@ -316,70 +316,110 @@
     .movies-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
+        gap: 24px;
         justify-items: center;
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
         padding: 0 20px;
     }
     .movie-card {
-        perspective:1000px;
+        perspective: 1200px;
         position: relative;
+        width: 100%;
+        max-width: 320px;
+        height: 480px;
     }
     .card-inner {
-        position:relative; width:280px; height:420px; cursor:pointer;
-        transition:transform 0.65s cubic-bezier(0.5, 1.25, 0.5, 1.25);
-        transform-style:preserve-3d;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        transition: transform 0.65s cubic-bezier(0.5, 1.25, 0.5, 1.25);
+        transform-style: preserve-3d;
     }
-    .card-inner.flipped { transform:rotateY(180deg); }
+    .card-inner.flipped { transform: rotateY(180deg); }
     .card-front, .card-back {
-        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
-        backface-visibility:hidden; border:2px solid var(--card-border);
-        box-shadow:0 0 8px var(--card-shadow-color), inset 0 0 6px var(--card-shadow-color);
-        background:var(--card-bg); backdrop-filter:blur(10px);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        backface-visibility: hidden;
+        border: 2px solid var(--card-border);
+        box-shadow: 0 0 12px var(--card-shadow-color), inset 0 0 8px var(--card-shadow-color);
+        background: var(--card-bg);
+        backdrop-filter: blur(10px);
         transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
-    .card-front { display:flex; flex-direction:column; position: relative; }
-    .img-bar { flex:1; overflow:hidden; }
-    .img-bar img { 
-        width:100%; 
-        height:100%; 
-        object-fit:cover; 
-        /* حذف انیمیشن بزرگ‌نمایی هنگام هاور */
-        transition: none; 
+    .card-front { display: flex; flex-direction: column; position: relative; }
+    .img-bar {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
     }
-    /* حذف هاور بزرگ‌نمایی عکس */
-    .movie-card:hover .img-bar img { transform:none; }
-
+    .img-bar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: none;
+    }
     .date-bar {
-        height:52px !important; line-height:52px !important; padding:0 10px; text-align:center;
+        height: 58px;
+        line-height: 58px;
+        padding: 0 12px;
+        text-align: center;
         background: rgba(255,215,0,0.12);
         color: var(--accent-text);
-        font-size:19px !important; font-weight:900 !important;
-        letter-spacing:1.2px; text-shadow:0 0 14px var(--glow-color);
+        font-size: 20px;
+        font-weight: 900;
+        letter-spacing: 1.3px;
+        text-shadow: 0 0 14px var(--glow-color);
     }
     .light-mode .date-bar {
         background: rgba(74,144,226,0.25);
     }
-    .date-bar strong { font-size:21px !important; display:block; transform:translateY(1px); }
+    .date-bar strong {
+        font-size: 22px;
+        display: block;
+        transform: translateY(2px);
+    }
     .title-bar {
-        height:36px; line-height:36px; padding:0 10px; text-align:center;
-        background:var(--card-title-bar-bg);
-        border-top:1px solid var(--link-border);
-        color:var(--text-color); font-weight:600; font-size:15px;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 12px;
+        text-align: center;
+        background: var(--card-title-bar-bg);
+        border-top: 1px solid var(--link-border);
+        color: var(--text-color);
+        font-weight: 600;
+        font-size: 16px;
     }
     .reserve-bar {
-        height:36px; line-height:36px; padding:0 10px; text-align:center;
-        background:var(--color-primary); color:var(--bg-color); font-weight:bold; cursor:pointer; transition:background 0.3s;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 12px;
+        text-align: center;
+        background: var(--color-primary);
+        color: var(--bg-color);
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
     }
-    .reserve-bar:hover { background:#ffea00; }
+    .reserve-bar:hover { background: #ffea00; }
     .light-mode .reserve-bar { background: var(--color-primary); color: #ffffff; }
     .light-mode .reserve-bar:hover { background: #5a9ef0; }
     .card-back {
-        transform:rotateY(180deg); padding:15px; color:var(--text-color); text-align:right;
-        font-size:14px; display:flex; flex-direction:column;
+        transform: rotateY(180deg);
+        padding: 20px;
+        color: var(--text-color);
+        text-align: right;
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
     }
-    .card-back h3, .card-back p strong { color:var(--color-primary); }
+    .card-back h3, .card-back p strong { color: var(--color-primary); }
     .card-front .discount-label {
         position: absolute;
         top: 0;
@@ -387,8 +427,8 @@
         background: linear-gradient(135deg, #c084fc, #f472b6);
         color: white;
         font-weight: bold;
-        font-size: 13px;
-        padding: 6px 12px;
+        font-size: 14px;
+        padding: 8px 14px;
         border-radius: 0 0 0 12px;
         box-shadow: 0 4px 12px rgba(192, 132, 252, 0.5);
         z-index: 10;
@@ -430,9 +470,92 @@
     #loading-overlay.hidden ~ #menu-backdrop,
     #loading-overlay.hidden ~ #side-menu,
     #loading-overlay.hidden ~ main { visibility: visible; }
-    @media (max-width:1200px) { .movies-grid { grid-template-columns:repeat(3,1fr); } }
-    @media (max-width:768px) { .movies-grid { grid-template-columns:repeat(2,1fr); } }
-    @media (max-width:480px) { .movies-grid { grid-template-columns:1fr; } }
+
+    /* Responsive Design */
+    @media (max-width: 1400px) {
+        .movies-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .movie-card {
+            max-width: 300px;
+            height: 450px;
+        }
+    }
+
+    @media (max-width: 1024px) {
+        .movies-grid {
+            grid-template-columns: repeat(3, 1fr);
+            padding: 0 15px;
+        }
+        .movie-card {
+            max-width: 280px;
+            height: 420px;
+        }
+        .date-bar {
+            font-size: 18px;
+        }
+        .date-bar strong {
+            font-size: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .movies-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+        .movie-card {
+            max-width: 320px;
+            height: 480px;
+        }
+        .card-back {
+            padding: 16px;
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .movies-grid {
+            grid-template-columns: 1fr;
+            padding: 0 10px;
+            gap: 24px;
+        }
+        .movie-card {
+            max-width: 360px;
+            height: 520px;
+            margin: 0 auto;
+        }
+        .date-bar {
+            height: 60px;
+            line-height: 60px;
+            font-size: 20px;
+        }
+        .date-bar strong {
+            font-size: 22px;
+        }
+        .title-bar, .reserve-bar {
+            font-size: 15px;
+        }
+        .section-title-box {
+            width: 240px;
+            padding: 14px 16px;
+        }
+        .section-title-box h1 {
+            font-size: 28px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .movie-card {
+            max-width: 320px;
+            height: 480px;
+        }
+        .card-back {
+            font-size: 13px;
+            padding: 14px;
+        }
+    }
     </style>
 </head>
 <body>
@@ -594,32 +717,26 @@ document.addEventListener("click", function(e) {
     window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
 
-// فلیپ کارت - فقط چرخش بدون بزرگ شدن + کلیک خارج برای بستن
+// فلیپ کارت
 let openCard = null;
 
 document.addEventListener("click", function(e) {
-    // اگر روی دکمه رزرو کلیک شد، کاری نکنیم
     if (e.target.closest(".reserve-bar")) return;
 
     const cardInner = e.target.closest(".card-inner");
 
     if (cardInner) {
-        // اگر همین کارت باز بود → ببندیم
         if (cardInner === openCard) {
             cardInner.classList.remove("flipped");
             openCard = null;
-        } 
-        // کارت جدید باز کنیم
-        else {
+        } else {
             if (openCard) {
                 openCard.classList.remove("flipped");
             }
             cardInner.classList.add("flipped");
             openCard = cardInner;
         }
-    } 
-    // کلیک خارج از کارت → بستن کارت باز
-    else {
+    } else {
         if (openCard) {
             openCard.classList.remove("flipped");
             openCard = null;
