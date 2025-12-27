@@ -341,8 +341,16 @@
     }
     .card-front { display:flex; flex-direction:column; position: relative; }
     .img-bar { flex:1; overflow:hidden; }
-    .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
-    .movie-card:hover .img-bar img { transform:scale(1.08); }
+    .img-bar img { 
+        width:100%; 
+        height:100%; 
+        object-fit:cover; 
+        /* حذف انیمیشن بزرگ‌نمایی هنگام هاور */
+        transition: none; 
+    }
+    /* حذف هاور بزرگ‌نمایی عکس */
+    .movie-card:hover .img-bar img { transform:none; }
+
     .date-bar {
         height:52px !important; line-height:52px !important; padding:0 10px; text-align:center;
         background: rgba(255,215,0,0.12);
@@ -586,22 +594,22 @@ document.addEventListener("click", function(e) {
     window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
 
-// فلیپ کارت - فقط چرخش بدون بزرگ شدن + کلیک خارج از کارت برای برگشت
+// فلیپ کارت - فقط چرخش بدون بزرگ شدن + کلیک خارج برای بستن
 let openCard = null;
 
 document.addEventListener("click", function(e) {
-    // اگر روی دکمه رزرو کلیک شد، کاری نکنیم (جلوگیری از فلیپ)
+    // اگر روی دکمه رزرو کلیک شد، کاری نکنیم
     if (e.target.closest(".reserve-bar")) return;
 
     const cardInner = e.target.closest(".card-inner");
 
     if (cardInner) {
-        // اگر همین کارت باز بود → ببندیمش
+        // اگر همین کارت باز بود → ببندیم
         if (cardInner === openCard) {
             cardInner.classList.remove("flipped");
             openCard = null;
         } 
-        // اگر کارت دیگری باز بود → اول ببندیمش، بعد کارت جدید رو باز کنیم
+        // کارت جدید باز کنیم
         else {
             if (openCard) {
                 openCard.classList.remove("flipped");
@@ -610,7 +618,7 @@ document.addEventListener("click", function(e) {
             openCard = cardInner;
         }
     } 
-    // اگر جایی خارج از کارت کلیک شد و کارتی باز بود → همه رو ببندیم
+    // کلیک خارج از کارت → بستن کارت باز
     else {
         if (openCard) {
             openCard.classList.remove("flipped");
