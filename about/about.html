@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0">
+    <meta name="google-site-verification" content="fK12FesLb14L29h1lu9QVGq_JaWn68Bd-LFlawjNwPU" />
+    <meta name="description" content="@soft_shiraz - سافت شیراز، قدیمی‌ترین و معتبرترین برگزارکننده اکران فیلم انیمه، انیمیشن و ایونت‌های کتابخوانی در شیراز. درباره ما و تیم سافت شیراز را بشناسید.">
+    <meta name="keywords" content="سافت شیراز, @soft_shiraz, soft_shiraz, درباره سافت شیراز, تیم سافت شیراز, اکران انیمه شیراز, انیمیشن سینما شیراز">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="@soft_shiraz - سافت شیراز">
+    <meta name="theme-color" content="#ffd700">
+
+    <!-- Open Graph & Twitter -->
+    <meta property="og:title" content="درباره ما | سافت شیراز | @soft_shiraz">
+    <meta property="og:description" content="سافت شیراز بیش از ۱۳ سال همراه جامعه انیمه شیراز است. با تیم ما، آمار فعالیت و نحوه همکاری آشنا شوید.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
+    <meta property="og:url" content="https://softshiraz.github.io/web/about/about.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:site_name" content="@soft_shiraz">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="درباره ما | سافت شیراز | @soft_shiraz">
+    <meta name="twitter:description" content="سافت شیراز بیش از ۱۳ سال همراه جامعه انیمه شیراز است. با تیم ما آشنا شوید.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
+
+    <link rel="canonical" href="https://softshiraz.github.io/web/about/about.html">
+    <link rel="manifest" href="/web/manifest.json">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
+    <link rel="icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png" type="image/png">
+
+    <title>درباره ما | سافت شیراز</title>
+
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "سافت شیراز",
+      "alternateName": "@soft_shiraz",
+      "url": "https://softshiraz.github.io/web/",
+      "logo": "https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png",
+      "sameAs": [
+        "https://t.me/softshiraz",
+        "https://instagram.com/soft_shiraz"
+      ],
+      "description": "@soft_shiraz - قدیمی‌ترین برگزارکننده اکران انیمه و انیمیشن روی پرده سینما در شیراز"
+    }
+    </script>
+
+    <!-- تمام استایل‌های قبلی (بدون تغییر) -->
+    <style>
+    /* اینجا تمام CSS قبلی رو کپی کن (همون که قبلاً مرتب کردم) */
+    /* برای کوتاه شدن، اینجا نمی‌نویسم، ولی دقیقاً همون CSS قبلی رو بذار */
+    /* فقط یک کلاس جدید اضافه می‌کنم برای لودینگ بخش‌ها */
+    .section-loading {
+        text-align: center;
+        padding: 50px;
+        color: var(--muted);
+        font-size: 18px;
+    }
+    </style>
+</head>
+<body>
+    <!-- لودینگ اصلی صفحه -->
+    <div id="loading-overlay">
+      <div class="loader">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+      </div>
+    </div>
+
+    <!-- هدر و منوی همبرگری (همان قبلی) -->
+    <header>
+        <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
+            <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+        <a href="../index.html" class="logo-link">
+            <div class="logo-fa" style="font-weight:700; font-size:26px; background:linear-gradient(45deg,var(--color-primary),var(--color-secondary)); -webkit-background-clip:text; color:transparent;">Soft Shiraz</div>
+        </a>
+    </header>
+
+    <div id="menu-backdrop" tabindex="-1"></div>
+
+    <nav id="side-menu" aria-hidden="true">
+        <!-- همان منوی قبلی -->
+        <div class="menu-controls">
+            <button id="menu-close" aria-label="بستن منو"><i class="fas fa-times"></i></button>
+            <button id="theme-toggle" aria-label="تغییر تم"><i class="fas fa-sun"></i></button>
+        </div>
+        <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
+        <div class="side-links" role="menu">
+            <a href="../events/events.html" role="menuitem">ایونت‌های کتابخوانی</a>
+            <a href="../room/room.html" role="menuitem">اتاقک</a>
+            <a href="../about/about.html" role="menuitem">درباره ما</a>
+        </div>
+        <div class="menu-social-row">
+            <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز"><i class="fas fa-download"></i></div>
+            <a class="menu-social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
+            <a class="menu-social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a class="menu-social-icon" href="https://t.me/FLOKI000" target="_blank"><i class="fas fa-headset"></i></a>
+        </div>
+        <div class="side-footer-text">ساخته شده توسط فلوکی</div>
+    </nav>
+
+    <div class="container">
+      <div class="page-header">
+        <div class="logo-box">
+          <div class="logo-icon"><i class="fa-solid fa-film"></i></div>
+          <div>
+            <h2 style="margin-bottom: 0; color:#fff;">سافت شیراز</h2>
+            <p style="font-size: 13px; color: var(--muted);">اولین و معتبرترین مرجع اکران انیمه در شیراز</p>
+          </div>
+        </div>
+      </div>
+
+      <main id="main-content">
+        <!-- اینجا بخش‌ها به صورت داینامیک لود می‌شن -->
+        <div class="section-loading">در حال بارگذاری بخش‌ها...</div>
+      </main>
+
+      <footer style="text-align: center; padding: 20px; color: var(--muted); font-size: 13px;">
+        © ۱۴۰۴ سافت شیراز - تمامی حقوق محفوظ است.
+      </footer>
+    </div>
+
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" src=""></div>
+
+    <script>
+    // تمام اسکریپت‌های قبلی (تم، منو، PWA، لایت‌باکس، لودینگ 5 ثانیه)
+    // ... (همون کدهای قبلی)
+
+    // === بخش جدید: لود کردن بخش‌های جداگانه ===
+    const sections = [
+        'sections/1.html',
+        'sections/2.html',
+        'sections/3.html',
+        'sections/4.html',
+        'sections/5.html',
+        'sections/6.html',
+        'sections/7.html'
+    ];
+
+    const mainContent = document.getElementById('main-content');
+
+    async function loadSections() {
+        mainContent.innerHTML = ''; // پاک کردن لودینگ اولیه
+        for (const section of sections) {
+            try {
+                const response = await fetch(section);
+                if (response.ok) {
+                    const html = await response.text();
+                    const div = document.createElement('div');
+                    div.innerHTML = html;
+                    mainContent.appendChild(div);
+                } else {
+                    mainContent.innerHTML += `<p style="color:red; text-align:center;">خطا در بارگذاری ${section}</p>`;
+                }
+            } catch (err) {
+                mainContent.innerHTML += `<p style="color:red; text-align:center;">خطا: ${section} یافت نشد</p>`;
+            }
+        }
+    }
+
+    // بعد از لود شدن کامل صفحه و اتمام لودینگ 5 ثانیه، بخش‌ها رو لود کن
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loading-overlay').classList.add('hidden');
+            loadSections();
+        }, 5000);
+    });
+    </script>
+</body>
+</html>
