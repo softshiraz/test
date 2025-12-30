@@ -33,9 +33,11 @@
 
     <title>درباره ما | سافت شیراز</title>
 
+    <!-- فونت و آیکن‌ها -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -52,11 +54,261 @@
     }
     </script>
 
-    <!-- تمام استایل‌های قبلی (بدون تغییر) -->
+    <!-- تمام استایل‌های اصلی (کامل و بدون حذف) -->
     <style>
-    /* اینجا تمام CSS قبلی رو کپی کن (همون که قبلاً مرتب کردم) */
-    /* برای کوتاه شدن، اینجا نمی‌نویسم، ولی دقیقاً همون CSS قبلی رو بذار */
-    /* فقط یک کلاس جدید اضافه می‌کنم برای لودینگ بخش‌ها */
+    :root {
+        --color-primary: #ffd700;
+        --color-secondary: #ffb300;
+        --accent-text: #ffd700;
+        --bg-color: #0e0e0f;
+        --text-color: #fff;
+        --header-bg: rgba(0,0,0,0.5);
+        --border-color: rgba(48,48,48,0.5);
+        --menu-bg-start: rgba(12,12,12,0.98);
+        --menu-bg-end: rgba(20,20,20,0.98);
+        --menu-border-right: rgba(255,215,0,0.12);
+        --link-bg: rgba(255,255,255,0.03);
+        --link-border: rgba(255,255,255,0.03);
+        --link-hover-bg: rgba(255,215,0,0.06);
+        --icon-bg: var(--link-bg);
+        --icon-border: var(--link-border);
+        --glow-color: rgba(255,215,0,0.5);
+        --bg: #050505;
+        --card: rgba(20, 20, 22, 0.9);
+        --muted: #a1a1aa;
+        --gold: #ffcc00;
+        --glass: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.08);
+        --radius: 24px;
+        --accent-gradient: linear-gradient(135deg, #ffcc00 0%, #f97316 100%);
+    }
+    .light-mode {
+        --color-primary: #4a90e2;
+        --color-secondary: #357abd;
+        --accent-text: #ffffff;
+        --bg-color: #f8fbff;
+        --text-color: #1a2b4b;
+        --header-bg: rgba(255,255,255,0.92);
+        --border-color: rgba(74,144,226,0.25);
+        --menu-bg-start: rgba(248,251,255,0.98);
+        --menu-bg-end: rgba(240,245,255,0.98);
+        --menu-border-right: rgba(74,144,226,0.35);
+        --link-bg: rgba(74,144,226,0.08);
+        --link-border: rgba(74,144,226,0.18);
+        --link-hover-bg: rgba(74,144,226,0.18);
+        --glow-color: rgba(74,144,226,0.5);
+        --card: rgba(255, 255, 255, 0.9);
+        --muted: #666666;
+        --gold: #4a90e2;
+        --glass: rgba(74,144,226,0.08);
+        --border: rgba(74,144,226,0.2);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    body {
+        font-family: "Vazirmatn", sans-serif;
+        background:var(--bg-color);
+        color:var(--text-color);
+        overflow-x:hidden;
+        transition: background-color 0.3s, color 0.3s;
+        position: relative;
+    }
+    header {
+        background: var(--header-bg);
+        backdrop-filter: blur(10px);
+        padding:15px 25px;
+        display:flex; justify-content:space-between; align-items:center;
+        border-bottom:1px solid var(--border-color);
+        position:sticky; top:0; z-index:20;
+    }
+    .hamburger-btn {
+        width:48px; height:48px; display:flex; align-items:center; justify-content:center;
+        background: var(--icon-bg); border-radius:14px; border:2px solid var(--icon-border);
+        cursor:pointer; transition:all .3s ease; color:var(--color-primary);
+        box-shadow: 0 0 15px var(--glow-color);
+    }
+    .hamburger-btn:hover {
+        background: var(--link-hover-bg);
+        border-color:var(--color-primary);
+        transform: scale(1.08);
+        box-shadow: 0 0 25px var(--glow-color);
+    }
+    .hamburger-inner { width:24px; height:18px; position:relative; }
+    .hamburger-inner span { position:absolute; left:0; right:0; height:3px; background:var(--color-primary); display:block; border-radius:3px; transition:all .3s; }
+    .hamburger-inner span:nth-child(1){ top:0; }
+    .hamburger-inner span:nth-child(2){ top:7.5px; }
+    .hamburger-inner span:nth-child(3){ top:15px; }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(1) { transform: rotate(45deg); top:7.5px; }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(2) { opacity:0; }
+    .hamburger-btn[aria-expanded="true"] .hamburger-inner span:nth-child(3) { transform: rotate(-45deg); top:7.5px; }
+    #side-menu {
+        position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
+        background: linear-gradient(180deg, var(--menu-bg-start), var(--menu-bg-end));
+        box-shadow: 4px 0 30px rgba(0,0,0,0.6);
+        transform: translateX(100%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
+        z-index: 30; padding: 28px; display: flex; flex-direction: column; gap: 18px;
+        direction: rtl; border-right: 2px solid var(--menu-border-right);
+    }
+    #side-menu.open { transform: translateX(0); }
+    .menu-controls { display: flex; gap: 8px; justify-content: space-between; width: 100%; }
+    #menu-close, #theme-toggle {
+        width: 44px; height: 44px;
+        background: var(--icon-bg);
+        border: 2px solid var(--icon-border);
+        border-radius: 12px;
+        color: var(--color-primary);
+        font-size: 24px;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        transition: all 0.3s;
+    }
+    #menu-close:hover, #theme-toggle:hover {
+        background: var(--color-primary);
+        color: var(--bg-color);
+        border-color: var(--color-primary);
+    }
+    .side-brand { font-weight:800; color:var(--color-primary); font-size:20px; text-align: center; width: 100%; }
+    .side-links { display:flex; flex-direction:column; gap:8px; }
+    .side-links a {
+        display:flex; align-items:center; justify-content:space-between; gap:10px;
+        padding:12px 14px; border-radius:10px; text-decoration:none; color:var(--text-color); font-weight:600;
+        background:var(--link-bg); border:1px solid var(--link-border);
+        transition: all 0.3s;
+    }
+    .side-links a:hover { background:var(--link-hover-bg); color:var(--color-primary); }
+    .menu-social-row { display: flex; justify-content: center; gap: 18px; margin-top: 12px; }
+    .menu-social-icon, .menu-install-icon {
+        width: 48px; height: 48px; border-radius: 12px;
+        background:var(--link-bg);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--color-primary); font-size: 22px; text-decoration: none; transition: all 0.3s;
+        border: 2px solid var(--icon-border);
+        cursor: pointer;
+    }
+    .menu-social-icon:hover, .menu-install-icon:hover {
+        background: var(--link-hover-bg);
+        border-color: var(--color-primary);
+    }
+    .side-footer-text { margin-top: auto; font-size: 13px; color: var(--muted); padding-top: 20px; text-align: center; width: 100%; }
+    #menu-backdrop {
+        position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0; pointer-events:none; transition:opacity .28s; z-index:25;
+    }
+    #menu-backdrop.visible { opacity:1; pointer-events:auto; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 15px; }
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 35px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .logo-box { display: flex; align-items: center; gap: 15px; }
+    .logo-icon { width: 60px; height: 60px; background: var(--accent-gradient); border-radius: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(255, 204, 0, 0.3); }
+    .light-mode .logo-icon { background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%); box-shadow: 0 8px 25px rgba(74,144,226,0.3); }
+    .glass-card, .member-row, .stat-item, .step-item, .testimonial-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      backdrop-filter: blur(15px);
+      margin-bottom: 35px;
+    }
+    .member-row, .stat-item, .step-item, .testimonial-item {
+      padding: 25px;
+      border-radius: 20px;
+    }
+    h1 { font-size: clamp(26px, 5vw, 40px); margin-bottom: 25px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .light-mode h1 { background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    h2 { color: var(--gold); font-size: 26px; margin-bottom: 30px; display: flex; align-items: center; gap: 12px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; margin: 35px 0; }
+    .stat-item { background: var(--glass); text-align: center; }
+    .stat-item strong { display: block; font-size: 32px; color: var(--gold); }
+    .member-row { display: flex; align-items: center; gap: 30px; background: var(--glass); margin-bottom: 20px; }
+    .m-avatar { width: 90px; height: 90px; background: #1a1a1a; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 40px; flex-shrink: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .light-mode .m-avatar { background: #e3f2fd; color: #4a90e2; box-shadow: 0 10px 25px rgba(74,144,226,0.2); }
+    .member-content h4 { font-size: 20px; color: var(--gold); margin-bottom: 5px; }
+    .member-content p { font-size: 15px; color: var(--text-color); opacity: 0.9; text-align: justify; }
+    .steps-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 10px; }
+    .step-item { display: flex; align-items: flex-start; gap: 20px; background: var(--glass); }
+    .step-circle { width: 45px; height: 45px; background: var(--gold); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 20px; flex-shrink: 0; }
+    .light-mode .step-circle { color: #fff; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .gallery-grid img { width: 100%; height: 220px; object-fit: cover; border-radius: 18px; cursor: zoom-in; transition: 0.5s; }
+    .gallery-grid img:hover { transform: scale(1.05); filter: brightness(1.3); }
+    .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+    .testimonial-item { background: var(--glass); text-align: center; font-style: italic; color: var(--text-color); opacity: 0.9; }
+    .testimonial-item p { margin-bottom: 15px; font-size: 16px; }
+    .testimonial-item strong { color: var(--gold); font-style: normal; }
+    .dual-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 30px; }
+    details { background: var(--glass); padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid var(--border); cursor: pointer; transition: 0.3s; }
+    details:hover { border-color: var(--gold); }
+    summary { font-weight: 700; color: var(--gold); font-size: 17px; outline: none; }
+    details p { padding-top: 15px; color: var(--text-color); opacity: 0.9; font-size: 14px; border-top: 1px solid var(--border); margin-top: 10px; }
+    .req-form { display: flex; flex-direction: column; gap: 15px; }
+    input, textarea { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 15px; color: var(--text-color); font-family: inherit; outline: none; }
+    .light-mode input, .light-mode textarea { background: rgba(74,144,226,0.05); }
+    input:focus, textarea:focus { border-color: var(--gold); }
+    textarea { height: 120px; resize: none; }
+    .sub-btn { background: var(--accent-gradient); color: #000; border: none; padding: 18px; border-radius: 15px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+    .light-mode .sub-btn { background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%); }
+    .sub-btn:hover { opacity: 0.9; }
+    .social-card { background: var(--glass); border: 2px solid var(--border); padding: 40px; border-radius: var(--radius); text-align: center; margin-top: 20px; margin-bottom: 50px; }
+    .social-links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 25px; }
+    .social-btn { display: flex; align-items: center; gap: 12px; padding: 14px 28px; border-radius: 15px; background: rgba(255,255,255,0.05); color: var(--text-color); text-decoration: none; border: 1px solid var(--border); transition: 0.3s; font-weight: 700; }
+    .light-mode .social-btn { background: rgba(74,144,226,0.05); }
+    .social-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+    .social-btn.web { border-color: var(--gold); color: var(--gold); }
+    .social-btn.web:hover { color: #000; }
+    #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 2000; }
+    #lightbox img { max-width: 90%; max-height: 85%; border-radius: 15px; border: 2px solid var(--gold); }
+    .light-mode #lightbox img { border-color: #4a90e2; }
+    /* لودینگ */
+    #loading-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; background:var(--bg-color);
+        display: flex; justify-content: center; align-items: center; z-index: 10000;
+        opacity: 1; transition: opacity 0.8s ease;
+        pointer-events: all;
+    }
+    #loading-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+    .loader { position: relative; width: 40px; height: 40px; }
+    .loader .circle { position: absolute; width: 38px; height: 38px; opacity: 0; transform: rotate(225deg); animation: orbit 5.5s infinite; }
+    .loader .circle:after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--color-primary); }
+    .loader .circle:nth-child(2) { animation-delay: 240ms; }
+    .loader .circle:nth-child(3) { animation-delay: 480ms; }
+    .loader .circle:nth-child(4) { animation-delay: 720ms; }
+    .loader .circle:nth-child(5) { animation-delay: 960ms; }
+    @keyframes orbit {
+        0% { transform:rotate(225deg); opacity: 1; animation-timing-function: ease-out; }
+        7% { transform:rotate(345deg); animation-timing-function: linear; }
+        30% { transform:rotate(455deg); animation-timing-function: ease-in-out; }
+        39% { transform:rotate(690deg); animation-timing-function: linear; }
+        70% { transform:rotate(815deg); opacity: 1; animation-timing-function: ease-out; }
+        75% { transform:rotate(945deg); animation-timing-function: ease-out; }
+        76% { transform:rotate(945deg); opacity: 0; }
+        100% { transform:rotate(945deg); opacity: 0; }
+    }
+    @media (max-width: 992px) { .dual-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .member-row { flex-direction: column; text-align: center; }
+      .m-avatar { width: 120px; height: 120px; font-size: 50px; }
+      .member-content { text-align: center; }
+      .glass-card { padding: 25px; }
+      .page-header { justify-content: center; }
+    }
+    /* تغییر رنگ متن معرفی در دارک و لایت */
+    .intro-text {
+        color: #ffffff;
+        font-size: 18px;
+        margin-bottom: 25px;
+        text-align: justify;
+    }
+    .light-mode .intro-text {
+        color: #000000;
+    }
+    /* کلاس برای لودینگ بخش‌ها (جدید اضافه شده) */
     .section-loading {
         text-align: center;
         padding: 50px;
@@ -66,7 +318,7 @@
     </style>
 </head>
 <body>
-    <!-- لودینگ اصلی صفحه -->
+    <!-- لودینگ اصلی (۵ ثانیه) -->
     <div id="loading-overlay">
       <div class="loader">
         <div class="circle"></div>
@@ -77,7 +329,7 @@
       </div>
     </div>
 
-    <!-- هدر و منوی همبرگری (همان قبلی) -->
+    <!-- هدر و منوی همبرگری -->
     <header>
         <button class="hamburger-btn" id="hamburger" aria-controls="side-menu" aria-expanded="false" aria-label="باز کردن منو">
             <span class="hamburger-inner" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -90,10 +342,13 @@
     <div id="menu-backdrop" tabindex="-1"></div>
 
     <nav id="side-menu" aria-hidden="true">
-        <!-- همان منوی قبلی -->
         <div class="menu-controls">
-            <button id="menu-close" aria-label="بستن منو"><i class="fas fa-times"></i></button>
-            <button id="theme-toggle" aria-label="تغییر تم"><i class="fas fa-sun"></i></button>
+            <button id="menu-close" aria-label="بستن منو">
+                <i class="fas fa-times"></i>
+            </button>
+            <button id="theme-toggle" aria-label="تغییر تم">
+                <i class="fas fa-sun"></i>
+            </button>
         </div>
         <div class="side-brand">ایونت‌های طلایی سافت شیراز</div>
         <div class="side-links" role="menu">
@@ -102,7 +357,9 @@
             <a href="../about/about.html" role="menuitem">درباره ما</a>
         </div>
         <div class="menu-social-row">
-            <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز"><i class="fas fa-download"></i></div>
+            <div class="menu-install-icon" id="install-button" title="نصب اپ سافت شیراز">
+                <i class="fas fa-download"></i>
+            </div>
             <a class="menu-social-icon" href="https://t.me/softshiraz" target="_blank"><i class="fab fa-telegram"></i></a>
             <a class="menu-social-icon" href="https://instagram.com/soft_shiraz" target="_blank"><i class="fab fa-instagram"></i></a>
             <a class="menu-social-icon" href="https://t.me/FLOKI000" target="_blank"><i class="fas fa-headset"></i></a>
@@ -122,7 +379,7 @@
       </div>
 
       <main id="main-content">
-        <!-- اینجا بخش‌ها به صورت داینامیک لود می‌شن -->
+        <!-- بخش‌ها اینجا با JS لود می‌شن -->
         <div class="section-loading">در حال بارگذاری بخش‌ها...</div>
       </main>
 
@@ -131,45 +388,120 @@
       </footer>
     </div>
 
+    <!-- لایت‌باکس -->
     <div id="lightbox" onclick="this.style.display='none'"><img id="lbImg" src=""></div>
 
+    <!-- تمام اسکریپت‌ها (کامل و بدون حذف) -->
     <script>
-    // تمام اسکریپت‌های قبلی (تم، منو، PWA، لایت‌باکس، لودینگ 5 ثانیه)
-    // ... (همون کدهای قبلی)
+    // تغییر تم
+    const body = document.body;
+    const themeToggle = document.getElementById('theme-toggle');
+    let currentTheme = localStorage.getItem('theme') || 'dark';
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        body.classList.add('light-mode');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#4a90e2');
+      } else {
+        body.classList.remove('light-mode');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffd700');
+      }
+    }
+    applyTheme(currentTheme);
+    themeToggle.addEventListener('click', () => {
+      const newTheme = body.classList.contains('light-mode') ? 'dark' : 'light';
+      localStorage.setItem('theme', newTheme);
+      applyTheme(newTheme);
+    });
 
-    // === بخش جدید: لود کردن بخش‌های جداگانه ===
+    // لودینگ دقیقاً ۵ ثانیه
+    setTimeout(() => {
+      document.getElementById('loading-overlay').classList.add('hidden');
+    }, 5000);
+
+    // لایت‌باکس
+    function openLightbox(src) {
+      document.getElementById('lbImg').src = src;
+      document.getElementById('lightbox').style.display = 'flex';
+    }
+
+    // منوی همبرگری
+    const hamburger = document.getElementById('hamburger');
+    const sideMenu = document.getElementById('side-menu');
+    const backdrop = document.getElementById('menu-backdrop');
+    const menuClose = document.getElementById('menu-close');
+    function openMenu() {
+      sideMenu.classList.add('open');
+      backdrop.classList.add('visible');
+      hamburger.setAttribute('aria-expanded', 'true');
+      sideMenu.setAttribute('aria-hidden', 'false');
+    }
+    function closeMenu() {
+      sideMenu.classList.remove('open');
+      backdrop.classList.remove('visible');
+      hamburger.setAttribute('aria-expanded', 'false');
+      sideMenu.setAttribute('aria-hidden', 'true');
+    }
+    hamburger.addEventListener('click', e => {
+      e.stopPropagation();
+      hamburger.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
+    });
+    menuClose.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+    // PWA نصب
+    let deferredPrompt;
+    const installBtn = document.getElementById('install-button');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'flex';
+    });
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        installBtn.style.display = 'none';
+      }
+      deferredPrompt = null;
+    });
+
+    // === بخش جدید: لود کردن فایل‌های جداگانه با fetch ===
     const sections = [
-        '1.html',
-        '2.html',
-        '3.html',
-        '4.html',
-        '5.html',
-        '6.html',
-        '7.html'
+        'sections/1.html',
+        'sections/2.html',
+        'sections/3.html',
+        'sections/4.html',
+        'sections/5.html',
+        'sections/6.html',
+        'sections/7.html'
     ];
 
     const mainContent = document.getElementById('main-content');
 
     async function loadSections() {
-        mainContent.innerHTML = ''; // پاک کردن لودینگ اولیه
+        mainContent.innerHTML = ''; // پاک کردن پیام لودینگ
         for (const section of sections) {
             try {
                 const response = await fetch(section);
                 if (response.ok) {
                     const html = await response.text();
                     const div = document.createElement('div');
-                    div.innerHTML = html;
+                    div.innerHTML = html.trim();
                     mainContent.appendChild(div);
                 } else {
-                    mainContent.innerHTML += `<p style="color:red; text-align:center;">خطا در بارگذاری ${section}</p>`;
+                    mainContent.innerHTML += `<p style="color:red;text-align:center;">خطا در بارگذاری: ${section}</p>`;
                 }
             } catch (err) {
-                mainContent.innerHTML += `<p style="color:red; text-align:center;">خطا: ${section} یافت نشد</p>`;
+                mainContent.innerHTML += `<p style="color:red;text-align:center;">فایل ${section} یافت نشد</p>`;
             }
         }
     }
 
-    // بعد از لود شدن کامل صفحه و اتمام لودینگ 5 ثانیه، بخش‌ها رو لود کن
+    // بعد از اتمام لودینگ ۵ ثانیه، بخش‌ها رو لود کن
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('loading-overlay').classList.add('hidden');
