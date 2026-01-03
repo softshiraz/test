@@ -1,0 +1,29 @@
+<style>
+    .section-title-wrapper {
+        max-width: 1200px; margin: 40px auto 50px auto; padding: 0 20px;
+        display: flex; justify-content: center;
+    }
+    .section-title-box {
+        width: 280px; background: rgba(255,215,0,0); backdrop-filter: blur(10px);
+        border: 2px solid var(--color-primary); border-radius: 18px; padding: 16px 20px;
+        box-shadow: 0 0 20px var(--glow-color), inset 0 0 15px var(--glow-color);
+        animation: glowPulse 4s ease-in-out infinite alternate; text-align: center;
+    }
+    .light-mode .section-title-box { background: rgba(74,144,226,0.15); }
+    .section-title-box h1 {
+        color: var(--accent-text); font-size: 32px; font-weight: 900; margin: 0;
+        text-shadow: 0 0 10px var(--glow-color); letter-spacing: 2px;
+    }
+    @keyframes glowPulse {
+        from { box-shadow: 0 0 20px var(--glow-color), inset 0 0 15px var(--glow-color); }
+        to { box-shadow: 0 0 30px var(--glow-color), inset 0 0 20px var(--glow-color); }
+    }
+</style>
+
+<section class="section">
+    <div class="section-title-wrapper">
+        <div class="section-title-box">
+            <h1>اکران‌های آینده</h1>
+        </div>
+    </div>
+</section>
