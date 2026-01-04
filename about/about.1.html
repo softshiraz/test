@@ -205,7 +205,7 @@
         window.addEventListener('DOMContentLoaded', async () => {
             await Promise.all([
                 loadComponent('hero-root', 'components/hero.html'),
-                loadComponent('cards-root', 'components/cards.html')
+                loadComponent('cards-root', 'about/about.html')
             ]);
             setTimeout(() => {
                 document.getElementById('loading-overlay').classList.add('hidden');
