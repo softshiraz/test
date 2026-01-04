@@ -4,77 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎬 سافت شیراز : SoftShiraz 🎬</title>
-
+    
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+    
     <style>
+        /* --- تنظیمات روت و متغیرها --- */
         :root {
             --color-primary: #ffd700;
             --color-secondary: #ffb300;
+            --accent-text: #ffd700;
             --bg-color: #0e0e0f;
             --text-color: #fff;
             --header-bg: rgba(0,0,0,0.5);
             --border-color: rgba(48,48,48,0.5);
+            --menu-bg-start: rgba(12,12,12,0.98);
+            --menu-bg-end: rgba(20,20,20,0.98);
+            --link-bg: rgba(255,255,255,0.03);
             --glow-color: rgba(255,215,0,0.5);
         }
         .light-mode {
             --color-primary: #4a90e2;
+            --color-secondary: #357abd;
+            --accent-text: #ffffff;
             --bg-color: #f8fbff;
             --text-color: #1a2b4b;
             --header-bg: rgba(255,255,255,0.92);
             --border-color: rgba(74,144,226,0.25);
+            --menu-bg-start: rgba(248,251,255,0.98);
+            --menu-bg-end: rgba(240,245,255,0.98);
+            --link-bg: rgba(74,144,226,0.08);
             --glow-color: rgba(74,144,226,0.5);
         }
+
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: "Vazirmatn", sans-serif; background:var(--bg-color); color:var(--text-color); overflow-x:hidden; transition: 0.3s; }
+        body {
+            font-family: "Vazirmatn", sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-        /* استایل هدر (مستقیم در فایل) */
+        /* --- استایل اصلاح شده HEADER --- */
         header {
-            background: var(--header-bg); backdrop-filter: blur(10px);
-            padding:15px 25px; display:flex; justify-content:space-between; align-items:center;
-            border-bottom:1px solid var(--border-color); position:sticky; top:0; z-index:100;
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 100;
         }
-        .logo-fa { font-weight:700; font-size:26px; color: var(--color-primary); text-decoration:none; }
+        .logo-fa {
+            font-weight: 700; font-size: 26px;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+            -webkit-background-clip: text; color: transparent; text-decoration: none;
+        }
         .hamburger-btn {
-            width:48px; height:48px; background: rgba(255,255,255,0.05); border-radius:12px;
-            border: 2px solid var(--border-color); color: var(--color-primary); cursor:pointer;
+            width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+            background: var(--link-bg); border-radius: 14px; border: 2px solid var(--border-color);
+            cursor: pointer; transition: 0.3s; color: var(--color-primary);
         }
 
-        /* استایل منو (مستقیم در فایل) */
+        /* --- استایل اصلاح شده MENU --- */
         #side-menu {
-            position: fixed; top: 0; right: 0; height: 100vh; width: 300px;
-            background: var(--bg-color); border-left: 1px solid var(--border-color);
-            transform: translateX(100%); transition: 0.4s; z-index: 200; padding: 20px;
+            position: fixed; top: 0; right: 0; height: 100vh; width: 320px; max-width: 85%;
+            background: linear-gradient(180deg, var(--menu-bg-start), var(--menu-bg-end));
+            transform: translateX(100%); transition: transform 0.32s cubic-bezier(.2,.9,.2,1);
+            z-index: 1001; padding: 28px; display: flex; flex-direction: column; gap: 18px;
+            border-left: 1px solid var(--border-color);
         }
         #side-menu.open { transform: translateX(0); }
-        #menu-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; z-index:150; }
-        
-        /* لودر صفحه */
+        #menu-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+            opacity: 0; pointer-events: none; transition: 0.28s; z-index: 1000;
+        }
+        #menu-backdrop.visible { opacity: 1; pointer-events: auto; }
+        .side-links a {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 14px; border-radius: 10px; text-decoration: none;
+            color: var(--text-color); background: var(--link-bg); transition: 0.3s;
+        }
+        .side-links a:hover { color: var(--color-primary); background: rgba(255,215,0,0.06); }
+
+        /* لودینگ */
         #loading-overlay {
             position: fixed; inset: 0; background: var(--bg-color);
-            display: flex; justify-content: center; align-items: center; z-index: 1000;
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
         }
-        .hidden { opacity: 0; pointer-events: none; transition: 0.5s; }
+        #loading-overlay.hidden { opacity: 0; pointer-events: none; transition: 0.6s; }
     </style>
 </head>
 <body>
 
-    <div id="loading-overlay">در حال بارگذاری...</div>
+    <div id="loading-overlay">
+        <div style="color: var(--color-primary); font-weight: bold;">لطفا صبر کنید...</div>
+    </div>
 
     <header>
-        <button class="hamburger-btn" id="hamburger"><i class="fas fa-bars"></i></button>
+        <button class="hamburger-btn" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
         <a href="#" class="logo-fa">Soft Shiraz</a>
     </header>
 
     <div id="menu-backdrop"></div>
     <nav id="side-menu">
-        <button id="menu-close" style="background:none; border:none; color:var(--color-primary); font-size:20px; cursor:pointer;"><i class="fas fa-times"></i></button>
-        <div style="margin-top:30px; display:flex; flex-direction:column; gap:15px;">
-            <button id="theme-toggle" style="padding:10px; cursor:pointer;">تغییر تم</button>
-            <a href="#" style="color:var(--text-color); text-decoration:none;">صفحه اصلی</a>
-            <a href="#" style="color:var(--text-color); text-decoration:none;">ایونت‌ها</a>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <button id="menu-close" style="background:none; border:none; color:var(--color-primary); font-size:24px; cursor:pointer;"><i class="fas fa-times"></i></button>
+            <button id="theme-toggle" style="background:none; border:none; color:var(--color-primary); font-size:22px; cursor:pointer;"><i class="fas fa-sun"></i></button>
         </div>
+        <div class="side-links" style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
+            <a href="#">ایونت‌های کتابخوانی <i class="fas fa-chevron-left" style="font-size:12px;"></i></a>
+            <a href="#">اتاقک <i class="fas fa-chevron-left" style="font-size:12px;"></i></a>
+            <a href="#">درباره ما <i class="fas fa-chevron-left" style="font-size:12px;"></i></a>
+        </div>
+        <div style="margin-top:auto; text-align:center; font-size:12px; opacity:0.6;">ساخته شده توسط فلوکی</div>
     </nav>
 
     <main>
@@ -85,7 +130,7 @@
     <canvas id="bg-canvas" style="position:fixed; inset:0; z-index:-1; pointer-events:none;"></canvas>
 
     <script>
-        // --- تابع بارگذار کامپوننت‌های خارجی (Hero و Cards) ---
+        // --- تابع بارگذاری کامپوننت‌ها ---
         async function loadComponent(id, url) {
             try {
                 const response = await fetch(url);
@@ -93,8 +138,6 @@
                 const html = await response.text();
                 const container = document.getElementById(id);
                 container.innerHTML = html;
-
-                // اجرای اسکریپت‌های داخل فایل لود شده
                 const scripts = container.querySelectorAll("script");
                 scripts.forEach(oldScript => {
                     const newScript = document.createElement("script");
@@ -104,46 +147,70 @@
             } catch (err) { console.error(err); }
         }
 
-        // --- اجرای لودر برای Hero و Cards ---
-        window.addEventListener('DOMContentLoaded', async () => {
-            await Promise.all([
-                loadComponent('hero-root', 'components/hero.html'),
-                loadComponent('cards-root', 'components/cards.html')
-            ]);
-            document.getElementById('loading-overlay').classList.add('hidden');
-        });
+        // --- اسکریپت پس‌زمینه (Background Logic) ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h, particles = [], N = 120;
+        function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
+        window.onresize = resize; resize();
 
-        // --- مدیریت منو و تم ---
+        for(let i=0; i<N; i++) {
+            particles.push({
+                x: Math.random()*w, y: Math.random()*h,
+                vx: Math.random()*0.5-0.25, vy: Math.random()*0.5-0.25,
+                r: Math.random()*2+1
+            });
+        }
+
+        function drawBg() {
+            ctx.clearRect(0,0,w,h);
+            const isLight = document.body.classList.contains('light-mode');
+            const color = isLight ? '74,144,226' : '255,215,0';
+            ctx.fillStyle = `rgba(${color}, 0.6)`;
+            particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if(p.x<0) p.x=w; if(p.x>w) p.x=0;
+                if(p.y<0) p.y=h; if(p.y>h) p.y=0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+            });
+            requestAnimationFrame(drawBg);
+        }
+        drawBg();
+
+        // --- لاجیک منو و تم ---
         const hamburger = document.getElementById('hamburger');
         const sideMenu = document.getElementById('side-menu');
         const backdrop = document.getElementById('menu-backdrop');
         const closeBtn = document.getElementById('menu-close');
         const themeBtn = document.getElementById('theme-toggle');
 
-        hamburger.onclick = () => { sideMenu.classList.add('open'); backdrop.style.display = 'block'; };
-        closeBtn.onclick = () => { sideMenu.classList.remove('open'); backdrop.style.display = 'none'; };
+        hamburger.onclick = () => { sideMenu.classList.add('open'); backdrop.classList.add('visible'); };
+        closeBtn.onclick = () => { sideMenu.classList.remove('open'); backdrop.classList.remove('visible'); };
         backdrop.onclick = closeBtn.onclick;
 
         themeBtn.onclick = () => {
             document.body.classList.toggle('light-mode');
-            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+            const isLight = document.body.classList.contains('light-mode');
+            themeBtn.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
         };
 
-        // --- کد بک‌گراند (Background Logic) ---
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let w, h;
-        function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
-        window.onresize = resize; resize();
-
-        function animate() {
-            ctx.clearRect(0,0,w,h);
-            ctx.fillStyle = document.body.classList.contains('light-mode') ? 'rgba(74,144,226,0.1)' : 'rgba(255,215,0,0.1)';
-            // (در اینجا کدهای انیمیشن ذرات که قبلا داشتید قرار می‌گیرد)
-            ctx.fillRect(Math.random()*w, Math.random()*h, 2, 2);
-            requestAnimationFrame(animate);
+        // اعمال تم ذخیره شده
+        if(localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
         }
-        animate();
+
+        // --- بارگذاری نهایی ---
+        window.addEventListener('DOMContentLoaded', async () => {
+            await Promise.all([
+                loadComponent('hero-root', 'components/hero.html'),
+                loadComponent('cards-root', 'components/cards.html')
+            ]);
+            setTimeout(() => {
+                document.getElementById('loading-overlay').classList.add('hidden');
+            }, 500);
+        });
     </script>
 </body>
 </html>
