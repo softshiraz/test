@@ -94,7 +94,7 @@
         --card-shadow-color: rgba(255,215,0,0.25);
         --card-title-bar-bg: var(--link-bg);
         --glow-color: rgba(255,215,0,0.5);
-        --bar-height: 52px;
+        --bar-height: 44px; /* ارتفاع کادرها کمتر شد */
     }
     .light-mode {
         --color-primary: #4a90e2;
@@ -319,39 +319,19 @@
         position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
         backface-visibility:hidden; border:2px solid var(--card-border);
         box-shadow:0 0 12px var(--card-shadow-color);
+        background:var(--card-bg); backdrop-filter:blur(12px);
         transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
-    /* پس‌زمینه کاملاً هماهنگ با عکس اصلی */
-    .card-front::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background-image: inherit;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        filter: blur(32px) brightness(0.32) saturate(1.6);
-        opacity: 0.8;
-        z-index: -1;
-        border-radius: 16px;
-        transform: scale(1.15); /* پوشش کامل لبه‌ها بعد از بلور */
-    }
-    .light-mode .card-front::before {
-        filter: blur(32px) brightness(0.62) saturate(1.4);
-        opacity: 0.65;
-    }
-    .card-front {
+    .card-front { 
         display:flex; 
         flex-direction:column; 
         position: relative; 
         padding: 8px;
-        gap: 8px;
+        gap: 6px; /* فاصله کمتر بین بخش‌ها */
         justify-content: space-between;
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
     }
     .img-bar { 
-        flex:1; 
+        flex: 2.2; /* فضای عکس بیشتر شد */
         position: relative;
         border-radius: 12px;
         overflow: hidden;
@@ -371,7 +351,7 @@
     }
     .movie-card:hover .img-bar img { transform: scale(1.08); }
 
-    /* کادرهای هم‌اندازه */
+    /* کادرهای کوچکتر */
     .date-bar, .title-bar, .reserve-bar {
         height: var(--bar-height);
         line-height: var(--bar-height);
@@ -381,14 +361,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-        z-index: 1;
+        font-size: 15px; /* فونت کمی کوچکتر */
     }
 
     .date-bar {
         background: rgba(255,215,0,0.18);
         color: var(--accent-text);
-        font-size:19px; 
         font-weight:900;
         letter-spacing:1.2px; 
         box-shadow: 0 0 12px var(--glow-color);
@@ -397,7 +375,7 @@
         background: rgba(74,144,226,0.25);
     }
     .date-bar strong { 
-        font-size:21px; 
+        font-size:18px; 
         display:block; 
     }
 
@@ -405,7 +383,6 @@
         background:var(--card-title-bar-bg);
         color:var(--text-color); 
         font-weight:600; 
-        font-size:15px;
     }
 
     .reserve-bar {
@@ -430,8 +407,6 @@
     .card-back {
         transform:rotateY(180deg); padding:20px; color:var(--text-color); text-align:right;
         font-size:14px; display:flex; flex-direction:column; gap:12px;
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
     }
     .card-back h3, .card-back p strong { color:var(--color-primary); }
     .card-front .discount-label {
@@ -615,19 +590,6 @@ async function loadCardsStrictly() {
             const card = document.createElement("div");
             card.className = "movie-card";
             card.innerHTML = html;
-
-            // اعمال تصویر اصلی به عنوان پس‌زمینه کاملاً هماهنگ
-            const img = card.querySelector('.img-bar img');
-            if (img && img.src) {
-                const front = card.querySelector('.card-front');
-                if (front) {
-                    front.style.backgroundImage = `url(${img.src})`;
-                    front.style.backgroundSize = 'cover';
-                    front.style.backgroundPosition = 'center';
-                    front.style.backgroundRepeat = 'no-repeat';
-                }
-            }
-
             container.appendChild(card);
         } catch (e) {
             console.log("خطا در لود کارت", num);
