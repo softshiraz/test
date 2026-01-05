@@ -269,158 +269,179 @@
     .section-title-wrapper::before {
         content: '';
         position: absolute;
-        top: -30px;
+        top: -40px;
         left: 0;
         right: 0;
-        height: 140px;
-        background: rgba(14,14,15,0.75);
-        backdrop-filter: blur(12px);
-        border-radius: 24px;
+        height: 160px;
+        background: rgba(14,14,15,0.82);
+        backdrop-filter: blur(16px);
+        border-radius: 28px;
         z-index: -1;
+        border: 1px solid rgba(255,215,0,0.15);
     }
     .light-mode .section-title-wrapper::before {
-        background: rgba(248,251,255,0.85);
-        backdrop-filter: blur(12px);
+        background: rgba(240,245,255,0.92);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(74,144,226,0.3);
     }
     .section-title-box {
-        width: 280px;
-        background: rgba(255,215,0,0);
-        backdrop-filter: blur(10px);
+        width: 320px;
+        background: transparent;
         border: 2px solid var(--color-primary);
-        border-radius: 18px;
-        padding: 16px 20px;
-        box-shadow: 0 0 20px var(--glow-color), inset 0 0 15px var(--glow-color);
+        border-radius: 20px;
+        padding: 18px 24px;
+        box-shadow: 0 0 25px var(--glow-color), inset 0 0 18px var(--glow-color);
         animation: glowPulse 4s ease-in-out infinite alternate;
         text-align: center;
     }
     .light-mode .section-title-box {
-        background: rgba(74,144,226,0.15);
+        background: rgba(74,144,226,0.12);
     }
     .section-title-box h1 {
         color: var(--accent-text);
-        font-size: 32px;
+        font-size: 34px;
         font-weight: 900;
         margin: 0;
-        text-shadow: 0 0 10px var(--glow-color);
+        text-shadow: 0 0 12px var(--glow-color);
         letter-spacing: 2px;
     }
-    /* رنگ متن عنوان در تم لایت آبی شود */
+    /* رنگ متن عنوان در تم لایت آبی */
     .light-mode .section-title-box h1 {
         color: #4a90e2;
-        text-shadow: 0 0 10px rgba(74,144,226,0.6);
+        text-shadow: 0 0 12px rgba(74,144,226,0.6);
     }
     @keyframes glowPulse {
-        from { box-shadow: 0 0 20px var(--glow-color), inset 0 0 15px var(--glow-color); }
-        to { box-shadow: 0 0 30px var(--glow-color), inset 0 0 20px var(--glow-color); }
+        from { box-shadow: 0 0 25px var(--glow-color), inset 0 0 18px var(--glow-color); }
+        to { box-shadow: 0 0 35px var(--glow-color), inset 0 0 25px var(--glow-color); }
     }
     .movies-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
+        gap: 26px;
         justify-items: center;
         max-width: 1200px;
-        margin: 0 auto;
+        margin: 0 auto 60px auto;
         padding: 0 20px;
     }
     .movie-card {
         perspective:1000px;
         position: relative;
+        width: 280px;
     }
     .card-inner {
-        position:relative; width:280px; height:420px; cursor:pointer;
-        transition:transform 0.65s cubic-bezier(0.5, 1.25, 0.5, 1.25);
+        position:relative; width:100%; height:440px; cursor:pointer;
+        transition:transform 0.7s cubic-bezier(0.5, 1.25, 0.5, 1.25);
         transform-style:preserve-3d;
     }
     .card-inner.flipped { transform:rotateY(180deg); }
     .card-front, .card-back {
-        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
-        backface-visibility:hidden; border:2px solid var(--card-border);
-        box-shadow:0 0 12px var(--card-shadow-color);
-        background:var(--card-bg); backdrop-filter:blur(12px);
-        transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:20px; overflow:hidden;
+        backface-visibility:hidden; 
+        box-shadow:0 8px 32px rgba(0,0,0,0.4);
+        background: var(--card-bg); 
+        backdrop-filter:blur(14px);
+        border: 1px solid var(--card-border);
+        transition: all 0.4s;
+    }
+    .light-mode .card-front, .light-mode .card-back {
+        box-shadow:0 8px 32px rgba(74,144,226,0.2);
     }
     .card-front { 
         display:flex; 
         flex-direction:column; 
-        position: relative; 
-        padding: 12px;
-        gap: 10px;
-        justify-content: space-between;
     }
     .img-bar { 
-        flex:1; 
+        height: 280px;
         overflow:hidden; 
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        position: relative;
     }
-    .light-mode .img-bar { box-shadow: 0 4px 15px rgba(74,144,226,0.2); }
-    .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
-    .movie-card:hover .img-bar img { transform: scale(1.08); }
+    .img-bar img { 
+        width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease; 
+    }
+    .movie-card:hover .img-bar img { 
+        transform: scale(1.12); 
+    }
+    .info-bar {
+        padding: 16px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 12px;
+    }
     .date-bar {
-        padding: 8px 12px;
-        text-align:center;
-        background: rgba(255,215,0,0.18);
+        font-size: 20px;
+        font-weight: 900;
         color: var(--accent-text);
-        font-size:19px; font-weight:900;
-        letter-spacing:1.2px; 
-        border-radius: 12px;
-        box-shadow: 0 0 12px var(--glow-color);
+        text-align: center;
+        letter-spacing: 1px;
+        text-shadow: 0 0 10px var(--glow-color);
     }
+    /* رنگ متن فیلم (date-bar) در تم لایت آبی شود */
     .light-mode .date-bar {
-        background: rgba(74,144,226,0.25);
+        color: #4a90e2;
+        text-shadow: 0 0 10px rgba(74,144,226,0.6);
     }
-    .date-bar strong { font-size:21px; display:block; transform:translateY(1px); }
     .title-bar {
-        padding: 6px 10px;
-        text-align:center;
-        background:var(--card-title-bar-bg);
-        border-radius: 10px;
-        color:var(--text-color); font-weight:600; font-size:15px;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-color);
+        text-align: center;
+        background: var(--card-title-bar-bg);
+        padding: 8px 12px;
+        border-radius: 12px;
     }
     .reserve-bar {
-        padding: 10px;
+        padding: 12px;
         text-align:center;
         background:var(--color-primary); 
-        color:var(--bg-color); 
+        color:#000; 
         font-weight:bold; 
+        font-size: 16px;
         cursor:pointer; 
-        transition:background 0.3s;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(255,215,0,0.4);
+        transition:all 0.3s;
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(255,215,0,0.45);
     }
     .light-mode .reserve-bar { 
-        background: var(--color-primary); 
-        color: #ffffff; 
-        box-shadow: 0 4px 15px rgba(74,144,226,0.4);
+        color: #fff; 
+        box-shadow: 0 6px 20px rgba(74,144,226,0.45);
     }
     .reserve-bar:hover { 
         background:#ffea00; 
-        transform: translateY(-2px);
+        transform: translateY(-4px);
     }
-    .light-mode .reserve-bar:hover { background: #5a9ef0; }
+    .light-mode .reserve-bar:hover { 
+        background: #5a9ef0; 
+    }
     .card-back {
-        transform:rotateY(180deg); padding:20px; color:var(--text-color); text-align:right;
-        font-size:14px; display:flex; flex-direction:column; gap:12px;
+        transform:rotateY(180deg); 
+        padding:24px; 
+        color:var(--text-color); 
+        text-align:right;
+        font-size:15px; 
+        display:flex; 
+        flex-direction:column; 
+        gap:16px;
     }
     .card-back h3, .card-back p strong { color:var(--color-primary); }
     .card-front .discount-label {
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 12px;
+        right: 12px;
         background: linear-gradient(135deg, #c084fc, #f472b6);
         color: white;
         font-weight: bold;
-        font-size: 13px;
-        padding: 6px 12px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(192, 132, 252, 0.5);
+        font-size: 14px;
+        padding: 8px 16px;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(192, 132, 252, 0.6);
         z-index: 10;
-        letter-spacing: 0.5px;
         animation: pulse 2s infinite;
     }
     @keyframes pulse {
         0% { transform: scale(1); }
-        50% { transform: scale(1.05); }
+        50% { transform: scale(1.08); }
         100% { transform: scale(1); }
     }
     .discount-label.hidden { display: none; }
