@@ -91,7 +91,6 @@
         --icon-border: var(--link-border);
         --card-bg: rgba(19,19,20,0.75);
         --card-border: rgba(255,215,0,0.65);
-        --card-shadow-color: rgba(255,215,0,0.25);
         --glow-color: rgba(255,215,0,0.5);
     }
     .light-mode {
@@ -112,7 +111,6 @@
         --icon-border: var(--link-border);
         --card-bg: rgba(255,255,255,0.92);
         --card-border: rgba(74,144,226,0.55);
-        --card-shadow-color: rgba(74,144,226,0.25);
         --glow-color: rgba(74,144,226,0.5);
         --section-title-color: #4a90e2;
     }
@@ -295,7 +293,7 @@
     .movies-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 32px;
+        gap: 30px;
         justify-items: center;
         max-width: 1200px;
         margin: 0 auto;
@@ -304,30 +302,22 @@
     .movie-card {
         position: relative;
         width: 300px;
-        height: 480px;
+        height: 500px;
         border-radius: 28px;
         overflow: hidden;
-        box-shadow: 0 15px 45px rgba(0,0,0,0.4);
-        transition: all 0.5s ease;
+        cursor: pointer;
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
     .light-mode .movie-card {
-        box-shadow: 0 15px 45px rgba(74,144,226,0.25);
+        box-shadow: 0 10px 30px rgba(74,144,226,0.2);
     }
     .movie-card:hover {
-        transform: translateY(-12px) scale(1.03);
-        box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        transform: scale(1.05) translateY(-10px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
     }
     .light-mode .movie-card:hover {
-        box-shadow: 0 25px 60px rgba(74,144,226,0.35);
-    }
-    .card-front {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.9));
-    }
-    .light-mode .card-front {
-        background: linear-gradient(to bottom, transparent 40%, rgba(26,43,75,0.9));
+        box-shadow: 0 20px 50px rgba(74,144,226,0.4);
     }
     .img-bar {
         position: absolute;
@@ -335,59 +325,59 @@
         left: 0;
         width: 100%;
         height: 100%;
+        transition: transform 0.6s ease;
     }
     .img-bar img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.8s ease;
     }
-    .movie-card:hover .img-bar img {
-        transform: scale(1.15);
+    .movie-card:hover .img-bar {
+        transform: scale(1.1);
     }
-    .card-info {
+    .card-overlay {
         position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
-        padding: 40px 24px 28px;
+        background: linear-gradient(to top, rgba(0,0,0,0.95), transparent 50%);
+        padding: 50px 20px 30px;
         color: #fff;
-        z-index: 2;
+        transition: background 0.4s ease;
+    }
+    .light-mode .card-overlay {
+        background: linear-gradient(to top, rgba(26,43,75,0.95), transparent 50%);
     }
     .date-bar {
-        font-size: 28px;
+        font-size: 26px;
         font-weight: 900;
-        letter-spacing: 1.8px;
-        text-shadow: 0 3px 15px rgba(0,0,0,0.8);
-        margin-bottom: 10px;
-        line-height: 1.2;
+        letter-spacing: 1.5px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        margin-bottom: 8px;
     }
     .title-bar {
         font-size: 18px;
         font-weight: 700;
-        opacity: 0.98;
-        line-height: 1.4;
+        opacity: 0.95;
         margin-bottom: 20px;
     }
     .reserve-bar {
         display: inline-block;
         background: var(--color-primary);
         color: #000;
-        padding: 14px 40px;
+        padding: 12px 40px;
         border-radius: 50px;
         font-weight: 800;
         font-size: 16px;
-        cursor: pointer;
         transition: all 0.4s ease;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.5);
     }
     .light-mode .reserve-bar {
-        background: var(--color-primary);
         color: #fff;
     }
     .reserve-bar:hover {
-        transform: translateY(-5px) scale(1.08);
-        box-shadow: 0 15px 35px rgba(0,0,0,0.55);
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.6);
     }
     .card-back {
         position: absolute;
@@ -396,31 +386,30 @@
         width: 100%;
         height: 100%;
         background: var(--card-bg);
-        backdrop-filter: blur(16px);
+        backdrop-filter: blur(20px);
         border-radius: 28px;
-        padding: 32px;
+        padding: 30px;
         color: var(--text-color);
         text-align: right;
         font-size: 15px;
         display: flex;
         flex-direction: column;
-        gap: 18px;
+        gap: 20px;
         opacity: 0;
         visibility: hidden;
-        transition: all 0.5s ease;
+        transition: opacity 0.5s ease;
     }
     .movie-card.flipped .card-back {
         opacity: 1;
         visibility: visible;
     }
-    .movie-card.flipped .card-front {
+    .movie-card.flipped .img-bar, .movie-card.flipped .card-overlay {
         opacity: 0;
-        visibility: hidden;
     }
     .card-back h3, .card-back p strong {
         color: var(--color-primary);
     }
-    .card-front .discount-label {
+    .discount-label {
         position: absolute;
         top: 20px;
         right: 20px;
@@ -428,16 +417,15 @@
         color: white;
         font-weight: bold;
         font-size: 15px;
-        padding: 10px 24px;
+        padding: 10px 25px;
         border-radius: 50px;
-        box-shadow: 0 8px 20px rgba(192, 132, 252, 0.6);
+        box-shadow: 0 8px 25px rgba(192,132,252,0.6);
         z-index: 10;
-        letter-spacing: 1px;
         animation: pulse 2s infinite;
     }
     @keyframes pulse {
         0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.12); }
+        50% { transform: scale(1.1); }
     }
     .discount-label.hidden { display: none; }
     #loading-overlay {
@@ -613,13 +601,11 @@ document.addEventListener("click", function(e) {
     if (!reserveBtn) return;
     e.stopPropagation();
     if (reserveBtn.textContent.trim() !== "تهیه بلیط") return;
-    const cardFront = reserveBtn.closest(".card-front") || reserveBtn.closest(".movie-card");
-    if (!cardFront) return;
-    const adminId = cardFront.dataset.adminId || "softshirazadmin";
-    const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
-    const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
     const card = reserveBtn.closest(".movie-card");
-    const hasDiscount = card && card.querySelector('.discount-label:not(.hidden)');
+    const adminId = card.dataset.adminId || "softshirazadmin";
+    const movieName = (card.querySelector(".date-bar")?.textContent || "نامشخص").trim();
+    const dateTime = (card.querySelector(".title-bar")?.textContent || "نامشخص").trim();
+    const hasDiscount = card.querySelector('.discount-label:not(.hidden)');
     let discountMessage = "";
     if (hasDiscount) {
         discountMessage = "🎉 تخفیف ویژه! 🎉\n\n";
