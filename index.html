@@ -554,44 +554,31 @@
         }
     });
     
-    // --- لود کارت‌ها با جلوی کارت جدید ---
-    async function loadMovies() {
-        const container = document.getElementById('cards-container');
-        for (let i = 1; i <= 20; i++) {
+    // --- لود کارت‌ها با ساختار اصلی (جلو و پشت کامل) ---
+    async function loadCardsStrictly() {
+        const container = document.getElementById("cards-container");
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        for (let num = 1; num <= 50; num++) {
             try {
-                const res = await fetch(`cards/${i}.html?v=${Date.now()}`);
-                if (!res.ok) continue;
-                const rawHtml = await res.text();
-               
-                const temp = document.createElement('div');
-                temp.innerHTML = rawHtml;
-                const img = temp.querySelector('img')?.src || 'https://via.placeholder.com/400x600';
-                const title = temp.querySelector('.date-bar')?.textContent || 'نام فیلم';
-                const time = temp.querySelector('.title-bar')?.textContent || 'زمان نامشخص';
-                const admin = temp.querySelector('.card-front')?.dataset.adminId || 'softshirazadmin';
-                
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.innerHTML = `
-                    <div class="card-inner">
-                        <div class="card-front" data-admin-id="${admin}">
-                            <div class="img-bar">
-                                <img src="${img}" alt="${title}">
-                            </div>
-                            <div class="date-bar">${title}</div>
-                            <div class="title-bar">${time}</div>
-                            <div class="reserve-bar">رزرو</div>
-                        </div>
-                        <div class="card-back">
-                            <!-- پشت کارت دست نخورده باقی مانده -->
-                        </div>
-                    </div>
-                `;
+                const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
+                if (!response.ok) continue;
+                const html = await response.text();
+                const card = document.createElement("div");
+                card.className = "movie-card";
+                card.innerHTML = html;
                 container.appendChild(card);
-            } catch (err) {}
+                observer.observe(card);
+            } catch (e) {}
         }
     }
-    loadMovies();
+    loadCardsStrictly();
 
     // --- بقیه اسکریپت‌ها بدون تغییر ---
     window.addEventListener('load', () => {
@@ -611,7 +598,6 @@
         }
     });
     
-    const container = document.getElementById("cards-container");
     let openCard = null;
     
     document.addEventListener("click", function(e) {
