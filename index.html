@@ -2,349 +2,282 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOFT SHIRAZ | اکران انیمه شیراز</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سافت شیراز | تجربه نوین اکران</title>
     
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root {
-            --accent: #ffd700;
-            --accent-rgb: 255, 215, 0;
-            --bg: #08080a;
-            --card-bg: rgba(20, 20, 25, 0.7);
+            --primary: #ffd700;
+            --primary-rgb: 255, 215, 0;
+            --bg: #0a0a0c;
+            --surface: #16161a;
             --text: #ffffff;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
-            --font-main: "Vazirmatn", sans-serif;
+            --text-dim: rgba(255, 255, 255, 0.6);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .light-mode {
-            --accent: #1a73e8;
-            --accent-rgb: 26, 115, 232;
-            --bg: #f5f7fb;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --text: #1c1e21;
-            --glass: rgba(0, 0, 0, 0.02);
-            --border: rgba(0, 0, 0, 0.08);
+            --bg: #f0f2f5;
+            --surface: #ffffff;
+            --text: #0f172a;
+            --text-dim: #64748b;
+            --primary: #2563eb;
+            --primary-rgb: 37, 99, 235;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Vazirmatn", sans-serif; }
         
         body {
-            font-family: var(--font-main);
-            background: var(--bg);
+            background-color: var(--bg);
             color: var(--text);
             overflow-x: hidden;
-            line-height: 1.6;
-            transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background 0.5s ease;
         }
 
-        /* Custom Cursor (Desktop Only) */
-        #cursor-dot {
-            width: 8px; height: 8px; background: var(--accent);
-            position: fixed; border-radius: 50%; pointer-events: none; z-index: 10000;
-            transition: transform 0.1s; display: none;
-        }
-        #cursor-outline {
-            width: 40px; height: 40px; border: 2px solid var(--accent);
-            position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999;
-            transition: all 0.15s ease-out; display: none;
-        }
-        @media (min-width: 1024px) { #cursor-dot, #cursor-outline { display: block; } }
-
-        /* Dynamic Background Mesh */
-        .mesh-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(var(--accent-rgb), 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(var(--accent-rgb), 0.05) 0%, transparent 40%);
-            z-index: -1;
+        /* --- Background Decor --- */
+        .blob {
+            position: fixed; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(var(--primary-rgb), 0.15) 0%, transparent 70%);
+            top: -200px; right: -100px; z-index: -1; pointer-events: none;
         }
 
-        /* Navigation Bar - Floating Capsule */
-        nav {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            width: 95%; max-width: 1100px; padding: 12px 25px;
-            background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border); border-radius: 100px;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        /* --- Navigation --- */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, var(--bg) 0%, transparent 100%);
+            backdrop-filter: blur(10px);
         }
-        nav.scrolled { top: 10px; width: 98%; padding: 8px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
 
-        .brand { font-size: 1.5rem; font-weight: 900; color: var(--accent); letter-spacing: -1px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
-        .nav-ops { display: flex; gap: 15px; align-items: center; }
-        .nav-btn { background: var(--glass); border: 1px solid var(--border); color: var(--text); padding: 8px; border-radius: 50%; cursor: pointer; transition: 0.3s; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
-        .nav-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); transform: translateY(-2px); }
+        .logo { font-size: 1.8rem; font-weight: 900; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .logo i { filter: drop-shadow(0 0 8px var(--primary)); }
 
-        /* Hero Section - The Big Impression */
+        .nav-tools { display: flex; gap: 12px; }
+        .icon-btn {
+            width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);
+            background: var(--surface); color: var(--text); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: var(--transition); font-size: 1.2rem;
+        }
+        .icon-btn:hover { background: var(--primary); color: #000; transform: scale(1.1); }
+
+        /* --- Hero Section --- */
         .hero {
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 0 20px; text-align: center; position: relative;
+            padding: 160px 5% 60px; text-align: center;
+            min-height: 80vh; display: flex; flex-direction: column; justify-content: center;
         }
-        .hero-badge {
-            background: rgba(var(--accent-rgb), 0.1); color: var(--accent);
-            padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700;
-            margin-bottom: 20px; border: 1px solid rgba(var(--accent-rgb), 0.3);
-            animation: fadeInDown 0.8s backwards;
-        }
-        .hero h1 {
-            font-size: clamp(3rem, 12vw, 7rem); font-weight: 900; line-height: 0.9;
-            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.5) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 25px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
-        }
-        .light-mode .hero h1 { background: linear-gradient(180deg, #000 0%, #444 100%); -webkit-background-clip: text; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 900; line-height: 1.2; margin-bottom: 20px; }
+        .hero h1 span { color: var(--primary); }
+        .hero p { font-size: 1.2rem; color: var(--text-dim); max-width: 700px; margin: 0 auto 40px; }
 
-        .cta-group { display: flex; gap: 15px; animation: fadeInUp 1s 0.5s backwards; }
-        .primary-btn {
-            background: var(--accent); color: #000; padding: 16px 35px; border-radius: 100px;
-            text-decoration: none; font-weight: 900; font-size: 1.1rem; transition: 0.4s;
-            box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.3);
-        }
-        .primary-btn:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(var(--accent-rgb), 0.5); }
+        /* --- Movies Grid --- */
+        .container { padding: 0 5% 100px; max-width: 1400px; margin: 0 auto; }
+        .grid-title { margin-bottom: 40px; font-size: 2rem; display: flex; align-items: center; gap: 15px; }
+        .grid-title::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
 
-        /* Movie Grid Section */
-        .section-header {
-            max-width: 1200px; margin: 0 auto 50px; padding: 0 25px;
-            display: flex; justify-content: space-between; align-items: flex-end;
-        }
-        .section-header h2 { font-size: 2.5rem; font-weight: 900; }
-        .section-header p { color: var(--accent); font-weight: 700; }
-
-        .grid {
-            max-width: 1250px; margin: 0 auto; display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 40px; padding: 0 25px 100px;
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
         }
 
-        /* Advanced Movie Card */
-        .card {
-            position: relative; height: 450px; border-radius: 30px;
-            background: var(--card-bg); border: 1px solid var(--border);
-            overflow: hidden; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            perspective: 1000px;
+        /* --- Professional Card Component --- */
+        .movie-card {
+            background: var(--surface); border-radius: var(--radius-lg); overflow: hidden;
+            position: relative; border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition); height: 480px;
         }
-        .card:hover { transform: translateY(-15px); border-color: var(--accent); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
-
-        .card-inner { width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
-        .card.flipped .card-inner { transform: rotateY(180deg); }
-
-        .front, .back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 30px; overflow: hidden; }
         
-        .image-wrapper { width: 100%; height: 100%; position: relative; }
-        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .image-wrapper::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8,8,10,0.9) 0%, transparent 60%); }
-
-        .card-content { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px; z-index: 2; }
-        .card-date { color: var(--accent); font-weight: 900; font-size: 1.2rem; margin-bottom: 5px; display: block; }
-        .card-title { font-size: 1rem; font-weight: 500; opacity: 0.8; }
-
-        .ticket-btn {
-            position: absolute; top: 20px; left: 20px; background: var(--accent);
-            color: #000; padding: 8px 20px; border-radius: 50px; font-weight: 900;
-            font-size: 0.8rem; z-index: 10; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            transition: 0.3s; text-decoration: none;
-        }
-        .ticket-btn:hover { background: #fff; transform: scale(1.1); }
-
-        .back {
-            transform: rotateY(180deg); background: #111; padding: 30px;
-            display: flex; flex-direction: column; justify-content: center;
-            border: 2px solid var(--accent);
-        }
-        .back h3 { color: var(--accent); margin-bottom: 15px; font-size: 1.5rem; }
-        .back p { font-size: 0.95rem; opacity: 0.8; line-height: 1.8; }
-
-        /* Discount Badge */
-        .discount-tag {
-            position: absolute; top: 20px; right: 20px; background: #ff3e3e;
-            color: #fff; padding: 5px 12px; border-radius: 10px; font-weight: 900;
-            font-size: 0.75rem; z-index: 10; animation: blink 1.5s infinite;
+        .movie-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        /* Loader */
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .movie-card:hover .card-img { transform: scale(1.05) rotate(1deg); opacity: 0.6; }
+
+        .card-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, transparent 100%);
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 25px;
+            transition: var(--transition);
+        }
+
+        .card-info h3 { font-size: 1.4rem; margin-bottom: 8px; color: #fff; }
+        .card-info p { font-size: 0.9rem; color: var(--primary); font-weight: bold; margin-bottom: 15px; }
+
+        .btn-reserve {
+            background: var(--primary); color: #000; text-decoration: none;
+            padding: 12px; border-radius: var(--radius-md); text-align: center;
+            font-weight: 900; transition: var(--transition); display: block;
+        }
+        .btn-reserve:hover { background: #fff; letter-spacing: 1px; }
+
+        .badge-discount {
+            position: absolute; top: 20px; left: 20px;
+            background: #ff4757; color: #fff; padding: 5px 15px;
+            border-radius: 50px; font-size: 0.8rem; font-weight: 900; z-index: 10;
+        }
+
+        /* --- Side Menu --- */
+        .side-menu {
+            position: fixed; top: 0; left: -350px; width: 320px; height: 100%;
+            background: var(--surface); z-index: 2000; padding: 40px;
+            transition: var(--transition); border-right: 1px solid var(--primary);
+        }
+        .side-menu.active { left: 0; }
+        .menu-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+            z-index: 1500; display: none; backdrop-filter: blur(5px);
+        }
+
+        .menu-item {
+            display: block; font-size: 1.5rem; font-weight: 700; color: var(--text);
+            text-decoration: none; margin-bottom: 25px; transition: 0.3s;
+        }
+        .menu-item:hover { color: var(--primary); padding-right: 10px; }
+
+        /* --- Loader --- */
         #loader {
-            position: fixed; inset: 0; background: #000; z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: 0.8s ease-in-out;
+            position: fixed; inset: 0; background: var(--bg); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
         }
-        .loader-logo { font-size: 2rem; font-weight: 900; color: var(--accent); margin-bottom: 20px; animation: pulse 1s infinite alternate; }
-        .loader-bar { width: 150px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
-        .loader-progress { width: 0%; height: 100%; background: var(--accent); animation: load 2s forwards; }
+        .spinner { width: 50px; height: 50px; border: 3px solid var(--primary); border-top-color: transparent; border-radius: 50%; animation: spin 1s infinite linear; }
 
-        /* Fullscreen Menu */
-        #menu {
-            position: fixed; inset: 0; background: rgba(8,8,10,0.98); backdrop-filter: blur(20px);
-            z-index: 2000; display: none; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .menu-item { font-size: 3rem; font-weight: 900; text-decoration: none; color: var(--text); margin: 15px 0; transition: 0.3s; }
-        .menu-item:hover { color: var(--accent); transform: skewX(-10deg); }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @keyframes load { to { width: 100%; } }
-        @keyframes pulse { from { opacity: 0.5; transform: scale(0.95); } to { opacity: 1; transform: scale(1.05); } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3.5rem; }
-            .grid { grid-template-columns: 1fr; gap: 25px; }
-            .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .hero h1 { font-size: 3rem; }
+            .movie-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="loader-logo">SOFT SHIRAZ</div>
-        <div class="loader-bar"><div class="loader-progress"></div></div>
+<div id="loader"><div class="spinner"></div></div>
+
+<div class="blob"></div>
+
+<header>
+    <a href="#" class="logo">
+        <i class="fas fa-play-circle"></i>
+        <span>SOFT SHIRAZ</span>
+    </a>
+    <div class="nav-tools">
+        <div class="icon-btn" id="theme-toggle"><i class="fas fa-moon"></i></div>
+        <div class="icon-btn" id="menu-toggle"><i class="fas fa-bars-staggered"></i></div>
     </div>
+</header>
 
-    <div id="cursor-dot"></div>
-    <div id="cursor-outline"></div>
-
-    <div class="mesh-bg"></div>
-
-    <nav id="navbar">
-        <a href="#" class="brand">
-            <i class="fas fa-bolt"></i>
-            <span>SOFT SHIRAZ</span>
-        </a>
-        <div class="nav-ops">
-            <button class="nav-btn" id="theme-btn"><i class="fas fa-moon"></i></button>
-            <button class="nav-btn" id="menu-open"><i class="fas fa-bars-staggered"></i></button>
-        </div>
-    </nav>
-
-    <div id="menu">
-        <button class="nav-btn" id="menu-close" style="position:absolute; top:30px; right:30px;"><i class="fas fa-times"></i></button>
-        <a href="../web/events/events.html" class="menu-item">ایونت‌ها</a>
-        <a href="../web/room/room.html" class="menu-item">اتاقک</a>
-        <a href="../web/about/about.html" class="menu-item">درباره ما</a>
-        <div style="margin-top:50px; display:flex; gap:20px;">
-            <a href="https://t.me/softshiraz" class="nav-btn"><i class="fab fa-telegram-plane"></i></a>
-            <a href="https://instagram.com/soft_shiraz" class="nav-btn"><i class="fab fa-instagram"></i></a>
-        </div>
+<div class="menu-overlay" id="overlay"></div>
+<nav class="side-menu" id="drawer">
+    <div style="margin-bottom: 50px;"><i class="fas fa-times icon-btn" id="close-menu"></i></div>
+    <a href="../web/events/events.html" class="menu-item">ایونت‌های کتابخوانی</a>
+    <a href="../web/room/room.html" class="menu-item">اتاقک گفتگو</a>
+    <a href="../web/about/about.html" class="menu-item">درباره ما</a>
+    <div style="margin-top: 50px; display: flex; gap: 15px;">
+        <a href="https://t.me/softshiraz" class="icon-btn"><i class="fab fa-telegram"></i></a>
+        <a href="https://instagram.com/soft_shiraz" class="icon-btn"><i class="fab fa-instagram"></i></a>
     </div>
+</nav>
 
+<main>
     <section class="hero">
-        <div class="hero-badge">PREMIUM ANIME EXPERIENCE</div>
-        <h1>سینما را متفاوت<br>تجربه کنید</h1>
-        <div class="cta-group">
-            <a href="#screenings" class="primary-btn">رزرو صندلی</a>
+        <h1>اکران خاص‌ترین <span>انیمه‌ها</span><br>در قلب شیراز</h1>
+        <p>با سافت شیراز، قدیمی‌ترین اکران‌کننده انیمه و انیمیشن، کیفیت سینمایی را با چاشنی جامعه‌ای صمیمی تجربه کنید.</p>
+        <div>
+            <a href="#events" class="btn-reserve" style="display:inline-block; padding: 15px 40px;">مشاهده لیست اکران</a>
         </div>
     </section>
 
-    <div id="screenings" style="padding-top: 100px;">
-        <div class="section-header">
-            <div>
-                <p>// UPCOMING EVENTS</p>
-                <h2>اکران‌های آینده</h2>
-            </div>
-            <i class="fas fa-arrow-right-long" style="font-size: 2rem; opacity: 0.2;"></i>
-        </div>
-
-        <div class="grid" id="cards-container">
+    <div class="container" id="events">
+        <div class="grid-title">اکران‌های پیش رو</div>
+        <div class="movie-grid" id="cards-container">
             </div>
     </div>
+</main>
 
-    <script>
-        // --- Custom Cursor Logic ---
-        const cursorDot = document.getElementById('cursor-dot');
-        const cursorOutline = document.getElementById('cursor-outline');
-        
-        window.addEventListener('mousemove', (e) => {
-            cursorDot.style.left = e.clientX + 'px';
-            cursorDot.style.top = e.clientY + 'px';
-            
-            cursorOutline.animate({
-                left: e.clientX + 'px',
-                top: e.clientY + 'px'
-            }, { duration: 500, fill: 'forwards' });
-        });
+<script>
+    // --- مدیریت تم ---
+    const themeBtn = document.getElementById('theme-toggle');
+    themeBtn.onclick = () => {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        themeBtn.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    };
 
-        // --- Loader Logic ---
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 800);
-            }, 2000);
-        });
+    // --- مدیریت منو ---
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const toggleMenu = (state) => {
+        drawer.classList.toggle('active', state);
+        overlay.style.display = state ? 'block' : 'none';
+    };
+    document.getElementById('menu-toggle').onclick = () => toggleMenu(true);
+    document.getElementById('close-menu').onclick = () => toggleMenu(false);
+    overlay.onclick = () => toggleMenu(false);
 
-        // --- Theme Logic ---
-        const themeBtn = document.getElementById('theme-btn');
-        themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            themeBtn.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        });
+    // --- لودر ---
+    window.onload = () => {
+        setTimeout(() => document.getElementById('loader').style.display = 'none', 1000);
+    };
 
-        if(localStorage.getItem('theme') === 'light') {
-            document.body.classList.add('light-mode');
-            themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-        }
-
-        // --- Navbar Scroll Effect ---
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if(window.scrollY > 50) nav.classList.add('scrolled');
-            else nav.classList.remove('scrolled');
-        });
-
-        // --- Menu Logic ---
-        const menu = document.getElementById('menu');
-        document.getElementById('menu-open').onclick = () => menu.style.display = 'flex';
-        document.getElementById('menu-close').onclick = () => menu.style.display = 'none';
-
-        // --- Load Cards ---
-        const container = document.getElementById("cards-container");
-        
-        async function loadCards() {
-            for (let i = 1; i <= 30; i++) {
-                try {
-                    const response = await fetch(`cards/${i}.html?v=${Date.now()}`);
-                    if (!response.ok) continue;
-                    const html = await response.text();
-                    
-                    const cardWrapper = document.createElement('div');
-                    cardWrapper.className = 'card';
-                    cardWrapper.innerHTML = html;
-                    
-                    // افزودن لاجیک کلیک برای فلیپ
-                    cardWrapper.addEventListener('click', (e) => {
-                        if(!e.target.closest('.ticket-btn')) {
-                            cardWrapper.classList.toggle('flipped');
-                        }
-                    });
-                    
-                    container.appendChild(cardWrapper);
-                } catch (e) {}
-            }
-        }
-        loadCards();
-
-        // --- Ticket Reservation Logic ---
-        document.addEventListener('click', (e) => {
-            const btn = e.target.closest('.ticket-btn');
-            if(btn) {
-                e.preventDefault();
-                e.stopPropagation();
+    // --- لود داینامیک و هوشمند کارت‌ها ---
+    async function loadMovies() {
+        const container = document.getElementById('cards-container');
+        for (let i = 1; i <= 20; i++) {
+            try {
+                const res = await fetch(`cards/${i}.html?v=${Date.now()}`);
+                if (!res.ok) continue;
+                const rawHtml = await res.text();
                 
-                const card = btn.closest('.card');
-                const movie = card.querySelector('.card-date').innerText;
-                const time = card.querySelector('.card-title').innerText;
-                const admin = card.querySelector('.card-front').dataset.adminId || "softshirazadmin";
-                
-                const msg = `سلام! قصد رزرو بلیط دارم:\n🎬 اکران: ${movie}\n⏰ زمان: ${time}`;
-                window.open(`https://t.me/${admin}?text=${encodeURIComponent(msg)}`, '_blank');
-            }
-        });
-    </script>
+                // ایجاد یک المان موقت برای استخراج داده از فایل‌های شما
+                const temp = document.createElement('div');
+                temp.innerHTML = rawHtml;
+
+                // استخراج اطلاعات (با توجه به کلاس‌های فایل‌های قدیمی شما)
+                const img = temp.querySelector('img')?.src || 'https://via.placeholder.com/400x600';
+                const title = temp.querySelector('.date-bar')?.textContent || 'نام فیلم';
+                const time = temp.querySelector('.title-bar')?.textContent || 'زمان نامشخص';
+                const admin = temp.querySelector('.card-front')?.dataset.adminId || 'softshirazadmin';
+
+                // ساخت کارت با استایل حرفه‌ای جدید
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.innerHTML = `
+                    <div class="badge-discount">ویژه</div>
+                    <img src="${img}" class="card-img" alt="poster">
+                    <div class="card-overlay">
+                        <div class="card-info">
+                            <h3>${title}</h3>
+                            <p><i class="far fa-clock"></i> ${time}</p>
+                            <a href="#" class="btn-reserve" data-movie="${title}" data-admin="${admin}">رزرو آنلاین صندلی</a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            } catch (err) {}
+        }
+    }
+
+    loadMovies();
+
+    // --- سیستم رزرو ---
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-reserve')) {
+            e.preventDefault();
+            const movie = e.target.dataset.movie;
+            const admin = e.target.dataset.admin;
+            const text = encodeURIComponent(`سلام سافت شیراز عزیز!\nقصد رزرو بلیط اکران "${movie}" را دارم. لطفا راهنمایی کنید.`);
+            window.open(`https://t.me/${admin}?text=${text}`, '_blank');
+        }
+    });
+</script>
+
 </body>
 </html>
