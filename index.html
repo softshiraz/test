@@ -7,30 +7,23 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0">
     <meta name="google-site-verification" content="fK12FesLb14L29h1lu9QVGq_JaWn68Bd-LFlawjNwPU" />
-
     <title>🎬 سافت شیراز | تجربه سینمای انیمه</title>
-
     <meta name="description" content="@soft_shiraz - سافت شیراز، قدیمی‌ترین و معتبرترین برگزارکننده اکران فیلم انیمه، انیمیشن و ایونت‌های کتابخوانی در شیراز.">
     <meta name="keywords" content="سافت شیراز, انیمه شیراز, سینما انیمیشن, بلیط انیمه">
     <meta name="theme-color" content="#ffd700">
-
     <meta property="og:title" content="سافت شیراز | دنیای انیمه روی پرده نقره‌ای">
     <meta property="og:description" content="اولین و بزرگترین برگزارکننده اکران انیمه در شیراز">
     <meta property="og:image" content="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
     <meta property="og:url" content="https://softshiraz.github.io/web/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <link rel="manifest" href="/web/manifest.json">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
     <link rel="icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png" type="image/png">
-
     <style>
         :root {
-            /* پالت رنگی اصلی (دارک - پیش‌فرض) */
             --primary: #ffd700;
             --primary-glow: rgba(255, 215, 0, 0.4);
             --bg-deep: #050505;
@@ -39,15 +32,10 @@
             --text-muted: rgba(255, 255, 255, 0.6);
             --glass-border: rgba(255, 255, 255, 0.08);
             --card-glass: rgba(30, 30, 30, 0.4);
-            --gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
-            
-            /* متغیرهای انیمیشن */
             --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
             --transition-fast: 0.3s var(--ease-out-expo);
             --transition-med: 0.6s var(--ease-out-expo);
         }
-
-        /* پالت رنگی لایت */
         .light-mode {
             --primary: #2563eb;
             --primary-glow: rgba(37, 99, 235, 0.3);
@@ -57,11 +45,9 @@
             --text-muted: rgba(30, 41, 59, 0.6);
             --glass-border: rgba(0, 0, 0, 0.05);
             --card-glass: rgba(255, 255, 255, 0.6);
-            --gradient-overlay: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 100%);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
+       
         body {
             font-family: "Vazirmatn", sans-serif;
             background-color: var(--bg-deep);
@@ -70,8 +56,6 @@
             transition: background-color 0.5s ease, color 0.5s ease;
             min-height: 100vh;
         }
-
-        /* پس‌زمینه گرادینت متحرک */
         .ambient-light {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -81,8 +65,6 @@
             pointer-events: none;
             transition: 0.5s;
         }
-
-        /* هدر شناور مدرن */
         header {
             position: fixed;
             top: 20px;
@@ -104,11 +86,8 @@
             box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
             transition: all 0.4s var(--ease-out-expo);
         }
-        
         .light-mode header { background: rgba(255, 255, 255, 0.65); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1); }
-        
         header.scrolled { top: 10px; width: 95%; height: 60px; }
-
         .logo-container {
             font-weight: 800;
             font-size: 1.4rem;
@@ -121,7 +100,6 @@
             letter-spacing: 1px;
             text-shadow: 0 0 15px var(--primary-glow);
         }
-
         .hamburger-btn {
             background: transparent;
             border: none;
@@ -134,62 +112,179 @@
         }
         .hamburger-btn:hover { color: var(--primary); transform: scale(1.1); background: rgba(255,255,255,0.05); }
 
-        /* منوی کناری تمام صفحه */
-        .fullscreen-menu {
+        /* منوی جدید با انیمیشن */
+        .mobile-menu-items {
             position: fixed;
-            inset: 0;
-            background: var(--bg-deep);
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 1000px;
             z-index: 200;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            clip-path: circle(0% at 90% 10%);
-            transition: clip-path 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+            opacity: 0;
+            visibility: hidden;
             pointer-events: none;
+            transition: opacity 0.6s var(--ease-out-expo), visibility 0.6s;
+            padding: 0 10px;
         }
-        
-        .fullscreen-menu.active {
-            clip-path: circle(150% at 90% 10%);
+        .mobile-menu-items.active {
+            opacity: 1;
+            visibility: visible;
             pointer-events: all;
         }
 
-        .menu-close-btn {
-            position: absolute; top: 30px; right: 30px;
-            background: none; border: none;
-            color: var(--text-main); font-size: 2rem; cursor: pointer;
-            transition: 0.3s;
+        /* دسکتاپ: همه افقی */
+        .menu-all-bubbles {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin: 20px 0;
         }
-        .menu-close-btn:hover { color: var(--primary); transform: rotate(90deg); }
 
-        .menu-items { text-align: center; display: flex; flex-direction: column; gap: 20px; }
-        .menu-link {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: 0.4s;
-            position: relative;
+        /* انیمیشن ورود آیتم‌ها */
+        .menu-all-bubbles > * {
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
         }
-        .menu-link:hover { color: var(--primary); letter-spacing: 2px; }
-        
-        .menu-footer {
-            position: absolute; bottom: 40px;
-            display: flex; gap: 20px;
+        .mobile-menu-items.active .menu-all-bubbles > * {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
-        .social-bubble {
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            border: 1px solid var(--glass-border);
-            display: flex; align-items: center; justify-content: center;
+        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(2) { transition-delay: 0.2s; }
+        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(3) { transition-delay: 0.3s; }
+        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(4) { transition-delay: 0.4s; }
+        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(5) { transition-delay: 0.5s; }
+        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(6) { transition-delay: 0.6s; }
+        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(7) { transition-delay: 0.7s; }
+        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(8) { transition-delay: 0.8s; }
+
+        /* دو گزینه مستطیل کشیده */
+        .menu-rect-btn {
+            min-width: 180px;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(12px);
             color: var(--text-main);
-            font-size: 1.2rem;
-            text-decoration: none;
-            transition: 0.3s;
+            border: 2px solid var(--glass-border);
+            border-radius: 100px;
+            padding: 16px 28px;
+            text-align: center;
+            transition: all 0.4s var(--ease-out-expo);
+            font-weight: 800;
+            font-size: 1.1rem;
+            white-space: nowrap;
         }
-        .social-bubble:hover { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 0 20px var(--primary-glow); }
+        .light-mode .menu-rect-btn {
+            background: rgba(0,0,0,0.06);
+        }
+        .menu-rect-btn:hover {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            box-shadow: 0 12px 35px var(--primary-glow);
+            transform: translateY(-6px) scale(1.05);
+        }
+        .menu-link-rect {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: inherit;
+            text-decoration: none;
+        }
+        .menu-link-rect i {
+            font-size: 1.3rem;
+        }
 
-        /* بخش Hero */
+        /* بقیه گزینه‌ها دایره‌ای */
+        .social-bubble,
+        #install-button-menu,
+        #theme-toggle-menu,
+        .menu-bubble {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.45s var(--ease-out-expo);
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+        }
+        .light-mode .social-bubble,
+        .light-mode #install-button-menu,
+        .light-mode #theme-toggle-menu,
+        .light-mode .menu-bubble { background: rgba(0,0,0,0.06); }
+        .social-bubble:hover,
+        #install-button-menu:hover,
+        #theme-toggle-menu:hover,
+        .menu-bubble:hover {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            box-shadow: 0 0 30px var(--primary-glow);
+            transform: scale(1.2) rotate(360deg);
+        }
+
+        /* موبایل: دو مستطیل تمام عرض + دایره‌ای‌ها سه تا سه تا */
+        @media (max-width: 768px) {
+            .menu-all-bubbles {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+            .menu-rect-btn {
+                width: 100%;
+                max-width: 400px;
+                padding: 16px 20px;
+                font-size: 1.1rem;
+            }
+            /* دایره‌ای‌ها سه تا سه تا */
+            .menu-all-bubbles > .menu-bubble,
+            .menu-all-bubbles > .social-bubble,
+            .menu-all-bubbles > #install-button-menu,
+            .menu-all-bubbles > #theme-toggle-menu {
+                width: 58px;
+                height: 58px;
+                font-size: 1.4rem;
+            }
+            /* گروه‌بندی سه تایی */
+            .menu-all-bubbles {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+                justify-items: center;
+            }
+            .menu-all-bubbles > .menu-rect-btn {
+                grid-column: 1 / -1;
+            }
+        }
+        @media (max-width: 480px) {
+            .menu-rect-btn {
+                padding: 14px 18px;
+                font-size: 1rem;
+            }
+            .menu-all-bubbles {
+                gap: 12px;
+            }
+            .menu-all-bubbles > .menu-bubble,
+            .menu-all-bubbles > .social-bubble,
+            .menu-all-bubbles > #install-button-menu,
+            .menu-all-bubbles > #theme-toggle-menu {
+                width: 52px;
+                height: 52px;
+                font-size: 1.3rem;
+            }
+        }
+
         .hero-section {
             height: 70vh;
             min-height: 500px;
@@ -202,31 +297,6 @@
             margin-top: 60px;
             position: relative;
         }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--text-main) 30%, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 30px var(--primary-glow));
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s var(--ease-out-expo) forwards 0.5s;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1rem, 3vw, 1.4rem);
-            color: var(--text-muted);
-            max-width: 600px;
-            margin-bottom: 40px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s var(--ease-out-expo) forwards 0.7s;
-        }
-
         .hero-btn {
             padding: 15px 40px;
             border-radius: 50px;
@@ -239,15 +309,12 @@
             box-shadow: 0 0 20px var(--primary-glow);
             transition: 0.3s;
             text-decoration: none;
-            opacity: 0;
-            animation: fadeInUp 1s var(--ease-out-expo) forwards 0.9s;
             display: inline-flex;
             align-items: center;
             gap: 10px;
         }
         .hero-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 30px var(--primary-glow); }
 
-        /* گرید فیلم‌ها */
         .movies-container {
             max-width: 1300px;
             margin: 0 auto;
@@ -257,18 +324,15 @@
             gap: 30px;
             perspective: 1000px;
         }
-
-        /* استایل کارت‌های جدید */
         .movie-card {
             height: 420px;
             position: relative;
             cursor: pointer;
-            opacity: 0; /* برای انیمیشن اسکرول */
+            opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
         .movie-card.visible { opacity: 1; transform: translateY(0); }
-
         .card-inner {
             width: 100%; height: 100%;
             position: relative;
@@ -277,9 +341,7 @@
             border-radius: 24px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.25);
         }
-        
         .card-inner.flipped { transform: rotateY(180deg); }
-
         .card-front, .card-back {
             position: absolute; inset: 0;
             border-radius: 24px;
@@ -289,24 +351,14 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
         }
-
         .card-front { display: flex; flex-direction: column; }
-
-        .img-bar {
-            flex: 1; position: relative; overflow: hidden;
-        }
-        .img-bar img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.8s;
-        }
+        .img-bar { flex: 1; position: relative; overflow: hidden; }
+        .img-bar img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
         .movie-card:hover .img-bar img { transform: scale(1.1); }
-
-        /* Overlay گرادینت روی عکس */
         .img-bar::after {
             content: ''; position: absolute; inset: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
         }
-
         .date-bar {
             position: absolute; bottom: 50px; left: 0; width: 100%;
             text-align: center; z-index: 2;
@@ -314,9 +366,7 @@
             font-weight: 900;
             font-size: 1.2rem;
             text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-            padding: 0 10px;
         }
-        
         .title-bar {
             position: absolute; bottom: 20px; left: 0; width: 100%;
             text-align: center; z-index: 2;
@@ -325,7 +375,6 @@
             font-weight: 600;
             opacity: 0.9;
         }
-
         .reserve-bar {
             position: absolute; top: 15px; right: 15px;
             background: var(--primary);
@@ -340,8 +389,6 @@
             cursor: pointer;
         }
         .reserve-bar:hover { transform: scale(1.1); background: #fff; }
-
-        /* پشت کارت */
         .card-back {
             transform: rotateY(180deg);
             background: var(--bg-deep);
@@ -351,20 +398,6 @@
             box-shadow: 0 0 30px var(--primary-glow) inset;
         }
 
-        .card-back h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.3rem; }
-        .card-back p { line-height: 1.8; font-size: 0.95rem; color: var(--text-main); }
-        .card-back .back-footer { margin-top: auto; text-align: center; font-size: 0.8rem; color: var(--text-muted); }
-
-        .discount-label {
-            position: absolute; top: 15px; left: 15px;
-            background: #ff0055; color: white;
-            padding: 5px 12px; border-radius: 8px;
-            font-weight: bold; font-size: 0.8rem;
-            z-index: 5; animation: pulse 2s infinite;
-        }
-        .discount-label.hidden { display: none; }
-
-        /* لودینگ سینمایی */
         #loading-overlay {
             position: fixed; inset: 0;
             background: var(--bg-deep);
@@ -379,8 +412,6 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
-        /* دکمه تم شناور پایین */
         #theme-toggle-float {
             position: fixed; bottom: 30px; left: 30px;
             width: 50px; height: 50px;
@@ -399,125 +430,141 @@
         #theme-toggle-float:hover { transform: rotate(180deg); background: var(--primary); color: #000; }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* رسپانسیو */
-        @media (max-width: 768px) {
-            header { width: 95%; padding: 0 15px; }
-            .movies-container { grid-template-columns: repeat(2, 1fr); padding: 20px 10px; gap: 15px; }
-            .hero-section { height: 60vh; }
-            .card-inner { border-radius: 16px; }
-            .card-front, .card-back { border-radius: 16px; }
-            .date-bar { font-size: 1rem; bottom: 45px; }
-            .title-bar { font-size: 0.8rem; }
-            .reserve-bar { padding: 6px 12px; font-size: 0.8rem; }
-        }
-        @media (max-width: 480px) {
-            .movies-container { grid-template-columns: 1fr; max-width: 320px; }
-        }
     </style>
 </head>
 <body>
-
 <div id="loading-overlay">
     <div class="spinner-box"></div>
 </div>
-
 <div class="ambient-light"></div>
-
 <header id="main-header">
     <button class="hamburger-btn" id="menu-trigger" aria-label="منو">
         <i class="fas fa-bars"></i>
     </button>
-    
+   
     <a href="./index.html" class="logo-container">
         <i class="fas fa-film"></i>
         <span>SOFT SHIRAZ</span>
     </a>
-    
+   
     <div id="install-button-header" style="cursor:pointer; display:none;">
         <i class="fas fa-download"></i>
     </div>
 </header>
 
-<div class="fullscreen-menu" id="fs-menu">
-    <button class="menu-close-btn" id="menu-close"><i class="fas fa-times"></i></button>
-    
-    <div class="menu-items">
-        <a href="../web/events/events.html" class="menu-link">ایونت‌های کتابخوانی</a>
-        <a href="../web/room/room.html" class="menu-link">اتاقک گفتگو</a>
-        <a href="../web/about/about.html" class="menu-link">درباره ما</a>
-    </div>
-
-    <div class="menu-footer">
-        <div class="social-bubble" id="install-button-menu"><i class="fas fa-download"></i></div>
-        <a href="https://t.me/softshiraz" class="social-bubble" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-        <a href="https://instagram.com/soft_shiraz" class="social-bubble" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://t.me/FLOKI000" class="social-bubble" target="_blank"><i class="fas fa-headset"></i></a>
+<!-- منو - دسکتاپ افقی کامل + موبایل دو مستطیل + دایره‌ای‌ها سه تا سه تا -->
+<div class="mobile-menu-items" id="mobile-menu-items">
+    <div class="menu-all-bubbles">
+        <div class="menu-rect-btn">
+            <a href="../web/events/events.html" class="menu-link-rect">
+                <i class="fas fa-book-open"></i>
+                ایونت‌های کتابخوانی
+            </a>
+        </div>
+        <div class="menu-rect-btn">
+            <a href="../web/room/room.html" class="menu-link-rect">
+                <i class="fas fa-comments"></i>
+                اتاقک گفتگو
+            </a>
+        </div>
+        <a href="../web/about/about.html" class="menu-bubble">
+            <i class="fas fa-info-circle"></i>
+        </a>
+        <div id="theme-toggle-menu">
+            <i class="fas fa-sun" id="theme-icon-menu"></i>
+        </div>
+        <div class="social-bubble" id="install-button-menu" style="cursor:pointer;">
+            <i class="fas fa-download"></i>
+        </div>
+        <a href="https://t.me/softshiraz" class="social-bubble" target="_blank">
+            <i class="fab fa-telegram-plane"></i>
+        </a>
+        <a href="https://instagram.com/soft_shiraz" class="social-bubble" target="_blank">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://t.me/FLOKI000" class="social-bubble" target="_blank">
+            <i class="fas fa-headset"></i>
+        </a>
     </div>
 </div>
 
 <button id="theme-toggle-float" aria-label="تغییر تم">
     <i class="fas fa-sun"></i>
 </button>
-
 <main>
     <section class="hero-section">
         <button class="hero-btn" onclick="document.querySelector('.movies-container').scrollIntoView({behavior: 'smooth'})">
             مشاهده اکران‌ها <i class="fas fa-arrow-down"></i>
         </button>
     </section>
-
-    <div class="movies-container" id="cards-container">
-        </div>
+    <div class="movies-container" id="cards-container"></div>
 </main>
-
 <canvas id="particle-canvas" style="position:fixed; top:0; left:0; pointer-events:none; z-index:-1;"></canvas>
-
 <script>
     // --- مدیریت تم ---
     const body = document.body;
-    const themeBtn = document.getElementById('theme-toggle-float');
-    const themeIcon = themeBtn.querySelector('i');
-    
+    const themeBtnFloat = document.getElementById('theme-toggle-float');
+    const themeBtnMenu = document.getElementById('theme-toggle-menu');
+    const themeIconFloat = themeBtnFloat.querySelector('i');
+    const themeIconMenu = document.getElementById('theme-icon-menu');
+   
     function setTheme(mode) {
         if (mode === 'light') {
             body.classList.add('light-mode');
-            themeIcon.className = 'fas fa-moon';
+            themeIconFloat.className = 'fas fa-moon';
+            themeIconMenu.className = 'fas fa-moon';
             document.querySelector('meta[name="theme-color"]').setAttribute('content', '#4a90e2');
         } else {
             body.classList.remove('light-mode');
-            themeIcon.className = 'fas fa-sun';
+            themeIconFloat.className = 'fas fa-sun';
+            themeIconMenu.className = 'fas fa-sun';
             document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffd700');
         }
         localStorage.setItem('theme', mode);
     }
-
-    // بررسی تم ذخیره شده یا سیستم
     const savedTheme = localStorage.getItem('theme');
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (savedTheme) {
         setTheme(savedTheme);
     } else {
-        setTheme(systemDark ? 'dark' : 'light'); // پیش فرض دارک
+        setTheme(systemDark ? 'dark' : 'light');
     }
-
-    themeBtn.addEventListener('click', () => {
+    themeBtnFloat.addEventListener('click', () => {
         const isLight = body.classList.contains('light-mode');
         setTheme(isLight ? 'dark' : 'light');
     });
-
-    // --- مدیریت لودر ---
+    if (themeBtnMenu) {
+        themeBtnMenu.addEventListener('click', () => {
+            const isLight = body.classList.contains('light-mode');
+            setTheme(isLight ? 'dark' : 'light');
+        });
+    }
+    
+    // --- مدیریت منو ---
+    const menuTrigger = document.getElementById('menu-trigger');
+    const menuItems = document.getElementById('mobile-menu-items');
+    
+    menuTrigger.addEventListener('click', () => {
+        menuItems.classList.toggle('active');
+        document.body.style.overflow = menuItems.classList.contains('active') ? 'hidden' : '';
+    });
+    
+    document.addEventListener('click', (e) => {
+        if (menuItems.classList.contains('active') && !menuItems.contains(e.target) && !menuTrigger.contains(e.target)) {
+            menuItems.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // --- بقیه اسکریپت‌ها بدون تغییر ---
     window.addEventListener('load', () => {
         setTimeout(() => {
             const loader = document.getElementById('loading-overlay');
             loader.style.opacity = '0';
             setTimeout(() => { loader.style.display = 'none'; }, 800);
-        }, 1500); // حداقل زمان نمایش
+        }, 1500);
     });
-
-    // --- مدیریت اسکرول هدر ---
+    
     window.addEventListener('scroll', () => {
         const header = document.getElementById('main-header');
         if (window.scrollY > 50) {
@@ -526,20 +573,9 @@
             header.classList.remove('scrolled');
         }
     });
-
-    // --- منوی تمام صفحه ---
-    const menuTrigger = document.getElementById('menu-trigger');
-    const fsMenu = document.getElementById('fs-menu');
-    const menuClose = document.getElementById('menu-close');
-
-    menuTrigger.addEventListener('click', () => fsMenu.classList.add('active'));
-    menuClose.addEventListener('click', () => fsMenu.classList.remove('active'));
-
-    // --- لود کارت‌ها ---
+    
     const container = document.getElementById("cards-container");
     let openCard = null;
-
-    // Observer برای انیمیشن ورود به صفحه
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -547,58 +583,39 @@
             }
         });
     }, { threshold: 0.1 });
-
+    
     async function loadCardsStrictly() {
         for (let num = 1; num <= 50; num++) {
             try {
-                // فرض بر این است که فایل‌های HTML خارجی وجود دارند
-                // ما ساختار آن‌ها را می‌گیریم و در کانتینر جدید قرار می‌دهیم
                 const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
                 if (!response.ok) continue;
-                
                 const html = await response.text();
                 const card = document.createElement("div");
                 card.className = "movie-card";
-                card.innerHTML = html; // محتوای HTML قدیمی داخل رپر جدید
-                
-                // اصلاح ساختار داخلی اگر نیاز بود (اختیاری - بسته به کد HTML کارت‌ها)
-                // اینجا فرض می‌کنیم کلاس‌های card-inner, card-front, card-back در فایل‌های خارجی هستند
-                // اگر نیستند، باید با JS تزریق شوند.
-                
+                card.innerHTML = html;
                 container.appendChild(card);
-                observer.observe(card); // اضافه کردن به آبزرور انیمیشن
-            } catch (e) {
-                // console.log("End of cards or error", num);
-            }
+                observer.observe(card);
+            } catch (e) {}
         }
     }
     loadCardsStrictly();
-
-    // --- لاجیک فلیپ کارت و رزرو ---
+    
     document.addEventListener("click", function(e) {
-        // دکمه رزرو
-        const reserveBtn = e.target.closest(".reserve-bar"); // کلاس تغییر کرد به تگ کلی، نه فقط لینک
+        const reserveBtn = e.target.closest(".reserve-bar");
         if (reserveBtn) {
             e.stopPropagation();
-            // استخراج دیتا از کارت
             const cardFront = reserveBtn.closest(".card-front");
             if (!cardFront) return;
-            
             const adminId = cardFront.dataset.adminId || "softshirazadmin";
             const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
             const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
-            
             const cardInner = reserveBtn.closest(".card-inner");
             const hasDiscount = cardInner && cardInner.querySelector('.discount-label:not(.hidden)');
             let discountMessage = hasDiscount ? "🎉 تخفیف ویژه! 🎉\n\n" : "";
-
             const message = `${discountMessage}💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ شرایط رزرو چطوریه؟ 🙏`;
-            
             window.open(`https://t.me/${adminId}?text=${encodeURIComponent(message)}`, "_blank");
             return;
         }
-
-        // فلیپ کارت
         const cardInner = e.target.closest(".card-inner");
         if (cardInner) {
             if (openCard && openCard !== cardInner) {
@@ -611,24 +628,17 @@
             openCard = null;
         }
     });
-
-    // --- ذرات پس زمینه (نسخه بهینه شده) ---
+    
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, particles = [];
-    
-    // تنظیم تعداد ذرات بر اساس سایز صفحه
     const getParticleCount = () => window.innerWidth < 768 ? 40 : 80;
-
     function resize() {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
     }
-    
     class Particle {
-        constructor() {
-            this.reset();
-        }
+        constructor() { this.reset(); }
         reset() {
             this.x = Math.random() * width;
             this.y = Math.random() * height;
@@ -650,39 +660,30 @@
             ctx.fill();
         }
     }
-
     function initParticles() {
         resize();
         particles = [];
         for(let i=0; i<getParticleCount(); i++) particles.push(new Particle());
     }
-
     function animateParticles() {
         ctx.clearRect(0, 0, width, height);
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
+        particles.forEach(p => { p.update(); p.draw(); });
         requestAnimationFrame(animateParticles);
     }
-
     window.addEventListener('resize', () => { resize(); initParticles(); });
     initParticles();
     animateParticles();
-
-    // --- منطق PWA (نصب برنامه) ---
+    
     let deferredPrompt;
     const installBtns = [document.getElementById('install-button-header'), document.getElementById('install-button-menu')];
-
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        // نمایش دکمه در منو همیشه، در هدر فقط دسکتاپ
         installBtns.forEach(btn => { if(btn) btn.style.display = 'flex'; });
-        const headerBtn = document.getElementById('install-button-header');
-        if(headerBtn && window.innerWidth < 768) headerBtn.style.display = 'none';
+        if (window.innerWidth < 768) {
+            document.getElementById('install-button-header').style.display = 'none';
+        }
     });
-
     installBtns.forEach(btn => {
         if(!btn) return;
         btn.addEventListener('click', async () => {
@@ -695,7 +696,6 @@
             }
         });
     });
-
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/web/sw.js', { scope: '/web/' }).catch(console.error);
     }
