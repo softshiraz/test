@@ -3,702 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0">
-    <meta name="google-site-verification" content="fK12FesLb14L29h1lu9QVGq_JaWn68Bd-LFlawjNwPU" />
-    <title>🎬 سافت شیراز | تجربه سینمای انیمه</title>
-    <meta name="description" content="@soft_shiraz - سافت شیراز، قدیمی‌ترین و معتبرترین برگزارکننده اکران فیلم انیمه، انیمیشن و ایونت‌های کتابخوانی در شیراز.">
-    <meta name="keywords" content="سافت شیراز, انیمه شیراز, سینما انیمیشن, بلیط انیمه">
-    <meta name="theme-color" content="#ffd700">
-    <meta property="og:title" content="سافت شیراز | دنیای انیمه روی پرده نقره‌ای">
-    <meta property="og:description" content="اولین و بزرگترین برگزارکننده اکران انیمه در شیراز">
-    <meta property="og:image" content="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
-    <meta property="og:url" content="https://softshiraz.github.io/web/">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
+    <title>SOFT SHIRAZ | اکران انیمه شیراز</title>
+    
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="manifest" href="/web/manifest.json">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
-    <link rel="icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png" type="image/png">
+
     <style>
         :root {
-            --primary: #ffd700;
-            --primary-glow: rgba(255, 215, 0, 0.4);
-            --bg-deep: #050505;
-            --bg-surface: rgba(20, 20, 20, 0.6);
-            --text-main: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --card-glass: rgba(30, 30, 30, 0.4);
-            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-            --transition-fast: 0.3s var(--ease-out-expo);
-            --transition-med: 0.6s var(--ease-out-expo);
+            --accent: #ffd700;
+            --accent-rgb: 255, 215, 0;
+            --bg: #08080a;
+            --card-bg: rgba(20, 20, 25, 0.7);
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --font-main: "Vazirmatn", sans-serif;
         }
+
         .light-mode {
-            --primary: #2563eb;
-            --primary-glow: rgba(37, 99, 235, 0.3);
-            --bg-deep: #f0f4f8;
-            --bg-surface: rgba(255, 255, 255, 0.7);
-            --text-main: #1e293b;
-            --text-muted: rgba(30, 41, 59, 0.6);
-            --glass-border: rgba(0, 0, 0, 0.05);
-            --card-glass: rgba(255, 255, 255, 0.6);
+            --accent: #1a73e8;
+            --accent-rgb: 26, 115, 232;
+            --bg: #f5f7fb;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text: #1c1e21;
+            --glass: rgba(0, 0, 0, 0.02);
+            --border: rgba(0, 0, 0, 0.08);
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-       
+        
         body {
-            font-family: "Vazirmatn", sans-serif;
-            background-color: var(--bg-deep);
-            color: var(--text-main);
+            font-family: var(--font-main);
+            background: var(--bg);
+            color: var(--text);
             overflow-x: hidden;
-            transition: background-color 0.5s ease, color 0.5s ease;
-            min-height: 100vh;
-        }
-        .ambient-light {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% -20%, var(--primary-glow), transparent 40%),
-                        radial-gradient(circle at 100% 50%, rgba(100,100,100,0.1), transparent 30%);
-            z-index: -2;
-            pointer-events: none;
-            transition: 0.5s;
-        }
-        header {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1200px;
-            height: 70px;
-            background: rgba(20, 20, 20, 0.5);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 25px;
-            z-index: 100;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
-            transition: all 0.4s var(--ease-out-expo);
-        }
-        .light-mode header { background: rgba(255, 255, 255, 0.65); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1); }
-        header.scrolled { top: 10px; width: 95%; height: 60px; }
-        .logo-container {
-            font-weight: 800;
-            font-size: 1.4rem;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 0 15px var(--primary-glow);
-        }
-        .hamburger-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 50%;
-            transition: var(--transition-fast);
-        }
-        .hamburger-btn:hover { color: var(--primary); transform: scale(1.1); background: rgba(255,255,255,0.05); }
-
-        /* منوی جدید با انیمیشن */
-        .mobile-menu-items {
-            position: fixed;
-            top: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 95%;
-            max-width: 1000px;
-            z-index: 200;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: opacity 0.6s var(--ease-out-expo), visibility 0.6s;
-            padding: 0 10px;
-        }
-        .mobile-menu-items.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: all;
+            line-height: 1.6;
+            transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* دسکتاپ: همه افقی */
-        .menu-all-bubbles {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 18px;
-            flex-wrap: wrap;
-            margin: 20px 0;
+        /* Custom Cursor (Desktop Only) */
+        #cursor-dot {
+            width: 8px; height: 8px; background: var(--accent);
+            position: fixed; border-radius: 50%; pointer-events: none; z-index: 10000;
+            transition: transform 0.1s; display: none;
+        }
+        #cursor-outline {
+            width: 40px; height: 40px; border: 2px solid var(--accent);
+            position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999;
+            transition: all 0.15s ease-out; display: none;
+        }
+        @media (min-width: 1024px) { #cursor-dot, #cursor-outline { display: block; } }
+
+        /* Dynamic Background Mesh */
+        .mesh-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(var(--accent-rgb), 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(var(--accent-rgb), 0.05) 0%, transparent 40%);
+            z-index: -1;
         }
 
-        /* انیمیشن ورود آیتم‌ها */
-        .menu-all-bubbles > * {
-            opacity: 0;
-            transform: translateY(30px) scale(0.9);
-            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+        /* Navigation Bar - Floating Capsule */
+        nav {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 95%; max-width: 1100px; padding: 12px 25px;
+            background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border); border-radius: 100px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .mobile-menu-items.active .menu-all-bubbles > * {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(1) { transition-delay: 0.1s; }
-        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(2) { transition-delay: 0.2s; }
-        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(3) { transition-delay: 0.3s; }
-        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(4) { transition-delay: 0.4s; }
-        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(5) { transition-delay: 0.5s; }
-        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(6) { transition-delay: 0.6s; }
-        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(7) { transition-delay: 0.7s; }
-        .mobile-menu-items.active .menu-all-bubbles > *:nth-child(8) { transition-delay: 0.8s; }
+        nav.scrolled { top: 10px; width: 98%; padding: 8px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
 
-        /* دو گزینه مستطیل کشیده */
-        .menu-rect-btn {
-            min-width: 180px;
-            background: rgba(255,255,255,0.06);
-            backdrop-filter: blur(12px);
-            color: var(--text-main);
-            border: 2px solid var(--glass-border);
-            border-radius: 100px;
-            padding: 16px 28px;
-            text-align: center;
-            transition: all 0.4s var(--ease-out-expo);
-            font-weight: 800;
-            font-size: 1.1rem;
-            white-space: nowrap;
-        }
-        .light-mode .menu-rect-btn {
-            background: rgba(0,0,0,0.06);
-        }
-        .menu-rect-btn:hover {
-            background: var(--primary);
-            color: #000;
-            border-color: var(--primary);
-            box-shadow: 0 12px 35px var(--primary-glow);
-            transform: translateY(-6px) scale(1.05);
-        }
-        .menu-link-rect {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            color: inherit;
-            text-decoration: none;
-        }
-        .menu-link-rect i {
-            font-size: 1.3rem;
-        }
+        .brand { font-size: 1.5rem; font-weight: 900; color: var(--accent); letter-spacing: -1px; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .nav-ops { display: flex; gap: 15px; align-items: center; }
+        .nav-btn { background: var(--glass); border: 1px solid var(--border); color: var(--text); padding: 8px; border-radius: 50%; cursor: pointer; transition: 0.3s; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .nav-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); transform: translateY(-2px); }
 
-        /* بقیه گزینه‌ها دایره‌ای */
-        .social-bubble,
-        #install-button-menu,
-        #theme-toggle-menu,
-        .menu-bubble {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-main);
-            font-size: 1.5rem;
-            text-decoration: none;
-            transition: all 0.45s var(--ease-out-expo);
-            background: rgba(255,255,255,0.06);
-            backdrop-filter: blur(12px);
-            cursor: pointer;
+        /* Hero Section - The Big Impression */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 0 20px; text-align: center; position: relative;
         }
-        .light-mode .social-bubble,
-        .light-mode #install-button-menu,
-        .light-mode #theme-toggle-menu,
-        .light-mode .menu-bubble { background: rgba(0,0,0,0.06); }
-        .social-bubble:hover,
-        #install-button-menu:hover,
-        #theme-toggle-menu:hover,
-        .menu-bubble:hover {
-            background: var(--primary);
-            color: #000;
-            border-color: var(--primary);
-            box-shadow: 0 0 30px var(--primary-glow);
-            transform: scale(1.2) rotate(360deg);
+        .hero-badge {
+            background: rgba(var(--accent-rgb), 0.1); color: var(--accent);
+            padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700;
+            margin-bottom: 20px; border: 1px solid rgba(var(--accent-rgb), 0.3);
+            animation: fadeInDown 0.8s backwards;
+        }
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 7rem); font-weight: 900; line-height: 0.9;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.5) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 25px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+        }
+        .light-mode .hero h1 { background: linear-gradient(180deg, #000 0%, #444 100%); -webkit-background-clip: text; }
+
+        .cta-group { display: flex; gap: 15px; animation: fadeInUp 1s 0.5s backwards; }
+        .primary-btn {
+            background: var(--accent); color: #000; padding: 16px 35px; border-radius: 100px;
+            text-decoration: none; font-weight: 900; font-size: 1.1rem; transition: 0.4s;
+            box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.3);
+        }
+        .primary-btn:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(var(--accent-rgb), 0.5); }
+
+        /* Movie Grid Section */
+        .section-header {
+            max-width: 1200px; margin: 0 auto 50px; padding: 0 25px;
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+        .section-header h2 { font-size: 2.5rem; font-weight: 900; }
+        .section-header p { color: var(--accent); font-weight: 700; }
+
+        .grid {
+            max-width: 1250px; margin: 0 auto; display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px; padding: 0 25px 100px;
         }
 
-        /* موبایل: دو مستطیل تمام عرض + دایره‌ای‌ها سه تا سه تا */
-        @media (max-width: 768px) {
-            .menu-all-bubbles {
-                flex-direction: column;
-                align-items: center;
-                gap: 16px;
-            }
-            .menu-rect-btn {
-                width: 100%;
-                max-width: 400px;
-                padding: 16px 20px;
-                font-size: 1.1rem;
-            }
-            /* دایره‌ای‌ها سه تا سه تا */
-            .menu-all-bubbles > .menu-bubble,
-            .menu-all-bubbles > .social-bubble,
-            .menu-all-bubbles > #install-button-menu,
-            .menu-all-bubbles > #theme-toggle-menu {
-                width: 58px;
-                height: 58px;
-                font-size: 1.4rem;
-            }
-            /* گروه‌بندی سه تایی */
-            .menu-all-bubbles {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 16px;
-                justify-items: center;
-            }
-            .menu-all-bubbles > .menu-rect-btn {
-                grid-column: 1 / -1;
-            }
-        }
-        @media (max-width: 480px) {
-            .menu-rect-btn {
-                padding: 14px 18px;
-                font-size: 1rem;
-            }
-            .menu-all-bubbles {
-                gap: 12px;
-            }
-            .menu-all-bubbles > .menu-bubble,
-            .menu-all-bubbles > .social-bubble,
-            .menu-all-bubbles > #install-button-menu,
-            .menu-all-bubbles > #theme-toggle-menu {
-                width: 52px;
-                height: 52px;
-                font-size: 1.3rem;
-            }
-        }
-
-        .hero-section {
-            height: 70vh;
-            min-height: 500px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            margin-top: 60px;
-            position: relative;
-        }
-        .hero-btn {
-            padding: 15px 40px;
-            border-radius: 50px;
-            background: var(--primary);
-            color: var(--bg-deep);
-            font-weight: 800;
-            font-size: 1.1rem;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 20px var(--primary-glow);
-            transition: 0.3s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .hero-btn:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 30px var(--primary-glow); }
-
-        .movies-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 50px 20px 100px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 30px;
+        /* Advanced Movie Card */
+        .card {
+            position: relative; height: 450px; border-radius: 30px;
+            background: var(--card-bg); border: 1px solid var(--border);
+            overflow: hidden; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             perspective: 1000px;
         }
-        .movie-card {
-            height: 420px;
-            position: relative;
-            cursor: pointer;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+        .card:hover { transform: translateY(-15px); border-color: var(--accent); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+
+        .card-inner { width: 100%; height: 100%; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
+        .card.flipped .card-inner { transform: rotateY(180deg); }
+
+        .front, .back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 30px; overflow: hidden; }
+        
+        .image-wrapper { width: 100%; height: 100%; position: relative; }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .image-wrapper::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8,8,10,0.9) 0%, transparent 60%); }
+
+        .card-content { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px; z-index: 2; }
+        .card-date { color: var(--accent); font-weight: 900; font-size: 1.2rem; margin-bottom: 5px; display: block; }
+        .card-title { font-size: 1rem; font-weight: 500; opacity: 0.8; }
+
+        .ticket-btn {
+            position: absolute; top: 20px; left: 20px; background: var(--accent);
+            color: #000; padding: 8px 20px; border-radius: 50px; font-weight: 900;
+            font-size: 0.8rem; z-index: 10; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: 0.3s; text-decoration: none;
         }
-        .movie-card.visible { opacity: 1; transform: translateY(0); }
-        .card-inner {
-            width: 100%; height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.8s var(--ease-out-expo);
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        .ticket-btn:hover { background: #fff; transform: scale(1.1); }
+
+        .back {
+            transform: rotateY(180deg); background: #111; padding: 30px;
+            display: flex; flex-direction: column; justify-content: center;
+            border: 2px solid var(--accent);
         }
-        .card-inner.flipped { transform: rotateY(180deg); }
-        .card-front, .card-back {
-            position: absolute; inset: 0;
-            border-radius: 24px;
-            backface-visibility: hidden;
-            overflow: hidden;
-            background: var(--card-glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-        }
-        .card-front { display: flex; flex-direction: column; }
-        .img-bar { flex: 1; position: relative; overflow: hidden; }
-        .img-bar img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
-        .movie-card:hover .img-bar img { transform: scale(1.1); }
-        .img-bar::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-        }
-        .date-bar {
-            position: absolute; bottom: 50px; left: 0; width: 100%;
-            text-align: center; z-index: 2;
-            color: var(--primary);
-            font-weight: 900;
-            font-size: 1.2rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-        }
-        .title-bar {
-            position: absolute; bottom: 20px; left: 0; width: 100%;
-            text-align: center; z-index: 2;
-            color: #fff;
-            font-size: 0.95rem;
-            font-weight: 600;
-            opacity: 0.9;
-        }
-        .reserve-bar {
-            position: absolute; top: 15px; right: 15px;
-            background: var(--primary);
-            color: #000;
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            z-index: 5;
-            box-shadow: 0 5px 15px var(--primary-glow);
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .reserve-bar:hover { transform: scale(1.1); background: #fff; }
-        .card-back {
-            transform: rotateY(180deg);
-            background: var(--bg-deep);
-            display: flex; flex-direction: column;
-            padding: 25px;
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 30px var(--primary-glow) inset;
+        .back h3 { color: var(--accent); margin-bottom: 15px; font-size: 1.5rem; }
+        .back p { font-size: 0.95rem; opacity: 0.8; line-height: 1.8; }
+
+        /* Discount Badge */
+        .discount-tag {
+            position: absolute; top: 20px; right: 20px; background: #ff3e3e;
+            color: #fff; padding: 5px 12px; border-radius: 10px; font-weight: 900;
+            font-size: 0.75rem; z-index: 10; animation: blink 1.5s infinite;
         }
 
-        #loading-overlay {
-            position: fixed; inset: 0;
-            background: var(--bg-deep);
-            z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease;
+        /* Loader */
+        #loader {
+            position: fixed; inset: 0; background: #000; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 0.8s ease-in-out;
         }
-        .spinner-box {
-            width: 60px; height: 60px;
-            border: 4px solid rgba(255,255,255,0.1);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        #theme-toggle-float {
-            position: fixed; bottom: 30px; left: 30px;
-            width: 50px; height: 50px;
-            background: var(--bg-surface);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-main);
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 90;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            transition: 0.3s;
-        }
-        #theme-toggle-float:hover { transform: rotate(180deg); background: var(--primary); color: #000; }
+        .loader-logo { font-size: 2rem; font-weight: 900; color: var(--accent); margin-bottom: 20px; animation: pulse 1s infinite alternate; }
+        .loader-bar { width: 150px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+        .loader-progress { width: 0%; height: 100%; background: var(--accent); animation: load 2s forwards; }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Fullscreen Menu */
+        #menu {
+            position: fixed; inset: 0; background: rgba(8,8,10,0.98); backdrop-filter: blur(20px);
+            z-index: 2000; display: none; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .menu-item { font-size: 3rem; font-weight: 900; text-decoration: none; color: var(--text); margin: 15px 0; transition: 0.3s; }
+        .menu-item:hover { color: var(--accent); transform: skewX(-10deg); }
+
+        @keyframes load { to { width: 100%; } }
+        @keyframes pulse { from { opacity: 0.5; transform: scale(0.95); } to { opacity: 1; transform: scale(1.05); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3.5rem; }
+            .grid { grid-template-columns: 1fr; gap: 25px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
     </style>
 </head>
 <body>
-<div id="loading-overlay">
-    <div class="spinner-box"></div>
-</div>
-<div class="ambient-light"></div>
-<header id="main-header">
-    <button class="hamburger-btn" id="menu-trigger" aria-label="منو">
-        <i class="fas fa-bars"></i>
-    </button>
-   
-    <a href="./index.html" class="logo-container">
-        <i class="fas fa-film"></i>
-        <span>SOFT SHIRAZ</span>
-    </a>
-   
-    <div id="install-button-header" style="cursor:pointer; display:none;">
-        <i class="fas fa-download"></i>
-    </div>
-</header>
 
-<!-- منو - دسکتاپ افقی کامل + موبایل دو مستطیل + دایره‌ای‌ها سه تا سه تا -->
-<div class="mobile-menu-items" id="mobile-menu-items">
-    <div class="menu-all-bubbles">
-        <div class="menu-rect-btn">
-            <a href="../web/events/events.html" class="menu-link-rect">
-                <i class="fas fa-book-open"></i>
-                ایونت‌های کتابخوانی
-            </a>
-        </div>
-        <div class="menu-rect-btn">
-            <a href="../web/room/room.html" class="menu-link-rect">
-                <i class="fas fa-comments"></i>
-                اتاقک گفتگو
-            </a>
-        </div>
-        <a href="../web/about/about.html" class="menu-bubble">
-            <i class="fas fa-info-circle"></i>
-        </a>
-        <div id="theme-toggle-menu">
-            <i class="fas fa-sun" id="theme-icon-menu"></i>
-        </div>
-        <div class="social-bubble" id="install-button-menu" style="cursor:pointer;">
-            <i class="fas fa-download"></i>
-        </div>
-        <a href="https://t.me/softshiraz" class="social-bubble" target="_blank">
-            <i class="fab fa-telegram-plane"></i>
-        </a>
-        <a href="https://instagram.com/soft_shiraz" class="social-bubble" target="_blank">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://t.me/FLOKI000" class="social-bubble" target="_blank">
-            <i class="fas fa-headset"></i>
-        </a>
+    <div id="loader">
+        <div class="loader-logo">SOFT SHIRAZ</div>
+        <div class="loader-bar"><div class="loader-progress"></div></div>
     </div>
-</div>
 
-<button id="theme-toggle-float" aria-label="تغییر تم">
-    <i class="fas fa-sun"></i>
-</button>
-<main>
-    <section class="hero-section">
-        <button class="hero-btn" onclick="document.querySelector('.movies-container').scrollIntoView({behavior: 'smooth'})">
-            مشاهده اکران‌ها <i class="fas fa-arrow-down"></i>
-        </button>
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <div class="mesh-bg"></div>
+
+    <nav id="navbar">
+        <a href="#" class="brand">
+            <i class="fas fa-bolt"></i>
+            <span>SOFT SHIRAZ</span>
+        </a>
+        <div class="nav-ops">
+            <button class="nav-btn" id="theme-btn"><i class="fas fa-moon"></i></button>
+            <button class="nav-btn" id="menu-open"><i class="fas fa-bars-staggered"></i></button>
+        </div>
+    </nav>
+
+    <div id="menu">
+        <button class="nav-btn" id="menu-close" style="position:absolute; top:30px; right:30px;"><i class="fas fa-times"></i></button>
+        <a href="../web/events/events.html" class="menu-item">ایونت‌ها</a>
+        <a href="../web/room/room.html" class="menu-item">اتاقک</a>
+        <a href="../web/about/about.html" class="menu-item">درباره ما</a>
+        <div style="margin-top:50px; display:flex; gap:20px;">
+            <a href="https://t.me/softshiraz" class="nav-btn"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://instagram.com/soft_shiraz" class="nav-btn"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-badge">PREMIUM ANIME EXPERIENCE</div>
+        <h1>سینما را متفاوت<br>تجربه کنید</h1>
+        <div class="cta-group">
+            <a href="#screenings" class="primary-btn">رزرو صندلی</a>
+        </div>
     </section>
-    <div class="movies-container" id="cards-container"></div>
-</main>
-<canvas id="particle-canvas" style="position:fixed; top:0; left:0; pointer-events:none; z-index:-1;"></canvas>
-<script>
-    // --- مدیریت تم ---
-    const body = document.body;
-    const themeBtnFloat = document.getElementById('theme-toggle-float');
-    const themeBtnMenu = document.getElementById('theme-toggle-menu');
-    const themeIconFloat = themeBtnFloat.querySelector('i');
-    const themeIconMenu = document.getElementById('theme-icon-menu');
-   
-    function setTheme(mode) {
-        if (mode === 'light') {
-            body.classList.add('light-mode');
-            themeIconFloat.className = 'fas fa-moon';
-            themeIconMenu.className = 'fas fa-moon';
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#4a90e2');
-        } else {
-            body.classList.remove('light-mode');
-            themeIconFloat.className = 'fas fa-sun';
-            themeIconMenu.className = 'fas fa-sun';
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffd700');
-        }
-        localStorage.setItem('theme', mode);
-    }
-    const savedTheme = localStorage.getItem('theme');
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (savedTheme) {
-        setTheme(savedTheme);
-    } else {
-        setTheme(systemDark ? 'dark' : 'light');
-    }
-    themeBtnFloat.addEventListener('click', () => {
-        const isLight = body.classList.contains('light-mode');
-        setTheme(isLight ? 'dark' : 'light');
-    });
-    if (themeBtnMenu) {
-        themeBtnMenu.addEventListener('click', () => {
-            const isLight = body.classList.contains('light-mode');
-            setTheme(isLight ? 'dark' : 'light');
+
+    <div id="screenings" style="padding-top: 100px;">
+        <div class="section-header">
+            <div>
+                <p>// UPCOMING EVENTS</p>
+                <h2>اکران‌های آینده</h2>
+            </div>
+            <i class="fas fa-arrow-right-long" style="font-size: 2rem; opacity: 0.2;"></i>
+        </div>
+
+        <div class="grid" id="cards-container">
+            </div>
+    </div>
+
+    <script>
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        
+        window.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+            
+            cursorOutline.animate({
+                left: e.clientX + 'px',
+                top: e.clientY + 'px'
+            }, { duration: 500, fill: 'forwards' });
         });
-    }
-    
-    // --- مدیریت منو ---
-    const menuTrigger = document.getElementById('menu-trigger');
-    const menuItems = document.getElementById('mobile-menu-items');
-    
-    menuTrigger.addEventListener('click', () => {
-        menuItems.classList.toggle('active');
-        document.body.style.overflow = menuItems.classList.contains('active') ? 'hidden' : '';
-    });
-    
-    document.addEventListener('click', (e) => {
-        if (menuItems.classList.contains('active') && !menuItems.contains(e.target) && !menuTrigger.contains(e.target)) {
-            menuItems.classList.remove('active');
-            document.body.style.overflow = '';
+
+        // --- Loader Logic ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 800);
+            }, 2000);
+        });
+
+        // --- Theme Logic ---
+        const themeBtn = document.getElementById('theme-btn');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeBtn.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+
+        if(localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
         }
-    });
-    
-    // --- بقیه اسکریپت‌ها بدون تغییر ---
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            const loader = document.getElementById('loading-overlay');
-            loader.style.opacity = '0';
-            setTimeout(() => { loader.style.display = 'none'; }, 800);
-        }, 1500);
-    });
-    
-    window.addEventListener('scroll', () => {
-        const header = document.getElementById('main-header');
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
+
+        // --- Navbar Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if(window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // --- Menu Logic ---
+        const menu = document.getElementById('menu');
+        document.getElementById('menu-open').onclick = () => menu.style.display = 'flex';
+        document.getElementById('menu-close').onclick = () => menu.style.display = 'none';
+
+        // --- Load Cards ---
+        const container = document.getElementById("cards-container");
+        
+        async function loadCards() {
+            for (let i = 1; i <= 30; i++) {
+                try {
+                    const response = await fetch(`cards/${i}.html?v=${Date.now()}`);
+                    if (!response.ok) continue;
+                    const html = await response.text();
+                    
+                    const cardWrapper = document.createElement('div');
+                    cardWrapper.className = 'card';
+                    cardWrapper.innerHTML = html;
+                    
+                    // افزودن لاجیک کلیک برای فلیپ
+                    cardWrapper.addEventListener('click', (e) => {
+                        if(!e.target.closest('.ticket-btn')) {
+                            cardWrapper.classList.toggle('flipped');
+                        }
+                    });
+                    
+                    container.appendChild(cardWrapper);
+                } catch (e) {}
+            }
         }
-    });
-    
-    const container = document.getElementById("cards-container");
-    let openCard = null;
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+        loadCards();
+
+        // --- Ticket Reservation Logic ---
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.ticket-btn');
+            if(btn) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const card = btn.closest('.card');
+                const movie = card.querySelector('.card-date').innerText;
+                const time = card.querySelector('.card-title').innerText;
+                const admin = card.querySelector('.card-front').dataset.adminId || "softshirazadmin";
+                
+                const msg = `سلام! قصد رزرو بلیط دارم:\n🎬 اکران: ${movie}\n⏰ زمان: ${time}`;
+                window.open(`https://t.me/${admin}?text=${encodeURIComponent(msg)}`, '_blank');
             }
         });
-    }, { threshold: 0.1 });
-    
-    async function loadCardsStrictly() {
-        for (let num = 1; num <= 50; num++) {
-            try {
-                const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
-                if (!response.ok) continue;
-                const html = await response.text();
-                const card = document.createElement("div");
-                card.className = "movie-card";
-                card.innerHTML = html;
-                container.appendChild(card);
-                observer.observe(card);
-            } catch (e) {}
-        }
-    }
-    loadCardsStrictly();
-    
-    document.addEventListener("click", function(e) {
-        const reserveBtn = e.target.closest(".reserve-bar");
-        if (reserveBtn) {
-            e.stopPropagation();
-            const cardFront = reserveBtn.closest(".card-front");
-            if (!cardFront) return;
-            const adminId = cardFront.dataset.adminId || "softshirazadmin";
-            const movieName = (cardFront.querySelector(".date-bar")?.textContent || "نامشخص").trim();
-            const dateTime = (cardFront.querySelector(".title-bar")?.textContent || "نامشخص").trim();
-            const cardInner = reserveBtn.closest(".card-inner");
-            const hasDiscount = cardInner && cardInner.querySelector('.discount-label:not(.hidden)');
-            let discountMessage = hasDiscount ? "🎉 تخفیف ویژه! 🎉\n\n" : "";
-            const message = `${discountMessage}💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ شرایط رزرو چطوریه؟ 🙏`;
-            window.open(`https://t.me/${adminId}?text=${encodeURIComponent(message)}`, "_blank");
-            return;
-        }
-        const cardInner = e.target.closest(".card-inner");
-        if (cardInner) {
-            if (openCard && openCard !== cardInner) {
-                openCard.classList.remove("flipped");
-            }
-            cardInner.classList.toggle("flipped");
-            openCard = cardInner.classList.contains("flipped") ? cardInner : null;
-        } else if (openCard) {
-            openCard.classList.remove("flipped");
-            openCard = null;
-        }
-    });
-    
-    const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
-    let width, height, particles = [];
-    const getParticleCount = () => window.innerWidth < 768 ? 40 : 80;
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    }
-    class Particle {
-        constructor() { this.reset(); }
-        reset() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.vx = (Math.random() - 0.5) * 0.5;
-            this.vy = (Math.random() - 0.5) * 0.5;
-            this.size = Math.random() * 2;
-            this.alpha = Math.random() * 0.5 + 0.1;
-        }
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
-        }
-        draw() {
-            const isLight = body.classList.contains('light-mode');
-            ctx.fillStyle = isLight ? `rgba(74, 144, 226, ${this.alpha})` : `rgba(255, 215, 0, ${this.alpha})`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-    function initParticles() {
-        resize();
-        particles = [];
-        for(let i=0; i<getParticleCount(); i++) particles.push(new Particle());
-    }
-    function animateParticles() {
-        ctx.clearRect(0, 0, width, height);
-        particles.forEach(p => { p.update(); p.draw(); });
-        requestAnimationFrame(animateParticles);
-    }
-    window.addEventListener('resize', () => { resize(); initParticles(); });
-    initParticles();
-    animateParticles();
-    
-    let deferredPrompt;
-    const installBtns = [document.getElementById('install-button-header'), document.getElementById('install-button-menu')];
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installBtns.forEach(btn => { if(btn) btn.style.display = 'flex'; });
-        if (window.innerWidth < 768) {
-            document.getElementById('install-button-header').style.display = 'none';
-        }
-    });
-    installBtns.forEach(btn => {
-        if(!btn) return;
-        btn.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            deferredPrompt = null;
-            if (outcome === 'accepted') {
-                installBtns.forEach(b => b.style.display = 'none');
-            }
-        });
-    });
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/web/sw.js', { scope: '/web/' }).catch(console.error);
-    }
-</script>
+    </script>
 </body>
 </html>
