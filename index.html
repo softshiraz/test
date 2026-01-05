@@ -89,8 +89,8 @@
         --link-hover-bg: rgba(255,215,0,0.06);
         --icon-bg: var(--link-bg);
         --icon-border: var(--link-border);
-        --card-bg: rgba(19,19,20,0.75);
-        --card-border: rgba(255,215,0,0.65);
+        --card-bg: rgba(19,19,20,0.85);
+        --card-border: rgba(255,215,0,0.45);
         --card-shadow-color: rgba(255,215,0,0.25);
         --card-title-bar-bg: var(--link-bg);
         --glow-color: rgba(255,215,0,0.5);
@@ -111,12 +111,12 @@
         --link-hover-bg: rgba(74,144,226,0.18);
         --icon-bg: var(--link-bg);
         --icon-border: var(--link-border);
-        --card-bg: rgba(255,255,255,0.92);
+        --card-bg: rgba(255,255,255,0.85);
         --card-border: rgba(74,144,226,0.55);
         --card-shadow-color: rgba(74,144,226,0.25);
         --card-title-bar-bg: rgba(74,144,226,0.06);
         --glow-color: rgba(74,144,226,0.5);
-        --section-title-color: #4a90e2; /* رنگ متن عنوان در تم لایت */
+        --section-title-color: #4a90e2;
     }
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
     body {
@@ -287,7 +287,7 @@
         letter-spacing: 2px;
     }
     .light-mode .section-title-box h1 {
-        color: var(--section-title-color); /* رنگ آبی در تم لایت */
+        color: var(--section-title-color);
         text-shadow: 0 0 10px var(--glow-color);
     }
     @keyframes glowPulse {
@@ -297,33 +297,51 @@
     .movies-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
+        gap: 28px;
         justify-items: center;
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 20px;
     }
     .movie-card {
-        perspective:1000px;
+        perspective: 1200px;
         position: relative;
-        width: 280px;
-        height: 460px;
+        width: 290px;
+        height: 480px;
     }
     .card-inner {
-        position:relative; width:100%; height:100%; cursor:pointer;
-        transition:transform 0.65s cubic-bezier(0.5, 1.25, 0.5, 1.25);
-        transform-style:preserve-3d;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-style: preserve-3d;
     }
-    .card-inner.flipped { transform:rotateY(180deg); }
+    .card-inner.flipped { transform: rotateY(180deg); }
     .card-front, .card-back {
-        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:20px; overflow:hidden;
-        backface-visibility:hidden; border:2px solid var(--card-border);
-        box-shadow:0 8px 32px rgba(0,0,0,0.3);
-        background:var(--card-bg); backdrop-filter:blur(12px);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 24px;
+        overflow: hidden;
+        backface-visibility: hidden;
+        border: 1px solid var(--card-border);
+        background: var(--card-bg);
+        backdrop-filter: blur(16px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.35);
         transition: all 0.4s ease;
     }
     .light-mode .card-front, .light-mode .card-back {
-        box-shadow: 0 8px 32px rgba(74,144,226,0.2);
+        box-shadow: 0 12px 40px rgba(74,144,226,0.25);
+    }
+    .movie-card:hover .card-front {
+        box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+        transform: translateY(-8px);
+    }
+    .light-mode .movie-card:hover .card-front {
+        box-shadow: 0 20px 50px rgba(74,144,226,0.35);
     }
     .card-front {
         display: flex;
@@ -338,82 +356,91 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.6s ease;
+        transition: transform 0.8s ease;
     }
     .movie-card:hover .img-bar img {
-        transform: scale(1.08);
+        transform: scale(1.12);
     }
     .card-overlay {
         position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-        padding: 30px 16px 16px;
+        background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 70%);
+        padding: 40px 20px 20px;
         color: #fff;
+        text-align: center;
     }
     .light-mode .card-overlay {
-        background: linear-gradient(to top, rgba(26,43,75,0.8), transparent);
+        background: linear-gradient(to top, rgba(26,43,75,0.85), transparent 70%);
     }
     .date-bar {
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 900;
-        letter-spacing: 1.2px;
-        text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        letter-spacing: 1.5px;
+        text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+        color: var(--accent-text);
     }
     .title-bar {
-        font-size: 16px;
+        font-size: 17px;
         font-weight: 600;
-        margin-top: 6px;
+        margin-top: 8px;
         opacity: 0.95;
     }
     .reserve-bar {
         position: absolute;
-        bottom: 16px;
+        bottom: 20px;
         left: 50%;
         transform: translateX(-50%);
         background: var(--color-primary);
-        color: #fff;
-        padding: 10px 28px;
+        color: #000;
+        padding: 12px 32px;
         border-radius: 50px;
         font-weight: bold;
-        font-size: 15px;
+        font-size: 16px;
         cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        transition: all 0.4s ease;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     }
     .light-mode .reserve-bar {
         background: var(--color-primary);
         color: #fff;
     }
     .reserve-bar:hover {
-        transform: translateX(-50%) translateY(-4px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        transform: translateX(-50%) translateY(-6px) scale(1.05);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.5);
     }
     .card-back {
-        transform:rotateY(180deg); padding:20px; color:var(--text-color); text-align:right;
-        font-size:14px; display:flex; flex-direction:column;
+        transform: rotateY(180deg);
+        padding: 24px;
+        color: var(--text-color);
+        text-align: right;
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
+        gap: 16px;
     }
-    .card-back h3, .card-back p strong { color:var(--color-primary); }
+    .card-back h3, .card-back p strong {
+        color: var(--color-primary);
+    }
     .card-front .discount-label {
         position: absolute;
-        top: 12px;
-        right: 12px;
+        top: 16px;
+        right: 16px;
         background: linear-gradient(135deg, #c084fc, #f472b6);
         color: white;
         font-weight: bold;
-        font-size: 13px;
-        padding: 6px 14px;
+        font-size: 14px;
+        padding: 8px 16px;
         border-radius: 30px;
-        box-shadow: 0 4px 12px rgba(192, 132, 252, 0.5);
+        box-shadow: 0 4px 16px rgba(192, 132, 252, 0.6);
         z-index: 10;
-        letter-spacing: 0.5px;
-        animation: pulse 2s infinite;
+        animation: pulse 2.5s infinite;
     }
     @keyframes pulse {
         0% { transform: scale(1); }
-        50% { transform: scale(1.08); }
+        50% { transform: scale(1.1); }
         100% { transform: scale(1); }
     }
     .discount-label.hidden { display: none; }
