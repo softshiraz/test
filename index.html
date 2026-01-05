@@ -89,7 +89,7 @@
         --link-hover-bg: rgba(255,215,0,0.06);
         --icon-bg: var(--link-bg);
         --icon-border: var(--link-border);
-        --card-bg: transparent; /* کارت شفاف شد تا عکس پشت زمینه دیده شود */
+        --card-bg: transparent;
         --card-border: rgba(255,215,0,0.3);
         --card-shadow-color: rgba(255,215,0,0.2);
         --card-title-bar-bg: rgba(0,0,0,0.45);
@@ -334,7 +334,7 @@
         gap: 6px;
         justify-content: space-between;
     }
-    /* عکس پس‌زمینه کارت */
+    /* عکس پس‌زمینه کاملاً واضح */
     .img-bar { 
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
@@ -351,17 +351,9 @@
     }
     .movie-card:hover .img-bar img { transform: scale(1.08); }
 
-    /* لایه شیشه‌ای مات روی عکس */
+    /* لایه شیشه‌ای فقط روی کادرها (عکس واضح بماند) */
     .card-overlay {
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: var(--glass-bg);
-        backdrop-filter: blur(8px);
-        border-radius: 14px;
-        z-index: 1;
-    }
-    .light-mode .card-overlay {
-        background: var(--glass-bg-light);
+        display: none; /* لایه مات روی عکس حذف شد */
     }
 
     /* کادرهای شیشه‌ای مات */
@@ -605,12 +597,10 @@ async function loadCardsStrictly() {
             const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
             if (!response.ok) continue;
             const html = await response.text();
-            // اضافه کردن لایه‌های لازم به هر کارت
             const tempDiv = document.createElement("div");
             tempDiv.innerHTML = html;
             const cardFront = tempDiv.querySelector(".card-front");
             if (cardFront) {
-                // انتقال img به img-bar پس‌زمینه
                 const img = cardFront.querySelector("img");
                 if (img) {
                     const imgBar = document.createElement("div");
@@ -619,10 +609,6 @@ async function loadCardsStrictly() {
                     cardFront.prepend(imgBar);
                     img.remove();
                 }
-                // اضافه کردن لایه شیشه‌ای روی عکس
-                const overlay = document.createElement("div");
-                overlay.className = "card-overlay";
-                cardFront.appendChild(overlay);
             }
             const card = document.createElement("div");
             card.className = "movie-card";
