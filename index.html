@@ -89,7 +89,7 @@
         --link-hover-bg: rgba(255,215,0,0.06);
         --icon-bg: var(--link-bg);
         --icon-border: var(--link-border);
-        --card-bg: rgba(19,19,20,0.95);
+        --card-bg: rgba(19,19,20,0.75);
         --card-border: rgba(255,215,0,0.65);
         --card-shadow-color: rgba(255,215,0,0.25);
         --card-title-bar-bg: var(--link-bg);
@@ -111,11 +111,12 @@
         --link-hover-bg: rgba(74,144,226,0.18);
         --icon-bg: var(--link-bg);
         --icon-border: var(--link-border);
-        --card-bg: rgba(255,255,255,0.95);
+        --card-bg: rgba(255,255,255,0.92);
         --card-border: rgba(74,144,226,0.55);
         --card-shadow-color: rgba(74,144,226,0.25);
         --card-title-bar-bg: rgba(74,144,226,0.06);
         --glow-color: rgba(74,144,226,0.5);
+        --section-title-color: #4a90e2; /* رنگ متن عنوان در تم لایت */
     }
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
     body {
@@ -264,40 +265,39 @@
         justify-content: center;
     }
     .section-title-box {
-        width: 320px;
-        background: rgba(255,215,0,0.15);
-        backdrop-filter: blur(16px);
+        width: 280px;
+        background: rgba(255,215,0,0);
+        backdrop-filter: blur(10px);
         border: 2px solid var(--color-primary);
-        border-radius: 20px;
-        padding: 18px 24px;
-        box-shadow: 0 0 25px var(--glow-color), inset 0 0 18px var(--glow-color);
+        border-radius: 18px;
+        padding: 16px 20px;
+        box-shadow: 0 0 20px var(--glow-color), inset 0 0 15px var(--glow-color);
         animation: glowPulse 4s ease-in-out infinite alternate;
         text-align: center;
     }
     .light-mode .section-title-box {
-        background: rgba(74,144,226,0.25);
-        color: #4a90e2;
+        background: rgba(74,144,226,0.15);
     }
     .section-title-box h1 {
         color: var(--accent-text);
-        font-size: 36px;
+        font-size: 32px;
         font-weight: 900;
         margin: 0;
-        text-shadow: 0 0 12px var(--glow-color);
-        letter-spacing: 2.5px;
+        text-shadow: 0 0 10px var(--glow-color);
+        letter-spacing: 2px;
     }
     .light-mode .section-title-box h1 {
-        color: #4a90e2;
-        text-shadow: 0 0 12px rgba(74,144,226,0.6);
+        color: var(--section-title-color); /* رنگ آبی در تم لایت */
+        text-shadow: 0 0 10px var(--glow-color);
     }
     @keyframes glowPulse {
-        from { box-shadow: 0 0 25px var(--glow-color), inset 0 0 18px var(--glow-color); }
-        to { box-shadow: 0 0 35px var(--glow-color), inset 0 0 25px var(--glow-color); }
+        from { box-shadow: 0 0 20px var(--glow-color), inset 0 0 15px var(--glow-color); }
+        to { box-shadow: 0 0 30px var(--glow-color), inset 0 0 20px var(--glow-color); }
     }
     .movies-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 28px;
+        gap: 20px;
         justify-items: center;
         max-width: 1200px;
         margin: 0 auto;
@@ -306,12 +306,12 @@
     .movie-card {
         perspective:1000px;
         position: relative;
-        width: 290px;
+        width: 280px;
         height: 460px;
     }
     .card-inner {
         position:relative; width:100%; height:100%; cursor:pointer;
-        transition:transform 0.7s cubic-bezier(0.5, 1.25, 0.5, 1.25);
+        transition:transform 0.65s cubic-bezier(0.5, 1.25, 0.5, 1.25);
         transform-style:preserve-3d;
     }
     .card-inner.flipped { transform:rotateY(180deg); }
@@ -319,75 +319,81 @@
         position:absolute; top:0; left:0; width:100%; height:100%; border-radius:20px; overflow:hidden;
         backface-visibility:hidden; border:2px solid var(--card-border);
         box-shadow:0 8px 32px rgba(0,0,0,0.3);
-        background:var(--card-bg); backdrop-filter:blur(16px);
+        background:var(--card-bg); backdrop-filter:blur(12px);
         transition: all 0.4s ease;
     }
     .light-mode .card-front, .light-mode .card-back {
-        box-shadow:0 8px 32px rgba(0,0,0,0.12);
+        box-shadow: 0 8px 32px rgba(74,144,226,0.2);
     }
-    .card-front { display:flex; flex-direction:column; }
-    .img-bar { 
-        flex:1; overflow:hidden; position:relative;
+    .card-front {
+        display: flex;
+        flex-direction: column;
     }
-    .img-bar img { 
-        width:100%; height:100%; object-fit:cover; transition:transform 0.6s ease;
+    .img-bar {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+    }
+    .img-bar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
     }
     .movie-card:hover .img-bar img {
-        transform: scale(1.1);
+        transform: scale(1.08);
     }
-    .info-overlay {
+    .card-overlay {
         position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
         padding: 30px 16px 16px;
         color: #fff;
-        text-align: center;
     }
-    .light-mode .info-overlay {
-        background: linear-gradient(transparent, rgba(255,255,255,0.8));
-        color: #1a2b4b;
+    .light-mode .card-overlay {
+        background: linear-gradient(to top, rgba(26,43,75,0.8), transparent);
     }
     .date-bar {
         font-size: 22px;
         font-weight: 900;
-        letter-spacing: 1.5px;
-        margin-bottom: 6px;
+        letter-spacing: 1.2px;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
     .title-bar {
         font-size: 16px;
         font-weight: 600;
-        opacity: 0.9;
+        margin-top: 6px;
+        opacity: 0.95;
     }
     .reserve-bar {
-        height: 52px;
+        position: absolute;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
         background: var(--color-primary);
-        color: #000;
+        color: #fff;
+        padding: 10px 28px;
+        border-radius: 50px;
         font-weight: bold;
-        font-size: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
+        font-size: 15px;
         cursor: pointer;
-    }
-    .reserve-bar:hover {
-        background: #ffea00;
-        transform: translateY(-4px);
-        box-shadow: 0 10px 20px rgba(255,215,0,0.4);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     .light-mode .reserve-bar {
         background: var(--color-primary);
         color: #fff;
     }
-    .light-mode .reserve-bar:hover {
-        background: #5a9ef0;
-        box-shadow: 0 10px 20px rgba(74,144,226,0.4);
+    .reserve-bar:hover {
+        transform: translateX(-50%) translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
     }
     .card-back {
         transform:rotateY(180deg); padding:20px; color:var(--text-color); text-align:right;
-        font-size:15px; display:flex; flex-direction:column; gap:12px;
+        font-size:14px; display:flex; flex-direction:column;
+        justify-content: center;
     }
     .card-back h3, .card-back p strong { color:var(--color-primary); }
     .card-front .discount-label {
@@ -398,9 +404,9 @@
         color: white;
         font-weight: bold;
         font-size: 13px;
-        padding: 8px 16px;
+        padding: 6px 14px;
         border-radius: 30px;
-        box-shadow: 0 4px 16px rgba(192, 132, 252, 0.5);
+        box-shadow: 0 4px 12px rgba(192, 132, 252, 0.5);
         z-index: 10;
         letter-spacing: 0.5px;
         animation: pulse 2s infinite;
@@ -462,7 +468,7 @@
         <div class="logo-fa">Soft Shiraz</div>
     </a>
 </header>
-<div id="  id="menu-backdrop" tabindex="-1"></div>
+<div id="menu-backdrop" tabindex="-1"></div>
 <nav id="side-menu" aria-hidden="true">
     <div class="menu-header">
         <div class="menu-controls">
