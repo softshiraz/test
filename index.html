@@ -337,35 +337,35 @@
     .date-bar, .title-bar, .reserve-bar {
         height: var(--bar-height);
         line-height: var(--bar-height);
-        padding: 0 6px;                    /* کوچکتر از قبل (قبلاً 8px بود) */
+        padding: 0 4px;                    /* خیلی باریک‌تر شده (قبلاً 6px) */
         text-align: center;
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.3s ease;
-        font-size: 0.92em;
+        font-size: 0.9em;
     }
     .date-bar {
         background: rgba(255,215,0,0.18);
         color: var(--accent-text);
-        font-size:17px;                    /* کوچکتر برای هماهنگی */
+        font-size:16px;
         font-weight:900;
-        letter-spacing:0.8px;
+        letter-spacing:0.6px;
         box-shadow: 0 0 15px var(--glow-color);
     }
     .light-mode .date-bar {
         background: rgba(74,144,226,0.25);
     }
     .date-bar strong {
-        font-size:19px;
+        font-size:18px;
         display:block;
     }
     .title-bar {
         background:var(--card-title-bar-bg);
         color:var(--text-color);
         font-weight:600;
-        font-size:13px;                    /* کوچکتر شده */
+        font-size:12.5px;
     }
     .reserve-bar {
         background:var(--color-primary);
@@ -374,7 +374,7 @@
         cursor:pointer;
         box-shadow: 0 6px 20px rgba(255,215,0,0.45);
         transition: background 0.3s, transform 0.2s;
-        font-size:14px;                    /* کمی کوچکتر */
+        font-size:13.5px;
     }
     .light-mode .reserve-bar {
         background: var(--color-primary);
@@ -507,7 +507,7 @@
     </section>
 </main>
 <script>
-// تغییر تم
+// تمام اسکریپت‌ها دقیقاً بدون تغییر
 const body = document.body;
 const themeToggle = document.getElementById('theme-toggle');
 let currentTheme = localStorage.getItem('theme');
