@@ -7,22 +7,22 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0">
     <meta name="google-site-verification" content="fK12FesLb14L29h1lu9QVGq_JaWn68Bd-LFlawjNwPU" />
-  
+ 
     <!-- عنوان سایت -->
     <title>🎬 سافت شیراز : SoftShiraz 🎬</title>
-  
+ 
     <!-- توضیحات سایت -->
     <meta name="description" content="@soft_shiraz - سافت شیراز، قدیمی‌ترین و معتبرترین برگزارکننده اکران فیلم انیمه، انیمیشن و ایونت‌های کتابخوانی در شیراز. رزرو بلیط اکران‌های آینده انیمه روی پرده سینما با @soft_shiraz.">
-  
+ 
     <!-- کلمات کلیدی -->
     <meta name="keywords" content="سافت شیراز, @soft_shiraz, soft_shiraz, اکران انیمه شیراز, انیمیشن سینما شیراز, قدیمی‌ترین پخش‌کننده انیمه شیراز, ایونت انیمه شیراز, رزرو بلیط انیمه شیراز">
-  
+ 
     <meta name="robots" content="index, follow">
     <meta name="author" content="@soft_shiraz - سافت شیراز">
-  
+ 
     <!-- رنگ تم برای مرورگر موبایل -->
     <meta name="theme-color" content="#ffd700">
-  
+ 
     <!-- Open Graph -->
     <meta property="og:title" content="سافت شیراز | @soft_shiraz | اکران انیمه و انیمیشن در شیراز">
     <meta property="og:description" content="@soft_shiraz - قدیمی‌ترین برگزارکننده اکران انیمه روی پرده سینما در شیراز. اکران‌های آینده و رزرو بلیط را از دست ندهید!">
@@ -31,17 +31,17 @@
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fa_IR">
     <meta property="og:site_name" content="@soft_shiraz">
-  
+ 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="سافت شیراز | @soft_shiraz | اکران انیمه در شیراز">
     <meta name="twitter:description" content="@soft_shiraz - قدیمی‌ترین پخش‌کننده فیلم انیمه و انیمیشن روی پرده سینما در شیراز">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
     <meta name="twitter:site" content="@soft_shiraz">
-  
+ 
     <!-- لینک کانونیکال -->
     <link rel="canonical" href="https://softshiraz.github.io/web/">
-  
+ 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
@@ -58,20 +58,20 @@
       "description": "@soft_shiraz - قدیمی‌ترین برگزارکننده اکران انیمه و انیمیشن روی پرده سینما در شیراز"
     }
     </script>
-  
+ 
     <!-- فونت و آیکون‌ها -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
+ 
     <!-- Manifest برای PWA (فایل جداگانه) -->
     <link rel="manifest" href="/web/manifest.json">
-  
+ 
     <!-- آیکون اپل (برای iOS) -->
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png">
-  
+ 
     <!-- favicon -->
     <link rel="icon" href="https://raw.githubusercontent.com/softshiraz/web/refs/heads/main/png/0.png" type="image/png">
-  
+ 
     <style>
     :root {
         --color-primary: #ffd700;
@@ -94,7 +94,8 @@
         --card-shadow-color: rgba(255,215,0,0.25);
         --card-title-bar-bg: var(--link-bg);
         --glow-color: rgba(255,215,0,0.5);
-        --bar-height: 52px; /* ارتفاع یکسان برای همه کادرها */
+        --bar-height: 48px; /* ارتفاع کادرها */
+        --card-ratio: calc(9 / 16); /* نسبت ۱۶:۹ (عکس پوستر استاندارد) */
     }
     .light-mode {
         --color-primary: #4a90e2;
@@ -308,9 +309,11 @@
     .movie-card {
         perspective:1000px;
         position: relative;
+        width: 280px; /* عرض ثابت کارت */
     }
     .card-inner {
-        position:relative; width:280px; height:420px; cursor:pointer;
+        position:relative; width:100%; height:0; padding-bottom: calc(100% * (16/9) + 144px); /* نسبت ۱۶:۹ برای عکس + فضای ۳ کادر (هر کدام ۴۸px) */
+        cursor:pointer;
         transition:transform 0.65s cubic-bezier(0.5, 1.25, 0.5, 1.25);
         transform-style:preserve-3d;
     }
@@ -322,78 +325,79 @@
         background:var(--card-bg); backdrop-filter:blur(12px);
         transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
-    .card-front { 
-        display:flex; 
-        flex-direction:column; 
-        position: relative; 
-        padding: 12px;
+    .card-front {
+        display:flex;
+        flex-direction:column;
+        position: relative;
+        padding: 12px 12px 12px 12px;
         gap: 10px;
-        justify-content: space-between;
+        justify-content: flex-end;
     }
-    .img-bar { 
-        flex:1; 
-        overflow:hidden; 
+    .img-bar {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        height: calc(100% - 12px - 144px - 20px); /* کل ارتفاع منهای padding و فضای کادرها و gap */
+        overflow:hidden;
         border-radius: 12px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     .light-mode .img-bar { box-shadow: 0 4px 15px rgba(74,144,226,0.2); }
     .img-bar img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s; }
     .movie-card:hover .img-bar img { transform: scale(1.08); }
-
-    /* کادرهای هم‌اندازه */
+    /* کادرهای پایین با عرض کمتر */
     .date-bar, .title-bar, .reserve-bar {
         height: var(--bar-height);
         line-height: var(--bar-height);
-        padding: 0 12px;
+        padding: 0 20px; /* پدینگ بیشتر برای عرض کمتر */
         text-align: center;
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
+        max-width: 85%; /* عرض کمتر از عرض کارت */
+        align-self: center;
     }
-
     .date-bar {
         background: rgba(255,215,0,0.18);
         color: var(--accent-text);
-        font-size:19px; 
+        font-size:19px;
         font-weight:900;
-        letter-spacing:1.2px; 
+        letter-spacing:1.2px;
         box-shadow: 0 0 12px var(--glow-color);
     }
     .light-mode .date-bar {
         background: rgba(74,144,226,0.25);
     }
-    .date-bar strong { 
-        font-size:21px; 
-        display:block; 
+    .date-bar strong {
+        font-size:21px;
+        display:block;
     }
-
     .title-bar {
         background:var(--card-title-bar-bg);
-        color:var(--text-color); 
-        font-weight:600; 
+        color:var(--text-color);
+        font-weight:600;
         font-size:15px;
     }
-
     .reserve-bar {
-        background:var(--color-primary); 
-        color:var(--bg-color); 
-        font-weight:bold; 
-        cursor:pointer; 
+        background:var(--color-primary);
+        color:var(--bg-color);
+        font-weight:bold;
+        cursor:pointer;
         transition:background 0.3s, transform 0.2s;
         box-shadow: 0 4px 15px rgba(255,215,0,0.4);
     }
-    .light-mode .reserve-bar { 
-        background: var(--color-primary); 
-        color: #ffffff; 
+    .light-mode .reserve-bar {
+        background: var(--color-primary);
+        color: #ffffff;
         box-shadow: 0 4px 15px rgba(74,144,226,0.4);
     }
-    .reserve-bar:hover { 
-        background:#ffea00; 
+    .reserve-bar:hover {
+        background:#ffea00;
         transform: translateY(-2px);
     }
     .light-mode .reserve-bar:hover { background: #5a9ef0; }
-
     .card-back {
         transform:rotateY(180deg); padding:20px; color:var(--text-color); text-align:right;
         font-size:14px; display:flex; flex-direction:column; gap:12px;
