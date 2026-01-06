@@ -83,6 +83,8 @@
         --card-title-bar-bg: var(--link-bg);
         --glow-color: rgba(255,215,0,0.5);
         --bar-height: 52px;
+        --bar-padding-x: 6px; /* عرض یکسان و کمتر برای همه کادرها */
+        --bar-font-size: 15px; /* اندازه فونت یکسان برای همه */
     }
     .light-mode {
         --color-primary: #4a90e2;
@@ -337,44 +339,34 @@
     .date-bar, .title-bar, .reserve-bar {
         height: var(--bar-height);
         line-height: var(--bar-height);
-        padding: 0 4px;                    /* خیلی باریک‌تر شده (قبلاً 6px) */
+        padding: 0 var(--bar-padding-x);
         text-align: center;
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.3s ease;
-        font-size: 0.9em;
+        font-size: var(--bar-font-size);
+        font-weight: bold; /* همه بولد برای ظاهر یکسان‌تر */
     }
     .date-bar {
         background: rgba(255,215,0,0.18);
         color: var(--accent-text);
-        font-size:16px;
-        font-weight:900;
-        letter-spacing:0.6px;
         box-shadow: 0 0 15px var(--glow-color);
     }
     .light-mode .date-bar {
         background: rgba(74,144,226,0.25);
     }
-    .date-bar strong {
-        font-size:18px;
-        display:block;
-    }
     .title-bar {
         background:var(--card-title-bar-bg);
         color:var(--text-color);
-        font-weight:600;
-        font-size:12.5px;
     }
     .reserve-bar {
         background:var(--color-primary);
         color:var(--bg-color);
-        font-weight:bold;
         cursor:pointer;
         box-shadow: 0 6px 20px rgba(255,215,0,0.45);
         transition: background 0.3s, transform 0.2s;
-        font-size:13.5px;
     }
     .light-mode .reserve-bar {
         background: var(--color-primary);
@@ -507,7 +499,7 @@
     </section>
 </main>
 <script>
-// تمام اسکریپت‌ها دقیقاً بدون تغییر
+// تمام اسکریپت‌ها بدون تغییر
 const body = document.body;
 const themeToggle = document.getElementById('theme-toggle');
 let currentTheme = localStorage.getItem('theme');
