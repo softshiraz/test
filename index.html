@@ -312,32 +312,24 @@
         box-shadow:0 8px 25px var(--card-shadow-color);
         transition: all 0.4s ease;
     }
-    /* پس‌زمینه بلور شده و شفاف از همان تصویر */
-    .card-front::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: inherit;
-        background-size: cover;
-        background-position: center;
-        filter: blur(12px) brightness(0.4);
-        opacity: 0.65;
-        z-index: 0;
-        border-radius: 16px;
-    }
     .card-front {
         display:flex;
         flex-direction:column;
         padding: 12px;
         gap: 10px;
         justify-content: space-between;
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
-        position: relative;
+        background: rgba(19,19,20,0.75); /* نگه داشتن لایه نیمه‌شفاف برای خوانایی */
     }
-    .card-front > * {
-        position: relative;
-        z-index: 1;
+    .card-front::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: inherit; /* از img-bar می‌گیرد */
+        background-size: cover;
+        background-position: center;
+        opacity: 0.22; /* شفافیت کم */
+        z-index: -1;
+        border-radius: 16px;
     }
     .img-bar {
         flex:1;
@@ -416,8 +408,8 @@
         flex-direction:column; 
         gap:16px;
         justify-content: center;
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
+        background:var(--card-bg); 
+        backdrop-filter:blur(12px);
     }
     .card-back h3, .card-back p strong { color:var(--color-primary); }
     .card-front .discount-label {
@@ -587,19 +579,21 @@ window.addEventListener('load', () => {
         clearTimeout(maxTimeout);
     }, delay);
 });
-// کپی تصویر به پس‌زمینه کارت
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll(".movie-card").forEach(card => {
-        const img = card.querySelector(".img-bar img");
+// کپی کردن تصویر به پس‌زمینه کارت
+function applyBackgroundToCard() {
+    document.querySelectorAll('.movie-card').forEach(card => {
+        const img = card.querySelector('.img-bar img');
         if (img && img.complete) {
-            card.querySelector(".card-front").style.backgroundImage = `url(${img.src})`;
+            const front = card.querySelector('.card-front');
+            front.style.backgroundImage = `url(${img.src})`;
         } else if (img) {
-            img.addEventListener("load", () => {
-                card.querySelector(".card-front").style.backgroundImage = `url(${img.src})`;
+            img.addEventListener('load', () => {
+                const front = card.querySelector('.card-front');
+                front.style.backgroundImage = `url(${img.src})`;
             });
         }
     });
-});
+}
 // لود کارت‌ها
 const container = document.getElementById("cards-container");
 let openCard = null;
@@ -617,6 +611,8 @@ async function loadCardsStrictly() {
             console.log("خطا در لود کارت", num);
         }
     }
+    // بعد از لود همه کارت‌ها، پس‌زمینه رو اعمال کن
+    setTimeout(applyBackgroundToCard, 500);
 }
 loadCardsStrictly();
 // رزرو بلیط
