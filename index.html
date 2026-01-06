@@ -337,7 +337,7 @@
     .date-bar, .title-bar, .reserve-bar {
         height: var(--bar-height);
         line-height: var(--bar-height);
-        padding: 0 12px;
+        padding: 0 8px; /* عرض کمتر شده */
         text-align: center;
         border-radius: 12px;
         display: flex;
@@ -348,23 +348,23 @@
     .date-bar {
         background: rgba(255,215,0,0.18);
         color: var(--accent-text);
-        font-size:19px;
+        font-size:18px;
         font-weight:900;
-        letter-spacing:1.2px;
+        letter-spacing:1px;
         box-shadow: 0 0 15px var(--glow-color);
     }
     .light-mode .date-bar {
         background: rgba(74,144,226,0.25);
     }
     .date-bar strong {
-        font-size:21px;
+        font-size:20px;
         display:block;
     }
     .title-bar {
         background:var(--card-title-bar-bg);
         color:var(--text-color);
         font-weight:600;
-        font-size:15px;
+        font-size:14px;
     }
     .reserve-bar {
         background:var(--color-primary);
@@ -373,6 +373,7 @@
         cursor:pointer;
         box-shadow: 0 6px 20px rgba(255,215,0,0.45);
         transition: background 0.3s, transform 0.2s;
+        font-size:15px;
     }
     .light-mode .reserve-bar {
         background: var(--color-primary);
