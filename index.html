@@ -312,41 +312,32 @@
         box-shadow:0 8px 25px var(--card-shadow-color);
         transition: all 0.4s ease;
     }
-    /* پس‌زمینه پشت کارت همان تصویر جلو است (بلور و تیره) */
-    .card-back {
-        transform:rotateY(180deg);
-        background-size: cover;
-        background-position: center;
-        padding:24px 20px;
-        color:var(--text-color);
-        text-align:right;
-        font-size:14.5px;
-        display:flex;
-        flex-direction:column;
-        gap:16px;
-        justify-content: center;
-    }
-    .card-back::before {
+    /* پس‌زمینه بلور شده و شفاف از همان تصویر */
+    .card-front::before {
         content: '';
         position: absolute;
         inset: 0;
         background: inherit;
-        filter: blur(12px) brightness(0.35);
-        z-index: -1;
+        background-size: cover;
+        background-position: center;
+        filter: blur(12px) brightness(0.4);
+        opacity: 0.65;
+        z-index: 0;
+        border-radius: 16px;
     }
-    .card-back > * {
-        position: relative;
-        z-index: 1;
-    }
-    .card-back h3, .card-back p strong { color:var(--color-primary); }
     .card-front {
         display:flex;
         flex-direction:column;
         padding: 12px;
         gap: 10px;
         justify-content: space-between;
-        background:var(--card-bg);
-        backdrop-filter:blur(12px);
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        position: relative;
+    }
+    .card-front > * {
+        position: relative;
+        z-index: 1;
     }
     .img-bar {
         flex:1;
@@ -354,6 +345,7 @@
         border-radius: 12px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         position: relative;
+        z-index: 1;
     }
     .light-mode .img-bar { box-shadow: 0 4px 15px rgba(74,144,226,0.2); }
     .img-bar img { 
@@ -372,6 +364,8 @@
         align-items: center;
         justify-content: center;
         transition: all 0.3s ease;
+        position: relative;
+        z-index: 1;
     }
     .date-bar {
         background: rgba(255,215,0,0.18);
@@ -412,6 +406,20 @@
         transform: translateY(-3px);
     }
     .light-mode .reserve-bar:hover { background: #5a9ef0; }
+    .card-back {
+        transform:rotateY(180deg); 
+        padding:24px 20px; 
+        color:var(--text-color); 
+        text-align:right;
+        font-size:14.5px; 
+        display:flex; 
+        flex-direction:column; 
+        gap:16px;
+        justify-content: center;
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+    }
+    .card-back h3, .card-back p strong { color:var(--color-primary); }
     .card-front .discount-label {
         position: absolute;
         top: 12px;
@@ -579,6 +587,19 @@ window.addEventListener('load', () => {
         clearTimeout(maxTimeout);
     }, delay);
 });
+// کپی تصویر به پس‌زمینه کارت
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".movie-card").forEach(card => {
+        const img = card.querySelector(".img-bar img");
+        if (img && img.complete) {
+            card.querySelector(".card-front").style.backgroundImage = `url(${img.src})`;
+        } else if (img) {
+            img.addEventListener("load", () => {
+                card.querySelector(".card-front").style.backgroundImage = `url(${img.src})`;
+            });
+        }
+    });
+});
 // لود کارت‌ها
 const container = document.getElementById("cards-container");
 let openCard = null;
@@ -588,19 +609,9 @@ async function loadCardsStrictly() {
             const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
             if (!response.ok) continue;
             const html = await response.text();
-            const tempDiv = document.createElement("div");
-            tempDiv.innerHTML = html;
             const card = document.createElement("div");
             card.className = "movie-card";
             card.innerHTML = html;
-
-            // کپی src تصویر از جلو به پشت کارت
-            const frontImg = tempDiv.querySelector(".img-bar img");
-            const back = card.querySelector(".card-back");
-            if (frontImg && back) {
-                back.style.backgroundImage = `url(${frontImg.src})`;
-            }
-
             container.appendChild(card);
         } catch (e) {
             console.log("خطا در لود کارت", num);
