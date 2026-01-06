@@ -379,13 +379,14 @@
     }
     .light-mode .reserve-bar:hover { background: #5a9ef0; }
 
-    /* پشت کارت - هر بخش یک کادر جداگانه مثل title-bar */
+    /* پشت کارت - تغییرات جدید */
     .card-back {
         transform: rotateY(180deg);
         display: flex;
         flex-direction: column;
         padding: 12px;
         gap: 10px;
+        text-align: right; /* همه متن‌ها راست‌چین */
     }
     .back-name-bar,
     .back-genre-bar,
@@ -396,28 +397,25 @@
     .back-reserve-bar {
         height: var(--bar-height);
         line-height: var(--bar-height);
-        padding: 0 var(--bar-padding-x);
-        text-align: center;
+        padding: 0 12px;
         border-radius: 12px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: var(--bar-font-size);
-        font-weight: bold;
-        background: var(--card-title-bar-bg);
+        font-size: 15px;
+        background: var(--card-title-bar-bg); /* همه کادرها یک رنگ (مثل ژانر قبلی) */
         color: var(--text-color);
     }
     .back-name-bar {
         background: rgba(255,215,0,0.18);
         color: var(--accent-text);
         box-shadow: 0 0 15px var(--glow-color);
+        font-weight: 900;
     }
     .back-synopsis-bar {
         height: auto;
         min-height: var(--bar-height);
-        text-align: right;
         padding: 12px;
-        line-height: 1.6;
+        line-height: 1.7;
         overflow: hidden;
     }
     .back-reserve-bar {
@@ -426,6 +424,7 @@
         cursor: pointer;
         box-shadow: 0 6px 20px rgba(255,215,0,0.45);
         transition: background 0.3s, transform 0.2s;
+        justify-content: center;
     }
     .light-mode .back-reserve-bar {
         background: var(--color-primary);
@@ -437,6 +436,13 @@
         transform: translateY(-3px);
     }
     .light-mode .back-reserve-bar:hover { background: #5a9ef0; }
+
+    /* تیترها (نام، ژانر، ...) با رنگ طلایی */
+    .back-label {
+        color: var(--accent-text);
+        font-weight: bold;
+        margin-left: 8px;
+    }
 
     .card-front .discount-label {
         position: absolute;
@@ -547,7 +553,7 @@
     </section>
 </main>
 <script>
-// تمام اسکریپت‌ها بدون تغییر
+// اسکریپت‌ها بدون تغییر
 const body = document.body;
 const themeToggle = document.getElementById('theme-toggle');
 let currentTheme = localStorage.getItem('theme');
