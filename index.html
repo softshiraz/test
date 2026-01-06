@@ -574,7 +574,7 @@ let openCard = null;
 async function loadCardsStrictly() {
     for (let num = 1; num <= 50; num++) {
         try {
-            const response = await fetch(`cards/\( {num}.html?v= \){Date.now()}`, { cache: "no-store" });
+            const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
             if (!response.ok) continue;
             const html = await response.text();
             const card = document.createElement("div");
@@ -606,7 +606,7 @@ document.addEventListener("click", function(e) {
     }
     const message = `${discountMessage}💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\n🌟 مرسی ازتون 🌟`;
     const encoded = encodeURIComponent(message);
-    window.open(`https://t.me/\( {adminId}?text= \){encoded}`, "_blank");
+    window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
 });
 // فلیپ کارت + بستن با کلیک خارج
 document.addEventListener("click", function(e) {
@@ -685,7 +685,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
       if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
       if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
       ctx.beginPath();
-      ctx.fillStyle = `rgba(\( {particleColor}, \){p.a * 0.9})`;
+      ctx.fillStyle = `rgba(${particleColor},${p.a * 0.9})`;
       ctx.arc(p.x, p.y, p.r, 0, 6.28);
       ctx.fill();
     }
@@ -696,7 +696,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
         const d = Math.hypot(p.x - q.x, p.y - q.y);
         if (d < maxDist) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(\( {particleColor}, \){(1 - d / maxDist) * lineOpacityFactor})`;
+          ctx.strokeStyle = `rgba(${particleColor},${(1 - d / maxDist) * lineOpacityFactor})`;
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(q.x, q.y);
           ctx.stroke();
