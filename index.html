@@ -303,13 +303,13 @@
     }
     .card-inner {
         position:relative; width:100%; height:460px; cursor:pointer;
-        transition:transform 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        transition:transform 0.4s linear;
         transform-style:preserve-3d;
         border-radius:16px;
     }
     .card-inner.flipped { transform:rotateY(180deg); }
     .card-front, .card-back {
-        position:absolute; inset:0; border-radius:16px; overflow:hidden;
+        position:absolute; inset:0; border-radius:20px; overflow:hidden;
         backface-visibility:hidden; border:2px solid var(--card-border);
         box-shadow:0 8px 25px var(--card-shadow-color);
         background:var(--card-bg); backdrop-filter:blur(12px);
@@ -341,7 +341,7 @@
         line-height: var(--bar-height);
         padding: 0 var(--bar-padding-x);
         text-align: center;
-        border-radius: 12px;
+        border-radius: 15px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -350,9 +350,8 @@
         font-weight: bold;
     }
     .date-bar {
-        background: rgba(255,215,0,0.18);
+        background: rgb(0 0 0 / 75%);
         color: var(--accent-text);
-        box-shadow: 0 0 15px var(--glow-color);
     }
     .light-mode .date-bar {
         background: rgba(74,144,226,0.25);
@@ -406,7 +405,7 @@
         color: var(--text-color);
     }
     .back-name-bar {
-        background: rgba(255,255,255,0.03);
+        background: rgb(0 0 0 / 50%);
         color: var(--accent-text);
         font-weight: 900;
     }
