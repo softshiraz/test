@@ -95,6 +95,7 @@
         --card-title-bar-bg: var(--link-bg);
         --glow-color: rgba(255,215,0,0.5);
         --bar-height: 52px; /* ارتفاع یکسان برای همه کادرها */
+        --card-width: 280px;
     }
     .light-mode {
         --color-primary: #4a90e2;
@@ -308,18 +309,27 @@
     .movie-card {
         perspective:1000px;
         position: relative;
+        width: var(--card-width);
     }
     .card-inner {
-        position:relative; width:280px; height:420px; cursor:pointer;
+        position:relative;
+        width: 100%;
+        height: auto;
+        cursor:pointer;
         transition:transform 0.65s cubic-bezier(0.5, 1.25, 0.5, 1.25);
         transform-style:preserve-3d;
     }
     .card-inner.flipped { transform:rotateY(180deg); }
     .card-front, .card-back {
-        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:16px; overflow:hidden;
-        backface-visibility:hidden; border:2px solid var(--card-border);
+        position:relative;
+        width:100%;
+        border-radius:16px;
+        overflow:hidden;
+        backface-visibility:hidden;
+        border:2px solid var(--card-border);
         box-shadow:0 0 12px var(--card-shadow-color);
-        background:var(--card-bg); backdrop-filter:blur(12px);
+        background:var(--card-bg);
+        backdrop-filter:blur(12px);
         transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
     .card-front { 
@@ -328,25 +338,28 @@
         position: relative; 
         padding: 12px;
         gap: 10px;
-        justify-content: space-between;
     }
-    /* بخش عکس - کامل و درست نمایش داده شود */
+    /* عکس دقیقاً با نسبت 6:19 و کامل نمایش داده شود */
     .img-bar { 
-        flex:1; 
+        position: relative;
+        height: 0;
+        padding-top: calc(100% * 19 / 6); /* نسبت 6:19 (عرض به ارتفاع) */
         overflow:hidden; 
         border-radius: 12px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     .light-mode .img-bar { box-shadow: 0 4px 15px rgba(74,144,226,0.2); }
     .img-bar img { 
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
         width:100%; 
         height:100%; 
-        object-fit:cover; 
+        object-fit: cover;
         transition:transform 0.5s; 
     }
     .movie-card:hover .img-bar img { transform: scale(1.08); }
 
-    /* کادرهای هم‌اندازه */
+    /* کادرها هم‌اندازه با عرض کمتر و وسط‌چین */
     .date-bar, .title-bar, .reserve-bar {
         height: var(--bar-height);
         line-height: var(--bar-height);
@@ -356,6 +369,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 88%; /* عرض کمتر */
+        margin: 0 auto;
     }
 
     .date-bar {
@@ -371,7 +386,6 @@
     }
     .date-bar strong { 
         font-size:21px; 
-        display:block; 
     }
 
     .title-bar {
@@ -580,7 +594,7 @@ let openCard = null;
 async function loadCardsStrictly() {
     for (let num = 1; num <= 50; num++) {
         try {
-            const response = await fetch(`cards/${num}.html?v=${Date.now()}`, { cache: "no-store" });
+            const response = await fetch(`cards/\( {num}.html?v= \){Date.now()}`, { cache: "no-store" });
             if (!response.ok) continue;
             const html = await response.text();
             const card = document.createElement("div");
@@ -612,7 +626,7 @@ document.addEventListener("click", function(e) {
     }
     const message = `${discountMessage}💖 سلام وقت بخیر 💖\n\n🎬 فیلم : ${movieName} 🍿\n🕓 زمان : ${dateTime} ⏰\n\n✨ ممنون میشم شرایط رزرو و موجودی رو اعلام کنید 🙏\n🌟 مرسی ازتون 🌟`;
     const encoded = encodeURIComponent(message);
-    window.open(`https://t.me/${adminId}?text=${encoded}`, "_blank");
+    window.open(`https://t.me/\( {adminId}?text= \){encoded}`, "_blank");
 });
 // فلیپ کارت + بستن با کلیک خارج
 document.addEventListener("click", function(e) {
@@ -691,7 +705,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
       if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
       if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
       ctx.beginPath();
-      ctx.fillStyle = `rgba(${particleColor},${p.a * 0.9})`;
+      ctx.fillStyle = `rgba(\( {partyicleColor}, \){p.a * 0.9})`;
       ctx.arc(p.x, p.y, p.r, 0, 6.28);
       ctx.fill();
     }
@@ -702,7 +716,7 @@ sideMenu.addEventListener('click', e => e.stopPropagation());
         const d = Math.hypot(p.x - q.x, p.y - q.y);
         if (d < maxDist) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(${particleColor},${(1 - d / maxDist) * lineOpacityFactor})`;
+          ctx.strokeStyle = `rgba(\( {particleColor}, \){(1 - d / maxDist) * lineOpacityFactor})`;
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(q.x, q.y);
           ctx.stroke();
