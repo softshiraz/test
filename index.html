@@ -379,61 +379,49 @@
     }
     .light-mode .reserve-bar:hover { background: #5a9ef0; }
 
-    /* پشت کارت جذاب‌تر */
+    /* پشت کارت - هر بخش داخل کادر جداگانه (دقیقاً مثل جلو) */
     .card-back {
         transform: rotateY(180deg);
         display: flex;
         flex-direction: column;
-        padding: 20px;
-        gap: 18px;
-        justify-content: flex-start;
-        align-items: center;
-        text-align: center;
-    }
-    .back-title {
-        font-size: 20px;
-        font-weight: 900;
-        color: var(--color-primary);
-        text-shadow: 0 0 12px var(--glow-color);
-        letter-spacing: 1px;
-    }
-    .back-synopsis {
-        flex: 1;
-        background: var(--link-bg);
-        border: 1px solid var(--link-border);
-        border-radius: 14px;
-        padding: 16px;
-        font-size: 14.5px;
-        line-height: 1.8;
-        overflow-y: auto;
-        backdrop-filter: blur(5px);
-        box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
-    }
-    .back-details {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
+        padding: 12px;
         gap: 10px;
-    }
-    .back-detail-row {
-        display: flex;
         justify-content: space-between;
-        padding: 8px 12px;
-        background: var(--card-title-bar-bg);
-        border-radius: 10px;
-        font-size: 14px;
     }
-    .back-detail-row strong {
-        color: var(--color-primary);
+    .back-date-bar, .back-title-bar, .back-reserve-bar {
+        height: var(--bar-height);
+        line-height: var(--bar-height);
+        padding: 0 var(--bar-padding-x);
+        text-align: center;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--bar-font-size);
+        font-weight: bold;
+    }
+    .back-date-bar {
+        background: rgba(255,215,0,0.18);
+        color: var(--accent-text);
+        box-shadow: 0 0 15px var(--glow-color);
+    }
+    .light-mode .back-date-bar {
+        background: rgba(74,144,226,0.25);
+    }
+    .back-title-bar {
+        background: var(--card-title-bar-bg);
+        color: var(--text-color);
+        text-align: right;
+        padding: 0 12px;
+        line-height: 1.5;
+        overflow: hidden;
     }
     .back-reserve-bar {
-        background:var(--color-primary);
-        color:var(--bg-color);
-        cursor:pointer;
+        background: var(--color-primary);
+        color: var(--bg-color);
+        cursor: pointer;
         box-shadow: 0 6px 20px rgba(255,215,0,0.45);
         transition: background 0.3s, transform 0.2s;
-        font-size: 16px;
-        font-weight: bold;
     }
     .light-mode .back-reserve-bar {
         background: var(--color-primary);
@@ -442,8 +430,7 @@
     }
     .back-reserve-bar:hover {
         background:#ffea00;
-        transform: translateY(-4px);
-        box-shadow: 0 10px 25px rgba(255,215,0,0.55);
+        transform: translateY(-3px);
     }
     .light-mode .back-reserve-bar:hover { background: #5a9ef0; }
 
