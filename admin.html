@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل فوق پیشرفته سافت شیراز</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/dist/font-face.css" rel="stylesheet">
+    <style>
+        :root { --bg: #0e0e0f; --card: #1c1c1e; --gold: #ffd700; --text: #fff; --green: #2e7d32; --red: #ff4444; --blue: #0037ff; }
+        body { font-family: "Vazirmatn", sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; direction: rtl; min-height: 100vh; }
+       
+        /* Login Page */
+        #login-page { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; padding: 20px; box-sizing: border-box; }
+        .login-box { background: var(--card); padding: 30px; border-radius: 20px; border: 1px solid #333; width: 100%; max-width: 380px; text-align: center; }
+
+        /* Admin Panel Layout */
+        #admin-panel { display: none; padding: 10px; max-width: 1600px; margin: auto; }
+
+        /* Grid Layout پیشرفته و کاملاً ریسپانسیو */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        /* موبایل کوچک */
+        @media (max-width: 480px) {
+            .admin-grid { gap: 10px; padding: 8px; }
+            .box { padding: 15px; }
+            input, textarea, select, button { font-size: 14px; padding: 10px; }
+        }
+
+        /* تبلت */
+        @media (min-width: 768px) {
+            .admin-grid {
+                grid-template-columns: 280px 1fr;
+            }
+            .preview-sidebar { grid-column: 1 / -1; }
+        }
+
+        /* لپ‌تاپ و دسکتاپ کوچک */
+        @media (min-width: 1024px) {
+            .admin-grid {
+                grid-template-columns: 320px 1fr 340px;
+            }
+            .preview-sidebar { grid-column: unset; }
+        }
+
+        /* دسکتاپ بزرگ */
+        @media (min-width: 1400px) {
+            .admin-grid { gap: 25px; padding: 20px; }
+        }
+
+        /* Shared Styles */
+        .box { background: var(--card); border: 1px solid #333; border-radius: 15px; padding: 20px; height: fit-content; }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: inherit;
+            margin-top: 6px;
+            font-size: 15px;
+        }
+        label { font-size: 13px; color: #aaa; display: block; margin-bottom: 4px; }
+        button {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            font-size: 15px;
+        }
+
+        /* Sidebar */
+        .file-list {
+            background: #000;
+            border-radius: 10px;
+            height: 45vh;
+            min-height: 300px;
+            overflow-y: auto;
+            margin-top: 10px;
+            border: 1px solid #222;
+        }
+        .file-item {
+            padding: 12px;
+            border-bottom: 1px solid #111;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        .file-item:hover { background: #1a1a1a; color: var(--gold); }
+        .search-box { margin-bottom: 12px; }
+
+        /* آمار کارت‌ها */
+        .stats { margin: 10px 0; font-size: 14px; color: var(--gold); text-align: center; line-height: 1.6; }
+
+        /* تعداد کارت‌ها و ID فعلی */
+        .cards-count { margin: 8px 0; font-size: 14px; color: var(--gold); text-align: center; }
+        .current-id { margin: 8px 0; font-size: 13px; color: #ccc; text-align: center; }
+
+        /* Form Grid ریسپانسیو */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+        @media (min-width: 640px) {
+            .form-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (min-width: 1024px) {
+            .form-grid { gap: 16px; }
+        }
+
+        /* Preview Sidebar */
+        .preview-container { text-align: center; }
+        .card-preview-wrapper {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+            height: 520px;
+        }
+        @media (max-width: 480px) {
+            .card-preview-wrapper { 
+                max-width: 280px;
+                height: 480px; 
+            }
+            .p-img { height: 340px; }
+            .p-title { padding: 10px; font-size: 15px; }
+            .p-date { padding: 8px; font-size: 12px; }
+            .p-btn { padding: 12px; font-size: 15px; }
+        }
+        @media (max-width: 360px) {
+            .card-preview-wrapper { 
+                max-width: 260px;
+                height: 460px; 
+            }
+            .p-img { height: 320px; }
+            .p-title { padding: 8px; font-size: 14px; }
+            .p-date { padding: 7px; font-size: 11px; }
+            .p-btn { padding: 10px; font-size: 14px; }
+        }
+        .card-preview-box {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        .card-preview-box.flipped { transform: rotateY(180deg); }
+        .card-front-preview, .card-back-preview {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #444;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+        }
+        .card-back-preview { transform: rotateY(180deg); }
+        .p-img { width: 100%; height: 380px; object-fit: cover; flex-shrink: 0; }
+        .p-title { padding: 12px; background: #111; font-weight: bold; color: var(--gold); border-top: 1px solid #333; font-size: 16px; flex-shrink: 0; }
+        .p-date { padding: 10px; font-size: 13px; background: #000; color: #ccc; flex-shrink: 0; }
+        .p-btn { padding: 14px; background: #111; border-top: 1px solid #333; font-weight: bold; font-size: 16px; flex-shrink: 0; }
+
+        .back-content {
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ddd;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .back-content p { margin: 8px 0; }
+
+        .flip-hint { margin-top: 15px; font-size: 13px; color: #888; }
+
+        /* Buttons */
+        .save-btn { background: var(--gold); color: #000; width: 100%; margin-top: 15px; }
+        .dup-btn { background: #4caf50; color: #fff; width: 100%; margin-top: 8px; }
+        .del-btn { background: var(--red); color: #fff; width: 100%; margin-top: 8px; }
+        .add-btn { background: var(--green); color: #fff; width: 100%; margin-bottom: 12px; }
+
+        /* Status */
+        #status { margin-top: 15px; text-align: center; font-size: 15px; min-height: 24px; }
+
+        /* اسکرول نرم */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div id="login-page">
+        <div class="login-box">
+            <h2 style="color:var(--gold); margin-top:0;">ورود ادمین</h2>
+            <input type="password" id="admin-pass" placeholder="رمز عبور">
+            <button class="save-btn" onclick="login()">ورود به پنل</button>
+        </div>
+    </div>
+
+    <div id="admin-panel">
+        <div class="admin-grid">
+            <!-- Sidebar -->
+            <div class="sidebar box">
+                <h3 style="margin-top:0">📂 لیست کارت‌ها</h3>
+                <div class="stats" id="stats">در حال بارگذاری...</div>
+                <div class="cards-count" id="cards-count">تعداد کارت‌ها: ۰</div>
+                <div class="current-id" id="current-id">ID فعلی: -</div>
+                <input type="text" id="search" class="search-box" placeholder="🔍 جستجو نام یا شماره..." oninput="filterFiles()">
+                <button class="add-btn" onclick="clearForm()">➕ ساخت کارت جدید</button>
+                <div class="file-list" id="file-list">در حال بارگذاری...</div>
+            </div>
+
+            <!-- Main Form -->
+            <div class="main-form box">
+                <h3 style="margin-top:0; color:var(--gold)">✏️ ویرایش اطلاعات</h3>
+                <div class="form-grid">
+                    <div><label>نام فایل (بدون .html)</label><input type="text" id="num" placeholder="مثل 16 یا stranger-things" oninput="updatePreview()"></div>
+                    <div><label>admin-id (برای شناسایی)</label><input type="text" id="admin_id" placeholder="مثل softshirazadmin2"></div>
+                    <div><label>نوع محتوا</label>
+                        <select id="content_type" onchange="updatePreview()">
+                            <option value="انیمیشن">انیمیشن</option>
+                            <option value="فیلم">فیلم</option>
+                            <option value="سریال">سریال</option>
+                            <option value="انیمه">انیمه</option>
+                        </select>
+                    </div>
+                    <div><label>نام</label><input type="text" id="title" oninput="updatePreview()"></div>
+                    <div><label>تاریخ و زمان</label><input type="text" id="time" oninput="updatePreview()" placeholder="مثلا: جمعه ۱۲ دی - ساعت ۱۶:۰۰"></div>
+                    <div><label>لینک پوستر</label><input type="text" id="img" oninput="updatePreview()"></div>
+                    <div><label>ژانر</label><input type="text" id="genre" oninput="updatePreview()"></div>
+                    <div><label>امتیاز</label><input type="text" id="rate" oninput="updatePreview()"></div>
+                    <div><label>رده سنی</label><input type="text" id="age" oninput="updatePreview()"></div>
+                    <div><label>مدت زمان</label><input type="text" id="duration" oninput="updatePreview()" placeholder="مثلا: هر قسمت حدودا 50 دقیقه"></div>
+                </div>
+                <label>خلاصه داستان</label>
+                <textarea id="summary" rows="5" oninput="updatePreview()"></textarea>
+                
+                <label>وضعیت اکران</label>
+                <select id="t_status" onchange="updatePreview()">
+                    <option value="blue">فعال (آبی - تهیه بلیط)</option>
+                    <option value="black">ظرفیت تکمیل (مشکی)</option>
+                </select>
+
+                <button class="save-btn" onclick="submit('save')">💾 ذخیره و انتشار نهایی</button>
+                <button class="dup-btn" onclick="duplicateCard()">📋 تکراری ساختن کارت</button>
+                <button class="del-btn" onclick="submit('delete')">🗑️ حذف این کارت</button>
+                <div id="status"></div>
+                <div style="text-align:center; margin-top:15px; font-size:13px; color:#888;">📈 آمار کلیک‌ها به زودی در این بخش...</div>
+            </div>
+
+            <!-- Preview -->
+            <div class="preview-sidebar preview-container box">
+                <h3 style="margin-top:0">👀 پیش‌نمایش زنده</h3>
+                <div class="card-preview-wrapper" onclick="toggleFlip()">
+                    <div class="card-preview-box" id="preview-card">
+                        <div class="card-front-preview">
+                            <div id="p-title" class="p-title">نام</div>
+                            <img src="" id="p-img" class="p-img" alt="پوستر">
+                            <div id="p-date" class="p-date">تاریخ اکران</div>
+                            <div id="p-btn" class="p-btn" style="color:var(--blue)">تهیه بلیط</div>
+                        </div>
+                        <div class="card-back-preview">
+                            <div class="back-content" id="p-back">
+                                <p><strong id="p-back-label">سریال : </strong><span id="p-back-title">نام</span></p>
+                                <p><strong>ژانر : </strong><span id="p-back-genre">-</span></p>
+                                <p><strong>امتیاز : </strong><span id="p-back-rate">-</span></p>
+                                <p><strong>رده سنی : </strong><span id="p-back-age">-</span></p>
+                                <p><strong>مدت زمان : </strong><span id="p-back-duration">-</span></p>
+                                <p><strong>خلاصه : </strong><span id="p-back-summary">-</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="flip-hint">👆 روی کارت کلیک کنید تا پشت آن را ببینید</p>
+                <p style="font-size:12px; color:#666; margin-top:20px;">این پیش‌نمایش دقیقاً مشابه ظاهر سایت شماست.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const WORKER_URL = "https://admin.softshiraz.workers.dev/";
+        let globalPass = "";
+        let allFiles = [];
+        let currentAdminId = "-";
+        let currentFilePath = "";
+        let activeCount = 0;
+        let soldOutCount = 0;
+
+        function login() {
+            if(document.getElementById('admin-pass').value === "3339") {
+                globalPass = "3339";
+                document.getElementById('login-page').style.display = "none";
+                document.getElementById('admin-panel').style.display = "block";
+                loadList();
+            } else alert("رمز اشتباه");
+        }
+
+        async function loadList() {
+            const res = await fetch(`${WORKER_URL}?pass=${globalPass}`);
+            const files = await res.json();
+            allFiles = files
+                .filter(f => f.name.endsWith('.html'))
+                .map(f => ({
+                    name: f.name,
+                    path: f.path,
+                    title: "",
+                    adminId: "-",
+                    status: "blue"
+                }))
+                .sort((a,b) => (parseInt(a.name.replace('.html',''))||0) - (parseInt(b.name.replace('.html',''))||0));
+
+            activeCount = 0;
+            soldOutCount = 0;
+
+            for(let file of allFiles) {
+                try {
+                    const res = await fetch(`${WORKER_URL}?pass=${globalPass}&path=${file.path}`);
+                    const data = await res.json();
+                    const html = decodeURIComponent(escape(atob(data.content)));
+                    const doc = new DOMParser().parseFromString(html, 'text/html');
+                    file.title = doc.querySelector('.date-bar')?.innerText.trim() || "";
+                    const front = doc.querySelector('.card-front');
+                    file.adminId = front ? (front.getAttribute('data-admin-id') || "-") : "-";
+
+                    const reserveBtn = doc.querySelector('.reserve-btn');
+                    const isDisabled = reserveBtn?.classList.contains('disabled');
+                    const btnText = reserveBtn?.innerText.trim();
+                    file.status = (isDisabled || btnText === 'ظرفیت تکمیل شده') ? 'black' : 'blue';
+
+                    if(file.status === 'blue') activeCount++;
+                    else soldOutCount++;
+                } catch(e) {
+                    file.title = "";
+                    file.adminId = "-";
+                    file.status = "blue";
+                }
+            }
+
+            renderList(allFiles);
+            updateCardsCount();
+            updateStats();
+        }
+
+        function updateCardsCount() {
+            document.getElementById('cards-count').innerText = `تعداد کارت‌ها: ${allFiles.length}`;
+        }
+
+        function updateStats() {
+            document.getElementById('stats').innerHTML = `
+                تعداد فعال: <strong style="color:var(--blue)">${activeCount}</strong><br>
+                تعداد تکمیل ظرفیت: <strong style="color:#777">${soldOutCount}</strong>
+            `;
+        }
+
+        function renderList(files) {
+            const list = document.getElementById('file-list');
+            list.innerHTML = "";
+            files.forEach(f => {
+                const d = document.createElement('div');
+                d.className = 'file-item';
+                const statusIcon = f.status === 'blue' ? '🔵' : '⚫';
+                d.innerHTML = `<span>${statusIcon} کارت ${f.name.replace('.html','')} ${f.title ? '– ' + f.title : ''} <small style="color:#777">(${f.adminId})</small></span> <span>⚙️</span>`;
+                d.onclick = () => loadFile(f.path, f.adminId);
+                list.appendChild(d);
+            });
+        }
+
+        function filterFiles() {
+            const term = document.getElementById('search').value.toLowerCase().trim();
+            if(!term) {
+                renderList(allFiles);
+                return;
+            }
+            const filtered = allFiles.filter(f => 
+                f.name.toLowerCase().includes(term) ||
+                (f.title && f.title.toLowerCase().includes(term)) ||
+                f.adminId.toLowerCase().includes(term)
+            );
+            renderList(filtered);
+        }
+
+        async function loadFile(path, adminId = "-") {
+            document.getElementById('status').innerText = "در حال لود...";
+            currentAdminId = adminId;
+            currentFilePath = path;
+            document.getElementById('current-id').innerText = `ID فعلی: ${currentAdminId}`;
+            document.getElementById('admin_id').value = currentAdminId;
+
+            const res = await fetch(`${WORKER_URL}?pass=${globalPass}&path=${path}`);
+            const data = await res.json();
+            const html = decodeURIComponent(escape(atob(data.content)));
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+           
+            const fileName = path.split('/').pop().replace('.html', '');
+            document.getElementById('num').value = fileName;
+
+            const titleText = doc.querySelector('.date-bar')?.innerText.trim() || "";
+            document.getElementById('title').value = titleText;
+
+            const backFirstP = doc.querySelector('.card-back p')?.innerText || "";
+            let detectedType = "انیمیشن";
+            if(backFirstP.includes("فیلم :")) detectedType = "فیلم";
+            else if(backFirstP.includes("سریال :")) detectedType = "سریال";
+            else if(backFirstP.includes("انیمه :")) detectedType = "انیمه";
+            document.getElementById('content_type').value = detectedType;
+
+            document.getElementById('time').value = doc.querySelector('.title-bar')?.innerText || "";
+            document.getElementById('img').value = doc.querySelector('img')?.src || "";
+            const ps = doc.querySelectorAll('.card-back p');
+            document.getElementById('genre').value = ps[1]?.innerText.split(': ')[1] || "";
+            document.getElementById('rate').value = ps[2]?.innerText.split(': ')[1] || "";
+            document.getElementById('age').value = ps[3]?.innerText.split(': ')[1] || "";
+            document.getElementById('duration').value = ps[4]?.innerText.split(': ')[1] || "";
+            document.getElementById('summary').value = ps[5]?.innerText.split(': ')[1] || "";
+
+            const reserveBtn = doc.querySelector('.reserve-btn');
+            const isDisabled = reserveBtn?.classList.contains('disabled');
+            const btnText = reserveBtn?.innerText.trim();
+            document.getElementById('t_status').value = (isDisabled || btnText === 'ظرفیت تکمیل شده') ? 'black' : 'blue';
+
+            updatePreview();
+            document.getElementById('status').innerText = "";
+        }
+
+        function updatePreview() {
+            const type = document.getElementById('content_type').value;
+            const titleVal = document.getElementById('title').value || "نام";
+
+            document.getElementById('p-title').innerText = titleVal;
+            document.getElementById('p-back-title').innerText = titleVal;
+            document.getElementById('p-back-label').innerText = type + " : ";
+            document.getElementById('p-date').innerText = document.getElementById('time').value || "تاریخ اکران";
+            document.getElementById('p-img').src = document.getElementById('img').value || "";
+            document.getElementById('p-back-genre').innerText = document.getElementById('genre').value || "-";
+            document.getElementById('p-back-rate').innerText = document.getElementById('rate').value || "-";
+            document.getElementById('p-back-age').innerText = document.getElementById('age').value || "-";
+            document.getElementById('p-back-duration').innerText = document.getElementById('duration').value || "-";
+            document.getElementById('p-back-summary').innerText = document.getElementById('summary').value || "-";
+
+            const mode = document.getElementById('t_status').value;
+            const btn = document.getElementById('p-btn');
+            btn.innerText = mode === 'blue' ? 'تهیه بلیط' : 'ظرفیت تکمیل شده';
+            btn.style.color = mode === 'blue' ? 'var(--blue)' : '#555';
+        }
+
+        function toggleFlip() {
+            document.getElementById('preview-card').classList.toggle('flipped');
+        }
+
+        function clearForm() {
+            ['num','title','time','img','genre','rate','age','duration','summary','admin_id'].forEach(id => document.getElementById(id).value = "");
+            document.getElementById('content_type').value = "انیمیشن";
+            document.getElementById('t_status').value = "blue";
+            currentAdminId = "-";
+            currentFilePath = "";
+            document.getElementById('current-id').innerText = `ID فعلی: ${currentAdminId}`;
+            updatePreview();
+            document.getElementById('preview-card').classList.remove('flipped');
+        }
+
+        function duplicateCard() {
+            if(!document.getElementById('num').value.trim()) {
+                alert("ابتدا یک کارت را انتخاب یا ذخیره کنید!");
+                return;
+            }
+
+            let currentNum = document.getElementById('num').value.trim();
+            let newNum = isNaN(currentNum) ? currentNum + "_copy" : (parseInt(currentNum) + 1).toString();
+
+            document.getElementById('num').value = newNum;
+            updatePreview();
+            document.getElementById('status').innerText = `کارت تکراری ساخته شد با نام فایل: ${newNum}.html — حالا ذخیره کنید`;
+        }
+
+        async function submit(action) {
+            if(action === 'delete') {
+                if(!confirm("مطمئنی می‌خوای این کارت رو برای همیشه حذف کنی؟")) return;
+            }
+
+            let num = document.getElementById('num').value.trim();
+            if(!num) { 
+                alert("نام فایل را وارد کنید!"); 
+                return; 
+            }
+
+            const status = document.getElementById('status');
+            status.innerText = "در حال ارسال...";
+
+            let content = "";
+            let targetPath = `cards/${num}.html`;
+
+            if(action === 'save') {
+                const t_mode = document.getElementById('t_status').value;
+                const t_color = t_mode === 'blue' ? '#0037ff' : '#000000';
+                const type = document.getElementById('content_type').value;
+                const adminId = document.getElementById('admin_id').value.trim() || "softshirazadmin2";
+                
+                const html = `<div class="card-inner">
+<div class="card-front" data-admin-id="${adminId}">
+<div class="date-bar" style="border-top-width: 0px;">${document.getElementById('title').value}</div>
+<div class="img-bar"><img src="${document.getElementById('img').value}" alt="p"></div>
+<div class="title-bar" style="border-top-width: 0px;">${document.getElementById('time').value}</div>
+<div class="reserve-bar" style="border-top-width: 0px;"><a class="reserve-btn ${t_mode==='black'?'disabled':''}" style="color: ${t_color} !important;">${t_mode==='blue'?'تهیه بلیط':'ظرفیت تکمیل شده'}</a></div>
+</div>
+<div class="card-back">
+<p><strong>${type} : </strong>${document.getElementById('title').value}</p>
+<p><strong>ژانر : </strong>${document.getElementById('genre').value}</p>
+<p><strong>امتیاز : </strong>${document.getElementById('rate').value}</p>
+<p><strong>رده سنی : </strong>${document.getElementById('age').value}</p>
+<p><strong>مدت زمان : </strong>${document.getElementById('duration').value}</p>
+<p><strong>خلاصه : </strong>${document.getElementById('summary').value}</p>
+</div></div>`.trim();
+                content = btoa(unescape(encodeURIComponent(html)));
+                currentAdminId = adminId;
+            }
+
+            if(action === 'save' && currentFilePath && currentFilePath !== targetPath) {
+                const deleteOld = await fetch(WORKER_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ password: globalPass, path: currentFilePath, action: 'delete' })
+                });
+            }
+
+            const res = await fetch(WORKER_URL, {
+                method: "POST",
+                body: JSON.stringify({ password: globalPass, path: targetPath, content, action })
+            });
+
+            if(res.ok) {
+                status.innerText = "✅ با موفقیت انجام شد";
+                currentFilePath = targetPath;
+                loadList();
+                if(action === 'delete') clearForm();
+            } else {
+                status.innerText = "❌ خطا در ارتباط با سرور";
+            }
+        }
+    </script>
+</body>
+</html>
